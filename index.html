@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#173b2b">
+<title>Mahjong Table Scoreboard 4P — Sistem Poin Baru</title>
+<style>
+:root{--felt:#173b2b;--felt2:#214d39;--cream:#fffaf0;--gold:#d1a743;--ink:#25221d;--red:#a63b32;--line:#dfd6c5}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#0f281d;color:var(--cream)}
+.app{max-width:1050px;margin:auto;padding:12px 12px 90px}.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+h1{font-size:21px;margin:0}.muted{opacity:.75;font-size:12px}.btn{border:0;border-radius:12px;padding:11px 14px;font-weight:800;cursor:pointer}.gold{background:var(--gold);color:#211a0c}.light{background:#f1e9da;color:#332d24}.danger{background:#eed6d3;color:#8b302a}
+.table{position:relative;margin:12px auto 0;min-height:590px;background:radial-gradient(circle,var(--felt2),var(--felt));border:8px solid #6b4c2d;border-radius:34px;box-shadow:inset 0 0 35px #0008,0 8px 30px #0005}
+.player{position:absolute;width:230px;min-height:125px;background:#fffaf0;color:var(--ink);border:3px solid transparent;border-radius:18px;padding:10px;text-align:center;box-shadow:0 5px 18px #0005;cursor:pointer}
+.player.selected{border-color:#ffd15c;box-shadow:0 0 0 4px #ffd15c55,0 5px 18px #0005}.player.dealer:after{content:"DEALER";position:absolute;right:8px;top:7px;background:#b88825;color:white;border-radius:8px;padding:3px 6px;font-size:10px;font-weight:900}
+.pN{top:15px;left:50%;transform:translateX(-50%)}.pS{bottom:15px;left:50%;transform:translateX(-50%)}.pW{left:15px;top:50%;transform:translateY(-50%)}.pE{right:15px;top:50%;transform:translateY(-50%)}
+.wind{font-size:25px;font-weight:900}.name{font-size:17px;font-weight:900}.score{font-size:25px;font-weight:950}.pos{color:#26734f}.neg{color:var(--red)}
+.center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:255px;text-align:center}.center .round{font-size:13px;opacity:.8}.center .big{font-size:24px;font-weight:900;margin:4px}
+.center button{margin:3px;padding:8px 10px;border:0;border-radius:10px;font-weight:800}
+.panel{background:var(--cream);color:var(--ink);margin-top:12px;border-radius:18px;padding:14px}.panel h2{margin:0 0 8px;font-size:18px}
+.step{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}.badge{background:#ece4d4;padding:5px 9px;border-radius:20px;font-size:12px;font-weight:800}
+.choice{display:flex;gap:8px}.choice button{flex:1;border:2px solid var(--line);background:white;padding:13px;border-radius:12px;font-weight:900}.choice button.on{border-color:#9a6d17;background:#fff2cf}
+.patterns{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:8px}.pat{position:relative}.pat input{position:absolute;opacity:0}.pat span{display:flex;justify-content:space-between;gap:6px;align-items:center;min-height:52px;background:white;border:1px solid var(--line);border-radius:11px;padding:8px;font-size:12px;font-weight:800}.pat input:checked+span{border:2px solid #a8791d;background:#fff2cf}.pat em{font-style:normal;color:#966a18;white-space:nowrap}
+.totalbar{display:flex;justify-content:space-between;align-items:center;background:#ece4d4;border-radius:13px;padding:10px 12px;margin-top:10px}.totalbar b{font-size:27px}.preview{font-size:13px;line-height:1.55;margin:8px 0}.warn{color:var(--red);font-weight:900}
+.record{width:100%;font-size:18px;padding:15px;border:0;border-radius:13px;background:#8e681c;color:white;font-weight:900}.history{font-size:13px}.entry{padding:9px 0;border-top:1px solid var(--line)}
+.bottom{position:fixed;z-index:8;bottom:0;left:0;right:0;background:#fffaf0ee;backdrop-filter:blur(10px);padding:8px 10px calc(8px + env(safe-area-inset-bottom));display:flex;justify-content:center;gap:7px}
+.overlay{display:none;position:fixed;inset:0;background:#0009;z-index:20;align-items:center;justify-content:center;padding:15px}.overlay.show{display:flex}.modal{width:min(520px,100%);background:var(--cream);color:var(--ink);border-radius:20px;padding:17px;max-height:90vh;overflow:auto}
+input[type=text],input[type=number]{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;font-size:16px}.names{display:grid;grid-template-columns:1fr 1fr;gap:8px}.label{font-size:12px;opacity:.7;margin:8px 0 4px}
+@media(max-width:720px){
+ .table{min-height:520px}.player{width:155px;min-height:108px;padding:7px}.name{font-size:14px}.score{font-size:20px}.wind{font-size:21px}
+ .pW{left:7px}.pE{right:7px}.pN{top:7px}.pS{bottom:7px}.center{width:160px}.center .big{font-size:18px}
+ .patterns{grid-template-columns:1fr 1fr}
+}
+@media(max-width:450px){.table{min-height:500px;border-width:5px}.player{width:132px}.center{width:125px}.patterns{grid-template-columns:1fr}.top h1{font-size:17px}}
+
+/* Mobile phone optimization */
+html{-webkit-text-size-adjust:100%;touch-action:manipulation}
+button,input,select{font-family:inherit}
+button{min-height:44px;-webkit-tap-highlight-color:transparent}
+.mobileScore{display:none}
+@media(max-width:600px){
+ body{background:var(--felt)}
+ .app{padding:8px 8px 92px}
+ .top{position:sticky;top:0;z-index:7;background:#0f281dee;margin:-8px -8px 7px;padding:8px 10px;backdrop-filter:blur(10px)}
+ .top h1{font-size:16px}.top .muted{font-size:10px}.top .btn{padding:7px 10px;min-height:38px;font-size:12px}
+ .table{min-height:365px;margin-top:5px;border-width:4px;border-radius:24px}
+ .player{width:116px;min-height:88px;padding:5px;border-radius:13px}
+ .pN{top:5px}.pS{bottom:5px}.pW{left:5px}.pE{right:5px}
+ .wind{font-size:17px;line-height:18px}.name{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.score{font-size:18px;line-height:21px}
+ .player .muted{font-size:9px}.player.dealer:after{font-size:7px;padding:2px 4px;right:3px;top:3px}
+ .center{width:116px}.center .round{font-size:9px}.center .big{font-size:12px;margin:3px 0}.center button{font-size:10px;min-height:35px;padding:5px 7px}
+ .panel{margin-top:8px;padding:10px;border-radius:14px}.panel h2{font-size:15px}
+ .choice{gap:6px}.choice button{padding:8px 4px;min-height:52px;font-size:13px}
+ .patterns{grid-template-columns:1fr 1fr;gap:5px}.pat span{min-height:46px;padding:6px;font-size:11px}
+ .totalbar{padding:7px}.totalbar b{font-size:21px}
+ .preview{font-size:12px}.record{position:sticky;bottom:66px;z-index:5;box-shadow:0 4px 15px #0004}
+ .bottom{overflow-x:auto;justify-content:flex-start;white-space:nowrap}.bottom .btn{flex:1;padding:8px 7px;font-size:11px}
+ .names{grid-template-columns:1fr}.modal{padding:14px}
+ input[type=text],input[type=number]{font-size:16px;min-height:44px}
+}
+@media(max-width:380px){
+ .table{min-height:340px}.player{width:103px}.center{width:103px}
+ .patterns{grid-template-columns:1fr}.top .muted{display:none}
+}
+
+<style>
+.patterns{grid-template-columns:1fr!important}
+.pat span{display:grid!important;grid-template-columns:70px 1fr auto!important;gap:10px!important;min-height:82px!important;text-align:left}
+.tilepic{height:60px;border-radius:9px;background:#f4efe5;border:1px solid #ddd4c4;display:flex;align-items:center;justify-content:center;font-size:30px;letter-spacing:-5px;padding-right:5px;overflow:hidden}
+.pattext{display:flex;flex-direction:column;justify-content:center;gap:3px}
+.pattext strong{font-size:13px}.pattext small{font-size:10px;line-height:1.25;color:#746d61;font-weight:600}
+@media(max-width:600px){.pat span{grid-template-columns:62px 1fr auto!important;min-height:76px!important}.tilepic{height:54px;font-size:26px}.pattext strong{font-size:12px}}
+</style><link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+</head>
+<body><div class="app">
+<div class="top"><div><h1>🀄 Mahjong Score</h1><div class="muted">Tap pemain yang menang → Hu/Zi Mo → pilih poin → Catat</div></div><button class="btn gold" onclick="openNew()">Game Baru</button></div>
+
+<div class="table">
+ <div id="p3" class="player pN" onclick="selectWinner(3)"></div>
+ <div id="p0" class="player pE" onclick="selectWinner(0)"></div>
+ <div id="p2" class="player pW" onclick="selectWinner(2)"></div>
+ <div id="p1" class="player pS" onclick="selectWinner(1)"></div>
+ <div class="center">
+   <div class="round">RONDE <span id="round">1</span> • TANGAN <span id="hands">0</span></div>
+   <div class="big" id="dealerText">Dealer: Timur</div>
+   <button class="light" onclick="nextRound()">Ronde +</button>
+ </div>
+</div>
+
+<div class="panel">
+ <h2>1. Tap pemenang di meja: <span id="winnerText">— belum dipilih —</span></h2>
+ <div class="step"><span class="badge">2. Cara menang</span></div>
+ <div class="choice"><button id="huBtn" onclick="setMethod('hu')">HU<br><small>ambil buangan</small></button><button id="ziBtn" onclick="setMethod('zimo')">ZI MO<br><small>ambil sendiri</small></button></div>
+ <div id="discardArea" style="display:none"><div class="step"><span class="badge">3. Siapa membuang?</span></div><div class="choice" id="discardButtons"></div></div>
+ <div class="step"><span class="badge">4. Pilih SATU kombinasi poin</span></div>
+ <div class="muted" style="margin:4px 0 8px">Hanya satu kombinasi yang dapat dipilih untuk setiap kemenangan. Tap kartu untuk memilih.</div><div class="patterns" id="patterns"></div>
+ <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px"><div><div class="label">Jumlah Quad pemenang</div><input type="number" id="kong" value="0" min="0" step="1"></div><div><div class="label">Tambahan poin manual</div><input type="number" id="extra" value="0" step="1"></div><div class="totalbar"><span>Poin kombinasi</span><b id="total">0</b></div></div>
+<div class="muted" style="margin-top:7px">Pembayaran dasar: Zi Mo = 5 poin dari setiap lawan • Hu = 2 poin dari setiap lawan • setiap pemain yang mendapat Quad menerima 1 poin dari masing-masing 3 pemain lain untuk setiap Quad. Quad dapat dicatat terpisah, tanpa harus memenangkan ronde. Poin kombinasi dibayar oleh setiap lawan.</div>
+ <div class="preview" id="preview"></div>
+ <button class="record" onclick="record()">✓ CATAT HASIL RONDE</button>
+</div>
+
+<div class="panel"><h2>🀫 Quad — tap pemain</h2>
+<div class="muted">Quad tidak perlu menunggu pemain menang. Pilih pemain yang mendapat Quad; ia langsung menerima 1 poin dari setiap pemain lain.</div>
+<div class="choice" id="quadButtons" style="margin-top:9px"></div>
+</div>
+<div class="panel"><h2>Riwayat permainan</h2><div id="history" class="history muted">Belum ada ronde.</div></div>
+</div>
+
+<div class="bottom"><button class="btn light" onclick="undo()">↶ Undo</button><button class="btn light" onclick="share()">Bagikan Skor</button><button class="btn danger" onclick="openNew()">Reset</button></div>
+
+<div class="overlay" id="new"><div class="modal"><h2>Game Baru</h2><div class="muted">Posisi meja mengikuti tampilan: Timur kanan, Selatan bawah, Barat kiri, Utara atas.</div>
+<div class="names"><div><div class="label">東 Timur</div><input id="n0" type="text"></div><div><div class="label">南 Selatan</div><input id="n1" type="text"></div><div><div class="label">西 Barat</div><input id="n2" type="text"></div><div><div class="label">北 Utara</div><input id="n3" type="text"></div></div>
+<div class="label">Skor awal per pemain</div><input id="start" type="number" value="0" step="300">
+<div style="display:flex;gap:8px;margin-top:12px"><button class="btn gold" style="flex:1" onclick="newGame()">Mulai</button><button class="btn light" style="flex:1" onclick="closeNew()">Batal</button></div>
+</div></div>
+
+<script>
+const winds=["Timur","Selatan","Barat","Utara"], chars=["東","南","西","北"];
+const pats=[
+["Set Mulia",1,"Kombinasi kehormatan sesuai tabel aturan Anda.","🀄 🀅 🀆"],
+["Petapa",1,"Pola Petapa sesuai contoh pada lembar aturan.","🀇 🀙 🀐"],
+["Tengah Murni",1,"Kombinasi yang menggunakan angka tengah, tanpa terminal.","🀊 🀋 🀌"],
+["Urutan Murni (Pinhu)",1,"Tangan berbasis urutan/chow tanpa pola bernilai tinggi.","🀇 🀈 🀉"],
+["Urutan Berantai",1,"Urutan yang saling menyambung dalam satu jenis.","🀇 🀈 🀉 🀊"],
+["Ujung Separuh",2,"Kombinasi yang melibatkan kartu ujung/terminal bersama kartu lain.","🀇 🀏 🀙"],
+["Triplet Murni",4,"Tangan yang menonjolkan kelompok triplet/pung.","🀙 🀙 🀙"],
+["Lima Serangkai",4,"Pola lima kartu berurutan sesuai aturan Anda.","🀈 🀉 🀊 🀋 🀌"],
+["Serupa Separuh",4,"Sebagian besar satu jenis/suit dengan unsur kehormatan.","🀙 🀚 🀛 🀄"],
+["Urutan Mirip",4,"Urutan dengan pola yang sama pada jenis/suit berbeda.","🀇 🀈 🀉  🀙 🀚 🀛"],
+["Urutan Lengkap Murni",4,"Rangkaian urutan lengkap dalam satu jenis.","🀇 🀈 🀉 🀊 🀋"],
+["Komodo (Naga Kecil)",6,"Pola Naga Kecil sesuai lembar aturan.","🀄 🀄 🀄 🀅 🀅"],
+["Ujung Murni",6,"Tangan yang berfokus pada kartu terminal/ujung.","🀇 🀇 🀏 🀏"],
+["Tujuh Keajaiban",8,"Tujuh pasang sesuai pola pada aturan.","🀇🀇 🀈🀈 🀙🀙"],
+["Serupa Murni (Satu Warna)",10,"Seluruh tangan memakai satu jenis/suit.","🀙 🀚 🀛 🀜 🀝"],
+["Nantaboga (3 Naga Besar)",12,"Triplet/kelompok lengkap dari tiga Naga.","🀄🀄🀄 🀅🀅🀅 🀆🀆🀆"],
+["Topan (4 Angin Besar/Kecil)",12,"Kombinasi empat Angin sesuai kategori pada aturan.","🀀 🀁 🀂 🀃"],
+["Royal Murni",12,"Kombinasi khusus Royal Murni sesuai lembar aturan.","🀇 🀉 🀋 🀍 🀏"],
+["Terminal Murni",12,"Hanya kartu terminal/ujung sesuai aturan.","🀇 🀏 🀙 🀡"],
+["Quad Murni (4 Quad)",12,"Empat kelompok Quad/Kong dalam satu tangan.","🀙🀙🀙🀙"],
+["13 Rakyat",12,"Kombinasi khusus 13 kartu terminal dan kehormatan.","🀀 🀁 🀄 🀅 🀇 🀏"],
+["7 Tangga Surga",12,"Kombinasi khusus 7 Tangga Surga sesuai lembar aturan.","🀇 🀈 🀉 🀊 🀋 🀌 🀍"]
+]
+const $=x=>document.getElementById(x),fmt=n=>new Intl.NumberFormat("id-ID",{maximumFractionDigits:2}).format(n);
+let s=JSON.parse(localStorage.getItem("mahjong_table_v3")||"null")||{names:["Pemain 1","Pemain 2","Pemain 3","Pemain 4"],scores:[0,0,0,0],dealer:0,round:1,history:[]};
+let winner=null,method=null,discarder=null;
+function save(){localStorage.setItem("mahjong_table_v3",JSON.stringify(s))}
+$("patterns").innerHTML=pats.map((p,i)=>`<label class="pat"><input type="radio" name="scorePattern" data-p="${i}" onchange="update()"><span><div class="tilepic">${p[3]}</div><div class="pattext"><strong>${p[0]}</strong><small>${p[2]}</small></div><em>${fmt(p[1])} poin</em></span></label>`).join("");
+$("extra").oninput=update;$("kong").oninput=update;
+function render(){
+ for(let i=0;i<4;i++){let el=$("p"+i);el.classList.toggle("selected",winner===i);el.classList.toggle("dealer",s.dealer===i);let sc=s.scores[i];el.innerHTML=`<div class="wind">${chars[i]}</div><div class="name">${s.names[i]}</div><div class="muted">${winds[i]}</div><div class="score ${sc>0?'pos':sc<0?'neg':''}">${sc>0?"+":""}${fmt(sc)}</div>`}
+ $("round").textContent=s.round;$("hands").textContent=s.history.length;$("dealerText").textContent="Dealer: "+s.names[s.dealer];
+ $("winnerText").textContent=winner===null?"— belum dipilih —":s.names[winner]+" ("+winds[winner]+")";
+ renderDiscard();
+ $("quadButtons").innerHTML=[0,1,2,3].map(i=>`<button onclick="awardQuad(${i})">${s.names[i]}<br><small>+1 dari tiap pemain</small></button>`).join("");
+ history();update();
+}
+function selectWinner(i){winner=i;if(discarder===i)discarder=null;render()}
+function setMethod(m){method=m;discarder=null;$("huBtn").classList.toggle("on",m==="hu");$("ziBtn").classList.toggle("on",m==="zimo");$("discardArea").style.display=m==="hu"?"block":"none";renderDiscard();update()}
+function renderDiscard(){
+ $("discardButtons").innerHTML=[0,1,2,3].filter(i=>i!==winner).map(i=>`<button class="${discarder===i?'on':''}" onclick="discarder=${i};renderDiscard();update()">${s.names[i]}</button>`).join("");
+}
+function selected(){let e=document.querySelector("[data-p]:checked");return e?[pats[+e.dataset.p]]:[]}
+function hand(){return selected().reduce((a,p)=>a+p[1],0)+(parseFloat($("extra").value)||0)}
+function calculation(){
+ let combo=hand(),k=Math.max(0,parseInt($("kong").value)||0),d=[0,0,0,0];
+ if(winner===null)return {t:combo,k,d,error:"Tap pemain yang menang."};
+ if(!method)return {t:combo,k,d,error:"Pilih Hu atau Zi Mo."};
+ if(method==="hu" && discarder===null)return {t:combo,k,d,error:"Pilih pemain yang membuang kartu."};
+ let base=method==="zimo"?5:2;
+ let each=base+k+combo;
+ for(let i=0;i<4;i++)if(i!==winner){d[i]-=each;d[winner]+=each}
+ return {t:combo,k,base,each,d}
+}
+function update(){
+ let c=calculation();$("total").textContent=fmt(c.t);
+ let out=c.error?`<span class="warn">${c.error}</span>`:"";
+ if(!c.error){
+   out+=`Dasar ${c.base} + Kong ${c.k} + kombinasi ${fmt(c.t)} = <b>${fmt(c.each)} poin dari setiap lawan</b><br>`;
+   out+=c.d.map((v,i)=>`${s.names[i]} <b>${v>=0?"+":""}${fmt(v)}</b>`).join(" • ");
+ }
+ $("preview").innerHTML=out
+}
+function record(){
+ let c=calculation();if(c.error)return alert(c.error);
+ let before=[...s.scores],ps=selected().map(x=>x[0]);if(+$("extra").value)ps.push("Tambahan manual");
+ let kong=Math.max(0,parseInt($("kong").value)||0);if(kong)ps.push(kong+" Kong");
+ let dealerBefore=s.dealer;
+ s.scores=s.scores.map((v,i)=>v+c.d[i]);s.history.unshift({winner,method,discarder,total:c.t,kong,each:c.each,delta:c.d,patterns:ps,before,dealer:dealerBefore,round:s.round,time:new Date().toLocaleString("id-ID")});
+ s.dealer=winner;
+ save();winner=null;method=null;discarder=null;document.querySelectorAll("[data-p]").forEach(e=>e.checked=false);$("extra").value=0;$("kong").value=0;$("huBtn").classList.remove("on");$("ziBtn").classList.remove("on");$("discardArea").style.display="none";render();
+}
+function history(){
+ $("history").innerHTML=s.history.length?s.history.map((h,idx)=>`<div class="entry">
+ <b>R${h.round} • ${h.method==="quad"?s.names[h.winner]+" mendapat Quad":s.names[h.winner]+" menang"}</b>
+ ${h.method==="quad"?` <button class="btn danger" style="padding:5px 8px;font-size:11px;float:right" onclick="deleteQuad(${idx})">Hapus Quad</button>`:""}<br>
+ ${h.method==="quad"?"Quad • +1 dari setiap pemain":(h.method==="zimo"?"Zi Mo":"Hu dari "+s.names[h.discarder])+" • "+(h.patterns.join(", ")||"Tanpa kombinasi tambahan")+(h.each!==undefined?" • "+fmt(h.each)+" poin/lawan":"")}<br>
+ ${h.delta.map((v,i)=>`${s.names[i]} ${v>=0?"+":""}${fmt(v)}`).join(" · ")}<br><span class="muted">${h.time}</span></div>`).join(""):"Belum ada ronde.";
+}
+function awardQuad(i){
+ let before=[...s.scores],d=[0,0,0,0];
+ for(let j=0;j<4;j++)if(j!==i){d[j]-=1;d[i]+=1}
+ s.scores=s.scores.map((v,j)=>v+d[j]);
+ s.history.unshift({winner:i,method:"quad",discarder:null,total:1,kong:1,each:1,delta:d,patterns:["Quad"],before,dealer:s.dealer,round:s.round,time:new Date().toLocaleString("id-ID")});
+ save();render();
+}
+function undo(){if(!s.history.length)return;let h=s.history.shift();s.scores=h.before;s.dealer=h.dealer;s.round=h.round;save();render()}
+function nextDealer(){s.dealer=(s.dealer+1)%4;save();render()}function nextRound(){s.round++;save();render()}
+function openNew(){for(let i=0;i<4;i++)$("n"+i).value=s.names[i];$("new").classList.add("show")}function closeNew(){$("new").classList.remove("show")}
+function newGame(){let st=parseFloat($("start").value)||0;s={names:[0,1,2,3].map(i=>$("n"+i).value||"Pemain "+(i+1)),scores:[st,st,st,st],dealer:Math.floor(Math.random()*4),round:1,history:[]};winner=null;method=null;discarder=null;save();closeNew();render()}
+function share(){let text="🀄 Skor Mahjong Ronde "+s.round+"\n"+s.names.map((n,i)=>`${chars[i]} ${n}: ${fmt(s.scores[i])}`).join("\n")+"\nTangan dimainkan: "+s.history.length;if(navigator.share)navigator.share({title:"Skor Mahjong",text});else navigator.clipboard.writeText(text).then(()=>alert("Skor disalin."))}
+render();
+</script><script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js"));
+}
+</script></body></html>
