@@ -112,6 +112,7 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 
 <div class="bottom"><button class="btn light" onclick="undo()">↶ Undo</button><button class="btn light" onclick="share()">Bagikan Skor</button><button class="btn danger" onclick="openNew()">Reset</button></div>
 
+<div class="overlay" id="editScore"><div class="modal"><h2>Edit Poin Hasil</h2><div class="muted" id="editInfo"></div><div class="label">Poin yang dibayar setiap lawan</div><input id="editEach" type="number" min="0" step="1" inputmode="numeric"><div style="display:flex;gap:8px;margin-top:12px"><button class="btn gold" style="flex:1" onclick="saveScoreEdit()">Simpan Perubahan</button><button class="btn light" style="flex:1" onclick="closeScoreEdit()">Batal</button></div></div></div>
 <div class="overlay" id="new"><div class="modal"><h2>Game Baru</h2><div class="muted">Posisi meja mengikuti tampilan: Timur kanan, Selatan bawah, Barat kiri, Utara atas.</div>
 <div class="names"><div><div class="label">東 Timur</div><input id="n0" type="text"></div><div><div class="label">南 Selatan</div><input id="n1" type="text"></div><div><div class="label">西 Barat</div><input id="n2" type="text"></div><div><div class="label">北 Utara</div><input id="n3" type="text"></div></div>
 <div class="label">Skor awal per pemain</div><input id="start" type="number" value="0" step="300">
@@ -193,12 +194,33 @@ function record(){
  s.dealer=winner;
  save();winner=null;method=null;discarder=null;document.querySelectorAll("[data-p]").forEach(e=>e.checked=false);$("extra").value=0;$("kong").value=0;$("huBtn").classList.remove("on");$("ziBtn").classList.remove("on");$("discardArea").style.display="none";render();
 }
+let editHistoryIndex=null;
 function history(){
  $("history").innerHTML=s.history.length?s.history.map((h,idx)=>`<div class="entry">
  <b>R${h.round} • ${h.method==="quad"?s.names[h.winner]+" mendapat Quad":s.names[h.winner]+" menang"}</b>
- ${h.method==="quad"?` <button class="btn danger" style="padding:5px 8px;font-size:11px;float:right" onclick="deleteQuad(${idx})">Hapus Quad</button>`:""}<br>
+ <span style="float:right;display:flex;gap:5px">${h.method!=="quad"?`<button class="btn light" style="padding:5px 8px;font-size:11px" onclick="openScoreEdit(${idx})">Edit Poin</button>`:""}${h.method==="quad"?`<button class="btn danger" style="padding:5px 8px;font-size:11px" onclick="deleteQuad(${idx})">Hapus Quad</button>`:""}</span><br>
  ${h.method==="quad"?"Quad • +1 dari setiap pemain":(h.method==="zimo"?"Zi Mo":"Hu dari "+s.names[h.discarder])+" • "+(h.patterns.join(", ")||"Tanpa kombinasi tambahan")+(h.each!==undefined?" • "+fmt(h.each)+" poin/lawan":"")}<br>
  ${h.delta.map((v,i)=>`${s.names[i]} ${v>=0?"+":""}${fmt(v)}`).join(" · ")}<br><span class="muted">${h.time}</span></div>`).join(""):"Belum ada ronde.";
+}
+function openScoreEdit(idx){
+ let h=s.history[idx]; if(!h||h.method==="quad")return; editHistoryIndex=idx;
+ $("editInfo").textContent=s.names[h.winner]+" • "+(h.method==="zimo"?"Zi Mo":"Hu");
+ $("editEach").value=h.each!==undefined?h.each:0; $("editScore").classList.add("show");
+}
+function closeScoreEdit(){editHistoryIndex=null;$("editScore").classList.remove("show")}
+function saveScoreEdit(){
+ if(editHistoryIndex===null)return; let h=s.history[editHistoryIndex]; let each=Number($("editEach").value);
+ if(!Number.isFinite(each)||each<0)return alert("Masukkan poin yang benar (0 atau lebih).");
+ let old=h.delta||[0,0,0,0], nd=[0,0,0,0];
+ for(let i=0;i<4;i++)if(i!==h.winner){nd[i]-=each;nd[h.winner]+=each}
+ // reverse old transaction, then apply edited transaction; all other results remain unchanged
+ s.scores=s.scores.map((v,i)=>v-old[i]+nd[i]); h.delta=nd; h.each=each; h.edited=true;
+ save();closeScoreEdit();render();
+}
+function deleteQuad(idx){
+ let h=s.history[idx];if(!h||h.method!=="quad")return;
+ if(!confirm("Hapus catatan Quad "+s.names[h.winner]+"?"))return;
+ s.scores=s.scores.map((v,i)=>v-h.delta[i]);s.history.splice(idx,1);save();render();
 }
 function awardQuad(i){
  let before=[...s.scores],d=[0,0,0,0];
