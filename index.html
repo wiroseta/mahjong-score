@@ -173,6 +173,36 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
 }
 @media(max-width:600px){.top{background:rgba(14,47,36,.64);border-radius:18px}.panel{border-radius:20px}.player{border-radius:17px}}
 </style>
+
+<style id="apple-readable-polish">
+/* Readability polish: Apple-inspired glass with stronger contrast */
+.top{background:linear-gradient(180deg,rgba(18,68,51,.90),rgba(10,50,38,.88))!important;border-color:rgba(255,255,255,.28)!important;color:#fff!important}
+.top h1{color:#fff!important;text-shadow:0 1px 2px rgba(0,0,0,.35)}
+.top .muted{color:rgba(255,255,255,.86)!important;opacity:1!important}
+.top .light{background:rgba(255,255,255,.90)!important;color:#20251f!important;border-color:rgba(255,255,255,.72)!important}
+.top .gold{color:#241b05!important}
+.panel{background:rgba(247,244,235,.92)!important;color:#20231f!important;border-color:rgba(255,255,255,.76)!important}
+.panel h2,.panel .step,.panel .label,.panel .preview{color:#20231f}
+.badge,.pattern-toggle summary,.totalbar{background:rgba(235,229,214,.92)!important;color:#24251f!important;border-color:rgba(78,70,54,.12)!important}
+.choice button,.quadbox,input[type=text],input[type=number],select{background:rgba(255,255,255,.94)!important;color:#1f211e!important;border-color:rgba(72,68,57,.22)!important}
+.choice button.on,.pat input:checked+span{background:#fff0bd!important;color:#211d13!important;border-color:#b4851e!important}
+.totalbar b{color:#181a17!important}
+.record{background:linear-gradient(180deg,#c49727,#9b7015)!important;color:#fff!important;text-shadow:0 1px 2px rgba(0,0,0,.22)}
+.center{width:112px!important;z-index:3}
+.center .round{box-sizing:border-box;width:100%!important;padding:8px 6px!important;gap:4px!important;background:rgba(10,45,34,.84)!important;border:1px solid rgba(255,255,255,.30)!important;color:#fff!important;opacity:1!important;font-size:11px!important;font-weight:800!important;line-height:1.12!important;text-shadow:0 1px 2px rgba(0,0,0,.45)!important;box-shadow:inset 0 1px rgba(255,255,255,.10),0 5px 14px rgba(0,0,0,.18)}
+.center .round>div{display:block!important;width:100%!important;white-space:nowrap!important}
+.bottom{background:rgba(245,242,233,.90)!important}
+.bottom .light{background:#fff!important;color:#20231f!important}.bottom .danger{background:#f5d9d6!important;color:#8f2d27!important}
+@media (prefers-color-scheme:dark){
+ .panel{background:rgba(238,235,225,.92)!important;color:#20231f!important}
+ .panel .muted{color:#575b54!important;opacity:1!important}
+ .pat span{background:rgba(255,255,255,.94)!important;color:#20231f!important;border-color:rgba(72,68,57,.18)!important}
+ .pattext small{color:#68695f!important}.pat em{color:#8a6417!important}
+ .tilepic{background:#f4efe5!important}
+}
+@media (min-width:760px) and (orientation:landscape){.center{width:108px!important}.center .round{font-size:10px!important;padding:7px 4px!important}}
+@media (max-width:600px){.center{width:76px!important}.center .round{font-size:8px!important;padding:5px 3px!important;gap:2px!important}}
+</style>
 </head>
 <body><div class="app">
 <div class="top"><div><h1>🀄 Mahjong Score</h1><div class="muted">Tap pemain yang menang → Hu/Zi Mo → pilih poin → Catat</div></div><div style="display:flex;gap:6px"><button class="btn light" onclick="openPlayers()">Edit Nama</button><button class="btn light" onclick="openRound()">Ronde Baru</button><button class="btn gold" onclick="openNew()">Game Baru</button></div></div>
