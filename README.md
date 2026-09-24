@@ -19,3 +19,5 @@ Update istilah permainan:
 - Tombol “CATAT HASIL RONDE” diubah menjadi “CATAT HASIL TANGAN”.
 - TANGAN dihitung per ronde dan kembali ke Tangan 1 saat Ronde + ditekan.
 - Riwayat menampilkan nomor Ronde dan Tangan.
+
+Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang tersedia menggunakan CSS auto-fit/minmax, bukan jumlah kolom tetap per device.

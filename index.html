@@ -111,28 +111,24 @@ input[type=text][maxlength="10"]{letter-spacing:.01em}
 .point-total-box b{flex:0 0 auto}
 @media(max-width:600px){.point-input-row{gap:5px}.point-input-box,.point-total-box{min-height:50px}.point-input-box input{height:36px;min-height:36px;padding:6px 8px}.point-input-box .label,.point-total-box span{font-size:10px}.point-total-box{padding:5px 8px!important}.point-total-box b{font-size:17px!important}}
 </style>
-<style id="responsive-pattern-cards-v2">
-/* Responsive Poin Kombinasi: follows the scoring panel width, not the screen width. */
+<style id="responsive-pattern-cards-v3-fluid">
+/* Fluid Poin Kombinasi: browser chooses column count from the ACTUAL available width. */
 .pattern-toggle{container-type:inline-size;container-name:patternArea;min-width:0}
-.pattern-toggle .patterns{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:8px!important;width:100%;min-width:0}
+.pattern-toggle .patterns{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))!important;gap:8px!important;width:100%;min-width:0;align-items:stretch}
 .pattern-toggle .pat,.pattern-toggle .pat span,.pattern-toggle .pattext{min-width:0;max-width:100%}
-.pattern-toggle .pat span{width:100%;grid-template-columns:clamp(50px,18cqw,70px) minmax(0,1fr) auto!important;gap:8px!important;align-items:center;overflow:hidden}
+.pattern-toggle .pat span{width:100%;height:100%;box-sizing:border-box;grid-template-columns:clamp(52px,16cqw,68px) minmax(0,1fr) auto!important;gap:8px!important;align-items:center;overflow:hidden;min-height:76px!important}
 .pattern-toggle .tilepic{width:100%;min-width:0}
 .pattern-toggle .pattext strong,.pattern-toggle .pattext small{overflow-wrap:anywhere;word-break:normal}
-.pattern-toggle .pat em{justify-self:end;align-self:center;font-size:clamp(9px,2.2cqw,12px)}
-@container patternArea (min-width:460px){
- .pattern-toggle .patterns{grid-template-columns:repeat(2,minmax(0,1fr))!important}
- .pattern-toggle .pat span{grid-template-columns:62px minmax(0,1fr) auto!important;min-height:78px!important}
-}
-@container patternArea (min-width:820px){
- .pattern-toggle .patterns{grid-template-columns:repeat(3,minmax(0,1fr))!important}
-}
-@media(max-width:600px){
- .pattern-toggle .patterns{grid-template-columns:minmax(0,1fr)!important}
- .pattern-toggle .pat span{grid-template-columns:52px minmax(0,1fr) auto!important;min-height:62px!important;padding:5px!important}
- .pattern-toggle .tilepic{height:48px!important;font-size:22px!important}
+.pattern-toggle .pat em{justify-self:end;align-self:center;font-size:clamp(9px,2cqw,12px)}
+@container patternArea (max-width:520px){
+ .pattern-toggle .patterns{grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr))!important;gap:6px!important}
+ .pattern-toggle .pat span{grid-template-columns:52px minmax(0,1fr) auto!important;min-height:66px!important;padding:6px!important}
+ .pattern-toggle .tilepic{height:50px!important;font-size:22px!important}
  .pattern-toggle .pattext strong{font-size:10px!important}
  .pattern-toggle .pattext small{font-size:8px!important;line-height:1.2}
+}
+@container patternArea (max-width:390px){
+ .pattern-toggle .patterns{grid-template-columns:minmax(0,1fr)!important}
 }
 </style>
 </head>
