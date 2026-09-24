@@ -135,6 +135,44 @@ input[type=text][maxlength="10"]{letter-spacing:.01em}
  .pattern-toggle .patterns{grid-template-columns:minmax(0,1fr)!important}
 }
 </style>
+<style id="apple-liquid-glass-theme">
+/* Apple-inspired Liquid Glass theme: visual only, scoring logic unchanged */
+:root{
+ --felt:#12392d;--felt2:#1f5a46;--cream:rgba(250,248,241,.78);--gold:#d4a72c;--ink:#171916;--red:#b3261e;--line:rgba(70,67,57,.18);
+ --glass:rgba(255,255,255,.70);--glass-strong:rgba(255,255,255,.86);--glass-border:rgba(255,255,255,.52);--glass-shadow:0 18px 50px rgba(0,0,0,.18);
+}
+html{background:#0c2b21}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",system-ui,sans-serif;background:radial-gradient(circle at 30% 5%,#285f4c 0,#11382c 38%,#09251d 100%);background-attachment:fixed}
+.app{position:relative}
+.top{position:relative;z-index:5;padding:10px 12px;border:1px solid rgba(255,255,255,.16);border-radius:22px;background:rgba(20,55,43,.42);-webkit-backdrop-filter:saturate(170%) blur(24px);backdrop-filter:saturate(170%) blur(24px);box-shadow:inset 0 1px rgba(255,255,255,.12),0 12px 34px rgba(0,0,0,.12)}
+h1{letter-spacing:-.02em}.muted{opacity:.68}
+.btn,.record,.choice button,.center button{transition:transform .16s ease,box-shadow .16s ease,background .16s ease;border:1px solid rgba(255,255,255,.42);box-shadow:inset 0 1px rgba(255,255,255,.55),0 5px 15px rgba(0,0,0,.10)}
+.btn:active,.record:active,.choice button:active{transform:scale(.98)}
+.light{background:rgba(255,255,255,.74);color:#20211f;-webkit-backdrop-filter:blur(18px) saturate(160%);backdrop-filter:blur(18px) saturate(160%)}
+.gold{background:linear-gradient(180deg,rgba(237,194,70,.96),rgba(200,151,32,.94));color:#251d08}.danger{background:rgba(255,225,222,.82);color:#9f2d26}
+.table{background:radial-gradient(circle at 50% 42%,#22624c 0,#174b3a 45%,#10382c 100%);border-color:#76522d;box-shadow:inset 0 0 60px rgba(0,0,0,.45),inset 0 1px rgba(255,255,255,.12),0 18px 45px rgba(0,0,0,.24)}
+.player{background:rgba(255,252,244,.86);border:1px solid rgba(255,255,255,.70);-webkit-backdrop-filter:blur(22px) saturate(145%);backdrop-filter:blur(22px) saturate(145%);box-shadow:inset 0 1px rgba(255,255,255,.85),0 12px 28px rgba(0,0,0,.22);border-radius:22px}
+.player.selected{border-color:#f1c34d;box-shadow:0 0 0 3px rgba(241,195,77,.32),0 14px 32px rgba(0,0,0,.24)}
+.player.dealer:after{background:linear-gradient(180deg,#d6aa37,#a97815);box-shadow:inset 0 1px rgba(255,255,255,.35),0 3px 8px rgba(0,0,0,.14)}
+.center .round{padding:9px 14px;border-radius:16px;background:rgba(12,49,37,.35);border:1px solid rgba(255,255,255,.14);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);text-shadow:0 1px 3px rgba(0,0,0,.3)}
+.panel,.modal{background:var(--glass);border:1px solid var(--glass-border);-webkit-backdrop-filter:blur(28px) saturate(175%);backdrop-filter:blur(28px) saturate(175%);box-shadow:inset 0 1px rgba(255,255,255,.78),var(--glass-shadow);border-radius:24px}
+.badge,.pattern-toggle summary,.totalbar{background:rgba(235,230,216,.60);border:1px solid rgba(255,255,255,.44);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.choice button,.pat span,.quadbox,input[type=text],input[type=number],select{background:rgba(255,255,255,.68);border-color:rgba(74,70,59,.18);box-shadow:inset 0 1px rgba(255,255,255,.75);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.choice button.on,.pat input:checked+span{background:rgba(255,239,190,.82);border-color:#b98a22}
+.record{background:linear-gradient(180deg,#ae821f,#8c6415);box-shadow:inset 0 1px rgba(255,255,255,.28),0 8px 20px rgba(78,53,4,.20)}
+.bottom{background:rgba(246,243,234,.72);border-top:1px solid rgba(255,255,255,.55);-webkit-backdrop-filter:blur(28px) saturate(180%);backdrop-filter:blur(28px) saturate(180%);box-shadow:0 -8px 30px rgba(0,0,0,.10)}
+.overlay{background:rgba(7,16,13,.46);-webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px)}
+.tilepic{background:rgba(246,242,231,.64);border-color:rgba(90,83,67,.15)}
+@media (prefers-color-scheme:dark){
+ :root{--cream:rgba(35,38,35,.78);--ink:#f4f2eb;--line:rgba(255,255,255,.15);--glass:rgba(36,39,36,.76);--glass-strong:rgba(45,48,44,.88);--glass-border:rgba(255,255,255,.14)}
+ .panel,.modal{color:#f5f2e9}.light{background:rgba(63,66,61,.78);color:#f7f4ec}.danger{background:rgba(104,48,45,.72);color:#ffd8d3}
+ .player{background:rgba(245,241,230,.88);color:#1d201d}.badge,.pattern-toggle summary,.totalbar{background:rgba(66,66,59,.68)}
+ .choice button,.pat span,.quadbox,input[type=text],input[type=number],select{background:rgba(58,61,56,.82);color:#f5f2e9;border-color:rgba(255,255,255,.13)}
+ .choice button.on,.pat input:checked+span{background:rgba(112,87,31,.82)}.tilepic{background:rgba(76,75,67,.72)}
+ .bottom{background:rgba(33,36,33,.78)}
+}
+@media(max-width:600px){.top{background:rgba(14,47,36,.64);border-radius:18px}.panel{border-radius:20px}.player{border-radius:17px}}
+</style>
 </head>
 <body><div class="app">
 <div class="top"><div><h1>🀄 Mahjong Score</h1><div class="muted">Tap pemain yang menang → Hu/Zi Mo → pilih poin → Catat</div></div><div style="display:flex;gap:6px"><button class="btn light" onclick="openPlayers()">Edit Nama</button><button class="btn light" onclick="openRound()">Ronde Baru</button><button class="btn gold" onclick="openNew()">Game Baru</button></div></div>
