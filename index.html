@@ -156,9 +156,8 @@ input[type=text][maxlength="10"]{letter-spacing:.01em}
  <div class="step"><span class="badge">2. Cara menang</span></div>
  <div class="choice"><button id="huBtn" onclick="setMethod('hu')">HU<br><small>ambil buangan</small></button><button id="ziBtn" onclick="setMethod('zimo')">ZI MO<br><small>ambil sendiri</small></button></div>
  <div id="discardArea" style="display:none"><div class="step"><span class="badge">3. Siapa membuang?</span></div><div class="choice" id="discardButtons"></div></div>
- <div class="step"><span class="badge">3. Pilih SATU kombinasi poin</span></div>
  <details class="pattern-toggle" id="patternToggle">
-  <summary>▶ Tampilkan / sembunyikan poin kombinasi</summary>
+  <summary><b id="patternSummary">3. Pilih SATU kombinasi poin <span class="muted">(tap untuk buka)</span></b></summary>
   <div class="muted" style="margin:4px 0 8px">Hanya satu kombinasi yang dapat dipilih untuk setiap kemenangan. Tap kartu untuk memilih.</div>
   <div class="patterns" id="patterns"></div>
  </details>
@@ -311,6 +310,16 @@ function updateHistorySummary(){
     : 'Riwayat permainan <span class="muted">(tap untuk buka)</span>';
 }
 if(historyPanel){ historyPanel.addEventListener("toggle", updateHistorySummary); updateHistorySummary(); }
+
+const patternToggle=document.getElementById("patternToggle");
+const patternSummary=document.getElementById("patternSummary");
+function updatePatternSummary(){
+  if(!patternToggle||!patternSummary) return;
+  patternSummary.innerHTML = patternToggle.open
+    ? '3. Pilih SATU kombinasi poin <span class="muted">(tap untuk tutup)</span>'
+    : '3. Pilih SATU kombinasi poin <span class="muted">(tap untuk buka)</span>';
+}
+if(patternToggle){ patternToggle.addEventListener("toggle", updatePatternSummary); updatePatternSummary(); }
 </script><script>
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js"));
@@ -366,3 +375,10 @@ if ("serviceWorker" in navigator) {
   window.addEventListener('resize',fitDealerName);
 })();
 </script>
+
+<style id="combo-integrated-heading">
+.pattern-toggle>summary{background:#f1e9da;border:0;border-radius:999px;padding:7px 10px;width:max-content;max-width:100%;font-size:13px;line-height:1.2}
+.pattern-toggle>summary:after,.pattern-toggle[open]>summary:after{content:none!important}
+.pattern-toggle>summary .muted{font-weight:500;font-size:.88em;white-space:nowrap}
+@media(max-width:600px){.pattern-toggle>summary{font-size:11px;padding:6px 8px}.pattern-toggle>summary .muted{font-size:.82em}}
+</style>
