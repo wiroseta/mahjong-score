@@ -95,13 +95,13 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
  <div class="step"><span class="badge">2. Cara menang</span></div>
  <div class="choice"><button id="huBtn" onclick="setMethod('hu')">HU<br><small>ambil buangan</small></button><button id="ziBtn" onclick="setMethod('zimo')">ZI MO<br><small>ambil sendiri</small></button></div>
  <div id="discardArea" style="display:none"><div class="step"><span class="badge">3. Siapa membuang?</span></div><div class="choice" id="discardButtons"></div></div>
- <div class="step"><span class="badge">4. Pilih SATU kombinasi poin</span></div>
+ <div class="step"><span class="badge">3. Pilih SATU kombinasi poin</span></div>
  <details class="pattern-toggle" id="patternToggle">
   <summary>▶ Tampilkan / sembunyikan poin kombinasi</summary>
   <div class="muted" style="margin:4px 0 8px">Hanya satu kombinasi yang dapat dipilih untuk setiap kemenangan. Tap kartu untuk memilih.</div>
   <div class="patterns" id="patterns"></div>
  </details>
- <div class="step"><span class="badge">5. Masukkan Quad setiap pemain</span></div>
+ <div class="step"><span class="badge">4. Masukkan Quad setiap pemain</span></div>
  <div class="quadgrid" id="quadInputs"></div>
  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px"><div><div class="label">Tambahan poin manual</div><input type="number" id="extra" value="0" step="1"></div><div class="totalbar"><span>Poin kombinasi</span><b id="total">0</b></div></div>
 <div class="muted" style="margin-top:7px">Pembayaran dasar: Zi Mo = 5 poin dari setiap lawan • Hu = 2 poin dari setiap lawan • setiap Quad memberi pemain tersebut +1 poin dari masing-masing 3 pemain lain. Semua Quad dimasukkan sebelum menekan “Catat Hasil Ronde”.</div>
