@@ -132,7 +132,7 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
  <button class="record" onclick="record()">✓ CATAT HASIL RONDE</button>
 </div>
 
-<details class="panel historyPanel"><summary><b>▶ Tampilkan / sembunyikan Riwayat Permainan</b></summary><div id="history" class="history muted">Belum ada ronde.</div></details>
+<details class="panel historyPanel" id="historyPanel"><summary><b id="historySummary">Riwayat permainan <span class="muted">(tap untuk buka)</span></b></summary><div id="history" class="history muted">Belum ada ronde.</div></details>
 </div>
 
 <div class="bottom"><button class="btn light" onclick="undo()">↶ Undo</button><button class="btn light" onclick="share()">Bagikan Skor</button><button class="btn danger" onclick="openNew()">Reset</button></div>
@@ -261,8 +261,68 @@ function openNew(){for(let i=0;i<4;i++)$("n"+i).value=s.names[i];$("new").classL
 function newGame(){let st=parseFloat($("start").value)||0;s={names:[0,1,2,3].map(i=>$("n"+i).value||"Pemain "+(i+1)),scores:[st,st,st,st],dealer:Math.floor(Math.random()*4),round:1,history:[],seatWinds:[0,1,2,3]};winner=null;method=null;discarder=null;save();closeNew();render()}
 function share(){let text="🀄 Skor Mahjong Ronde "+s.round+"\n"+s.names.map((n,i)=>{let wins=s.history.filter(h=>h.method!=="quad"&&h.winner===i).length;return `${windChar(i)} ${n}: ${fmt(s.scores[i])} • ${wins} tangan menang`}).join("\n")+"\nTangan dimainkan: "+s.history.length;if(navigator.share)navigator.share({title:"Skor Mahjong",text});else navigator.clipboard.writeText(text).then(()=>alert("Skor disalin."))}
 render();
+
+const historyPanel=document.getElementById("historyPanel");
+const historySummary=document.getElementById("historySummary");
+function updateHistorySummary(){
+  if(!historyPanel||!historySummary) return;
+  historySummary.innerHTML = historyPanel.open
+    ? 'Riwayat permainan <span class="muted">(tap untuk tutup)</span>'
+    : 'Riwayat permainan <span class="muted">(tap untuk buka)</span>';
+}
+if(historyPanel){ historyPanel.addEventListener("toggle", updateHistorySummary); updateHistorySummary(); }
 </script><script>
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js"));
 }
-</script></body></html>
+</script></body></html><style id="dealer-desktop-readable-fix">
+/* Keep dealer information readable on desktop/iPad landscape, independent of side player cards. */
+.center{z-index:6;pointer-events:none}
+.center button{pointer-events:auto}
+#dealerText{
+  box-sizing:border-box;
+  width:max-content;
+  min-width:118px;
+  max-width:170px;
+  margin:5px auto 7px!important;
+  padding:6px 10px 7px;
+  border-radius:12px;
+  background:rgba(255,250,239,.96);
+  color:#211d18;
+  box-shadow:0 3px 10px rgba(0,0,0,.18);
+  overflow:hidden;
+  overflow-wrap:normal!important;
+  word-break:normal;
+}
+#dealerText .dealer-label{font-size:11px!important;line-height:1.05;font-weight:800;opacity:.72;letter-spacing:.02em}
+#dealerText .dealer-name{font-size:var(--dealer-name-size,20px)!important;line-height:1.08;font-weight:950;white-space:nowrap!important;overflow:hidden;text-overflow:ellipsis}
+@media (min-width:760px) and (orientation:landscape){
+ .center{width:180px!important}
+ .center .round{font-size:10px!important;white-space:nowrap}
+ #dealerText{max-width:176px;min-width:128px}
+}
+@media (max-width:600px){
+ #dealerText{min-width:76px;max-width:94px;padding:3px 5px 4px;margin:2px auto 3px!important;border-radius:8px}
+ #dealerText .dealer-label{font-size:7px!important}
+ #dealerText .dealer-name{font-size:var(--dealer-name-size-mobile,10px)!important}
+}
+</style>
+<script>
+(function(){
+  function fitDealerName(){
+    var box=document.getElementById('dealerText');
+    if(!box) return;
+    var name=box.querySelector('.dealer-name');
+    if(!name) return;
+    var n=(name.textContent||'').trim().length;
+    var desktop=n>20?12:n>15?14:n>10?16:20;
+    var mobile=n>20?7:n>15?8:n>10?9:10;
+    box.style.setProperty('--dealer-name-size',desktop+'px');
+    box.style.setProperty('--dealer-name-size-mobile',mobile+'px');
+  }
+  var oldRender=window.render;
+  if(typeof oldRender==='function') window.render=function(){var r=oldRender.apply(this,arguments);fitDealerName();return r};
+  document.addEventListener('DOMContentLoaded',fitDealerName);
+  window.addEventListener('resize',fitDealerName);
+})();
+</script>
