@@ -14,3 +14,8 @@ On iPhone: open the site in Safari > Share > Add to Home Screen > Open as Web Ap
 On Android: open in Chrome and use Add to Home screen / Install app.
 
 Scores are stored locally on each device/browser.
+
+Update istilah permainan:
+- Tombol “CATAT HASIL RONDE” diubah menjadi “CATAT HASIL TANGAN”.
+- TANGAN dihitung per ronde dan kembali ke Tangan 1 saat Ronde + ditekan.
+- Riwayat menampilkan nomor Ronde dan Tangan.

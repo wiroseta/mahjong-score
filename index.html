@@ -97,7 +97,20 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 @media (max-width:390px){.table{min-height:225px}.player{width:86px}.center{width:86px}.quadgrid{grid-template-columns:repeat(4,1fr)}}
 .dealer-label,.dealer-name{display:block}.dealer-label{font-size:.72em;opacity:.9}.dealer-name{font-size:1.12em;white-space:normal}
 </style>
-</head>
+<style id="player-name-point-responsive-fix">
+/* Nama pemain dibatasi agar layout 4 pemain selalu stabil. */
+input[type=text][maxlength="10"]{letter-spacing:.01em}
+/* Kedua kolom poin selalu seimbang dan mengikuti ruang yang tersedia. */
+.point-input-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin-top:8px;align-items:stretch}
+.point-input-box,.point-total-box{box-sizing:border-box;min-width:0;min-height:62px}
+.point-input-box{display:flex;flex-direction:column;justify-content:flex-end}
+.point-input-box .label{margin-top:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.point-input-box input{box-sizing:border-box;height:44px;min-height:44px}
+.point-total-box{margin-top:0!important;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px!important}
+.point-total-box span{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.point-total-box b{flex:0 0 auto}
+@media(max-width:600px){.point-input-row{gap:5px}.point-input-box,.point-total-box{min-height:50px}.point-input-box input{height:36px;min-height:36px;padding:6px 8px}.point-input-box .label,.point-total-box span{font-size:10px}.point-total-box{padding:5px 8px!important}.point-total-box b{font-size:17px!important}}
+</style></head>
 <body><div class="app">
 <div class="top"><div><h1>🀄 Mahjong Score</h1><div class="muted">Tap pemain yang menang → Hu/Zi Mo → pilih poin → Catat</div></div><div style="display:flex;gap:6px"><button class="btn light" onclick="openPlayers()">Edit Pemain</button><button class="btn gold" onclick="openNew()">Game Baru</button></div></div>
 
@@ -126,13 +139,13 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
  </details>
  <div class="step"><span class="badge">4. Masukkan Quad setiap pemain</span></div>
  <div class="quadgrid" id="quadInputs"></div>
- <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px"><div><div class="label">Tambahan poin manual</div><input type="number" id="extra" value="0" step="1"></div><div class="totalbar"><span>Poin kombinasi</span><b id="total">0</b></div></div>
-<div class="muted" style="margin-top:7px">Pembayaran dasar: Zi Mo = 5 poin dari setiap lawan • Hu = 2 poin dari setiap lawan • setiap Quad memberi pemain tersebut +1 poin dari masing-masing 3 pemain lain. Semua Quad dimasukkan sebelum menekan “Catat Hasil Ronde”.</div>
+ <div class="point-input-row"><div class="point-input-box"><div class="label">Tambahan poin manual</div><input type="number" id="extra" value="0" step="1"></div><div class="totalbar point-total-box"><span>Poin kombinasi</span><b id="total">0</b></div></div>
+<div class="muted" style="margin-top:7px">Pembayaran dasar: Zi Mo = 5 poin dari setiap lawan • Hu = 2 poin dari setiap lawan • setiap Quad memberi pemain tersebut +1 poin dari masing-masing 3 pemain lain. Semua Quad dimasukkan sebelum menekan “Catat Hasil Tangan”.</div>
  <div class="preview" id="preview"></div>
- <button class="record" onclick="record()">✓ CATAT HASIL RONDE</button>
+ <button class="record" onclick="record()">✓ CATAT HASIL TANGAN</button>
 </div>
 
-<details class="panel historyPanel" id="historyPanel"><summary><b id="historySummary">Riwayat permainan <span class="muted">(tap untuk buka)</span></b></summary><div id="history" class="history muted">Belum ada ronde.</div></details>
+<details class="panel historyPanel" id="historyPanel"><summary><b id="historySummary">Riwayat permainan <span class="muted">(tap untuk buka)</span></b></summary><div id="history" class="history muted">Belum ada tangan.</div></details>
 </div>
 
 <div class="bottom"><button class="btn light" onclick="undo()">↶ Undo</button><button class="btn light" onclick="share()">Bagikan Skor</button><button class="btn danger" onclick="openNew()">Reset</button></div>
@@ -145,7 +158,7 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 <div class="label">Quad setiap pemain</div><div class="quadgrid" id="editQuadInputs"></div>
 <div class="preview" id="editPreview"></div><div style="display:flex;gap:8px;margin-top:12px"><button class="btn gold" style="flex:1" onclick="saveScoreEdit()">Simpan Koreksi</button><button class="btn light" style="flex:1" onclick="closeScoreEdit()">Batal</button></div></div></div>
 <div class="overlay" id="new"><div class="modal"><h2>Game Baru</h2><div class="muted">Posisi meja mengikuti tampilan: Timur kanan, Selatan bawah, Barat kiri, Utara atas.</div>
-<div class="names"><div><div class="label">東 Timur</div><input id="n0" type="text"></div><div><div class="label">南 Selatan</div><input id="n1" type="text"></div><div><div class="label">西 Barat</div><input id="n2" type="text"></div><div><div class="label">北 Utara</div><input id="n3" type="text"></div></div>
+<div class="names"><div><div class="label">東 Timur</div><input id="n0" type="text" maxlength="10" oninput="limitPlayerName(this)"></div><div><div class="label">南 Selatan</div><input id="n1" type="text" maxlength="10" oninput="limitPlayerName(this)"></div><div><div class="label">西 Barat</div><input id="n2" type="text" maxlength="10" oninput="limitPlayerName(this)"></div><div><div class="label">北 Utara</div><input id="n3" type="text" maxlength="10" oninput="limitPlayerName(this)"></div></div>
 <div class="label">Skor awal per pemain</div><input id="start" type="number" value="0" step="300">
 <div style="display:flex;gap:8px;margin-top:12px"><button class="btn gold" style="flex:1" onclick="newGame()">Mulai</button><button class="btn light" style="flex:1" onclick="closeNew()">Batal</button></div>
 </div></div>
@@ -186,7 +199,7 @@ $("patterns").innerHTML=pats.map((p,i)=>`<label class="pat"><input type="radio" 
 $("extra").oninput=update;
 function render(){
  for(let i=0;i<4;i++){let el=$("p"+i);el.classList.toggle("selected",winner===i);el.classList.toggle("dealer",s.dealer===i);let sc=s.scores[i],wins=s.history.filter(h=>h.method!=="quad"&&h.winner===i).length;el.innerHTML=`<div class="wind">${windChar(i)}</div><div class="name">${s.names[i]}</div><div class="muted">${windName(i)}</div><div class="score ${sc>0?'pos':sc<0?'neg':''}">${sc>0?"+":""}${fmt(sc)}</div><div class="handwins">🏆 ${wins} tangan</div>`}
- $("round").textContent=s.round;$("hands").textContent=s.history.length;let dn=String(s.names[s.dealer]||"");$("dealerText").innerHTML=`<span class="dealer-label">Dealer</span><span class="dealer-name">${dn}</span>`;let de=$("dealerText"), n=dn.length;de.style.fontSize=n>18?"clamp(7px,2vw,11px)":n>12?"clamp(8px,2.3vw,14px)":"";
+ $("round").textContent=s.round;$("hands").textContent=s.history.filter(h=>h.round===s.round && h.method!=="quad").length+1;let dn=String(s.names[s.dealer]||"");$("dealerText").innerHTML=`<span class="dealer-label">Dealer</span><span class="dealer-name">${dn}</span>`;let de=$("dealerText"), n=dn.length;de.style.fontSize=n>18?"clamp(7px,2vw,11px)":n>12?"clamp(8px,2.3vw,14px)":"";
  $("winnerText").textContent=winner===null?"— belum dipilih —":s.names[winner]+" ("+windName(winner)+")";
  renderDiscard();
  $("quadInputs").innerHTML=[0,1,2,3].map(i=>`<div class="quadbox"><div class="label">${windChar(i)} ${s.names[i]}</div><input type="number" class="quadInput" data-q="${i}" value="0" min="0" step="1" oninput="update()"></div>`).join("");
@@ -225,17 +238,18 @@ function record(){
  let before=[...s.scores],ps=selected().map(x=>x[0]);if(+$("extra").value)ps.push("Tambahan manual");
  let quads=c.quads;quads.forEach((q,i)=>{if(q)ps.push(`${s.names[i]} ${q} Quad`) });
  let dealerBefore=s.dealer;
- let chosenPattern=selected()[0]||null, extraPoints=Math.max(0,Number($("extra").value)||0); s.scores=s.scores.map((v,i)=>v+c.d[i]);s.history.unshift({winner,method,discarder,total:c.t,quads,extra:extraPoints,patternName:chosenPattern?chosenPattern[0]:null,patternPoints:chosenPattern?chosenPattern[1]:0,each:c.each,delta:c.d,patterns:ps,before,dealer:dealerBefore,round:s.round,time:new Date().toLocaleString("id-ID")});
+ let chosenPattern=selected()[0]||null, extraPoints=Math.max(0,Number($("extra").value)||0); s.scores=s.scores.map((v,i)=>v+c.d[i]);let handNo=s.history.filter(h=>h.round===s.round && h.method!=="quad").length+1;s.history.unshift({winner,method,discarder,total:c.t,quads,extra:extraPoints,patternName:chosenPattern?chosenPattern[0]:null,patternPoints:chosenPattern?chosenPattern[1]:0,each:c.each,delta:c.d,patterns:ps,before,dealer:dealerBefore,round:s.round,hand:handNo,time:new Date().toLocaleString("id-ID")});
  s.dealer=winner;
  save();winner=null;method=null;discarder=null;document.querySelectorAll("[data-p]").forEach(e=>e.checked=false);$("extra").value=0;document.querySelectorAll("[data-q]").forEach(e=>e.value=0);$("huBtn").classList.remove("on");$("ziBtn").classList.remove("on");$("discardArea").style.display="none";render();
 }
 let editHistoryIndex=null;
+function getLegacyHandNo(idx){let h=s.history[idx];if(!h)return 1;let older=s.history.slice(idx+1).filter(x=>x.round===h.round && x.method!=="quad").length;return older+1}
 function history(){
  $("history").innerHTML=s.history.length?s.history.map((h,idx)=>`<div class="entry">
- <b>R${h.round} • ${h.method==="quad"?s.names[h.winner]+" mendapat Quad":s.names[h.winner]+" menang"}</b>
+ <b>Ronde ${h.round}${h.method!=="quad"?" • Tangan "+(h.hand||getLegacyHandNo(idx)):""} • ${h.method==="quad"?s.names[h.winner]+" mendapat Quad":s.names[h.winner]+" menang"}</b>
  <span style="float:right;display:flex;gap:5px">${h.method!=="quad"?`<button class="btn light" style="padding:5px 8px;font-size:11px" onclick="openScoreEdit(${idx})">Koreksi</button>`:""}${h.method==="quad"?`<button class="btn danger" style="padding:5px 8px;font-size:11px" onclick="deleteQuad(${idx})">Hapus Quad</button>`:""}</span><br>
  ${h.method==="quad"?"Quad • +1 dari setiap pemain":(h.method==="zimo"?"Zi Mo":"Hu dari "+s.names[h.discarder])+" • "+(h.patterns.join(", ")||"Tanpa kombinasi tambahan")+(h.each!==undefined?" • "+fmt(h.each)+" poin/lawan":"")}<br>
- ${h.delta.map((v,i)=>`${s.names[i]} ${v>=0?"+":""}${fmt(v)}`).join(" · ")}<br><span class="muted">${h.time}</span></div>`).join(""):"Belum ada ronde.";
+ ${h.delta.map((v,i)=>`${s.names[i]} ${v>=0?"+":""}${fmt(v)}`).join(" · ")}<br><span class="muted">${h.time}</span></div>`).join(""):"Belum ada tangan.";
 }
 let editMethod="hu";
 function fillEditPatterns(name){$("editPattern").innerHTML=`<option value="">Tanpa kombinasi (0 poin)</option>`+pats.map((p,i)=>`<option value="${i}" ${p[0]===name?"selected":""}>${p[0]} — ${p[1]} poin</option>`).join("")}
@@ -254,12 +268,13 @@ function deleteQuad(idx){
 function undo(){if(!s.history.length)return;let h=s.history.shift();s.scores=h.before;s.dealer=h.dealer;s.round=h.round;save();render()}
 function nextDealer(){s.dealer=(s.dealer+1)%4;save();render()}function nextRound(){s.round++;save();render()}
 function openPlayers(){
- $("playerEditRows").innerHTML=[0,1,2,3].map(i=>`<div class="editrow"><div><div class="label">Nama pemain ${i+1}</div><input id="epn${i}" type="text" value="${String(s.names[i]).replace(/&/g,"&amp;").replace(/"/g,"&quot;")}"></div><div><div class="label">Arah duduk</div><select id="epw${i}">${winds.map((w,j)=>`<option value="${j}" ${s.seatWinds[i]===j?"selected":""}>${chars[j]} ${w}</option>`).join("")}</select></div></div>`).join("");$("players").classList.add("show")}
+ $("playerEditRows").innerHTML=[0,1,2,3].map(i=>`<div class="editrow"><div><div class="label">Nama pemain ${i+1}</div><input id="epn${i}" type="text" maxlength="10" oninput="limitPlayerName(this)" value="${String(s.names[i]).replace(/&/g,"&amp;").replace(/"/g,"&quot;")}"></div><div><div class="label">Arah duduk</div><select id="epw${i}">${winds.map((w,j)=>`<option value="${j}" ${s.seatWinds[i]===j?"selected":""}>${chars[j]} ${w}</option>`).join("")}</select></div></div>`).join("");$("players").classList.add("show")}
 function closePlayers(){$("players").classList.remove("show")}
-function savePlayers(){let names=[0,1,2,3].map(i=>$("epn"+i).value.trim()||"Pemain "+(i+1)),sw=[0,1,2,3].map(i=>Number($("epw"+i).value));if(new Set(sw).size!==4)return alert("Setiap arah duduk harus berbeda: Timur, Selatan, Barat, dan Utara masing-masing satu pemain.");s.names=names;s.seatWinds=sw;save();closePlayers();render()}
+function limitPlayerName(el){if(el.value.length>10)el.value=el.value.slice(0,10)}
+function savePlayers(){let names=[0,1,2,3].map(i=>($("epn"+i).value.trim().slice(0,10)||"Pemain "+(i+1))),sw=[0,1,2,3].map(i=>Number($("epw"+i).value));if(new Set(sw).size!==4)return alert("Setiap arah duduk harus berbeda: Timur, Selatan, Barat, dan Utara masing-masing satu pemain.");s.names=names;s.seatWinds=sw;save();closePlayers();render()}
 function openNew(){for(let i=0;i<4;i++)$("n"+i).value=s.names[i];$("new").classList.add("show")}function closeNew(){$("new").classList.remove("show")}
-function newGame(){let st=parseFloat($("start").value)||0;s={names:[0,1,2,3].map(i=>$("n"+i).value||"Pemain "+(i+1)),scores:[st,st,st,st],dealer:Math.floor(Math.random()*4),round:1,history:[],seatWinds:[0,1,2,3]};winner=null;method=null;discarder=null;save();closeNew();render()}
-function share(){let text="🀄 Skor Mahjong Ronde "+s.round+"\n"+s.names.map((n,i)=>{let wins=s.history.filter(h=>h.method!=="quad"&&h.winner===i).length;return `${windChar(i)} ${n}: ${fmt(s.scores[i])} • ${wins} tangan menang`}).join("\n")+"\nTangan dimainkan: "+s.history.length;if(navigator.share)navigator.share({title:"Skor Mahjong",text});else navigator.clipboard.writeText(text).then(()=>alert("Skor disalin."))}
+function newGame(){let st=parseFloat($("start").value)||0;s={names:[0,1,2,3].map(i=>($("n"+i).value.trim().slice(0,10)||"Pemain "+(i+1))),scores:[st,st,st,st],dealer:Math.floor(Math.random()*4),round:1,history:[],seatWinds:[0,1,2,3]};winner=null;method=null;discarder=null;save();closeNew();render()}
+function share(){let currentHand=s.history.filter(h=>h.round===s.round&&h.method!=="quad").length+1;let totalHands=s.history.filter(h=>h.method!=="quad").length;let text="🀄 Skor Mahjong — Ronde "+s.round+" • Tangan "+currentHand+"\n"+s.names.map((n,i)=>{let wins=s.history.filter(h=>h.method!=="quad"&&h.winner===i).length;return `${windChar(i)} ${n}: ${fmt(s.scores[i])} • ${wins} tangan menang`}).join("\n")+"\nTotal tangan selesai: "+totalHands;if(navigator.share)navigator.share({title:"Skor Mahjong",text});else navigator.clipboard.writeText(text).then(()=>alert("Skor disalin."))}
 render();
 
 const historyPanel=document.getElementById("historyPanel");
