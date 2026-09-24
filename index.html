@@ -429,3 +429,17 @@ if ("serviceWorker" in navigator) {
  .point-input-row{grid-template-columns:1fr!important}
 }
 </style>
+<style id="center-no-overlap-fix">
+/* Keep the centre status inside the free space between the West/East player cards. */
+@media (min-width:760px) and (orientation:landscape){
+  .center{width:128px!important;max-width:calc(100% - 360px)!important;z-index:5}
+  .center .round{font-size:9px!important;line-height:1.15!important;white-space:normal!important;text-align:center;padding:0 2px}
+  #dealerText{width:116px!important;min-width:0!important;max-width:116px!important;margin:4px auto!important;padding:5px 6px 6px!important;border-radius:10px}
+  #dealerText .dealer-label{font-size:9px!important}
+  #dealerText .dealer-name{font-size:min(var(--dealer-name-size,18px),18px)!important;max-width:100%;white-space:nowrap!important;overflow:hidden;text-overflow:ellipsis}
+}
+@media (min-width:1200px){
+  .center{width:142px!important;max-width:calc(100% - 380px)!important}
+  #dealerText{width:132px!important;max-width:132px!important}
+}
+</style>
