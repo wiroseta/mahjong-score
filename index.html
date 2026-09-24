@@ -142,7 +142,7 @@ input[type=text][maxlength="10"]{letter-spacing:.01em}
  <div id="p1" class="player pS" onclick="selectWinner(1)"></div>
  <div class="center">
    <div class="round">RONDE <span id="roundWind">1</span> • TANGAN <span id="hands">1</span></div>
-   <div class="big" id="dealerText"><span class="dealer-label">Dealer</span><span class="dealer-name">Timur</span></div>
+ 
  </div>
 </div>
 
@@ -224,7 +224,7 @@ $("patterns").innerHTML=pats.map((p,i)=>`<label class="pat"><input type="radio" 
 $("extra").oninput=update;
 function render(){
  for(let i=0;i<4;i++){let el=$("p"+i);el.classList.toggle("selected",winner===i);el.classList.toggle("dealer",s.dealer===i);let sc=s.scores[i],wins=s.history.filter(h=>h.method!=="quad"&&h.winner===i).length;el.innerHTML=`<div class="wind">${windChar(i)}</div><div class="name">${s.names[i]}</div><div class="muted">${windName(i)}</div><div class="score ${sc>0?'pos':sc<0?'neg':''}">${sc>0?"+":""}${fmt(sc)}</div><div class="handwins">🏆 ${wins} tangan</div>`}
- $("roundWind").textContent=s.round||1;$("hands").textContent=s.history.filter(h=>h.method!=="quad"&&(h.round||1)===(s.round||1)).length+1;let dn=String(s.names[s.dealer]||"");$("dealerText").innerHTML=`<span class="dealer-label">Dealer</span><span class="dealer-name">${dn}</span>`;let de=$("dealerText"), n=dn.length;de.style.fontSize=n>18?"clamp(7px,2vw,11px)":n>12?"clamp(8px,2.3vw,14px)":"";
+ $("roundWind").textContent=s.round||1;$("hands").textContent=s.history.filter(h=>h.method!=="quad"&&(h.round||1)===(s.round||1)).length+1;
  $("winnerText").textContent=winner===null?"— belum dipilih —":s.names[winner]+" ("+windName(winner)+")";
  renderDiscard();
  $("quadInputs").innerHTML=[0,1,2,3].map(i=>`<div class="quadbox"><div class="label">${windChar(i)} ${s.names[i]}</div><input type="number" class="quadInput" data-q="${i}" value="0" min="0" step="1" oninput="update()"></div>`).join("");
@@ -333,113 +333,4 @@ if(patternToggle){ patternToggle.addEventListener("toggle", updatePatternSummary
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js"));
 }
-</script></body></html><style id="dealer-desktop-readable-fix">
-/* Keep dealer information readable on desktop/iPad landscape, independent of side player cards. */
-.center{z-index:6;pointer-events:none}
-.center button{pointer-events:auto}
-#dealerText{
-  box-sizing:border-box;
-  width:max-content;
-  min-width:118px;
-  max-width:170px;
-  margin:5px auto 7px!important;
-  padding:6px 10px 7px;
-  border-radius:12px;
-  background:rgba(255,250,239,.96);
-  color:#211d18;
-  box-shadow:0 3px 10px rgba(0,0,0,.18);
-  overflow:hidden;
-  overflow-wrap:normal!important;
-  word-break:normal;
-}
-#dealerText .dealer-label{font-size:11px!important;line-height:1.05;font-weight:800;opacity:.72;letter-spacing:.02em}
-#dealerText .dealer-name{font-size:var(--dealer-name-size,20px)!important;line-height:1.08;font-weight:950;white-space:nowrap!important;overflow:hidden;text-overflow:ellipsis}
-@media (min-width:760px) and (orientation:landscape){
- .center{width:180px!important}
- .center .round{font-size:10px!important;white-space:nowrap}
- #dealerText{max-width:176px;min-width:128px}
-}
-@media (max-width:600px){
- #dealerText{min-width:76px;max-width:94px;padding:3px 5px 4px;margin:2px auto 3px!important;border-radius:8px}
- #dealerText .dealer-label{font-size:7px!important}
- #dealerText .dealer-name{font-size:var(--dealer-name-size-mobile,10px)!important}
-}
-</style>
-<script>
-(function(){
-  function fitDealerName(){
-    var box=document.getElementById('dealerText');
-    if(!box) return;
-    var name=box.querySelector('.dealer-name');
-    if(!name) return;
-    var n=(name.textContent||'').trim().length;
-    var desktop=n>20?12:n>15?14:n>10?16:20;
-    var mobile=n>20?7:n>15?8:n>10?9:10;
-    box.style.setProperty('--dealer-name-size',desktop+'px');
-    box.style.setProperty('--dealer-name-size-mobile',mobile+'px');
-  }
-  var oldRender=window.render;
-  if(typeof oldRender==='function') window.render=function(){var r=oldRender.apply(this,arguments);fitDealerName();return r};
-  document.addEventListener('DOMContentLoaded',fitDealerName);
-  window.addEventListener('resize',fitDealerName);
-})();
-</script>
-
-<style id="combo-integrated-heading">
-.pattern-toggle>summary{background:#f1e9da;border:0;border-radius:999px;padding:7px 10px;width:max-content;max-width:100%;font-size:13px;line-height:1.2}
-.pattern-toggle>summary:after,.pattern-toggle[open]>summary:after{content:none!important}
-.pattern-toggle>summary .muted{font-weight:500;font-size:.88em;white-space:nowrap}
-@media(max-width:600px){.pattern-toggle>summary{font-size:11px;padding:6px 8px}.pattern-toggle>summary .muted{font-size:.82em}}
-</style>
-<style id="all-layout-fluid-v1">
-/* Fluid layout: every major column follows the actual available width. */
-.app{width:100%;max-width:none!important;margin:0 auto;padding-left:clamp(6px,1.2vw,22px);padding-right:clamp(6px,1.2vw,22px)}
-.app>*{min-width:0}
-.table,.panel,.historyPanel{width:100%;min-width:0;max-width:none}
-.choice{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:clamp(4px,.7vw,10px)}
-.quadgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,110px),1fr));gap:clamp(4px,.65vw,9px)}
-.point-input-row{grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr))!important;gap:clamp(5px,.7vw,10px)!important}
-.names{grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr))}
-.editrow{grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr))}
-.panel input,.panel select,.panel button,.quadbox,.point-input-box,.point-total-box{min-width:0;max-width:100%}
-@media (min-width:760px){
- .app{display:grid!important;grid-template-columns:minmax(330px,clamp(36%,42vw,48%)) minmax(430px,1fr)!important;gap:clamp(8px,1vw,18px)!important;align-items:start}
- .top,.historyPanel{grid-column:1/-1}
- .table{margin:0!important;min-height:clamp(500px,calc(100vh - 125px),760px)!important;max-height:none!important}
- .panel{margin-top:0!important}
- .player{width:clamp(145px,15vw,230px);min-height:clamp(88px,8.5vw,125px)}
- .center{width:clamp(130px,14vw,230px)!important}
-}
-@media (min-width:1450px){
- .app{grid-template-columns:minmax(430px,46%) minmax(560px,54%)!important}
- .table{min-height:min(780px,calc(100vh - 125px))!important}
-}
-@media (max-width:759px){
- .app{display:block!important}
- .table{width:100%}
- .panel{width:100%}
-}
-@media (max-width:520px){
- .choice{grid-template-columns:repeat(2,minmax(0,1fr))}
- .quadgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
- .point-input-row{grid-template-columns:1fr 1fr!important}
-}
-@media (max-width:350px){
- .quadgrid{grid-template-columns:1fr 1fr}
- .point-input-row{grid-template-columns:1fr!important}
-}
-</style>
-<style id="center-no-overlap-fix">
-/* Keep the centre status inside the free space between the West/East player cards. */
-@media (min-width:760px) and (orientation:landscape){
-  .center{width:128px!important;max-width:calc(100% - 360px)!important;z-index:5}
-  .center .round{font-size:9px!important;line-height:1.15!important;white-space:normal!important;text-align:center;padding:0 2px}
-  #dealerText{width:116px!important;min-width:0!important;max-width:116px!important;margin:4px auto!important;padding:5px 6px 6px!important;border-radius:10px}
-  #dealerText .dealer-label{font-size:9px!important}
-  #dealerText .dealer-name{font-size:min(var(--dealer-name-size,18px),18px)!important;max-width:100%;white-space:nowrap!important;overflow:hidden;text-overflow:ellipsis}
-}
-@media (min-width:1200px){
-  .center{width:142px!important;max-width:calc(100% - 380px)!important}
-  #dealerText{width:132px!important;max-width:132px!important}
-}
-</style>
+</script></body></html>
