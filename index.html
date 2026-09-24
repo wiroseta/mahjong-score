@@ -72,6 +72,10 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 .pattext strong{font-size:13px}.pattext small{font-size:10px;line-height:1.25;color:#746d61;font-weight:600}
 @media(max-width:600px){.pat span{grid-template-columns:62px 1fr auto!important;min-height:76px!important}.tilepic{height:54px;font-size:26px}.pattext strong{font-size:12px}}
 .dealer-label,.dealer-name{display:block}.dealer-label{font-size:.72em;opacity:.9}.dealer-name{font-size:1.12em;white-space:normal}
+
+/* Ronde dan Tangan ditampilkan dua baris agar lebih mudah dibaca */
+.center .round{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.15;text-align:center;white-space:nowrap}
+.center .round>div{display:block;width:100%}
 </style><link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-192.png">
 <meta name="mobile-web-app-capable" content="yes">
@@ -141,7 +145,7 @@ input[type=text][maxlength="10"]{letter-spacing:.01em}
  <div id="p2" class="player pW" onclick="selectWinner(2)"></div>
  <div id="p1" class="player pS" onclick="selectWinner(1)"></div>
  <div class="center">
-   <div class="round">RONDE <span id="roundWind">1</span> • TANGAN <span id="hands">1</span></div>
+   <div class="round"><div>RONDE <span id="roundWind">1</span></div><div>TANGAN <span id="hands">1</span></div></div>
  
  </div>
 </div>
@@ -164,8 +168,8 @@ input[type=text][maxlength="10"]{letter-spacing:.01em}
  <button class="record" onclick="record()">✓ CATAT HASIL TANGAN</button>
 </div>
 
-<div class="panel"><h2>Rekap Semua Pemain</h2><div id="allPlayers" class="history muted"></div></div>
 <details class="panel historyPanel" id="historyPanel"><summary><b id="historySummary">Riwayat permainan <span class="muted">(tap untuk buka)</span></b></summary><div id="history" class="history muted">Belum ada tangan.</div></details>
+<div class="panel"><h2>Rekap Semua Pemain</h2><div id="allPlayers" class="history muted"></div></div>
 </div>
 
 <div class="bottom"><button class="btn light" onclick="undo()">↶ Undo</button><button class="btn light" onclick="share()">Bagikan Skor</button><button class="btn danger" onclick="openNew()">Reset</button></div>
