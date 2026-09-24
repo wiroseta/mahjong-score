@@ -133,7 +133,7 @@ input[type=text][maxlength="10"]{letter-spacing:.01em}
 </style>
 </head>
 <body><div class="app">
-<div class="top"><div><h1>🀄 Mahjong Score</h1><div class="muted">Tap pemain yang menang → Hu/Zi Mo → pilih poin → Catat</div></div><div style="display:flex;gap:6px"><button class="btn light" onclick="openPlayers()">Edit Pemain</button><button class="btn gold" onclick="openNew()">Game Baru</button></div></div>
+<div class="top"><div><h1>🀄 Mahjong Score</h1><div class="muted">Tap pemain yang menang → Hu/Zi Mo → pilih poin → Catat</div></div><div style="display:flex;gap:6px"><button class="btn light" onclick="openPlayers()">Edit Nama</button><button class="btn light" onclick="openRound()">Ronde Baru</button><button class="btn gold" onclick="openNew()">Game Baru</button></div></div>
 
 <div class="table">
  <div id="p3" class="player pN" onclick="selectWinner(3)"></div>
@@ -141,7 +141,7 @@ input[type=text][maxlength="10"]{letter-spacing:.01em}
  <div id="p2" class="player pW" onclick="selectWinner(2)"></div>
  <div id="p1" class="player pS" onclick="selectWinner(1)"></div>
  <div class="center">
-   <div class="round">RONDE <span id="roundWind">東 TIMUR</span> • TANGAN <span id="hands">1</span></div>
+   <div class="round">RONDE <span id="roundWind">1</span> • TANGAN <span id="hands">1</span></div>
    <div class="big" id="dealerText"><span class="dealer-label">Dealer</span><span class="dealer-name">Timur</span></div>
  </div>
 </div>
@@ -164,19 +164,22 @@ input[type=text][maxlength="10"]{letter-spacing:.01em}
  <button class="record" onclick="record()">✓ CATAT HASIL TANGAN</button>
 </div>
 
+<div class="panel"><h2>Rekap Semua Pemain</h2><div id="allPlayers" class="history muted"></div></div>
 <details class="panel historyPanel" id="historyPanel"><summary><b id="historySummary">Riwayat permainan <span class="muted">(tap untuk buka)</span></b></summary><div id="history" class="history muted">Belum ada tangan.</div></details>
 </div>
 
 <div class="bottom"><button class="btn light" onclick="undo()">↶ Undo</button><button class="btn light" onclick="share()">Bagikan Skor</button><button class="btn danger" onclick="openNew()">Reset</button></div>
 
-<div class="overlay" id="players"><div class="modal"><h2>Edit Nama Pemain</h2><div class="muted">Nama boleh dikoreksi kapan saja. Arah duduk ditentukan otomatis oleh permainan dan tidak dapat diedit manual.</div><div id="playerEditRows"></div><div style="display:flex;gap:8px;margin-top:12px"><button class="btn gold" style="flex:1" onclick="savePlayers()">Simpan</button><button class="btn light" style="flex:1" onclick="closePlayers()">Batal</button></div></div></div>
+<div class="overlay" id="players"><div class="modal"><h2>Edit Nama Pemain</h2><div class="muted">Perubahan nama berlaku mulai tangan berikutnya. Riwayat lama tetap memakai nama pemain yang bermain saat itu, sehingga pemain lama tidak hilang dari rekap.</div><div id="playerEditRows"></div><div style="display:flex;gap:8px;margin-top:12px"><button class="btn gold" style="flex:1" onclick="savePlayers()">Simpan</button><button class="btn light" style="flex:1" onclick="closePlayers()">Batal</button></div></div></div>
+
+<div class="overlay" id="roundModal"><div class="modal"><h2>Mulai Ronde Baru</h2><div class="muted">Ronde adalah penanda sesi. Anda boleh menukar tempat duduk atau mengganti pemain. Masukkan nama sesuai posisi fisik meja. Skor meja tetap dilanjutkan; riwayat pemain lama tidak dihapus.</div><div class="names" id="roundNames"></div><div class="label">Dealer pertama ronde ini</div><select id="roundDealer"></select><div style="display:flex;gap:8px;margin-top:12px"><button class="btn gold" style="flex:1" onclick="startRound()">Mulai Ronde</button><button class="btn light" style="flex:1" onclick="closeRound()">Batal</button></div></div></div>
 <div class="overlay" id="editScore"><div class="modal"><h2>Koreksi Hasil</h2><div class="muted" id="editInfo"></div>
 <div class="label">Cara menang</div><div class="seg"><button type="button" id="editHu" onclick="setEditMethod('hu')">Hu</button><button type="button" id="editZimo" onclick="setEditMethod('zimo')">Zi Mo</button></div>
 <div id="editDiscardWrap"><div class="label">Pemain yang membuang kartu (Hu)</div><select id="editDiscarder" style="width:100%;min-height:44px;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:16px;background:white"></select></div>
 <div class="label">Kombinasi poin</div><select id="editPattern" style="width:100%;min-height:44px;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:16px;background:white"></select>
 <div class="label">Quad setiap pemain</div><div class="quadgrid" id="editQuadInputs"></div>
 <div class="preview" id="editPreview"></div><div style="display:flex;gap:8px;margin-top:12px"><button class="btn gold" style="flex:1" onclick="saveScoreEdit()">Simpan Koreksi</button><button class="btn light" style="flex:1" onclick="closeScoreEdit()">Batal</button></div></div></div>
-<div class="overlay" id="new"><div class="modal"><h2>Game Baru</h2><div class="muted">Masukkan pemain awal sesuai arah duduk. Pemain 東 Timur menjadi Dealer pertama. Setelah Dealer berganti, arah 東南西北 dan Ronde akan berputar otomatis.</div>
+<div class="overlay" id="new"><div class="modal"><h2>Game Baru</h2><div class="muted">Masukkan pemain sesuai posisi fisik meja. Pemain pertama menjadi Dealer/東 pada tangan pertama. Setelah itu, pemenang Hu atau Zi Mo menjadi Dealer berikutnya. Ronde hanya menjadi penanda sesi.</div>
 <div class="names"><div><div class="label">東 Timur</div><input id="n0" type="text" maxlength="10" oninput="limitPlayerName(this)"></div><div><div class="label">南 Selatan</div><input id="n1" type="text" maxlength="10" oninput="limitPlayerName(this)"></div><div><div class="label">西 Barat</div><input id="n2" type="text" maxlength="10" oninput="limitPlayerName(this)"></div><div><div class="label">北 Utara</div><input id="n3" type="text" maxlength="10" oninput="limitPlayerName(this)"></div></div>
 <div class="label">Skor awal per pemain</div><input id="start" type="number" value="0" step="300">
 <div style="display:flex;gap:8px;margin-top:12px"><button class="btn gold" style="flex:1" onclick="newGame()">Mulai</button><button class="btn light" style="flex:1" onclick="closeNew()">Batal</button></div>
@@ -221,7 +224,7 @@ $("patterns").innerHTML=pats.map((p,i)=>`<label class="pat"><input type="radio" 
 $("extra").oninput=update;
 function render(){
  for(let i=0;i<4;i++){let el=$("p"+i);el.classList.toggle("selected",winner===i);el.classList.toggle("dealer",s.dealer===i);let sc=s.scores[i],wins=s.history.filter(h=>h.method!=="quad"&&h.winner===i).length;el.innerHTML=`<div class="wind">${windChar(i)}</div><div class="name">${s.names[i]}</div><div class="muted">${windName(i)}</div><div class="score ${sc>0?'pos':sc<0?'neg':''}">${sc>0?"+":""}${fmt(sc)}</div><div class="handwins">🏆 ${wins} tangan</div>`}
- $("roundWind").textContent=chars[s.roundWind%4]+" "+winds[s.roundWind%4].toUpperCase();$("hands").textContent=s.history.filter(h=>h.method!=="quad").length+1;let dn=String(s.names[s.dealer]||"");$("dealerText").innerHTML=`<span class="dealer-label">Dealer</span><span class="dealer-name">${dn}</span>`;let de=$("dealerText"), n=dn.length;de.style.fontSize=n>18?"clamp(7px,2vw,11px)":n>12?"clamp(8px,2.3vw,14px)":"";
+ $("roundWind").textContent=s.round||1;$("hands").textContent=s.history.filter(h=>h.method!=="quad"&&(h.round||1)===(s.round||1)).length+1;let dn=String(s.names[s.dealer]||"");$("dealerText").innerHTML=`<span class="dealer-label">Dealer</span><span class="dealer-name">${dn}</span>`;let de=$("dealerText"), n=dn.length;de.style.fontSize=n>18?"clamp(7px,2vw,11px)":n>12?"clamp(8px,2.3vw,14px)":"";
  $("winnerText").textContent=winner===null?"— belum dipilih —":s.names[winner]+" ("+windName(winner)+")";
  renderDiscard();
  $("quadInputs").innerHTML=[0,1,2,3].map(i=>`<div class="quadbox"><div class="label">${windChar(i)} ${s.names[i]}</div><input type="number" class="quadInput" data-q="${i}" value="0" min="0" step="1" oninput="update()"></div>`).join("");
@@ -260,24 +263,25 @@ function record(){
  let before=[...s.scores],ps=selected().map(x=>x[0]);if(+$("extra").value)ps.push("Tambahan manual");
  let quads=c.quads;quads.forEach((q,i)=>{if(q)ps.push(`${s.names[i]} ${q} Quad`) });
  let dealerBefore=s.dealer, seatWindsBefore=[...s.seatWinds], roundWindBefore=s.roundWind;
- let chosenPattern=selected()[0]||null, extraPoints=Math.max(0,Number($("extra").value)||0); s.scores=s.scores.map((v,i)=>v+c.d[i]);let handNo=s.history.filter(h=>h.method!=="quad").length+1;s.history.unshift({winner,method,discarder,total:c.t,quads,extra:extraPoints,patternName:chosenPattern?chosenPattern[0]:null,patternPoints:chosenPattern?chosenPattern[1]:0,each:c.each,delta:c.d,patterns:ps,before,dealer:dealerBefore,round:s.round,roundWind:roundWindBefore,seatWindsBefore,hand:handNo,time:new Date().toLocaleString("id-ID")});
- /* Dealer/East stays after an East win. If another player wins, South becomes East and all seat winds rotate. */
- if(winner!==dealerBefore){
-   s.seatWinds=s.seatWinds.map(w=>(w+3)%4);
-   s.dealer=s.seatWinds.indexOf(0);
-   if(s.dealer===s.initialEast){s.roundWind=(s.roundWind+1)%4;s.round=(s.round||1)+1}
- }
+ let namesAtTime=[...s.names];
+ let chosenPattern=selected()[0]||null, extraPoints=Math.max(0,Number($("extra").value)||0); s.scores=s.scores.map((v,i)=>v+c.d[i]);let handNo=s.history.filter(h=>h.method!=="quad"&&(h.round||1)===(s.round||1)).length+1;s.history.unshift({winner,method,discarder,total:c.t,quads,extra:extraPoints,patternName:chosenPattern?chosenPattern[0]:null,patternPoints:chosenPattern?chosenPattern[1]:0,each:c.each,delta:c.d,patterns:ps,before,dealer:dealerBefore,round:s.round,roundWind:roundWindBefore,seatWindsBefore,namesAtTime,hand:handNo,time:new Date().toLocaleString("id-ID")});
+ /* Aturan meja: pemenang terakhir (Hu atau Zi Mo) menjadi Dealer/East berikutnya. Posisi fisik tetap. */
+ s.dealer=winner;
+ s.seatWinds=[0,1,2,3].map(i=>(i-s.dealer+4)%4);
  save();winner=null;method=null;discarder=null;document.querySelectorAll("[data-p]").forEach(e=>e.checked=false);$("extra").value=0;document.querySelectorAll("[data-q]").forEach(e=>e.value=0);$("huBtn").classList.remove("on");$("ziBtn").classList.remove("on");$("discardArea").style.display="none";render();
 }
 let editHistoryIndex=null;
 function getLegacyHandNo(idx){let h=s.history[idx];if(!h)return 1;let older=s.history.slice(idx+1).filter(x=>x.round===h.round && x.method!=="quad").length;return older+1}
 function history(){
- $("history").innerHTML=s.history.length?s.history.map((h,idx)=>`<div class="entry">
- <b>Ronde ${chars[(h.roundWind??Math.max(0,(h.round||1)-1))%4]} ${winds[(h.roundWind??Math.max(0,(h.round||1)-1))%4]}${h.method!=="quad"?" • Tangan "+(h.hand||getLegacyHandNo(idx)):""} • ${h.method==="quad"?s.names[h.winner]+" mendapat Quad":s.names[h.winner]+" menang"}</b>
+ $("history").innerHTML=s.history.length?s.history.map((h,idx)=>{let hn=Array.isArray(h.namesAtTime)?h.namesAtTime:s.names;let wname=hn[h.winner]||s.names[h.winner],dname=(h.discarder!==null&&h.discarder!==undefined)?(hn[h.discarder]||s.names[h.discarder]):"";return `<div class="entry">
+ <b>Ronde ${h.round||1}${h.method!=="quad"?" • Tangan "+(h.hand||getLegacyHandNo(idx)):""} • ${h.method==="quad"?wname+" mendapat Quad":wname+" menang"}</b>
  <span style="float:right;display:flex;gap:5px">${h.method!=="quad"?`<button class="btn light" style="padding:5px 8px;font-size:11px" onclick="openScoreEdit(${idx})">Koreksi</button>`:""}${h.method==="quad"?`<button class="btn danger" style="padding:5px 8px;font-size:11px" onclick="deleteQuad(${idx})">Hapus Quad</button>`:""}</span><br>
- ${h.method==="quad"?"Quad • +1 dari setiap pemain":(h.method==="zimo"?"Zi Mo":"Hu dari "+s.names[h.discarder])+" • "+(h.patterns.join(", ")||"Tanpa kombinasi tambahan")+(h.each!==undefined?" • "+fmt(h.each)+" poin/lawan":"")}<br>
- ${h.delta.map((v,i)=>`${s.names[i]} ${v>=0?"+":""}${fmt(v)}`).join(" · ")}<br><span class="muted">${h.time}</span></div>`).join(""):"Belum ada tangan.";
+ ${h.method==="quad"?"Quad • +1 dari setiap pemain":(h.method==="zimo"?"Zi Mo":"Hu dari "+dname)+" • "+(h.patterns.join(", ")||"Tanpa kombinasi tambahan")+(h.each!==undefined?" • "+fmt(h.each)+" poin/lawan":"")}<br>
+ ${h.delta.map((v,i)=>`${hn[i]||s.names[i]} ${v>=0?"+":""}${fmt(v)}`).join(" · ")}<br><span class="muted">${h.time}</span></div>`}).join(""):"Belum ada tangan.";
+ renderAllPlayers();
 }
+function renderAllPlayers(){let totals={};s.history.slice().reverse().forEach(h=>{if(!Array.isArray(h.delta))return;let hn=Array.isArray(h.namesAtTime)?h.namesAtTime:s.names;h.delta.forEach((v,i)=>{let n=hn[i]||s.names[i];totals[n]=(totals[n]||0)+v})});s.names.forEach((n,i)=>{if(!(n in totals))totals[n]=0});$("allPlayers").innerHTML=Object.entries(totals).map(([n,v])=>`<span style="display:inline-block;margin:3px 10px 3px 0"><b>${n}</b>: ${v>=0?"+":""}${fmt(v)}</span>`).join("")||"Belum ada pemain."}
+
 let editMethod="hu";
 function fillEditPatterns(name){$("editPattern").innerHTML=`<option value="">Tanpa kombinasi (0 poin)</option>`+pats.map((p,i)=>`<option value="${i}" ${p[0]===name?"selected":""}>${p[0]} — ${p[1]} poin</option>`).join("")}
 function setEditMethod(m){editMethod=m;$("editHu").classList.toggle("active",m==="hu");$("editZimo").classList.toggle("active",m==="zimo");$("editDiscardWrap").style.display=m==="hu"?"block":"none";updateEditPreview()}
@@ -298,9 +302,12 @@ function openPlayers(){
 function closePlayers(){$("players").classList.remove("show")}
 function limitPlayerName(el){if(el.value.length>10)el.value=el.value.slice(0,10)}
 function savePlayers(){let names=[0,1,2,3].map(i=>($("epn"+i).value.trim().slice(0,10)||"Pemain "+(i+1)));s.names=names;save();closePlayers();render()}
+function openRound(){let box=$("roundNames");box.innerHTML=[0,1,2,3].map(i=>`<div><div class="label">Posisi fisik ${i+1}</div><input id="rn${i}" type="text" maxlength="10" value="${String(s.names[i]).replace(/&/g,"&amp;").replace(/"/g,"&quot;")}"></div>`).join("");$("roundDealer").innerHTML=s.names.map((n,i)=>`<option value="${i}" ${i===s.dealer?"selected":""}>${n}</option>`).join("");$("roundModal").classList.add("show")}
+function closeRound(){$("roundModal").classList.remove("show")}
+function startRound(){let names=[0,1,2,3].map(i=>($("rn"+i).value.trim().slice(0,10)||"Pemain "+(i+1)));let d=Number($("roundDealer").value)||0;s.names=names;s.round=(s.round||1)+1;s.dealer=d;s.seatWinds=[0,1,2,3].map(i=>(i-d+4)%4);save();closeRound();render()}
 function openNew(){for(let i=0;i<4;i++)$("n"+i).value=s.names[i];$("new").classList.add("show")}function closeNew(){$("new").classList.remove("show")}
 function newGame(){let st=parseFloat($("start").value)||0;s={names:[0,1,2,3].map(i=>($("n"+i).value.trim().slice(0,10)||"Pemain "+(i+1))),scores:[st,st,st,st],dealer:0,round:1,roundWind:0,initialEast:0,history:[],seatWinds:[0,1,2,3]};winner=null;method=null;discarder=null;save();closeNew();render()}
-function share(){let currentHand=s.history.filter(h=>h.method!=="quad").length+1;let totalHands=s.history.filter(h=>h.method!=="quad").length;let text="🀄 Skor Mahjong — Ronde "+chars[s.roundWind%4]+" "+winds[s.roundWind%4]+" • Tangan "+currentHand+"\n"+s.names.map((n,i)=>{let wins=s.history.filter(h=>h.method!=="quad"&&h.winner===i).length;return `${windChar(i)} ${n}: ${fmt(s.scores[i])} • ${wins} tangan menang`}).join("\n")+"\nDealer: "+s.names[s.dealer]+" (東 Timur)\nTotal tangan selesai: "+totalHands;if(navigator.share)navigator.share({title:"Skor Mahjong",text});else navigator.clipboard.writeText(text).then(()=>alert("Skor disalin."))}
+function share(){let currentHand=s.history.filter(h=>h.method!=="quad"&&(h.round||1)===(s.round||1)).length+1;let totalHands=s.history.filter(h=>h.method!=="quad").length;let text="🀄 Skor Mahjong — Ronde "+(s.round||1)+" • Tangan "+currentHand+"\n"+s.names.map((n,i)=>{let wins=s.history.filter(h=>h.method!=="quad"&&h.winner===i).length;return `${windChar(i)} ${n}: ${fmt(s.scores[i])} • ${wins} tangan menang`}).join("\n")+"\nDealer: "+s.names[s.dealer]+" (東 Timur)\nTotal tangan selesai: "+totalHands;if(navigator.share)navigator.share({title:"Skor Mahjong",text});else navigator.clipboard.writeText(text).then(()=>alert("Skor disalin."))}
 render();
 
 const historyPanel=document.getElementById("historyPanel");
