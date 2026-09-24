@@ -378,3 +378,41 @@ if ("serviceWorker" in navigator) {
 .pattern-toggle>summary .muted{font-weight:500;font-size:.88em;white-space:nowrap}
 @media(max-width:600px){.pattern-toggle>summary{font-size:11px;padding:6px 8px}.pattern-toggle>summary .muted{font-size:.82em}}
 </style>
+<style id="all-layout-fluid-v1">
+/* Fluid layout: every major column follows the actual available width. */
+.app{width:100%;max-width:none!important;margin:0 auto;padding-left:clamp(6px,1.2vw,22px);padding-right:clamp(6px,1.2vw,22px)}
+.app>*{min-width:0}
+.table,.panel,.historyPanel{width:100%;min-width:0;max-width:none}
+.choice{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:clamp(4px,.7vw,10px)}
+.quadgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,110px),1fr));gap:clamp(4px,.65vw,9px)}
+.point-input-row{grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr))!important;gap:clamp(5px,.7vw,10px)!important}
+.names{grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr))}
+.editrow{grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr))}
+.panel input,.panel select,.panel button,.quadbox,.point-input-box,.point-total-box{min-width:0;max-width:100%}
+@media (min-width:760px){
+ .app{display:grid!important;grid-template-columns:minmax(330px,clamp(36%,42vw,48%)) minmax(430px,1fr)!important;gap:clamp(8px,1vw,18px)!important;align-items:start}
+ .top,.historyPanel{grid-column:1/-1}
+ .table{margin:0!important;min-height:clamp(500px,calc(100vh - 125px),760px)!important;max-height:none!important}
+ .panel{margin-top:0!important}
+ .player{width:clamp(145px,15vw,230px);min-height:clamp(88px,8.5vw,125px)}
+ .center{width:clamp(130px,14vw,230px)!important}
+}
+@media (min-width:1450px){
+ .app{grid-template-columns:minmax(430px,46%) minmax(560px,54%)!important}
+ .table{min-height:min(780px,calc(100vh - 125px))!important}
+}
+@media (max-width:759px){
+ .app{display:block!important}
+ .table{width:100%}
+ .panel{width:100%}
+}
+@media (max-width:520px){
+ .choice{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .quadgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .point-input-row{grid-template-columns:1fr 1fr!important}
+}
+@media (max-width:350px){
+ .quadgrid{grid-template-columns:1fr 1fr}
+ .point-input-row{grid-template-columns:1fr!important}
+}
+</style>
