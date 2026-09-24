@@ -15,8 +15,8 @@ h1{font-size:21px;margin:0}.muted{opacity:.75;font-size:12px}.btn{border:0;borde
 .player{position:absolute;width:230px;min-height:125px;background:#fffaf0;color:var(--ink);border:3px solid transparent;border-radius:18px;padding:10px;text-align:center;box-shadow:0 5px 18px #0005;cursor:pointer}
 .player.selected{border-color:#ffd15c;box-shadow:0 0 0 4px #ffd15c55,0 5px 18px #0005}.player.dealer:after{content:"DEALER";position:absolute;right:8px;top:7px;background:#b88825;color:white;border-radius:8px;padding:3px 6px;font-size:10px;font-weight:900}
 .pN{top:15px;left:50%;transform:translateX(-50%)}.pS{bottom:15px;left:50%;transform:translateX(-50%)}.pW{left:15px;top:50%;transform:translateY(-50%)}.pE{right:15px;top:50%;transform:translateY(-50%)}
-.wind{font-size:25px;font-weight:900}.name{font-size:17px;font-weight:900}.score{font-size:25px;font-weight:950}.pos{color:#26734f}.neg{color:var(--red)}
-.center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:255px;text-align:center}.center .round{font-size:13px;opacity:.8}.center .big{font-size:24px;font-weight:900;margin:4px}
+.wind{font-size:25px;font-weight:900}.name{font-size:17px;font-weight:900}.score{font-size:25px;font-weight:950}.handwins{font-size:11px;font-weight:800;margin-top:2px;color:#5b6b62}.pos{color:#26734f}.neg{color:var(--red)}
+.center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:255px;text-align:center}.center .round{font-size:13px;opacity:.8}.center .big{font-size:clamp(13px,2.6vw,24px);font-weight:900;margin:4px;line-height:1.05;overflow-wrap:anywhere}
 .center button{margin:3px;padding:8px 10px;border:0;border-radius:10px;font-weight:800}
 .panel{background:var(--cream);color:var(--ink);margin-top:12px;border-radius:18px;padding:14px}.panel h2{margin:0 0 8px;font-size:18px}
 .step{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}.badge{background:#ece4d4;padding:5px 9px;border-radius:20px;font-size:12px;font-weight:800}
@@ -49,7 +49,7 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
  .pN{top:5px}.pS{bottom:5px}.pW{left:5px}.pE{right:5px}
  .wind{font-size:17px;line-height:18px}.name{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.score{font-size:18px;line-height:21px}
  .player .muted{font-size:9px}.player.dealer:after{font-size:7px;padding:2px 4px;right:3px;top:3px}
- .center{width:116px}.center .round{font-size:9px}.center .big{font-size:12px;margin:3px 0}.center button{font-size:10px;min-height:35px;padding:5px 7px}
+ .center{width:116px}.center .round{font-size:9px}.center .big{font-size:clamp(9px,2.8vw,12px);margin:3px 0;line-height:1.05}.center button{font-size:10px;min-height:35px;padding:5px 7px}
  .panel{margin-top:8px;padding:10px;border-radius:14px}.panel h2{font-size:15px}
  .choice{gap:6px}.choice button{padding:8px 4px;min-height:52px;font-size:13px}
  .patterns{grid-template-columns:1fr 1fr;gap:5px}.pat span{min-height:46px;padding:6px;font-size:11px}
@@ -71,6 +71,7 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 .pattext{display:flex;flex-direction:column;justify-content:center;gap:3px}
 .pattext strong{font-size:13px}.pattext small{font-size:10px;line-height:1.25;color:#746d61;font-weight:600}
 @media(max-width:600px){.pat span{grid-template-columns:62px 1fr auto!important;min-height:76px!important}.tilepic{height:54px;font-size:26px}.pattext strong{font-size:12px}}
+.dealer-label,.dealer-name{display:block}.dealer-label{font-size:.72em;opacity:.9}.dealer-name{font-size:1.12em;white-space:normal}
 </style><link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-192.png">
 <meta name="mobile-web-app-capable" content="yes">
@@ -86,7 +87,7 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 }
 @media (max-width:600px){
  .app{padding:5px 5px 62px}.top{margin:-5px -5px 4px;padding:5px 7px}.top h1{font-size:14px}.top .muted{display:none}.top .btn{min-height:32px;padding:5px 7px;font-size:10px}
- .table{min-height:245px;margin-top:2px;border-width:3px;border-radius:18px}.player{width:94px;min-height:65px;padding:3px;border-radius:10px}.pN{top:3px}.pS{bottom:3px}.pW{left:3px}.pE{right:3px}.wind{font-size:14px;line-height:14px}.name{font-size:10px}.player .muted{display:none}.score{font-size:15px;line-height:17px}.player.dealer:after{font-size:6px;padding:1px 3px}.center{width:96px}.center .round{font-size:7px}.center .big{font-size:9px;margin:1px}.center button{min-height:28px;padding:3px 5px;font-size:8px}
+ .table{min-height:245px;margin-top:2px;border-width:3px;border-radius:18px}.player{width:94px;min-height:65px;padding:3px;border-radius:10px}.pN{top:3px}.pS{bottom:3px}.pW{left:3px}.pE{right:3px}.wind{font-size:14px;line-height:14px}.name{font-size:10px}.player .muted{display:none}.score{font-size:15px;line-height:17px}.handwins{font-size:8px;line-height:9px;margin-top:1px}.player.dealer:after{font-size:6px;padding:1px 3px}.center{width:96px}.center .round{font-size:7px}.center .big{font-size:clamp(7px,2.5vw,9px);margin:1px;line-height:1.05}.center button{min-height:28px;padding:3px 5px;font-size:8px}
  .panel{margin-top:4px;padding:6px;border-radius:10px}.panel h2{font-size:12px;margin:0 0 3px}.step{margin:3px 0}.badge{font-size:9px;padding:3px 6px}.choice{gap:4px}.choice button{min-height:35px;padding:3px;font-size:10px;border-radius:8px}.choice button small{font-size:8px}
  .pattern-toggle{margin:3px 0}.pattern-toggle summary{padding:6px 8px;font-size:10px;border-radius:8px}.pattern-toggle[open] summary{margin-bottom:4px}.patterns{gap:3px}.pat span{grid-template-columns:48px 1fr auto!important;min-height:58px!important;padding:4px!important}.tilepic{height:44px;font-size:21px}.pattext strong{font-size:10px}.pattext small{font-size:8px}.pat em{font-size:9px}
  .quadgrid{gap:3px}.quadbox{padding:3px;border-radius:7px}.quadbox .label{font-size:8px;margin:0 0 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.quadbox input{padding:3px;min-height:30px;font-size:13px;border-radius:6px}
@@ -94,6 +95,7 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
  .historyPanel{padding:6px;font-size:10px}.historyPanel summary{font-size:10px}.bottom{padding:4px 5px calc(4px + env(safe-area-inset-bottom));gap:4px}.bottom .btn{min-height:34px;padding:5px;font-size:9px}
 }
 @media (max-width:390px){.table{min-height:225px}.player{width:86px}.center{width:86px}.quadgrid{grid-template-columns:repeat(4,1fr)}}
+.dealer-label,.dealer-name{display:block}.dealer-label{font-size:.72em;opacity:.9}.dealer-name{font-size:1.12em;white-space:normal}
 </style>
 </head>
 <body><div class="app">
@@ -106,7 +108,7 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
  <div id="p1" class="player pS" onclick="selectWinner(1)"></div>
  <div class="center">
    <div class="round">RONDE <span id="round">1</span> • TANGAN <span id="hands">0</span></div>
-   <div class="big" id="dealerText">Dealer: Timur</div>
+   <div class="big" id="dealerText"><span class="dealer-label">Dealer</span><span class="dealer-name">Timur</span></div>
    <button class="light" onclick="nextRound()">Ronde +</button>
  </div>
 </div>
@@ -130,7 +132,7 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
  <button class="record" onclick="record()">✓ CATAT HASIL RONDE</button>
 </div>
 
-<details class="panel historyPanel"><summary><b>Riwayat permainan</b> <span class="muted">(tap untuk buka)</span></summary><div id="history" class="history muted">Belum ada ronde.</div></details>
+<details class="panel historyPanel"><summary><b>▶ Tampilkan / sembunyikan Riwayat Permainan</b></summary><div id="history" class="history muted">Belum ada ronde.</div></details>
 </div>
 
 <div class="bottom"><button class="btn light" onclick="undo()">↶ Undo</button><button class="btn light" onclick="share()">Bagikan Skor</button><button class="btn danger" onclick="openNew()">Reset</button></div>
@@ -183,8 +185,8 @@ function save(){localStorage.setItem("mahjong_table_v3",JSON.stringify(s))}
 $("patterns").innerHTML=pats.map((p,i)=>`<label class="pat"><input type="radio" name="scorePattern" data-p="${i}" onchange="update()"><span><div class="tilepic">${p[3]}</div><div class="pattext"><strong>${p[0]}</strong><small>${p[2]}</small></div><em>${fmt(p[1])} poin</em></span></label>`).join("");
 $("extra").oninput=update;
 function render(){
- for(let i=0;i<4;i++){let el=$("p"+i);el.classList.toggle("selected",winner===i);el.classList.toggle("dealer",s.dealer===i);let sc=s.scores[i];el.innerHTML=`<div class="wind">${windChar(i)}</div><div class="name">${s.names[i]}</div><div class="muted">${windName(i)}</div><div class="score ${sc>0?'pos':sc<0?'neg':''}">${sc>0?"+":""}${fmt(sc)}</div>`}
- $("round").textContent=s.round;$("hands").textContent=s.history.length;$("dealerText").textContent="Dealer: "+s.names[s.dealer];
+ for(let i=0;i<4;i++){let el=$("p"+i);el.classList.toggle("selected",winner===i);el.classList.toggle("dealer",s.dealer===i);let sc=s.scores[i],wins=s.history.filter(h=>h.method!=="quad"&&h.winner===i).length;el.innerHTML=`<div class="wind">${windChar(i)}</div><div class="name">${s.names[i]}</div><div class="muted">${windName(i)}</div><div class="score ${sc>0?'pos':sc<0?'neg':''}">${sc>0?"+":""}${fmt(sc)}</div><div class="handwins">🏆 ${wins} tangan</div>`}
+ $("round").textContent=s.round;$("hands").textContent=s.history.length;let dn=String(s.names[s.dealer]||"");$("dealerText").innerHTML=`<span class="dealer-label">Dealer</span><span class="dealer-name">${dn}</span>`;let de=$("dealerText"), n=dn.length;de.style.fontSize=n>18?"clamp(7px,2vw,11px)":n>12?"clamp(8px,2.3vw,14px)":"";
  $("winnerText").textContent=winner===null?"— belum dipilih —":s.names[winner]+" ("+windName(winner)+")";
  renderDiscard();
  $("quadInputs").innerHTML=[0,1,2,3].map(i=>`<div class="quadbox"><div class="label">${windChar(i)} ${s.names[i]}</div><input type="number" class="quadInput" data-q="${i}" value="0" min="0" step="1" oninput="update()"></div>`).join("");
@@ -257,7 +259,7 @@ function closePlayers(){$("players").classList.remove("show")}
 function savePlayers(){let names=[0,1,2,3].map(i=>$("epn"+i).value.trim()||"Pemain "+(i+1)),sw=[0,1,2,3].map(i=>Number($("epw"+i).value));if(new Set(sw).size!==4)return alert("Setiap arah duduk harus berbeda: Timur, Selatan, Barat, dan Utara masing-masing satu pemain.");s.names=names;s.seatWinds=sw;save();closePlayers();render()}
 function openNew(){for(let i=0;i<4;i++)$("n"+i).value=s.names[i];$("new").classList.add("show")}function closeNew(){$("new").classList.remove("show")}
 function newGame(){let st=parseFloat($("start").value)||0;s={names:[0,1,2,3].map(i=>$("n"+i).value||"Pemain "+(i+1)),scores:[st,st,st,st],dealer:Math.floor(Math.random()*4),round:1,history:[],seatWinds:[0,1,2,3]};winner=null;method=null;discarder=null;save();closeNew();render()}
-function share(){let text="🀄 Skor Mahjong Ronde "+s.round+"\n"+s.names.map((n,i)=>`${windChar(i)} ${n}: ${fmt(s.scores[i])}`).join("\n")+"\nTangan dimainkan: "+s.history.length;if(navigator.share)navigator.share({title:"Skor Mahjong",text});else navigator.clipboard.writeText(text).then(()=>alert("Skor disalin."))}
+function share(){let text="🀄 Skor Mahjong Ronde "+s.round+"\n"+s.names.map((n,i)=>{let wins=s.history.filter(h=>h.method!=="quad"&&h.winner===i).length;return `${windChar(i)} ${n}: ${fmt(s.scores[i])} • ${wins} tangan menang`}).join("\n")+"\nTangan dimainkan: "+s.history.length;if(navigator.share)navigator.share({title:"Skor Mahjong",text});else navigator.clipboard.writeText(text).then(()=>alert("Skor disalin."))}
 render();
 </script><script>
 if ("serviceWorker" in navigator) {
