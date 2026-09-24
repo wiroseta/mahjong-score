@@ -74,6 +74,27 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 </style><link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-192.png">
 <meta name="mobile-web-app-capable" content="yes">
+
+<style id="compact-one-screen">
+/* Compact layout for iPhone / iPad: keep the active scoring controls in one viewport as much as possible */
+.historyPanel>summary{cursor:pointer;list-style:none}.historyPanel>summary::-webkit-details-marker{display:none}
+@media (min-width:760px) and (orientation:landscape){
+ .app{max-width:1180px;padding:8px 10px 66px;display:grid;grid-template-columns:minmax(430px,.9fr) minmax(420px,1.1fr);gap:10px;align-items:start}
+ .top{grid-column:1/-1}.table{margin:0;min-height:calc(100vh - 125px);max-height:650px}.panel{margin-top:0}
+ .historyPanel{grid-column:1/-1}.player{width:170px;min-height:96px;padding:6px}.center{width:165px}.wind{font-size:20px}.name{font-size:14px}.score{font-size:21px}
+ .panel h2{font-size:15px;margin-bottom:4px}.step{margin:4px 0}.choice button{padding:7px;min-height:44px}.quadbox{padding:5px}.quadbox input{padding:7px;min-height:36px}.label{margin:4px 0 2px}.pattern-toggle{margin:4px 0}.pattern-toggle summary{padding:8px}.totalbar{padding:6px 9px;margin-top:5px}.totalbar b{font-size:20px}.preview{margin:5px 0;font-size:11px;line-height:1.3}.record{padding:10px;font-size:15px}.panel>.muted{font-size:10px}
+}
+@media (max-width:600px){
+ .app{padding:5px 5px 62px}.top{margin:-5px -5px 4px;padding:5px 7px}.top h1{font-size:14px}.top .muted{display:none}.top .btn{min-height:32px;padding:5px 7px;font-size:10px}
+ .table{min-height:245px;margin-top:2px;border-width:3px;border-radius:18px}.player{width:94px;min-height:65px;padding:3px;border-radius:10px}.pN{top:3px}.pS{bottom:3px}.pW{left:3px}.pE{right:3px}.wind{font-size:14px;line-height:14px}.name{font-size:10px}.player .muted{display:none}.score{font-size:15px;line-height:17px}.player.dealer:after{font-size:6px;padding:1px 3px}.center{width:96px}.center .round{font-size:7px}.center .big{font-size:9px;margin:1px}.center button{min-height:28px;padding:3px 5px;font-size:8px}
+ .panel{margin-top:4px;padding:6px;border-radius:10px}.panel h2{font-size:12px;margin:0 0 3px}.step{margin:3px 0}.badge{font-size:9px;padding:3px 6px}.choice{gap:4px}.choice button{min-height:35px;padding:3px;font-size:10px;border-radius:8px}.choice button small{font-size:8px}
+ .pattern-toggle{margin:3px 0}.pattern-toggle summary{padding:6px 8px;font-size:10px;border-radius:8px}.pattern-toggle[open] summary{margin-bottom:4px}.patterns{gap:3px}.pat span{grid-template-columns:48px 1fr auto!important;min-height:58px!important;padding:4px!important}.tilepic{height:44px;font-size:21px}.pattext strong{font-size:10px}.pattext small{font-size:8px}.pat em{font-size:9px}
+ .quadgrid{gap:3px}.quadbox{padding:3px;border-radius:7px}.quadbox .label{font-size:8px;margin:0 0 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.quadbox input{padding:3px;min-height:30px;font-size:13px;border-radius:6px}
+ .panel>div[style*="grid-template-columns:1fr 1fr"]{gap:4px!important;margin-top:4px!important}.label{font-size:9px;margin:2px 0}.totalbar{padding:3px 6px;margin-top:0;border-radius:8px;font-size:9px}.totalbar b{font-size:16px}.panel>.muted{display:none}.preview{font-size:9px;line-height:1.25;margin:3px 0}.record{position:static;padding:7px;min-height:36px;font-size:12px;border-radius:8px}
+ .historyPanel{padding:6px;font-size:10px}.historyPanel summary{font-size:10px}.bottom{padding:4px 5px calc(4px + env(safe-area-inset-bottom));gap:4px}.bottom .btn{min-height:34px;padding:5px;font-size:9px}
+}
+@media (max-width:390px){.table{min-height:225px}.player{width:86px}.center{width:86px}.quadgrid{grid-template-columns:repeat(4,1fr)}}
+</style>
 </head>
 <body><div class="app">
 <div class="top"><div><h1>🀄 Mahjong Score</h1><div class="muted">Tap pemain yang menang → Hu/Zi Mo → pilih poin → Catat</div></div><div style="display:flex;gap:6px"><button class="btn light" onclick="openPlayers()">Edit Pemain</button><button class="btn gold" onclick="openNew()">Game Baru</button></div></div>
@@ -109,7 +130,7 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
  <button class="record" onclick="record()">✓ CATAT HASIL RONDE</button>
 </div>
 
-<div class="panel"><h2>Riwayat permainan</h2><div id="history" class="history muted">Belum ada ronde.</div></div>
+<details class="panel historyPanel"><summary><b>Riwayat permainan</b> <span class="muted">(tap untuk buka)</span></summary><div id="history" class="history muted">Belum ada ronde.</div></details>
 </div>
 
 <div class="bottom"><button class="btn light" onclick="undo()">↶ Undo</button><button class="btn light" onclick="share()">Bagikan Skor</button><button class="btn danger" onclick="openNew()">Reset</button></div>
