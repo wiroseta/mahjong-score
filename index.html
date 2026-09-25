@@ -286,7 +286,7 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
   <div style="margin:4px 0 10px"><button type="button" class="btn light" style="width:100%" onclick="openPatternGuide()">ⓘ Panduan Kombinasi Poin</button></div>
   <div class="patterns" id="patterns"></div>
  </details>
- <div id="quadPointsWrap" style="display:none"><div class="step"><span class="badge">4. Masukkan Quad setiap pemain</span></div>
+ <div id="quadPointsWrap"><div class="step"><span class="badge">4. Masukkan Quad setiap pemain</span></div>
  <div class="quadgrid" id="quadInputs"></div></div>
  <div id="manualPointsWrap" style="display:none;margin-top:8px"><div class="label">Tambahan poin manual untuk pemenang</div><input type="number" id="extra" value="0" step="1" min="0" style="width:100%"></div><div class="totalbar point-total-box" style="margin-top:8px"><span>Total kombinasi semua pemain</span><b id="total">0</b></div>
 <div class="muted" style="margin-top:7px">Pembayaran dasar: Zi Mo = 5 poin dari setiap lawan • Hu = 2 poin dari setiap lawan, dan pemberi tile HU membayar tambahan 1 poin kepada pemenang • kombinasi poin dapat dimiliki setiap pemain dan dibayar oleh 3 pemain lain • setiap Quad memberi pemain tersebut +1 poin dari masing-masing 3 pemain lain. Semua Quad dimasukkan sebelum menekan “Catat Hasil Tangan”.</div>
@@ -307,14 +307,13 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
 <div class="label">Cara menang</div><div class="seg"><button type="button" id="editHu" onclick="setEditMethod('hu')">Hu</button><button type="button" id="editZimo" onclick="setEditMethod('zimo')">Zi Mo</button></div>
 <div id="editDiscardWrap"><div class="label">Pemain yang membuang kartu (Hu)</div><select id="editDiscarder" style="width:100%;min-height:44px;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:16px;background:white"></select></div>
 <div class="label">Kombinasi poin setiap pemain</div><div id="editPatternsByPlayer"></div>
-<div id="editQuadPointsWrap" style="display:none"><div class="label">Quad setiap pemain</div><div class="quadgrid" id="editQuadInputs"></div></div>
+<details id="editQuadDetails" class="pattern-toggle" style="margin-top:8px" ontoggle="updateEditQuadSummary()"><summary><b id="editQuadSummary">Quad setiap pemain <span class="muted">(tap untuk buka)</span></b></summary><div class="quadgrid" id="editQuadInputs" style="margin-top:8px"></div></details>
 <div class="preview" id="editPreview"></div><div style="display:flex;gap:8px;margin-top:12px"><button class="btn gold" style="flex:1" onclick="saveScoreEdit()">Simpan Koreksi</button><button class="btn light" style="flex:1" onclick="closeScoreEdit()">Batal</button></div></div></div>
 
 <div class="overlay" id="settings"><div class="modal"><h2>⚙️ Setting</h2><div class="muted">Pengaturan tampilan dan panduan permainan.</div>
 <div style="display:grid;gap:10px;margin-top:16px">
 <button type="button" class="btn light" onclick="closeSettings();openRulesGuide()">📖 Aturan Bermain & Cara Pembayaran</button>
 <label style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.55)"><span><b>Tambahan poin manual</b><br><small class="muted">Tampilkan kolom poin tambahan untuk pemenang.</small></span><input id="manualPointsToggle" type="checkbox" onchange="setManualPointsVisible(this.checked)" style="width:22px;height:22px"></label>
-<label style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.55)"><span><b>Quad setiap pemain</b><br><small class="muted">Tampilkan input Quad. Default tersembunyi dan Quad = 0 untuk semua pemain.</small></span><input id="quadPointsToggle" type="checkbox" onchange="setQuadPointsVisible(this.checked)" style="width:22px;height:22px"></label>
 </div><button type="button" class="btn gold" style="width:100%;margin-top:14px" onclick="closeSettings()">Selesai</button></div></div>
 <div class="overlay" id="rulesGuide"><div class="modal rules-modal">
  <div class="rules-head"><div><h2>📖 Aturan Bermain Mahjong</h2><div class="muted">Panduan ringkas untuk 4 pemain</div></div><button type="button" class="rules-x" onclick="closeRulesGuide()" aria-label="Tutup">×</button></div>
@@ -390,7 +389,6 @@ function patternOptions(selected=""){return `<option value="">Tanpa kombinasi (0
 function renderPlayerPatterns(){ $("patterns").innerHTML=[0,1,2,3].map(i=>`<div class="quadbox" style="margin-bottom:8px"><div class="label">${windChar(i)} ${s.names[i]}</div><select class="playerPattern" data-pp="${i}" onchange="update()" style="width:100%;min-height:46px;border:1px solid var(--line);border-radius:10px;padding:9px;font-size:16px;background:white">${patternOptions("")}</select></div>`).join("") }
 $("extra").oninput=update;
 setManualPointsVisible(localStorage.getItem("mahjong_manual_points_visible")==="1");
-setQuadPointsVisible(localStorage.getItem("mahjong_quad_points_visible")==="1");
 function render(){
  for(let i=0;i<4;i++){let el=$("p"+i);el.classList.toggle("selected",winner===i);el.classList.toggle("dealer",s.dealer===i);let sc=s.scores[i],wins=s.history.filter(h=>h.method!=="quad"&&h.winner===i).length;el.innerHTML=`<div class="wind">${windChar(i)}</div><div class="name">${s.names[i]}</div><div class="muted">${windName(i)}</div><div class="score ${sc>0?'pos':sc<0?'neg':''}">${sc>0?"+":""}${fmt(sc)}</div><div class="handwins">🏆 ${wins} tangan</div>`}
  $("roundWind").textContent=s.round||1;$("hands").textContent=s.history.filter(h=>h.method!=="quad"&&(h.round||1)===(s.round||1)).length+1;
@@ -442,9 +440,9 @@ function record(){
  save();winner=null;method=null;discarder=null;document.querySelectorAll("[data-pp]").forEach(e=>e.value="");$("extra").value=0;document.querySelectorAll("[data-q]").forEach(e=>e.value=0);$("huBtn").classList.remove("on");$("ziBtn").classList.remove("on");$("discardArea").style.display="none";
  render();
 }
-async function loadShareLib(url,globalName){
- if(window[globalName]) return true;
- return new Promise(resolve=>{const sc=document.createElement('script');sc.src=url;sc.onload=()=>resolve(!!window[globalName]);sc.onerror=()=>resolve(false);document.head.appendChild(sc)});
+async function waitForShareImages(node){
+ const imgs=[...node.querySelectorAll('img')];
+ await Promise.all(imgs.map(img=>img.complete?Promise.resolve():new Promise(r=>{img.onload=img.onerror=r})));
 }
 function guideCaptureNode(id){
  if(id==='patternGuide') buildPatternGuide(); else buildRulesVisuals();
@@ -453,29 +451,46 @@ function guideCaptureNode(id){
  clone.style.width='900px';clone.style.maxWidth='900px';clone.style.maxHeight='none';clone.style.overflow='visible';clone.style.position='fixed';clone.style.left='-10000px';clone.style.top='0';
  document.body.appendChild(clone); return clone;
 }
+async function nativeCapture(node){
+ await waitForShareImages(node); await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+ const rect=node.getBoundingClientRect(), w=Math.max(900,Math.ceil(node.scrollWidth||rect.width)), h=Math.max(1,Math.ceil(node.scrollHeight||rect.height));
+ const clone=node.cloneNode(true); clone.style.position='static';clone.style.left='auto';clone.style.top='auto';clone.style.width=w+'px';clone.style.height='auto';clone.style.maxHeight='none';clone.style.overflow='visible';
+ const css=[...document.querySelectorAll('style')].map(x=>x.textContent).join('\n');
+ const html=new XMLSerializer().serializeToString(clone);
+ const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><foreignObject width="100%" height="100%"><div xmlns="http://www.w3.org/1999/xhtml"><style>${css.replace(/<\/style/gi,'<\\/style')}</style>${html}</div></foreignObject></svg>`;
+ const blob=new Blob([svg],{type:'image/svg+xml;charset=utf-8'}), url=URL.createObjectURL(blob), img=new Image();
+ try{
+  await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=()=>reject(new Error('Gagal merender panduan'));img.src=url});
+  const scale=Math.min(2, Math.max(1, 3200/w)); const canvas=document.createElement('canvas');canvas.width=Math.ceil(w*scale);canvas.height=Math.ceil(h*scale);
+  const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0,canvas.width,canvas.height);return canvas;
+ }finally{URL.revokeObjectURL(url)}
+}
 async function shareFileOrDownload(blob,name,title){
- const file=new File([blob],name,{type:blob.type});
- try{if(navigator.canShare&&navigator.canShare({files:[file]})&&navigator.share){await navigator.share({title,files:[file]});return}}catch(e){if(e&&e.name==='AbortError')return}
- const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+ let file; try{file=new File([blob],name,{type:blob.type})}catch(e){}
+ try{if(file&&navigator.canShare&&navigator.canShare({files:[file]})&&navigator.share){await navigator.share({title,files:[file]});return}}catch(e){if(e&&e.name==='AbortError')return}
+ const a=document.createElement('a');const u=URL.createObjectURL(blob);a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),3000);
+}
+function canvasToBlob(canvas,type='image/png',quality=1){return new Promise(resolve=>canvas.toBlob(resolve,type,quality))}
+function dataUrlBytes(dataUrl){const b=atob(dataUrl.split(',')[1]);const u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}
+function makePdfFromCanvases(canvases){
+ const enc=new TextEncoder(), parts=[], offsets=[0], objs=[]; let pos=0;
+ const push=x=>{let u=typeof x==='string'?enc.encode(x):x;parts.push(u);pos+=u.length};
+ push('%PDF-1.4\n%âãÏÓ\n');
+ const pageIds=canvases.map((_,i)=>3+i*3), imgIds=canvases.map((_,i)=>4+i*3), contentIds=canvases.map((_,i)=>5+i*3); const maxId=2+canvases.length*3;
+ function obj(id,body,binary){offsets[id]=pos;push(id+' 0 obj\n'+body);if(binary){push('\nstream\n');push(binary);push('\nendstream')}push('\nendobj\n')}
+ obj(1,'<< /Type /Catalog /Pages 2 0 R >>');obj(2,'<< /Type /Pages /Count '+canvases.length+' /Kids ['+pageIds.map(x=>x+' 0 R').join(' ')+'] >>');
+ canvases.forEach((c,i)=>{const jpg=dataUrlBytes(c.toDataURL('image/jpeg',0.90)); const pw=595.28,ph=841.89,m=24, iw=pw-2*m, ih=iw*c.height/c.width, drawH=Math.min(ih,ph-2*m), drawW=drawH*c.width/c.height, x=(pw-drawW)/2,y=ph-m-drawH; const cmd=`q\n${drawW.toFixed(2)} 0 0 ${drawH.toFixed(2)} ${x.toFixed(2)} ${y.toFixed(2)} cm\n/Im0 Do\nQ`;const cb=enc.encode(cmd);
+  obj(pageIds[i],`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pw} ${ph}] /Resources << /XObject << /Im0 ${imgIds[i]} 0 R >> >> /Contents ${contentIds[i]} 0 R >>`);
+  obj(imgIds[i],`<< /Type /XObject /Subtype /Image /Width ${c.width} /Height ${c.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpg.length} >>`,jpg);
+  obj(contentIds[i],`<< /Length ${cb.length} >>`,cb);
+ });
+ const xref=pos;push('xref\n0 '+(maxId+1)+'\n0000000000 65535 f \n');for(let i=1;i<=maxId;i++)push(String(offsets[i]||0).padStart(10,'0')+' 00000 n \n');push(`trailer\n<< /Size ${maxId+1} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`);return new Blob(parts,{type:'application/pdf'});
 }
 async function shareGuideImage(id,name){
- const ok=await loadShareLib('https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js','html2canvas');
- if(!ok){alert('Pembuatan gambar memerlukan koneksi internet saat pertama kali digunakan.');return}
- const node=guideCaptureNode(id);
- try{await new Promise(r=>setTimeout(r,80));const canvas=await html2canvas(node,{scale:2,backgroundColor:'#ffffff',useCORS:true,logging:false});canvas.toBlob(async blob=>{if(blob)await shareFileOrDownload(blob,name,'Panduan Mahjong')},'image/png',1)}finally{node.remove()}
+ const node=guideCaptureNode(id);try{const canvas=await nativeCapture(node),blob=await canvasToBlob(canvas,'image/png',1);if(!blob)throw new Error('PNG gagal dibuat');await shareFileOrDownload(blob,name,'Panduan Mahjong')}catch(e){console.error(e);alert('Gambar belum berhasil dibuat. Coba buka panduan terlebih dahulu lalu tekan Share Gambar lagi.')}finally{node.remove()}
 }
 async function shareGuidePDF(id,name){
- const ok1=await loadShareLib('https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js','html2canvas');
- const ok2=await loadShareLib('https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js','jspdf');
- if(!ok1||!ok2){alert('Pembuatan PDF memerlukan koneksi internet saat pertama kali digunakan.');return}
- const node=guideCaptureNode(id);
- try{
-  await new Promise(r=>setTimeout(r,80));const canvas=await html2canvas(node,{scale:2,backgroundColor:'#ffffff',useCORS:true,logging:false});
-  const {jsPDF}=window.jspdf; const pdf=new jsPDF({orientation:'p',unit:'mm',format:'a4'}); const pw=210,ph=297,margin=8,usableW=pw-margin*2,usableH=ph-margin*2;
-  const imgW=usableW, imgH=canvas.height*imgW/canvas.width; const pagePx=canvas.width*usableH/imgW; let sy=0,page=0;
-  while(sy<canvas.height){const sliceH=Math.min(pagePx,canvas.height-sy);const c=document.createElement('canvas');c.width=canvas.width;c.height=Math.ceil(sliceH);c.getContext('2d').drawImage(canvas,0,sy,canvas.width,sliceH,0,0,canvas.width,sliceH);if(page++)pdf.addPage();const h=sliceH*imgW/canvas.width;pdf.addImage(c.toDataURL('image/jpeg',0.92),'JPEG',margin,margin,imgW,h);sy+=sliceH}
-  const blob=pdf.output('blob');await shareFileOrDownload(blob,name,'Panduan Mahjong');
- }finally{node.remove()}
+ const node=guideCaptureNode(id);try{const canvas=await nativeCapture(node);const ratio=(841.89-48)/(595.28-48), pagePx=Math.floor(canvas.width*ratio), pages=[];for(let y=0;y<canvas.height;y+=pagePx){const h=Math.min(pagePx,canvas.height-y),c=document.createElement('canvas');c.width=canvas.width;c.height=h;c.getContext('2d').drawImage(canvas,0,y,canvas.width,h,0,0,canvas.width,h);pages.push(c)}const blob=makePdfFromCanvases(pages);await shareFileOrDownload(blob,name,'Panduan Mahjong')}catch(e){console.error(e);alert('PDF belum berhasil dibuat. Coba buka panduan terlebih dahulu lalu tekan Share PDF lagi.')}finally{node.remove()}
 }
 
 function getLegacyHandNo(idx){let h=s.history[idx];if(!h)return 1;let older=s.history.slice(idx+1).filter(x=>x.round===h.round && x.method!=="quad").length;return older+1}
@@ -494,8 +509,9 @@ function fillEditPatternsByPlayer(h){let saved=Array.isArray(h.playerPatterns)?h
 function setEditMethod(m){editMethod=m;$("editHu").classList.toggle("active",m==="hu");$("editZimo").classList.toggle("active",m==="zimo");$("editDiscardWrap").style.display=m==="hu"?"block":"none";updateEditPreview()}
 function getEditPatterns(){let a=[null,null,null,null];document.querySelectorAll("[data-epp]").forEach(e=>{if(e.value!=="")a[+e.dataset.epp]=pats[+e.value]});return a}
 function getEditQuads(){let q=[0,0,0,0];document.querySelectorAll("[data-eq]").forEach(e=>q[+e.dataset.eq]=Math.max(0,parseInt(e.value)||0));return q}
-function updateEditPreview(){if(editHistoryIndex===null)return;let h=s.history[editHistoryIndex],pps=getEditPatterns(),base=editMethod==="zimo"?5:2,qs=getEditQuads(),nd=[0,0,0,0];for(let i=0;i<4;i++)if(i!==h.winner){nd[i]-=base;nd[h.winner]+=base}pps.forEach((pat,owner)=>{if(!pat)return;for(let i=0;i<4;i++)if(i!==owner){nd[i]-=pat[1];nd[owner]+=pat[1]}});if(editMethod==="hu"){let ed=Number($("editDiscarder").value);if(Number.isInteger(ed)&&ed!==h.winner){nd[ed]-=1;nd[h.winner]+=1}}for(let q=0;q<4;q++)for(let n=0;n<qs[q];n++)for(let i=0;i<4;i++)if(i!==q){nd[i]-=1;nd[q]+=1}let cp=pps.map((p,i)=>p?`${s.names[i]}: ${p[0]} (${p[1]})`:null).filter(Boolean),qt=qs.map((q,i)=>q?`${s.names[i]}: ${q} Quad`:null).filter(Boolean);$("editPreview").innerHTML=`${editMethod==="zimo"?"Zi Mo":"Hu"}: dasar <b>${base} poin dari setiap lawan</b>${cp.length?`<br>Kombinasi: ${cp.join(" • ")}`:"<br>Kombinasi: tidak ada"}${qt.length?`<br>Quad: ${qt.join(" • ")}`:"<br>Quad: tidak ada"}<br>`+nd.map((v,i)=>`${s.names[i]} <b>${v>=0?"+":""}${fmt(v)}</b>`).join(" • ")}
-function openScoreEdit(idx){let h=s.history[idx];if(!h||h.method==="quad")return;editHistoryIndex=idx;$("editInfo").textContent="Pemenang: "+s.names[h.winner];fillEditPatternsByPlayer(h);let eq=Array.isArray(h.quads)?h.quads:[0,0,0,0];$("editQuadInputs").innerHTML=[0,1,2,3].map(i=>`<div class="quadbox"><div class="label">${windChar(i)} ${s.names[i]}</div><input type="number" data-eq="${i}" value="${Math.max(0,parseInt(eq[i])||0)}" min="0" step="1" oninput="updateEditPreview()"></div>`).join("");const qv=localStorage.getItem("mahjong_quad_points_visible")==="1";$("editQuadPointsWrap").style.display=qv?"block":"none";if(!qv)document.querySelectorAll("[data-eq]").forEach(e=>e.value=0);$("editDiscarder").innerHTML=s.names.map((n,i)=>i===h.winner?"":`<option value="${i}">${n}</option>`).join("");let d=(h.discarder!==null&&h.discarder!==undefined&&h.discarder!==h.winner)?h.discarder:[0,1,2,3].find(i=>i!==h.winner);$("editDiscarder").value=d;$("editDiscarder").onchange=updateEditPreview;setEditMethod(h.method==="zimo"?"zimo":"hu");$("editScore").classList.add("show")}
+function updateEditQuadSummary(){let el=$("editQuadSummary"),d=$("editQuadDetails");if(!el||!d)return;let has=getEditQuads().some(q=>q>0);el.innerHTML=`Quad setiap pemain <span class="muted">(${d.open?"tap untuk tutup":has?"ada poin • tap untuk buka":"0 semua • tap untuk buka"})</span>`}
+function updateEditPreview(){if(editHistoryIndex===null)return;updateEditQuadSummary();let h=s.history[editHistoryIndex],pps=getEditPatterns(),base=editMethod==="zimo"?5:2,qs=getEditQuads(),nd=[0,0,0,0];for(let i=0;i<4;i++)if(i!==h.winner){nd[i]-=base;nd[h.winner]+=base}pps.forEach((pat,owner)=>{if(!pat)return;for(let i=0;i<4;i++)if(i!==owner){nd[i]-=pat[1];nd[owner]+=pat[1]}});if(editMethod==="hu"){let ed=Number($("editDiscarder").value);if(Number.isInteger(ed)&&ed!==h.winner){nd[ed]-=1;nd[h.winner]+=1}}for(let q=0;q<4;q++)for(let n=0;n<qs[q];n++)for(let i=0;i<4;i++)if(i!==q){nd[i]-=1;nd[q]+=1}let cp=pps.map((p,i)=>p?`${s.names[i]}: ${p[0]} (${p[1]})`:null).filter(Boolean),qt=qs.map((q,i)=>q?`${s.names[i]}: ${q} Quad`:null).filter(Boolean);$("editPreview").innerHTML=`${editMethod==="zimo"?"Zi Mo":"Hu"}: dasar <b>${base} poin dari setiap lawan</b>${cp.length?`<br>Kombinasi: ${cp.join(" • ")}`:"<br>Kombinasi: tidak ada"}${qt.length?`<br>Quad: ${qt.join(" • ")}`:"<br>Quad: tidak ada"}<br>`+nd.map((v,i)=>`${s.names[i]} <b>${v>=0?"+":""}${fmt(v)}</b>`).join(" • ")}
+function openScoreEdit(idx){let h=s.history[idx];if(!h||h.method==="quad")return;editHistoryIndex=idx;$("editInfo").textContent="Pemenang: "+s.names[h.winner];fillEditPatternsByPlayer(h);let eq=Array.isArray(h.quads)?h.quads:[0,0,0,0];$("editQuadInputs").innerHTML=[0,1,2,3].map(i=>`<div class="quadbox"><div class="label">${windChar(i)} ${s.names[i]}</div><input type="number" data-eq="${i}" value="${Math.max(0,parseInt(eq[i])||0)}" min="0" step="1" oninput="updateEditPreview()"></div>`).join("");const hasQuad=eq.some(q=>(parseInt(q)||0)>0),qd=$("editQuadDetails");if(qd)qd.open=hasQuad;updateEditQuadSummary();$("editDiscarder").innerHTML=s.names.map((n,i)=>i===h.winner?"":`<option value="${i}">${n}</option>`).join("");let d=(h.discarder!==null&&h.discarder!==undefined&&h.discarder!==h.winner)?h.discarder:[0,1,2,3].find(i=>i!==h.winner);$("editDiscarder").value=d;$("editDiscarder").onchange=updateEditPreview;setEditMethod(h.method==="zimo"?"zimo":"hu");$("editScore").classList.add("show")}
 function closeScoreEdit(){editHistoryIndex=null;$("editScore").classList.remove("show")}
 function saveScoreEdit(){if(editHistoryIndex===null)return;let h=s.history[editHistoryIndex],pps=getEditPatterns(),base=editMethod==="zimo"?5:2,old=h.delta||[0,0,0,0],nd=[0,0,0,0];for(let i=0;i<4;i++)if(i!==h.winner){nd[i]-=base;nd[h.winner]+=base}pps.forEach((pat,owner)=>{if(!pat)return;for(let i=0;i<4;i++)if(i!==owner){nd[i]-=pat[1];nd[owner]+=pat[1]}});if(editMethod==="hu"){let ed=Number($("editDiscarder").value);if(Number.isInteger(ed)&&ed!==h.winner){nd[ed]-=1;nd[h.winner]+=1}}let qs=getEditQuads();for(let q=0;q<4;q++)for(let n=0;n<qs[q];n++)for(let i=0;i<4;i++)if(i!==q){nd[i]-=1;nd[q]+=1}s.scores=s.scores.map((score,i)=>score-old[i]+nd[i]);h.method=editMethod;h.discarder=editMethod==="hu"?Number($("editDiscarder").value):null;h.delta=nd;h.each=base;h.playerPatterns=pps.map(p=>p?{name:p[0],points:p[1]}:null);h.patternName=null;h.patternPoints=0;h.extra=0;h.total=pps.reduce((a,p)=>a+(p?p[1]:0),0);h.quads=qs;h.patterns=pps.map((p,i)=>p?`${s.names[i]}: ${p[0]}`:null).filter(Boolean);qs.forEach((q,i)=>{if(q)h.patterns.push(`${s.names[i]} ${q} Quad`)});h.edited=true;save();closeScoreEdit();render()}
 function deleteQuad(idx){
@@ -535,8 +551,7 @@ function buildPatternGuide(){
 function openSettings(){
  const visible=localStorage.getItem("mahjong_manual_points_visible")==="1";
  $("manualPointsToggle").checked=visible;
- const quadVisible=localStorage.getItem("mahjong_quad_points_visible")==="1";
- $("quadPointsToggle").checked=quadVisible;
+
  $("settings").classList.add("show");
 }
 function closeSettings(){$("settings").classList.remove("show")}
@@ -544,16 +559,6 @@ function setManualPointsVisible(show){
  localStorage.setItem("mahjong_manual_points_visible",show?"1":"0");
  $("manualPointsWrap").style.display=show?"block":"none";
  if(!show){$("extra").value=0;update()}
-}
-function setQuadPointsVisible(show){
- localStorage.setItem("mahjong_quad_points_visible",show?"1":"0");
- const wrap=$("quadPointsWrap"); if(wrap) wrap.style.display=show?"block":"none";
- const editWrap=$("editQuadPointsWrap"); if(editWrap) editWrap.style.display=show?"block":"none";
- if(!show){
-  document.querySelectorAll("[data-q],[data-eq]").forEach(e=>e.value=0);
-  if(typeof update==="function") update();
-  if(typeof updateEditPreview==="function" && editHistoryIndex!==null) updateEditPreview();
- }
 }
 function buildRulesVisuals(){document.querySelectorAll("[data-rule-tiles]").forEach(el=>{if(!el.dataset.ready){el.innerHTML=renderMahjongTiles(el.dataset.ruleTiles);el.dataset.ready="1"}})}
 function openRulesGuide(){buildRulesVisuals();$("rulesGuide").classList.add("show")}
