@@ -203,6 +203,22 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
 @media (min-width:760px) and (orientation:landscape){.center{width:108px!important}.center .round{font-size:10px!important;padding:7px 4px!important}}
 @media (max-width:600px){.center{width:76px!important}.center .round{font-size:8px!important;padding:5px 3px!important;gap:2px!important}}
 </style>
+
+<style id="desktop-table-proportion-fix">
+/* Desktop: keep the mahjong table visually proportional on very tall screens.
+   The table no longer stretches to the full viewport height. */
+@media (min-width:760px) and (orientation:landscape){
+  .table{
+    height:clamp(500px,56vw,650px)!important;
+    min-height:0!important;
+    max-height:none!important;
+    align-self:start;
+  }
+}
+@media (min-width:1200px) and (orientation:landscape){
+  .table{height:clamp(500px,43vw,620px)!important}
+}
+</style>
 </head>
 <body><div class="app">
 <div class="top"><div><h1>🀄 Mahjong Score</h1><div class="muted">Tap pemain yang menang → Hu/Zi Mo → pilih poin → Catat</div></div><div style="display:flex;gap:6px"><button class="btn light" onclick="openPlayers()">Edit Nama</button><button class="btn light" onclick="openRound()">Ronde Baru</button><button class="btn gold" onclick="openNew()">Game Baru</button></div></div>
