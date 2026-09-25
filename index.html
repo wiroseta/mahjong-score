@@ -86,6 +86,8 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 .stepper input[type=number]{appearance:textfield;-moz-appearance:textfield;text-align:center;padding:4px!important;min-height:38px!important;height:38px;font-weight:900}
 .stepper input[type=number]::-webkit-inner-spin-button,.stepper input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 @media(max-width:390px){.stepper{grid-template-columns:32px minmax(28px,1fr) 32px;gap:2px}.stepper button{min-width:32px;height:34px;font-size:21px}.stepper input[type=number]{height:34px!important;min-height:34px!important}}
+.pattern-stepper{display:grid;grid-template-columns:42px minmax(0,1fr) 42px;gap:5px;align-items:center}.pattern-stepper button{min-width:42px;height:44px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.92);font-size:25px;font-weight:900;line-height:1;touch-action:manipulation;-webkit-tap-highlight-color:transparent}.pattern-stepper select{min-width:0}.pattern-stepper button:active{transform:scale(.96)}@media(max-width:390px){.pattern-stepper{grid-template-columns:38px minmax(0,1fr) 38px;gap:3px}.pattern-stepper button{min-width:38px;height:42px}}
+.edit-pattern-stepper{display:grid;grid-template-columns:minmax(0,1fr) 44px 44px;gap:5px;align-items:center}.edit-pattern-stepper button{min-width:44px;height:44px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.92);font-size:25px;font-weight:900;line-height:1;touch-action:manipulation;-webkit-tap-highlight-color:transparent}.edit-pattern-stepper select{min-width:0}.edit-pattern-stepper button:active{transform:scale(.96)}@media(max-width:390px){.edit-pattern-stepper{grid-template-columns:minmax(0,1fr) 40px 40px;gap:3px}.edit-pattern-stepper button{min-width:40px;height:42px}}
 </style><link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-192.png">
 <meta name="mobile-web-app-capable" content="yes">
@@ -273,6 +275,31 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
 .recap-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.recap-head h2{margin:0}.rules-recap-btn{white-space:nowrap}.guide-example{overflow:visible!important;display:flex!important;flex-wrap:wrap!important;align-content:flex-start!important}.guide-example .mjtile{overflow:hidden!important;flex:0 0 39px!important;width:39px!important;height:56px!important}.guide-example .mjtile img{width:100%!important;height:100%!important;object-fit:fill!important;display:block!important}
 @media(max-width:650px){.recap-head{align-items:stretch}.rules-recap-btn{width:100%}.guide-example .mjtile{flex-basis:32px!important;width:32px!important;height:46px!important}}
 </style>
+
+<style id="edit-quad-fluid-v8">
+/* Koreksi Hasil: Quad fluid/responsive — semua 4 pemain selalu terlihat tanpa scroll horizontal */
+#editQuadInputs{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important;width:100%;box-sizing:border-box}
+#editQuadInputs .quadbox{min-width:0!important;width:auto!important;box-sizing:border-box;overflow:hidden}
+#editQuadInputs .stepper{grid-template-columns:minmax(34px,.8fr) minmax(38px,.9fr) minmax(34px,.8fr)!important;gap:4px!important;width:100%;min-width:0}
+#editQuadInputs .stepper button{width:100%!important;min-width:0!important;padding:0!important}
+#editQuadInputs .stepper input{width:100%!important;min-width:0!important;padding:2px!important;box-sizing:border-box}
+#editQuadInputs .label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:600px){
+ #editQuadInputs{gap:5px!important}
+ #editQuadInputs .quadbox{padding:5px 3px!important}
+ #editQuadInputs .stepper{grid-template-columns:minmax(28px,.75fr) minmax(32px,.9fr) minmax(28px,.75fr)!important;gap:2px!important}
+ #editQuadInputs .stepper button{height:38px!important;font-size:22px!important}
+ #editQuadInputs .stepper input{height:38px!important;min-height:38px!important;font-size:16px!important}
+ #editQuadInputs .label{font-size:10px!important}
+}
+@media(max-width:390px){
+ #editQuadInputs{gap:3px!important}
+ #editQuadInputs .quadbox{padding:4px 2px!important}
+ #editQuadInputs .stepper{grid-template-columns:minmax(25px,.7fr) minmax(29px,.85fr) minmax(25px,.7fr)!important;gap:1px!important}
+ #editQuadInputs .stepper button{height:36px!important;font-size:20px!important;border-radius:8px!important}
+ #editQuadInputs .stepper input{height:36px!important;min-height:36px!important;font-size:15px!important}
+}
+</style>
 </head>
 <body><div class="app">
 <div class="top"><div><h1>🀄 Mahjong Score</h1><div class="muted">Tap pemain yang menang → Hu/Zi Mo → pilih poin → Catat</div></div><div style="display:flex;gap:6px"><button class="btn light" onclick="openPlayers()">Edit Nama</button><button class="btn light" onclick="openRound()">Ronde Baru</button><button class="btn light" onclick="openSettings()">⚙️ Setting</button><button class="btn gold" onclick="openNew()">Game Baru</button></div></div>
@@ -406,7 +433,9 @@ let winner=null,method=null,discarder=null;
 let editHistoryIndex=null;
 function save(){localStorage.setItem("mahjong_table_v3",JSON.stringify(s))}
 function patternOptions(selected=""){return `<option value="">Tanpa kombinasi (0 poin)</option>`+pats.map((p,i)=>`<option value="${i}" ${String(i)===String(selected)?"selected":""}>${p[0]} — ${p[1]} poin</option>`).join("")}
-function renderPlayerPatterns(){ $("patterns").innerHTML=[0,1,2,3].map(i=>`<div class="quadbox" style="margin-bottom:8px"><div class="label">${windChar(i)} ${s.names[i]}</div><select class="playerPattern" data-pp="${i}" onchange="update()" style="width:100%;min-height:46px;border:1px solid var(--line);border-radius:10px;padding:9px;font-size:16px;background:white">${patternOptions("")}</select></div>`).join("") }
+function patternStepperHTML(dataAttr,i,selected='',edit=false){if(edit)return `<div class="edit-pattern-stepper"><select ${dataAttr}="${i}" onchange="updateEditPreview()" style="width:100%;min-height:46px;border:1px solid var(--line);border-radius:10px;padding:7px 4px;font-size:14px;background:white">${patternOptions(selected)}</select><button type="button" aria-label="Kurangi kombinasi" onclick="stepPattern(this,-1,true)">−</button><button type="button" aria-label="Tambah kombinasi" onclick="stepPattern(this,1,true)">+</button></div>`;return `<div class="pattern-stepper"><button type="button" aria-label="Kombinasi sebelumnya" onclick="stepPattern(this,-1,false)">−</button><select ${dataAttr}="${i}" onchange="update()" style="width:100%;min-height:46px;border:1px solid var(--line);border-radius:10px;padding:7px 4px;font-size:14px;background:white">${patternOptions(selected)}</select><button type="button" aria-label="Kombinasi berikutnya" onclick="stepPattern(this,1,false)">+</button></div>`}
+function stepPattern(btn,delta,edit=false){let wrap=btn.closest('.pattern-stepper'),sel=wrap?wrap.querySelector('select'):null;if(!sel)return;let next=sel.selectedIndex+delta;next=Math.max(0,Math.min(sel.options.length-1,next));sel.selectedIndex=next;sel.dispatchEvent(new Event('change',{bubbles:true}));}
+function renderPlayerPatterns(){ $("patterns").innerHTML=[0,1,2,3].map(i=>`<div class="quadbox" style="margin-bottom:8px"><div class="label">${windChar(i)} ${s.names[i]}</div>${patternStepperHTML('data-pp',i,'',false)}</div>`).join("") }
 $("extra").oninput=update;
 setManualPointsVisible(localStorage.getItem("mahjong_manual_points_visible")==="1");
 function stepNumber(btn,delta,updateFn){let wrap=btn.closest('.stepper'),inp=wrap?wrap.querySelector('input[type=number]'):null;if(!inp)return;let min=inp.min!==''?Number(inp.min):-Infinity,max=inp.max!==''?Number(inp.max):Infinity,v=Number(inp.value)||0;v=Math.max(min,Math.min(max,v+delta));inp.value=v;inp.dispatchEvent(new Event('input',{bubbles:true}));if(typeof updateFn==='function')updateFn();}
@@ -556,7 +585,7 @@ function history(){
 function renderAllPlayers(){let wins={};s.history.slice().reverse().forEach(h=>{if(h.method!=="hu"&&h.method!=="zimo")return;if(!Number.isInteger(h.winner))return;let hn=Array.isArray(h.namesAtTime)?h.namesAtTime:s.names,n=hn[h.winner]||s.names[h.winner];if(!n)return;if(!wins[n])wins[n]={hu:0,zimo:0};wins[n][h.method]++});s.names.forEach(n=>{if(!(n in wins))wins[n]={hu:0,zimo:0}});let rows=Object.entries(wins);$("allPlayers").innerHTML=rows.length?`<div style="display:grid;grid-template-columns:minmax(80px,1fr) 46px 54px 54px;gap:6px 8px;align-items:center"><b>Pemain</b><b style="text-align:center">HU</b><b style="text-align:center">ZI MO</b><b style="text-align:center">TOTAL</b>${rows.map(([n,v])=>`<span><b>${n}</b></span><span style="text-align:center">${v.hu}</span><span style="text-align:center">${v.zimo}</span><span style="text-align:center"><b>${v.hu+v.zimo}</b></span>`).join("")}</div>`:"Belum ada pemain."}
 
 let editMethod="hu";
-function fillEditPatternsByPlayer(h){let saved=Array.isArray(h.playerPatterns)?h.playerPatterns:[null,null,null,null]; if(!h.playerPatterns && h.patternName) saved[h.winner]={name:h.patternName,points:h.patternPoints||0}; $("editPatternsByPlayer").innerHTML=[0,1,2,3].map(i=>{let idx=saved[i]?pats.findIndex(p=>p[0]===saved[i].name):-1;return `<div class="quadbox" style="margin:6px 0"><div class="label">${windChar(i)} ${s.names[i]}</div><select data-epp="${i}" onchange="updateEditPreview()" style="width:100%;min-height:44px;border:1px solid var(--line);border-radius:10px;padding:9px;font-size:16px;background:white">${patternOptions(idx>=0?idx:"")}</select></div>`}).join("")}
+function fillEditPatternsByPlayer(h){let saved=Array.isArray(h.playerPatterns)?h.playerPatterns:[null,null,null,null]; if(!h.playerPatterns && h.patternName) saved[h.winner]={name:h.patternName,points:h.patternPoints||0}; $("editPatternsByPlayer").innerHTML=[0,1,2,3].map(i=>{let idx=saved[i]?pats.findIndex(p=>p[0]===saved[i].name):-1;return `<div class="quadbox" style="margin:6px 0"><div class="label">${windChar(i)} ${s.names[i]}</div>${patternStepperHTML('data-epp',i,idx>=0?idx:'',true)}</div>`}).join("")}
 function setEditMethod(m){editMethod=m;$("editHu").classList.toggle("active",m==="hu");$("editZimo").classList.toggle("active",m==="zimo");$("editDiscardWrap").style.display=m==="hu"?"block":"none";updateEditPreview()}
 function getEditPatterns(){let a=[null,null,null,null];document.querySelectorAll("[data-epp]").forEach(e=>{if(e.value!=="")a[+e.dataset.epp]=pats[+e.value]});return a}
 function getEditQuads(){let q=[0,0,0,0];document.querySelectorAll("[data-eq]").forEach(e=>q[+e.dataset.eq]=Math.max(0,parseInt(e.value)||0));return q}
