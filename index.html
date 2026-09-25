@@ -284,7 +284,7 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
  </details>
  <div class="step"><span class="badge">4. Masukkan Quad setiap pemain</span></div>
  <div class="quadgrid" id="quadInputs"></div>
- <div class="point-input-row"><div class="point-input-box"><div class="label">Tambahan poin manual untuk pemenang</div><input type="number" id="extra" value="0" step="1"></div><div class="totalbar point-total-box"><span>Total kombinasi semua pemain</span><b id="total">0</b></div></div>
+ <input type="number" id="extra" value="0" step="1" hidden aria-hidden="true"><div class="totalbar point-total-box" style="margin-top:8px"><span>Total kombinasi semua pemain</span><b id="total">0</b></div>
 <div class="muted" style="margin-top:7px">Pembayaran dasar: Zi Mo = 5 poin dari setiap lawan • Hu = 2 poin dari setiap lawan, dan pemberi tile HU membayar tambahan 1 poin kepada pemenang • kombinasi poin dapat dimiliki setiap pemain dan dibayar oleh 3 pemain lain • setiap Quad memberi pemain tersebut +1 poin dari masing-masing 3 pemain lain. Semua Quad dimasukkan sebelum menekan “Catat Hasil Tangan”.</div>
  <div class="preview" id="preview"></div>
  <button class="record" onclick="record()">✓ CATAT HASIL TANGAN</button>
