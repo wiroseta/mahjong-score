@@ -238,6 +238,12 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
 @media(max-width:650px){.mjtile{width:35px;height:48px}.guide-example{gap:4px}.mjtile.honor,.mjtile.dragon{font-size:22px}.dots{grid-template-columns:repeat(3,6px);grid-auto-rows:6px;gap:2px}.pip{width:6px;height:6px}.bams{grid-template-columns:repeat(3,6px);grid-auto-rows:11px}.stick{width:5px;height:11px}}
 </style>
 </style>
+
+<style id="guide-tile-image-fix">
+.mjtile{width:44px!important;height:60px!important;padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important;border-radius:0!important;overflow:visible!important}
+.mjtile:after{display:none!important}.mjtile img{display:block;width:100%;height:100%;object-fit:contain}.guide-example{align-items:center!important;gap:3px!important}.mjarrow{font-size:26px;font-weight:900;color:#777;margin:0 4px}
+@media(max-width:650px){.mjtile{width:38px!important;height:52px!important}.guide-example{gap:2px!important}}
+</style>
 </head>
 <body><div class="app">
 <div class="top"><div><h1>🀄 Mahjong Score</h1><div class="muted">Tap pemain yang menang → Hu/Zi Mo → pilih poin → Catat</div></div><div style="display:flex;gap:6px"><button class="btn light" onclick="openPlayers()">Edit Nama</button><button class="btn light" onclick="openRound()">Ronde Baru</button><button class="btn gold" onclick="openNew()">Game Baru</button></div></div>
@@ -443,19 +449,18 @@ function startRound(){let names=[0,1,2,3].map(i=>($("rn"+i).value.trim().slice(0
 
 function renderMahjongTiles(str){
  const chars="🀇🀈🀉🀊🀋🀌🀍🀎🀏", bams="🀐🀑🀒🀓🀔🀕🀖🀗🀘", dots="🀙🀚🀛🀜🀝🀞🀟🀠🀡";
- const honors={"🀀":"東","🀁":"南","🀂":"西","🀃":"北"};
- const dragons={"🀄":["中","dragon-red"],"🀅":["發","dragon-green"],"🀆":["白","dragon-white"]};
- const dotColors=["","r","b"];
- function dotFace(n){let a="";for(let i=0;i<n;i++)a+=`<i class="pip ${dotColors[i%3]}"></i>`;return `<span class="dots">${a}</span>`}
- function bamFace(n){let a="";for(let i=0;i<n;i++)a+=`<i class="stick ${i===4?"r":""}"></i>`;return `<span class="bams">${a}</span>`}
+ const honors={"🀀":"east","🀁":"south","🀂":"west","🀃":"north"};
+ const dragons={"🀄":"red","🀅":"green","🀆":"white"};
  let out="";
  for(const ch of Array.from(str||"")){
    let n=chars.indexOf(ch)+1;
-   if(n>0){out+=`<span class="mjtile char"><span class="glyph"><b>${["一","二","三","四","五","六","七","八","九"][n-1]}</b><small>萬</small></span></span>`;continue}
-   n=dots.indexOf(ch)+1;if(n>0){out+=`<span class="mjtile dot"><span class="num">${n}</span>${dotFace(n)}</span>`;continue}
-   n=bams.indexOf(ch)+1;if(n>0){out+=`<span class="mjtile bam"><span class="num">${n}</span>${bamFace(n)}</span>`;continue}
-   if(honors[ch]){out+=`<span class="mjtile honor">${honors[ch]}</span>`;continue}
-   if(dragons[ch]){const [g,c]=dragons[ch];out+=g==="白"?`<span class="mjtile dragon ${c}"><span class="whitebox"></span></span>`:`<span class="mjtile dragon ${c}">${g}</span>`;continue}
+   if(n>0){out+=`<span class="mjtile"><img src="tiles/char${n}.svg" alt="Karakter ${n}"></span>`;continue}
+   n=dots.indexOf(ch)+1;
+   if(n>0){out+=`<span class="mjtile"><img src="tiles/dot${n}.svg" alt="Tongzi ${n}"></span>`;continue}
+   n=bams.indexOf(ch)+1;
+   if(n>0){out+=`<span class="mjtile"><img src="tiles/bam${n}.svg" alt="Bambu ${n}"></span>`;continue}
+   if(honors[ch]){out+=`<span class="mjtile"><img src="tiles/${honors[ch]}.svg" alt="Angin"></span>`;continue}
+   if(dragons[ch]){out+=`<span class="mjtile"><img src="tiles/${dragons[ch]}.svg" alt="Naga"></span>`;continue}
    if(ch==="→")out+='<span class="mjarrow">→</span>';
  }
  return out||'<span class="muted">Contoh komposisi mengikuti aturan di atas.</span>';

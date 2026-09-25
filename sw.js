@@ -1,5 +1,6 @@
 const CACHE="mahjong-score-v6-web-guide-tilesfix";
 const ASSETS=["./","./index.html","./manifest.webmanifest","./icon-192.png","./icon-512.png"];
-self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));
+const TILE_ASSETS=["./tiles/char2.svg", "./tiles/dot6.svg", "./tiles/char7.svg", "./tiles/bam9.svg", "./tiles/dot7.svg", "./tiles/bam7.svg", "./tiles/char9.svg", "./tiles/dot3.svg", "./tiles/dot2.svg", "./tiles/char3.svg", "./tiles/dot8.svg", "./tiles/char6.svg", "./tiles/south.svg", "./tiles/dot4.svg", "./tiles/bam8.svg", "./tiles/char4.svg", "./tiles/char1.svg", "./tiles/bam4.svg", "./tiles/bam6.svg", "./tiles/white.svg", "./tiles/char8.svg", "./tiles/dot1.svg", "./tiles/east.svg", "./tiles/bam5.svg", "./tiles/green.svg", "./tiles/bam1.svg", "./tiles/west.svg", "./tiles/bam2.svg", "./tiles/north.svg", "./tiles/bam3.svg", "./tiles/char5.svg", "./tiles/dot5.svg", "./tiles/red.svg", "./tiles/dot9.svg"];
+self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS.concat(TILE_ASSETS)))));
 self.addEventListener("activate",e=>e.waitUntil(self.clients.claim()));
 self.addEventListener("fetch",e=>e.respondWith(fetch(e.request).then(r=>{let x=r.clone();caches.open(CACHE).then(c=>c.put(e.request,x));return r}).catch(()=>caches.match(e.request))));
