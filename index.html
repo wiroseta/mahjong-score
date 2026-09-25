@@ -76,6 +76,9 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 /* Ronde dan Tangan ditampilkan dua baris agar lebih mudah dibaca */
 .center .round{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.15;text-align:center;white-space:nowrap}
 .center .round>div{display:block;width:100%}
+
+.share-guide-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}.share-guide-actions .btn{flex:1;min-width:145px}.share-capture{background:#fff!important;color:#111!important;padding:18px!important;border-radius:16px!important}.share-capture .guide-x,.share-capture .rules-x,.share-capture .guide-close,.share-capture .rules-close,.share-capture .share-guide-actions{display:none!important}
+@media(max-width:520px){.share-guide-actions .btn{width:100%;flex-basis:100%}}
 </style><link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-192.png">
 <meta name="mobile-web-app-capable" content="yes">
@@ -315,6 +318,7 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
 </div><button type="button" class="btn gold" style="width:100%;margin-top:14px" onclick="closeSettings()">Selesai</button></div></div>
 <div class="overlay" id="rulesGuide"><div class="modal rules-modal">
  <div class="rules-head"><div><h2>📖 Aturan Bermain Mahjong</h2><div class="muted">Panduan ringkas untuk 4 pemain</div></div><button type="button" class="rules-x" onclick="closeRulesGuide()" aria-label="Tutup">×</button></div>
+ <div class="share-guide-actions"><button type="button" class="btn light" onclick="shareGuideImage('rulesGuide','Aturan-Mahjong.png')">🖼️ Share Gambar</button><button type="button" class="btn light" onclick="shareGuidePDF('rulesGuide','Aturan-Mahjong.pdf')">📄 Share PDF</button></div>
  <div class="rules-body">
   <section class="rules-section"><h3>Cara Bermain Untuk 4 Orang</h3>
    <ol><li>Ambil 1 tile dan buang 1 tile sampai ada pemain yang menang.</li><li>Cara menang adalah membuat <span class="rules-term">4 set dan 1 pair</span>. Ada 3 jenis set di Mahjong:</li></ol>
@@ -338,7 +342,7 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
   <button class="btn light rules-close" onclick="closeRulesGuide()">Tutup Aturan</button>
  </div>
 </div></div>
-<div class="overlay" id="patternGuide"><div class="modal guide-modal"><div class="guide-head"><div><h2>Panduan Kombinasi Poin</h2><div class="muted">Penjelasan dibuat khusus untuk layar desktop dan mobile. Nilai poin mengikuti program. Contoh tile mengikuti jenis dan gambar pada panduan asli.</div></div><button type="button" class="guide-x" onclick="closePatternGuide()" aria-label="Tutup">×</button></div><div id="guideContent" class="guide-content"></div><button class="btn light guide-close" onclick="closePatternGuide()">Tutup Panduan</button></div></div>
+<div class="overlay" id="patternGuide"><div class="modal guide-modal"><div class="guide-head"><div><h2>Panduan Kombinasi Poin</h2><div class="muted">Penjelasan dibuat khusus untuk layar desktop dan mobile. Nilai poin mengikuti program. Contoh tile mengikuti jenis dan gambar pada panduan asli.</div></div><button type="button" class="guide-x" onclick="closePatternGuide()" aria-label="Tutup">×</button></div><div class="share-guide-actions"><button type="button" class="btn light" onclick="shareGuideImage('patternGuide','Kombinasi-Poin-Mahjong.png')">🖼️ Share Gambar</button><button type="button" class="btn light" onclick="shareGuidePDF('patternGuide','Kombinasi-Poin-Mahjong.pdf')">📄 Share PDF</button></div><div id="guideContent" class="guide-content"></div><button class="btn light guide-close" onclick="closePatternGuide()">Tutup Panduan</button></div></div>
 <div class="overlay" id="new"><div class="modal"><h2>Game Baru</h2><div class="muted">Masukkan pemain sesuai posisi fisik meja. Pemain pertama menjadi Dealer/東 pada tangan pertama. Setelah itu, pemenang Hu atau Zi Mo menjadi Dealer berikutnya. Ronde hanya menjadi penanda sesi.</div>
 <div class="names"><div><div class="label">東 Timur</div><input id="n0" type="text" maxlength="10" oninput="limitPlayerName(this)"></div><div><div class="label">南 Selatan</div><input id="n1" type="text" maxlength="10" oninput="limitPlayerName(this)"></div><div><div class="label">西 Barat</div><input id="n2" type="text" maxlength="10" oninput="limitPlayerName(this)"></div><div><div class="label">北 Utara</div><input id="n3" type="text" maxlength="10" oninput="limitPlayerName(this)"></div></div>
 <div class="label">Skor awal per pemain</div><input id="start" type="number" value="0" step="300">
@@ -434,7 +438,44 @@ function record(){
  /* Aturan meja: pemenang terakhir (Hu atau Zi Mo) menjadi Dealer/East berikutnya. Posisi fisik tetap. */
  s.dealer=winner;
  s.seatWinds=[0,1,2,3].map(i=>(i-s.dealer+4)%4);
- save();winner=null;method=null;discarder=null;document.querySelectorAll("[data-pp]").forEach(e=>e.value="");$("extra").value=0;document.querySelectorAll("[data-q]").forEach(e=>e.value=0);$("huBtn").classList.remove("on");$("ziBtn").classList.remove("on");$("discardArea").style.display="none";render();
+ save();winner=null;method=null;discarder=null;document.querySelectorAll("[data-pp]").forEach(e=>e.value="");$("extra").value=0;document.querySelectorAll("[data-q]").forEach(e=>e.value=0);$("huBtn").classList.remove("on");$("ziBtn").classList.remove("on");$("discardArea").style.display="none";
+async function loadShareLib(url,globalName){
+ if(window[globalName]) return true;
+ return new Promise(resolve=>{const sc=document.createElement('script');sc.src=url;sc.onload=()=>resolve(!!window[globalName]);sc.onerror=()=>resolve(false);document.head.appendChild(sc)});
+}
+function guideCaptureNode(id){
+ if(id==='patternGuide') buildPatternGuide(); else buildRulesVisuals();
+ const modal=document.querySelector('#'+id+' .modal');
+ const clone=modal.cloneNode(true); clone.classList.add('share-capture');
+ clone.style.width='900px';clone.style.maxWidth='900px';clone.style.maxHeight='none';clone.style.overflow='visible';clone.style.position='fixed';clone.style.left='-10000px';clone.style.top='0';
+ document.body.appendChild(clone); return clone;
+}
+async function shareFileOrDownload(blob,name,title){
+ const file=new File([blob],name,{type:blob.type});
+ try{if(navigator.canShare&&navigator.canShare({files:[file]})&&navigator.share){await navigator.share({title,files:[file]});return}}catch(e){if(e&&e.name==='AbortError')return}
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+async function shareGuideImage(id,name){
+ const ok=await loadShareLib('https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js','html2canvas');
+ if(!ok){alert('Pembuatan gambar memerlukan koneksi internet saat pertama kali digunakan.');return}
+ const node=guideCaptureNode(id);
+ try{await new Promise(r=>setTimeout(r,80));const canvas=await html2canvas(node,{scale:2,backgroundColor:'#ffffff',useCORS:true,logging:false});canvas.toBlob(async blob=>{if(blob)await shareFileOrDownload(blob,name,'Panduan Mahjong')},'image/png',1)}finally{node.remove()}
+}
+async function shareGuidePDF(id,name){
+ const ok1=await loadShareLib('https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js','html2canvas');
+ const ok2=await loadShareLib('https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js','jspdf');
+ if(!ok1||!ok2){alert('Pembuatan PDF memerlukan koneksi internet saat pertama kali digunakan.');return}
+ const node=guideCaptureNode(id);
+ try{
+  await new Promise(r=>setTimeout(r,80));const canvas=await html2canvas(node,{scale:2,backgroundColor:'#ffffff',useCORS:true,logging:false});
+  const {jsPDF}=window.jspdf; const pdf=new jsPDF({orientation:'p',unit:'mm',format:'a4'}); const pw=210,ph=297,margin=8,usableW=pw-margin*2,usableH=ph-margin*2;
+  const imgW=usableW, imgH=canvas.height*imgW/canvas.width; const pagePx=canvas.width*usableH/imgW; let sy=0,page=0;
+  while(sy<canvas.height){const sliceH=Math.min(pagePx,canvas.height-sy);const c=document.createElement('canvas');c.width=canvas.width;c.height=Math.ceil(sliceH);c.getContext('2d').drawImage(canvas,0,sy,canvas.width,sliceH,0,0,canvas.width,sliceH);if(page++)pdf.addPage();const h=sliceH*imgW/canvas.width;pdf.addImage(c.toDataURL('image/jpeg',0.92),'JPEG',margin,margin,imgW,h);sy+=sliceH}
+  const blob=pdf.output('blob');await shareFileOrDownload(blob,name,'Panduan Mahjong');
+ }finally{node.remove()}
+}
+
+render();
 }
 let editHistoryIndex=null;
 function getLegacyHandNo(idx){let h=s.history[idx];if(!h)return 1;let older=s.history.slice(idx+1).filter(x=>x.round===h.round && x.method!=="quad").length;return older+1}
