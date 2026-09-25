@@ -259,7 +259,7 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
 </style>
 </head>
 <body><div class="app">
-<div class="top"><div><h1>🀄 Mahjong Score</h1><div class="muted">Tap pemain yang menang → Hu/Zi Mo → pilih poin → Catat</div></div><div style="display:flex;gap:6px"><button class="btn light" onclick="openPlayers()">Edit Nama</button><button class="btn light" onclick="openRound()">Ronde Baru</button><button class="btn gold" onclick="openNew()">Game Baru</button></div></div>
+<div class="top"><div><h1>🀄 Mahjong Score</h1><div class="muted">Tap pemain yang menang → Hu/Zi Mo → pilih poin → Catat</div></div><div style="display:flex;gap:6px"><button class="btn light" onclick="openPlayers()">Edit Nama</button><button class="btn light" onclick="openRound()">Ronde Baru</button><button class="btn light" onclick="openSettings()">⚙️ Setting</button><button class="btn gold" onclick="openNew()">Game Baru</button></div></div>
 
 <div class="table">
  <div id="p3" class="player pN" onclick="selectWinner(3)"></div>
@@ -284,14 +284,14 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
  </details>
  <div class="step"><span class="badge">4. Masukkan Quad setiap pemain</span></div>
  <div class="quadgrid" id="quadInputs"></div>
- <input type="number" id="extra" value="0" step="1" hidden aria-hidden="true"><div class="totalbar point-total-box" style="margin-top:8px"><span>Total kombinasi semua pemain</span><b id="total">0</b></div>
+ <div id="manualPointsWrap" style="display:none;margin-top:8px"><div class="label">Tambahan poin manual untuk pemenang</div><input type="number" id="extra" value="0" step="1" min="0" style="width:100%"></div><div class="totalbar point-total-box" style="margin-top:8px"><span>Total kombinasi semua pemain</span><b id="total">0</b></div>
 <div class="muted" style="margin-top:7px">Pembayaran dasar: Zi Mo = 5 poin dari setiap lawan • Hu = 2 poin dari setiap lawan, dan pemberi tile HU membayar tambahan 1 poin kepada pemenang • kombinasi poin dapat dimiliki setiap pemain dan dibayar oleh 3 pemain lain • setiap Quad memberi pemain tersebut +1 poin dari masing-masing 3 pemain lain. Semua Quad dimasukkan sebelum menekan “Catat Hasil Tangan”.</div>
  <div class="preview" id="preview"></div>
  <button class="record" onclick="record()">✓ CATAT HASIL TANGAN</button>
 </div>
 
 <details class="panel historyPanel" id="historyPanel"><summary><b id="historySummary">Riwayat permainan <span class="muted">(tap untuk buka)</span></b></summary><div id="history" class="history muted">Belum ada tangan.</div></details>
-<div class="panel"><div class="recap-head"><h2>Rekap Semua Pemain</h2><button type="button" class="btn light rules-recap-btn" onclick="openRulesGuide()">📖 Aturan Bermain</button></div><div id="allPlayers" class="history muted"></div></div>
+<div class="panel"><div class="recap-head"><h2>Rekap Semua Pemain</h2></div><div id="allPlayers" class="history muted"></div></div>
 </div>
 
 <div class="bottom"><button class="btn light" onclick="undo()">↶ Undo</button><button class="btn light" onclick="share()">Bagikan Skor</button><button class="btn danger" onclick="openNew()">Reset</button></div>
@@ -306,6 +306,11 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
 <div class="label">Quad setiap pemain</div><div class="quadgrid" id="editQuadInputs"></div>
 <div class="preview" id="editPreview"></div><div style="display:flex;gap:8px;margin-top:12px"><button class="btn gold" style="flex:1" onclick="saveScoreEdit()">Simpan Koreksi</button><button class="btn light" style="flex:1" onclick="closeScoreEdit()">Batal</button></div></div></div>
 
+<div class="overlay" id="settings"><div class="modal"><h2>⚙️ Setting</h2><div class="muted">Pengaturan tampilan dan panduan permainan.</div>
+<div style="display:grid;gap:10px;margin-top:16px">
+<button type="button" class="btn light" onclick="closeSettings();openRulesGuide()">📖 Aturan Bermain & Cara Pembayaran</button>
+<label style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.55)"><span><b>Tambahan poin manual</b><br><small class="muted">Tampilkan kolom poin tambahan untuk pemenang.</small></span><input id="manualPointsToggle" type="checkbox" onchange="setManualPointsVisible(this.checked)" style="width:22px;height:22px"></label>
+</div><button type="button" class="btn gold" style="width:100%;margin-top:14px" onclick="closeSettings()">Selesai</button></div></div>
 <div class="overlay" id="rulesGuide"><div class="modal rules-modal">
  <div class="rules-head"><div><h2>📖 Aturan Bermain Mahjong</h2><div class="muted">Panduan ringkas untuk 4 pemain</div></div><button type="button" class="rules-x" onclick="closeRulesGuide()" aria-label="Tutup">×</button></div>
  <div class="rules-body">
@@ -367,6 +372,7 @@ function save(){localStorage.setItem("mahjong_table_v3",JSON.stringify(s))}
 function patternOptions(selected=""){return `<option value="">Tanpa kombinasi (0 poin)</option>`+pats.map((p,i)=>`<option value="${i}" ${String(i)===String(selected)?"selected":""}>${p[0]} — ${p[1]} poin</option>`).join("")}
 function renderPlayerPatterns(){ $("patterns").innerHTML=[0,1,2,3].map(i=>`<div class="quadbox" style="margin-bottom:8px"><div class="label">${windChar(i)} ${s.names[i]}</div><select class="playerPattern" data-pp="${i}" onchange="update()" style="width:100%;min-height:46px;border:1px solid var(--line);border-radius:10px;padding:9px;font-size:16px;background:white">${patternOptions("")}</select></div>`).join("") }
 $("extra").oninput=update;
+setManualPointsVisible(localStorage.getItem("mahjong_manual_points_visible")==="1");
 function render(){
  for(let i=0;i<4;i++){let el=$("p"+i);el.classList.toggle("selected",winner===i);el.classList.toggle("dealer",s.dealer===i);let sc=s.scores[i],wins=s.history.filter(h=>h.method!=="quad"&&h.winner===i).length;el.innerHTML=`<div class="wind">${windChar(i)}</div><div class="name">${s.names[i]}</div><div class="muted">${windName(i)}</div><div class="score ${sc>0?'pos':sc<0?'neg':''}">${sc>0?"+":""}${fmt(sc)}</div><div class="handwins">🏆 ${wins} tangan</div>`}
  $("roundWind").textContent=s.round||1;$("hands").textContent=s.history.filter(h=>h.method!=="quad"&&(h.round||1)===(s.round||1)).length+1;
@@ -471,6 +477,17 @@ function buildPatternGuide(){
  const host=$("guideContent"); if(!host||host.dataset.ready)return;
  const groups=[]; pats.forEach((p,i)=>{let g=groups.find(x=>x.points===p[1]);if(!g){g={points:p[1],items:[]};groups.push(g)}g.items.push({p,i})});
  host.innerHTML=groups.map(g=>`<section class="guide-tier"><div class="guide-tier-title">${fmt(g.points)} Poin</div><div class="guide-grid">${g.items.map(({p,i})=>{const d=guideDetails[p[0]]||[p[2],p[3]];return `<article class="guide-card"><div class="guide-name">${i+1}. ${p[0]}</div><div class="guide-points">${fmt(p[1])} poin</div><div class="guide-desc">${d[0]}</div><div class="guide-example" aria-label="Contoh kartu">${renderMahjongTiles(d[1])}</div></article>`}).join("")}</div></section>`).join(""); host.dataset.ready="1";
+}
+function openSettings(){
+ const visible=localStorage.getItem("mahjong_manual_points_visible")==="1";
+ $("manualPointsToggle").checked=visible;
+ $("settings").classList.add("show");
+}
+function closeSettings(){$("settings").classList.remove("show")}
+function setManualPointsVisible(show){
+ localStorage.setItem("mahjong_manual_points_visible",show?"1":"0");
+ $("manualPointsWrap").style.display=show?"block":"none";
+ if(!show){$("extra").value=0;update()}
 }
 function openRulesGuide(){$("rulesGuide").classList.add("show")}
 function closeRulesGuide(){$("rulesGuide").classList.remove("show")}
