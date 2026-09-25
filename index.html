@@ -85,7 +85,7 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 
 <style id="compact-one-screen">
 /* Compact layout for iPhone / iPad: keep the active scoring controls in one viewport as much as possible */
-.historyPanel>summary{cursor:pointer;list-style:none}.historyPanel>summary::-webkit-details-marker{display:none}
+.historyPanel>.historyToggle{cursor:pointer;width:100%;border:0;background:transparent;padding:0;text-align:left;color:inherit;font:inherit;-webkit-appearance:none;appearance:none;touch-action:manipulation}.historyPanel>.history{display:none}.historyPanel.is-open>.history{display:block;margin-top:8px}
 @media (min-width:760px) and (orientation:landscape){
  .app{max-width:1180px;padding:8px 10px 66px;display:grid;grid-template-columns:minmax(430px,.9fr) minmax(420px,1.1fr);gap:10px;align-items:start}
  .top{grid-column:1/-1}.table{margin:0;min-height:calc(100vh - 125px);max-height:650px}.panel{margin-top:0}
@@ -99,7 +99,7 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
  .pattern-toggle{margin:3px 0}.pattern-toggle summary{padding:6px 8px;font-size:10px;border-radius:8px}.pattern-toggle[open] summary{margin-bottom:4px}.patterns{gap:3px}.pat span{grid-template-columns:48px 1fr auto!important;min-height:58px!important;padding:4px!important}.tilepic{height:44px;font-size:21px}.pattext strong{font-size:10px}.pattext small{font-size:8px}.pat em{font-size:9px}
  .quadgrid{gap:3px}.quadbox{padding:3px;border-radius:7px}.quadbox .label{font-size:8px;margin:0 0 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.quadbox input{padding:3px;min-height:30px;font-size:13px;border-radius:6px}
  .panel>div[style*="grid-template-columns:1fr 1fr"]{gap:4px!important;margin-top:4px!important}.label{font-size:9px;margin:2px 0}.totalbar{padding:3px 6px;margin-top:0;border-radius:8px;font-size:9px}.totalbar b{font-size:16px}.panel>.muted{display:none}.preview{font-size:9px;line-height:1.25;margin:3px 0}.record{position:static;padding:7px;min-height:36px;font-size:12px;border-radius:8px}
- .historyPanel{padding:6px;font-size:10px}.historyPanel summary{font-size:10px}.bottom{padding:4px 5px calc(4px + env(safe-area-inset-bottom));gap:4px}.bottom .btn{min-height:34px;padding:5px;font-size:9px}
+ .historyPanel{padding:6px;font-size:10px}.historyPanel .historyToggle{font-size:10px}.bottom{padding:4px 5px calc(4px + env(safe-area-inset-bottom));gap:4px}.bottom .btn{min-height:34px;padding:5px;font-size:9px}
 }
 @media (max-width:390px){.table{min-height:225px}.player{width:86px}.center{width:86px}.quadgrid{grid-template-columns:repeat(4,1fr)}}
 .dealer-label,.dealer-name{display:block}.dealer-label{font-size:.72em;opacity:.9}.dealer-name{font-size:1.12em;white-space:normal}
@@ -299,8 +299,8 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
  <button class="record" onclick="record()">✓ CATAT HASIL TANGAN</button>
 </div>
 
-<details class="panel historyPanel" id="historyPanel"><summary id="historySummaryButton" role="button" aria-controls="history" aria-expanded="false"><b id="historySummary">Riwayat permainan <span class="muted">(tap untuk buka)</span></b></summary><div id="history" class="history muted">Belum ada tangan.</div></details>
-<details class="panel historyPanel" id="allPlayersPanel"><summary id="allPlayersSummaryButton" role="button" aria-controls="allPlayers" aria-expanded="false"><b id="allPlayersSummary">Rekap Semua Pemain <span class="muted">(tap untuk buka)</span></b></summary><div id="allPlayers" class="history muted"></div></details>
+<div class="panel historyPanel" id="historyPanel"><button type="button" class="historyToggle" id="historySummaryButton" aria-controls="history" aria-expanded="false"><b id="historySummary">Riwayat permainan <span class="muted">(tap untuk buka)</span></b></button><div id="history" class="history muted">Belum ada tangan.</div></div>
+<div class="panel historyPanel" id="allPlayersPanel"><button type="button" class="historyToggle" id="allPlayersSummaryButton" aria-controls="allPlayers" aria-expanded="false"><b id="allPlayersSummary">Rekap Semua Pemain <span class="muted">(tap untuk buka)</span></b></button><div id="allPlayers" class="history muted"></div></div>
 </div>
 
 <div class="bottom"><button class="btn light" onclick="undo()">↶ Undo</button><button class="btn light" onclick="share()">Bagikan Skor</button><button class="btn danger" onclick="openNew()">Reset</button></div>
@@ -622,29 +622,14 @@ render();
 const historyPanel=document.getElementById("historyPanel");
 const historySummary=document.getElementById("historySummary");
 const historySummaryButton=document.getElementById("historySummaryButton");
-function updateHistorySummary(){
+function setHistoryOpen(open){
   if(!historyPanel||!historySummary) return;
-  historySummary.innerHTML = historyPanel.open
-    ? 'Riwayat permainan <span class="muted">(tap untuk tutup)</span>'
-    : 'Riwayat permainan <span class="muted">(tap untuk buka)</span>';
-  if(historySummaryButton) historySummaryButton.setAttribute("aria-expanded", historyPanel.open ? "true" : "false");
+  historyPanel.classList.toggle("is-open",!!open);
+  historySummary.innerHTML=open ? 'Riwayat permainan <span class="muted">(tap untuk tutup)</span>' : 'Riwayat permainan <span class="muted">(tap untuk buka)</span>';
+  if(historySummaryButton) historySummaryButton.setAttribute("aria-expanded",open?"true":"false");
 }
-/* iOS Safari/PWA fix: handle the history disclosure explicitly instead of relying
-   only on the native <details> tap behaviour. */
-if(historyPanel){
-  historyPanel.addEventListener("toggle", updateHistorySummary);
-  if(historySummaryButton){
-    historySummaryButton.addEventListener("click", function(e){
-      e.preventDefault();
-      historyPanel.open=!historyPanel.open;
-      updateHistorySummary();
-    });
-    historySummaryButton.addEventListener("keydown", function(e){
-      if(e.key==="Enter" || e.key===" "){ e.preventDefault(); historyPanel.open=!historyPanel.open; updateHistorySummary(); }
-    });
-  }
-  updateHistorySummary();
-}
+if(historySummaryButton){historySummaryButton.addEventListener("click",function(){setHistoryOpen(!historyPanel.classList.contains("is-open"));});}
+setHistoryOpen(false);
 
 const patternToggle=document.getElementById("patternToggle");
 const patternSummary=document.getElementById("patternSummary");
@@ -659,28 +644,15 @@ if(patternToggle){ patternToggle.addEventListener("toggle", updatePatternSummary
 const allPlayersPanel=document.getElementById("allPlayersPanel");
 const allPlayersSummary=document.getElementById("allPlayersSummary");
 const allPlayersSummaryButton=document.getElementById("allPlayersSummaryButton");
-function updateAllPlayersSummary(){
+function setAllPlayersOpen(open){
   if(!allPlayersPanel||!allPlayersSummary) return;
-  allPlayersSummary.innerHTML = allPlayersPanel.open
-    ? 'Rekap Semua Pemain <span class="muted">(tap untuk tutup)</span>'
-    : 'Rekap Semua Pemain <span class="muted">(tap untuk buka)</span>';
-  if(allPlayersSummaryButton) allPlayersSummaryButton.setAttribute("aria-expanded", allPlayersPanel.open ? "true" : "false");
+  allPlayersPanel.classList.toggle("is-open",!!open);
+  allPlayersSummary.innerHTML=open ? 'Rekap Semua Pemain <span class="muted">(tap untuk tutup)</span>' : 'Rekap Semua Pemain <span class="muted">(tap untuk buka)</span>';
+  if(allPlayersSummaryButton) allPlayersSummaryButton.setAttribute("aria-expanded",open?"true":"false");
 }
-/* iOS Safari/PWA fix: explicitly toggle Rekap Semua Pemain on tap. */
-if(allPlayersPanel){
-  allPlayersPanel.addEventListener("toggle", updateAllPlayersSummary);
-  if(allPlayersSummaryButton){
-    allPlayersSummaryButton.addEventListener("click", function(e){
-      e.preventDefault();
-      allPlayersPanel.open=!allPlayersPanel.open;
-      updateAllPlayersSummary();
-    });
-    allPlayersSummaryButton.addEventListener("keydown", function(e){
-      if(e.key==="Enter" || e.key===" "){ e.preventDefault(); allPlayersPanel.open=!allPlayersPanel.open; updateAllPlayersSummary(); }
-    });
-  }
-  updateAllPlayersSummary();
-}
+if(allPlayersSummaryButton){allPlayersSummaryButton.addEventListener("click",function(){setAllPlayersOpen(!allPlayersPanel.classList.contains("is-open"));});}
+setAllPlayersOpen(false);
+
 </script><script>
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js"));
