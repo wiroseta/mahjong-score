@@ -226,11 +226,16 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
 @media(max-width:650px){.guide-modal{width:calc(100vw - 18px)!important;max-height:92vh;padding:12px!important;border-radius:18px!important}.guide-head{top:-12px;margin:-12px 0 6px;padding:14px 0 10px}.guide-head h2{font-size:19px}.guide-head .muted{font-size:11px}.guide-grid{grid-template-columns:1fr}.guide-card{padding:10px}.guide-name{font-size:14px}.guide-desc{font-size:12px}.guide-example{font-size:23px}.guide-tier-title{font-size:13px}}
 
 <style id="guide-tile-fix">
-.guide-example{display:flex;flex-wrap:wrap;gap:5px;align-items:center;letter-spacing:0!important;font-size:14px!important}
-.mjtile{display:inline-flex;flex:0 0 auto;width:34px;height:46px;align-items:center;justify-content:center;border-radius:6px;background:linear-gradient(#fff,#f4f0e6);border:1px solid #c9c2b2;box-shadow:0 2px 0 #b6ae9d;font-weight:900;font-size:17px;line-height:1;color:#222;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans CJK SC","Arial Unicode MS",sans-serif}
-.mjtile.dot{color:#087a5a}.mjtile.bam{color:#188044}.mjtile.char{color:#b52b27}.mjtile.honor{color:#222}.mjtile.dragon-red{color:#c92828}.mjtile.dragon-green{color:#16804a}.mjtile.dragon-white{color:#777}
-.mjarrow{font-weight:900;color:#777;padding:0 2px}
-@media(max-width:650px){.mjtile{width:31px;height:42px;font-size:15px}.guide-example{gap:4px}}
+.guide-example{display:flex;flex-wrap:wrap;gap:5px;align-items:flex-end;letter-spacing:0!important;font-size:14px!important}
+.mjtile{position:relative;display:inline-flex;flex:0 0 auto;width:40px;height:54px;align-items:center;justify-content:center;border-radius:5px 5px 7px 7px;background:linear-gradient(145deg,#fffef9 0%,#f7f1df 72%,#e5dcc4 100%);border:1px solid #c9bea3;box-shadow:0 3px 0 #b6aa8d,0 4px 7px rgba(0,0,0,.16);font-weight:900;line-height:1;color:#222;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans CJK SC","PingFang SC",sans-serif;overflow:hidden}
+.mjtile:after{content:"";position:absolute;inset:2px;border-radius:3px;border-top:1px solid rgba(255,255,255,.9);pointer-events:none}
+.mjtile .num{position:absolute;left:3px;top:3px;font-size:10px;color:#333;font-weight:800}
+.mjtile.char{color:#bd2626;font-size:15px}.mjtile.char .glyph{display:flex;flex-direction:column;align-items:center;line-height:.92}.mjtile.char .glyph b{font-size:16px}.mjtile.char .glyph small{font-size:13px}
+.mjtile.dot{padding:5px}.dots{display:grid;grid-template-columns:repeat(3,7px);grid-auto-rows:7px;gap:2px;place-content:center}.pip{width:7px;height:7px;border-radius:50%;border:2px solid #087e5d;box-shadow:inset 0 0 0 1px #fff}.pip.r{border-color:#c92b2b}.pip.b{border-color:#275f9c}
+.mjtile.bam{padding:4px}.bams{display:grid;grid-template-columns:repeat(3,7px);grid-auto-rows:13px;gap:1px 2px;place-content:center}.stick{width:5px;height:13px;border-radius:3px;background:linear-gradient(#16814b,#0d6539);position:relative}.stick:after{content:"";position:absolute;left:1px;right:1px;top:5px;height:2px;background:#d2b22f}.stick.r{background:linear-gradient(#c93434,#9c2020)}
+.mjtile.honor,.mjtile.dragon{font-size:25px;font-family:"Noto Serif CJK SC","Songti SC",serif}.mjtile.dragon-red{color:#c92828}.mjtile.dragon-green{color:#16804a}.mjtile.dragon-white .whitebox{width:23px;height:31px;border:3px double #356aa0;background:#fff}
+.mjarrow{font-weight:900;color:#777;padding:0 2px;align-self:center}
+@media(max-width:650px){.mjtile{width:35px;height:48px}.guide-example{gap:4px}.mjtile.honor,.mjtile.dragon{font-size:22px}.dots{grid-template-columns:repeat(3,6px);grid-auto-rows:6px;gap:2px}.pip{width:6px;height:6px}.bams{grid-template-columns:repeat(3,6px);grid-auto-rows:11px}.stick{width:5px;height:11px}}
 </style>
 </style>
 </head>
@@ -437,16 +442,21 @@ function closeRound(){$("roundModal").classList.remove("show")}
 function startRound(){let names=[0,1,2,3].map(i=>($("rn"+i).value.trim().slice(0,10)||"Pemain "+(i+1)));let d=Number($("roundDealer").value)||0;s.names=names;s.round=(s.round||1)+1;s.dealer=d;s.seatWinds=[0,1,2,3].map(i=>(i-d+4)%4);save();closeRound();render()}
 
 function renderMahjongTiles(str){
- const map={
-  "🀇":["1萬","char"],"🀈":["2萬","char"],"🀉":["3萬","char"],"🀊":["4萬","char"],"🀋":["5萬","char"],"🀌":["6萬","char"],"🀍":["7萬","char"],"🀎":["8萬","char"],"🀏":["9萬","char"],
-  "🀙":["1●","dot"],"🀚":["2●","dot"],"🀛":["3●","dot"],"🀜":["4●","dot"],"🀝":["5●","dot"],"🀞":["6●","dot"],"🀟":["7●","dot"],"🀠":["8●","dot"],"🀡":["9●","dot"],
-  "🀐":["1竹","bam"],"🀑":["2竹","bam"],"🀒":["3竹","bam"],"🀓":["4竹","bam"],"🀔":["5竹","bam"],"🀕":["6竹","bam"],"🀖":["7竹","bam"],"🀗":["8竹","bam"],"🀘":["9竹","bam"],
-  "🀀":["東","honor"],"🀁":["南","honor"],"🀂":["西","honor"],"🀃":["北","honor"],"🀄":["中","dragon-red"],"🀅":["發","dragon-green"],"🀆":["白","dragon-white"]
- };
+ const chars="🀇🀈🀉🀊🀋🀌🀍🀎🀏", bams="🀐🀑🀒🀓🀔🀕🀖🀗🀘", dots="🀙🀚🀛🀜🀝🀞🀟🀠🀡";
+ const honors={"🀀":"東","🀁":"南","🀂":"西","🀃":"北"};
+ const dragons={"🀄":["中","dragon-red"],"🀅":["發","dragon-green"],"🀆":["白","dragon-white"]};
+ const dotColors=["","r","b"];
+ function dotFace(n){let a="";for(let i=0;i<n;i++)a+=`<i class="pip ${dotColors[i%3]}"></i>`;return `<span class="dots">${a}</span>`}
+ function bamFace(n){let a="";for(let i=0;i<n;i++)a+=`<i class="stick ${i===4?"r":""}"></i>`;return `<span class="bams">${a}</span>`}
  let out="";
  for(const ch of Array.from(str||"")){
-  if(map[ch]){const [label,cls]=map[ch];out+=`<span class="mjtile ${cls}">${label}</span>`}
-  else if(ch==="→")out+='<span class="mjarrow">→</span>';
+   let n=chars.indexOf(ch)+1;
+   if(n>0){out+=`<span class="mjtile char"><span class="glyph"><b>${["一","二","三","四","五","六","七","八","九"][n-1]}</b><small>萬</small></span></span>`;continue}
+   n=dots.indexOf(ch)+1;if(n>0){out+=`<span class="mjtile dot"><span class="num">${n}</span>${dotFace(n)}</span>`;continue}
+   n=bams.indexOf(ch)+1;if(n>0){out+=`<span class="mjtile bam"><span class="num">${n}</span>${bamFace(n)}</span>`;continue}
+   if(honors[ch]){out+=`<span class="mjtile honor">${honors[ch]}</span>`;continue}
+   if(dragons[ch]){const [g,c]=dragons[ch];out+=g==="白"?`<span class="mjtile dragon ${c}"><span class="whitebox"></span></span>`:`<span class="mjtile dragon ${c}">${g}</span>`;continue}
+   if(ch==="→")out+='<span class="mjarrow">→</span>';
  }
  return out||'<span class="muted">Contoh komposisi mengikuti aturan di atas.</span>';
 }
