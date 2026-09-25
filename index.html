@@ -246,14 +246,14 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
  <div class="choice"><button id="huBtn" onclick="setMethod('hu')">HU<br><small>ambil buangan</small></button><button id="ziBtn" onclick="setMethod('zimo')">ZI MO<br><small>ambil sendiri</small></button></div>
  <div id="discardArea" style="display:none"><div class="step"><span class="badge">Siapa membuang?</span></div><div class="choice" id="discardButtons"></div></div>
  <details class="pattern-toggle" id="patternToggle">
-  <summary><b id="patternSummary">3. Pilih SATU kombinasi poin <span class="muted">(tap untuk buka)</span></b></summary>
+  <summary><b id="patternSummary">3. Kombinasi poin setiap pemain <span class="muted">(tap untuk buka)</span></b></summary>
   <button type="button" class="btn light" style="width:100%;margin:4px 0 10px" onclick="openPatternGuide()">ⓘ Panduan Kombinasi Poin</button>
   <div class="patterns" id="patterns"></div>
  </details>
  <div class="step"><span class="badge">4. Masukkan Quad setiap pemain</span></div>
  <div class="quadgrid" id="quadInputs"></div>
- <div class="point-input-row"><div class="point-input-box"><div class="label">Tambahan poin manual</div><input type="number" id="extra" value="0" step="1"></div><div class="totalbar point-total-box"><span>Poin kombinasi</span><b id="total">0</b></div></div>
-<div class="muted" style="margin-top:7px">Pembayaran dasar: Zi Mo = 5 poin dari setiap lawan • Hu = 2 poin dari setiap lawan, dan pemberi tile HU membayar tambahan 1 poin kepada pemenang • setiap Quad memberi pemain tersebut +1 poin dari masing-masing 3 pemain lain. Semua Quad dimasukkan sebelum menekan “Catat Hasil Tangan”.</div>
+ <div class="point-input-row"><div class="point-input-box"><div class="label">Tambahan poin manual untuk pemenang</div><input type="number" id="extra" value="0" step="1"></div><div class="totalbar point-total-box"><span>Total kombinasi semua pemain</span><b id="total">0</b></div></div>
+<div class="muted" style="margin-top:7px">Pembayaran dasar: Zi Mo = 5 poin dari setiap lawan • Hu = 2 poin dari setiap lawan, dan pemberi tile HU membayar tambahan 1 poin kepada pemenang • kombinasi poin dapat dimiliki setiap pemain dan dibayar oleh 3 pemain lain • setiap Quad memberi pemain tersebut +1 poin dari masing-masing 3 pemain lain. Semua Quad dimasukkan sebelum menekan “Catat Hasil Tangan”.</div>
  <div class="preview" id="preview"></div>
  <button class="record" onclick="record()">✓ CATAT HASIL TANGAN</button>
 </div>
@@ -270,7 +270,7 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
 <div class="overlay" id="editScore"><div class="modal"><h2>Koreksi Hasil</h2><div class="muted" id="editInfo"></div>
 <div class="label">Cara menang</div><div class="seg"><button type="button" id="editHu" onclick="setEditMethod('hu')">Hu</button><button type="button" id="editZimo" onclick="setEditMethod('zimo')">Zi Mo</button></div>
 <div id="editDiscardWrap"><div class="label">Pemain yang membuang kartu (Hu)</div><select id="editDiscarder" style="width:100%;min-height:44px;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:16px;background:white"></select></div>
-<div class="label">Kombinasi poin</div><select id="editPattern" style="width:100%;min-height:44px;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:16px;background:white"></select>
+<div class="label">Kombinasi poin setiap pemain</div><div id="editPatternsByPlayer"></div>
 <div class="label">Quad setiap pemain</div><div class="quadgrid" id="editQuadInputs"></div>
 <div class="preview" id="editPreview"></div><div style="display:flex;gap:8px;margin-top:12px"><button class="btn gold" style="flex:1" onclick="saveScoreEdit()">Simpan Koreksi</button><button class="btn light" style="flex:1" onclick="closeScoreEdit()">Batal</button></div></div></div>
 <div class="overlay" id="patternGuide"><div class="modal guide-modal"><div class="guide-head"><div><h2>Panduan Kombinasi Poin</h2><div class="muted">Penjelasan dibuat khusus untuk layar desktop dan mobile. Nilai poin di bawah mengikuti nilai yang dipakai oleh program.</div></div><button type="button" class="guide-x" onclick="closePatternGuide()" aria-label="Tutup">×</button></div><div id="guideContent" class="guide-content"></div><button class="btn light guide-close" onclick="closePatternGuide()">Tutup Panduan</button></div></div>
@@ -339,7 +339,8 @@ if(s.seatWinds.indexOf(0)>=0)s.dealer=s.seatWinds.indexOf(0);
 const windName=i=>winds[s.seatWinds[i]], windChar=i=>chars[s.seatWinds[i]];
 let winner=null,method=null,discarder=null;
 function save(){localStorage.setItem("mahjong_table_v3",JSON.stringify(s))}
-$("patterns").innerHTML=pats.map((p,i)=>`<label class="pat"><input type="radio" name="scorePattern" data-p="${i}" onchange="update()"><span style="grid-template-columns:1fr auto!important;min-height:54px!important"><div class="pattext"><strong>${p[0]}</strong></div><em>${fmt(p[1])} poin</em></span></label>`).join("");
+function patternOptions(selected=""){return `<option value="">Tanpa kombinasi (0 poin)</option>`+pats.map((p,i)=>`<option value="${i}" ${String(i)===String(selected)?"selected":""}>${p[0]} — ${p[1]} poin</option>`).join("")}
+function renderPlayerPatterns(){ $("patterns").innerHTML=[0,1,2,3].map(i=>`<div class="quadbox" style="margin-bottom:8px"><div class="label">${windChar(i)} ${s.names[i]}</div><select class="playerPattern" data-pp="${i}" onchange="update()" style="width:100%;min-height:46px;border:1px solid var(--line);border-radius:10px;padding:9px;font-size:16px;background:white">${patternOptions("")}</select></div>`).join("") }
 $("extra").oninput=update;
 function render(){
  for(let i=0;i<4;i++){let el=$("p"+i);el.classList.toggle("selected",winner===i);el.classList.toggle("dealer",s.dealer===i);let sc=s.scores[i],wins=s.history.filter(h=>h.method!=="quad"&&h.winner===i).length;el.innerHTML=`<div class="wind">${windChar(i)}</div><div class="name">${s.names[i]}</div><div class="muted">${windName(i)}</div><div class="score ${sc>0?'pos':sc<0?'neg':''}">${sc>0?"+":""}${fmt(sc)}</div><div class="handwins">🏆 ${wins} tangan</div>`}
@@ -347,48 +348,49 @@ function render(){
  $("winnerText").textContent=winner===null?"— belum dipilih —":s.names[winner]+" ("+windName(winner)+")";
  renderDiscard();
  $("quadInputs").innerHTML=[0,1,2,3].map(i=>`<div class="quadbox"><div class="label">${windChar(i)} ${s.names[i]}</div><input type="number" class="quadInput" data-q="${i}" value="0" min="0" step="1" oninput="update()"></div>`).join("");
- history();update();
+ renderPlayerPatterns(); history();update();
 }
 function selectWinner(i){winner=i;if(discarder===i)discarder=null;render()}
 function setMethod(m){method=m;discarder=null;$("huBtn").classList.toggle("on",m==="hu");$("ziBtn").classList.toggle("on",m==="zimo");$("discardArea").style.display=m==="hu"?"block":"none";renderDiscard();update()}
 function renderDiscard(){
  $("discardButtons").innerHTML=[0,1,2,3].filter(i=>i!==winner).map(i=>`<button class="${discarder===i?'on':''}" onclick="discarder=${i};renderDiscard();update()">${s.names[i]}</button>`).join("");
 }
-function selected(){let e=document.querySelector("[data-p]:checked");return e?[pats[+e.dataset.p]]:[]}
-function hand(){return selected().reduce((a,p)=>a+p[1],0)+(parseFloat($("extra").value)||0)}
+function getPlayerPatterns(){let a=[null,null,null,null];document.querySelectorAll("[data-pp]").forEach(e=>{if(e.value!=="")a[+e.dataset.pp]=pats[+e.value]});return a}
+function hand(){return getPlayerPatterns().reduce((a,p)=>a+(p?p[1]:0),0)+(parseFloat($("extra").value)||0)}
 function getQuads(){let q=[0,0,0,0];document.querySelectorAll("[data-q]").forEach(e=>q[+e.dataset.q]=Math.max(0,parseInt(e.value)||0));return q}
 function calculation(){
- let combo=hand(),quads=getQuads(),d=[0,0,0,0];
- if(winner===null)return {t:combo,quads,d,error:"Tap pemain yang menang."};
- if(!method)return {t:combo,quads,d,error:"Pilih Hu atau Zi Mo."};
- if(method==="hu" && discarder===null)return {t:combo,quads,d,error:"Pilih pemain yang membuang kartu."};
+ let playerPatterns=getPlayerPatterns(), extra=(parseFloat($("extra").value)||0), combo=playerPatterns.reduce((a,p)=>a+(p?p[1]:0),0)+extra,quads=getQuads(),d=[0,0,0,0];
+ if(winner===null)return {t:combo,playerPatterns,extra,quads,d,error:"Tap pemain yang menang."};
+ if(!method)return {t:combo,playerPatterns,extra,quads,d,error:"Pilih Hu atau Zi Mo."};
+ if(method==="hu" && discarder===null)return {t:combo,playerPatterns,extra,quads,d,error:"Pilih pemain yang membuang kartu."};
  let base=method==="zimo"?5:2;
- let each=base+combo;
- for(let i=0;i<4;i++)if(i!==winner){d[i]-=each;d[winner]+=each}
+ for(let i=0;i<4;i++)if(i!==winner){d[i]-=base;d[winner]+=base}
+ if(extra){for(let i=0;i<4;i++)if(i!==winner){d[i]-=extra;d[winner]+=extra}}
+ playerPatterns.forEach((pat,owner)=>{if(!pat)return;let pts=pat[1];for(let i=0;i<4;i++)if(i!==owner){d[i]-=pts;d[owner]+=pts}});
  if(method==="hu" && discarder!==null){d[discarder]-=1;d[winner]+=1}
  for(let q=0;q<4;q++)for(let n=0;n<quads[q];n++)for(let i=0;i<4;i++)if(i!==q){d[i]-=1;d[q]+=1}
- return {t:combo,quads,base,each,d}
+ return {t:combo,playerPatterns,extra,quads,base,d}
 }
 function update(){
  let c=calculation();$("total").textContent=fmt(c.t);
  let out=c.error?`<span class="warn">${c.error}</span>`:"";
  if(!c.error){
-   out+=`Dasar ${c.base} + kombinasi ${fmt(c.t)} = <b>${fmt(c.each)} poin dari setiap lawan</b><br>`;let qs=c.quads.map((q,i)=>q?`${s.names[i]}: ${q} Quad`:null).filter(Boolean);if(qs.length)out+=`Quad: ${qs.join(" • ")}<br>`;
+   out+=`Pemenang menerima dasar <b>${fmt(c.base)} poin dari setiap lawan</b><br>`; let cp=c.playerPatterns.map((p,i)=>p?`${s.names[i]}: ${p[0]} (${fmt(p[1])})`:null).filter(Boolean); if(cp.length)out+=`Kombinasi: ${cp.join(" • ")}<br>`; if(c.extra)out+=`Tambahan manual pemenang: ${fmt(c.extra)} poin/lawan<br>`;let qs=c.quads.map((q,i)=>q?`${s.names[i]}: ${q} Quad`:null).filter(Boolean);if(qs.length)out+=`Quad: ${qs.join(" • ")}<br>`;
    out+=c.d.map((v,i)=>`${s.names[i]} <b>${v>=0?"+":""}${fmt(v)}</b>`).join(" • ");
  }
  $("preview").innerHTML=out
 }
 function record(){
  let c=calculation();if(c.error)return alert(c.error);
- let before=[...s.scores],ps=selected().map(x=>x[0]);if(+$("extra").value)ps.push("Tambahan manual");
+ let before=[...s.scores], playerPatterns=c.playerPatterns, ps=playerPatterns.map((x,i)=>x?`${s.names[i]}: ${x[0]}`:null).filter(Boolean);if(+$("extra").value)ps.push("Tambahan manual pemenang");
  let quads=c.quads;quads.forEach((q,i)=>{if(q)ps.push(`${s.names[i]} ${q} Quad`) });
  let dealerBefore=s.dealer, seatWindsBefore=[...s.seatWinds], roundWindBefore=s.roundWind;
  let namesAtTime=[...s.names];
- let chosenPattern=selected()[0]||null, extraPoints=Math.max(0,Number($("extra").value)||0); s.scores=s.scores.map((v,i)=>v+c.d[i]);let handNo=s.history.filter(h=>h.method!=="quad"&&(h.round||1)===(s.round||1)).length+1;s.history.unshift({winner,method,discarder,total:c.t,quads,extra:extraPoints,patternName:chosenPattern?chosenPattern[0]:null,patternPoints:chosenPattern?chosenPattern[1]:0,each:c.each,delta:c.d,patterns:ps,before,dealer:dealerBefore,round:s.round,roundWind:roundWindBefore,seatWindsBefore,namesAtTime,hand:handNo,time:new Date().toLocaleString("id-ID")});
+ let extraPoints=Math.max(0,Number($("extra").value)||0); s.scores=s.scores.map((v,i)=>v+c.d[i]);let handNo=s.history.filter(h=>h.method!=="quad"&&(h.round||1)===(s.round||1)).length+1;s.history.unshift({winner,method,discarder,total:c.t,quads,extra:extraPoints,playerPatterns:playerPatterns.map(p=>p?{name:p[0],points:p[1]}:null),patternName:null,patternPoints:0,each:c.base,delta:c.d,patterns:ps,before,dealer:dealerBefore,round:s.round,roundWind:roundWindBefore,seatWindsBefore,namesAtTime,hand:handNo,time:new Date().toLocaleString("id-ID")});
  /* Aturan meja: pemenang terakhir (Hu atau Zi Mo) menjadi Dealer/East berikutnya. Posisi fisik tetap. */
  s.dealer=winner;
  s.seatWinds=[0,1,2,3].map(i=>(i-s.dealer+4)%4);
- save();winner=null;method=null;discarder=null;document.querySelectorAll("[data-p]").forEach(e=>e.checked=false);$("extra").value=0;document.querySelectorAll("[data-q]").forEach(e=>e.value=0);$("huBtn").classList.remove("on");$("ziBtn").classList.remove("on");$("discardArea").style.display="none";render();
+ save();winner=null;method=null;discarder=null;document.querySelectorAll("[data-pp]").forEach(e=>e.value="");$("extra").value=0;document.querySelectorAll("[data-q]").forEach(e=>e.value=0);$("huBtn").classList.remove("on");$("ziBtn").classList.remove("on");$("discardArea").style.display="none";render();
 }
 let editHistoryIndex=null;
 function getLegacyHandNo(idx){let h=s.history[idx];if(!h)return 1;let older=s.history.slice(idx+1).filter(x=>x.round===h.round && x.method!=="quad").length;return older+1}
@@ -396,21 +398,21 @@ function history(){
  $("history").innerHTML=s.history.length?s.history.map((h,idx)=>{let hn=Array.isArray(h.namesAtTime)?h.namesAtTime:s.names;let wname=hn[h.winner]||s.names[h.winner],dname=(h.discarder!==null&&h.discarder!==undefined)?(hn[h.discarder]||s.names[h.discarder]):"";return `<div class="entry">
  <b>Ronde ${h.round||1}${h.method!=="quad"?" • Tangan "+(h.hand||getLegacyHandNo(idx)):""} • ${h.method==="quad"?wname+" mendapat Quad":wname+" menang"}</b>
  <span style="float:right;display:flex;gap:5px">${h.method!=="quad"?`<button class="btn light" style="padding:5px 8px;font-size:11px" onclick="openScoreEdit(${idx})">Koreksi</button>`:""}${h.method==="quad"?`<button class="btn danger" style="padding:5px 8px;font-size:11px" onclick="deleteQuad(${idx})">Hapus Quad</button>`:""}</span><br>
- ${h.method==="quad"?"Quad • +1 dari setiap pemain":(h.method==="zimo"?"Zi Mo":"Hu dari "+dname)+" • "+(h.patterns.join(", ")||"Tanpa kombinasi tambahan")+(h.each!==undefined?" • "+fmt(h.each)+" poin/lawan":"")}<br>
+ ${h.method==="quad"?"Quad • +1 dari setiap pemain":(h.method==="zimo"?"Zi Mo":"Hu dari "+dname)+" • "+(h.patterns.join(", ")||"Tanpa kombinasi tambahan")+(h.each!==undefined?" • dasar "+fmt(h.each)+" poin/lawan":"")}<br>
  ${h.delta.map((v,i)=>`${hn[i]||s.names[i]} ${v>=0?"+":""}${fmt(v)}`).join(" · ")}<br><span class="muted">${h.time}</span></div>`}).join(""):"Belum ada tangan.";
  renderAllPlayers();
 }
 function renderAllPlayers(){let totals={};s.history.slice().reverse().forEach(h=>{if(!Array.isArray(h.delta))return;let hn=Array.isArray(h.namesAtTime)?h.namesAtTime:s.names;h.delta.forEach((v,i)=>{let n=hn[i]||s.names[i];totals[n]=(totals[n]||0)+v})});s.names.forEach((n,i)=>{if(!(n in totals))totals[n]=0});$("allPlayers").innerHTML=Object.entries(totals).map(([n,v])=>`<span style="display:inline-block;margin:3px 10px 3px 0"><b>${n}</b>: ${v>=0?"+":""}${fmt(v)}</span>`).join("")||"Belum ada pemain."}
 
 let editMethod="hu";
-function fillEditPatterns(name){$("editPattern").innerHTML=`<option value="">Tanpa kombinasi (0 poin)</option>`+pats.map((p,i)=>`<option value="${i}" ${p[0]===name?"selected":""}>${p[0]} — ${p[1]} poin</option>`).join("")}
+function fillEditPatternsByPlayer(h){let saved=Array.isArray(h.playerPatterns)?h.playerPatterns:[null,null,null,null]; if(!h.playerPatterns && h.patternName) saved[h.winner]={name:h.patternName,points:h.patternPoints||0}; $("editPatternsByPlayer").innerHTML=[0,1,2,3].map(i=>{let idx=saved[i]?pats.findIndex(p=>p[0]===saved[i].name):-1;return `<div class="quadbox" style="margin:6px 0"><div class="label">${windChar(i)} ${s.names[i]}</div><select data-epp="${i}" onchange="updateEditPreview()" style="width:100%;min-height:44px;border:1px solid var(--line);border-radius:10px;padding:9px;font-size:16px;background:white">${patternOptions(idx>=0?idx:"")}</select></div>`}).join("")}
 function setEditMethod(m){editMethod=m;$("editHu").classList.toggle("active",m==="hu");$("editZimo").classList.toggle("active",m==="zimo");$("editDiscardWrap").style.display=m==="hu"?"block":"none";updateEditPreview()}
-function editPatternValue(){let idx=$("editPattern").value;return idx===""?null:pats[Number(idx)]}
+function getEditPatterns(){let a=[null,null,null,null];document.querySelectorAll("[data-epp]").forEach(e=>{if(e.value!=="")a[+e.dataset.epp]=pats[+e.value]});return a}
 function getEditQuads(){let q=[0,0,0,0];document.querySelectorAll("[data-eq]").forEach(e=>q[+e.dataset.eq]=Math.max(0,parseInt(e.value)||0));return q}
-function updateEditPreview(){if(editHistoryIndex===null)return;let h=s.history[editHistoryIndex],pat=editPatternValue(),pp=pat?pat[1]:0,base=editMethod==="zimo"?5:2,each=base+pp,qs=getEditQuads(),nd=[0,0,0,0];for(let i=0;i<4;i++)if(i!==h.winner){nd[i]-=each;nd[h.winner]+=each}if(editMethod==="hu"){let ed=Number($("editDiscarder").value);if(Number.isInteger(ed)&&ed!==h.winner){nd[ed]-=1;nd[h.winner]+=1}}for(let q=0;q<4;q++)for(let n=0;n<qs[q];n++)for(let i=0;i<4;i++)if(i!==q){nd[i]-=1;nd[q]+=1}let qt=qs.map((q,i)=>q?`${s.names[i]}: ${q} Quad`:null).filter(Boolean);$("editPreview").innerHTML=`${editMethod==="zimo"?"Zi Mo":"Hu"}: dasar ${base} + kombinasi ${pp} = <b>${fmt(each)} poin dari setiap lawan</b>${qt.length?`<br>Quad: ${qt.join(" • ")}`:"<br>Quad: tidak ada"}<br>`+nd.map((v,i)=>`${s.names[i]} <b>${v>=0?"+":""}${fmt(v)}</b>`).join(" • ")}
-function openScoreEdit(idx){let h=s.history[idx];if(!h||h.method==="quad")return;editHistoryIndex=idx;$("editInfo").textContent="Pemenang: "+s.names[h.winner];let pname=h.patternName||null;if(!pname&&Array.isArray(h.patterns)){let match=pats.find(p=>h.patterns.includes(p[0]));if(match)pname=match[0]}fillEditPatterns(pname);let eq=Array.isArray(h.quads)?h.quads:[0,0,0,0];$("editQuadInputs").innerHTML=[0,1,2,3].map(i=>`<div class="quadbox"><div class="label">${windChar(i)} ${s.names[i]}</div><input type="number" data-eq="${i}" value="${Math.max(0,parseInt(eq[i])||0)}" min="0" step="1" oninput="updateEditPreview()"></div>`).join("");$("editDiscarder").innerHTML=s.names.map((n,i)=>i===h.winner?"":`<option value="${i}">${n}</option>`).join("");let d=(h.discarder!==null&&h.discarder!==undefined&&h.discarder!==h.winner)?h.discarder:[0,1,2,3].find(i=>i!==h.winner);$("editDiscarder").value=d;$("editPattern").onchange=updateEditPreview;$("editDiscarder").onchange=updateEditPreview;setEditMethod(h.method==="zimo"?"zimo":"hu");$("editScore").classList.add("show")}
+function updateEditPreview(){if(editHistoryIndex===null)return;let h=s.history[editHistoryIndex],pps=getEditPatterns(),base=editMethod==="zimo"?5:2,qs=getEditQuads(),nd=[0,0,0,0];for(let i=0;i<4;i++)if(i!==h.winner){nd[i]-=base;nd[h.winner]+=base}pps.forEach((pat,owner)=>{if(!pat)return;for(let i=0;i<4;i++)if(i!==owner){nd[i]-=pat[1];nd[owner]+=pat[1]}});if(editMethod==="hu"){let ed=Number($("editDiscarder").value);if(Number.isInteger(ed)&&ed!==h.winner){nd[ed]-=1;nd[h.winner]+=1}}for(let q=0;q<4;q++)for(let n=0;n<qs[q];n++)for(let i=0;i<4;i++)if(i!==q){nd[i]-=1;nd[q]+=1}let cp=pps.map((p,i)=>p?`${s.names[i]}: ${p[0]} (${p[1]})`:null).filter(Boolean),qt=qs.map((q,i)=>q?`${s.names[i]}: ${q} Quad`:null).filter(Boolean);$("editPreview").innerHTML=`${editMethod==="zimo"?"Zi Mo":"Hu"}: dasar <b>${base} poin dari setiap lawan</b>${cp.length?`<br>Kombinasi: ${cp.join(" • ")}`:"<br>Kombinasi: tidak ada"}${qt.length?`<br>Quad: ${qt.join(" • ")}`:"<br>Quad: tidak ada"}<br>`+nd.map((v,i)=>`${s.names[i]} <b>${v>=0?"+":""}${fmt(v)}</b>`).join(" • ")}
+function openScoreEdit(idx){let h=s.history[idx];if(!h||h.method==="quad")return;editHistoryIndex=idx;$("editInfo").textContent="Pemenang: "+s.names[h.winner];fillEditPatternsByPlayer(h);let eq=Array.isArray(h.quads)?h.quads:[0,0,0,0];$("editQuadInputs").innerHTML=[0,1,2,3].map(i=>`<div class="quadbox"><div class="label">${windChar(i)} ${s.names[i]}</div><input type="number" data-eq="${i}" value="${Math.max(0,parseInt(eq[i])||0)}" min="0" step="1" oninput="updateEditPreview()"></div>`).join("");$("editDiscarder").innerHTML=s.names.map((n,i)=>i===h.winner?"":`<option value="${i}">${n}</option>`).join("");let d=(h.discarder!==null&&h.discarder!==undefined&&h.discarder!==h.winner)?h.discarder:[0,1,2,3].find(i=>i!==h.winner);$("editDiscarder").value=d;$("editDiscarder").onchange=updateEditPreview;setEditMethod(h.method==="zimo"?"zimo":"hu");$("editScore").classList.add("show")}
 function closeScoreEdit(){editHistoryIndex=null;$("editScore").classList.remove("show")}
-function saveScoreEdit(){if(editHistoryIndex===null)return;let h=s.history[editHistoryIndex],pat=editPatternValue(),pp=pat?pat[1]:0,base=editMethod==="zimo"?5:2,each=base+pp,old=h.delta||[0,0,0,0],nd=[0,0,0,0];for(let i=0;i<4;i++)if(i!==h.winner){nd[i]-=each;nd[h.winner]+=each}if(editMethod==="hu"){let ed=Number($("editDiscarder").value);if(Number.isInteger(ed)&&ed!==h.winner){nd[ed]-=1;nd[h.winner]+=1}}let qs=getEditQuads();for(let q=0;q<4;q++)for(let n=0;n<qs[q];n++)for(let i=0;i<4;i++)if(i!==q){nd[i]-=1;nd[q]+=1}s.scores=s.scores.map((score,i)=>score-old[i]+nd[i]);h.method=editMethod;h.discarder=editMethod==="hu"?Number($("editDiscarder").value):null;h.delta=nd;h.each=each;h.patternName=pat?pat[0]:null;h.patternPoints=pp;h.extra=0;h.total=pp;h.quads=qs;h.patterns=[];if(pat)h.patterns.push(pat[0]);qs.forEach((q,i)=>{if(q)h.patterns.push(`${s.names[i]} ${q} Quad`)});h.edited=true;save();closeScoreEdit();render()}
+function saveScoreEdit(){if(editHistoryIndex===null)return;let h=s.history[editHistoryIndex],pps=getEditPatterns(),base=editMethod==="zimo"?5:2,old=h.delta||[0,0,0,0],nd=[0,0,0,0];for(let i=0;i<4;i++)if(i!==h.winner){nd[i]-=base;nd[h.winner]+=base}pps.forEach((pat,owner)=>{if(!pat)return;for(let i=0;i<4;i++)if(i!==owner){nd[i]-=pat[1];nd[owner]+=pat[1]}});if(editMethod==="hu"){let ed=Number($("editDiscarder").value);if(Number.isInteger(ed)&&ed!==h.winner){nd[ed]-=1;nd[h.winner]+=1}}let qs=getEditQuads();for(let q=0;q<4;q++)for(let n=0;n<qs[q];n++)for(let i=0;i<4;i++)if(i!==q){nd[i]-=1;nd[q]+=1}s.scores=s.scores.map((score,i)=>score-old[i]+nd[i]);h.method=editMethod;h.discarder=editMethod==="hu"?Number($("editDiscarder").value):null;h.delta=nd;h.each=base;h.playerPatterns=pps.map(p=>p?{name:p[0],points:p[1]}:null);h.patternName=null;h.patternPoints=0;h.extra=0;h.total=pps.reduce((a,p)=>a+(p?p[1]:0),0);h.quads=qs;h.patterns=pps.map((p,i)=>p?`${s.names[i]}: ${p[0]}`:null).filter(Boolean);qs.forEach((q,i)=>{if(q)h.patterns.push(`${s.names[i]} ${q} Quad`)});h.edited=true;save();closeScoreEdit();render()}
 function deleteQuad(idx){
  let h=s.history[idx];if(!h||h.method!=="quad")return;
  if(!confirm("Hapus catatan Quad "+s.names[h.winner]+"?"))return;
@@ -454,7 +456,7 @@ function updatePatternSummary(){
   if(!patternToggle||!patternSummary) return;
   patternSummary.innerHTML = patternToggle.open
     ? '3. Pilih SATU kombinasi poin <span class="muted">(tap untuk tutup)</span>'
-    : '3. Pilih SATU kombinasi poin <span class="muted">(tap untuk buka)</span>';
+    : '3. Kombinasi poin setiap pemain <span class="muted">(tap untuk buka)</span>';
 }
 if(patternToggle){ patternToggle.addEventListener("toggle", updatePatternSummary); updatePatternSummary(); }
 </script><script>
