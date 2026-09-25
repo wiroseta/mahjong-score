@@ -1,4 +1,4 @@
-const CACHE="mahjong-score-v11-share-native";
+const CACHE="mahjong-score-v12-history-ios";
 const ASSETS=["./","./index.html","./manifest.webmanifest","./icon-192.png","./icon-512.png"];
 const TILE_ASSETS=[];
 self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS.concat(TILE_ASSETS)))));

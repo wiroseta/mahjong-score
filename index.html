@@ -299,7 +299,7 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
  <button class="record" onclick="record()">✓ CATAT HASIL TANGAN</button>
 </div>
 
-<details class="panel historyPanel" id="historyPanel"><summary><b id="historySummary">Riwayat permainan <span class="muted">(tap untuk buka)</span></b></summary><div id="history" class="history muted">Belum ada tangan.</div></details>
+<details class="panel historyPanel" id="historyPanel"><summary id="historySummaryButton" role="button" aria-controls="history" aria-expanded="false"><b id="historySummary">Riwayat permainan <span class="muted">(tap untuk buka)</span></b></summary><div id="history" class="history muted">Belum ada tangan.</div></details>
 <div class="panel"><div class="recap-head"><h2>Rekap Semua Pemain</h2></div><div id="allPlayers" class="history muted"></div></div>
 </div>
 
@@ -621,13 +621,30 @@ render();
 
 const historyPanel=document.getElementById("historyPanel");
 const historySummary=document.getElementById("historySummary");
+const historySummaryButton=document.getElementById("historySummaryButton");
 function updateHistorySummary(){
   if(!historyPanel||!historySummary) return;
   historySummary.innerHTML = historyPanel.open
     ? 'Riwayat permainan <span class="muted">(tap untuk tutup)</span>'
     : 'Riwayat permainan <span class="muted">(tap untuk buka)</span>';
+  if(historySummaryButton) historySummaryButton.setAttribute("aria-expanded", historyPanel.open ? "true" : "false");
 }
-if(historyPanel){ historyPanel.addEventListener("toggle", updateHistorySummary); updateHistorySummary(); }
+/* iOS Safari/PWA fix: handle the history disclosure explicitly instead of relying
+   only on the native <details> tap behaviour. */
+if(historyPanel){
+  historyPanel.addEventListener("toggle", updateHistorySummary);
+  if(historySummaryButton){
+    historySummaryButton.addEventListener("click", function(e){
+      e.preventDefault();
+      historyPanel.open=!historyPanel.open;
+      updateHistorySummary();
+    });
+    historySummaryButton.addEventListener("keydown", function(e){
+      if(e.key==="Enter" || e.key===" "){ e.preventDefault(); historyPanel.open=!historyPanel.open; updateHistorySummary(); }
+    });
+  }
+  updateHistorySummary();
+}
 
 const patternToggle=document.getElementById("patternToggle");
 const patternSummary=document.getElementById("patternSummary");
