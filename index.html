@@ -219,6 +219,12 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
   .table{height:clamp(500px,43vw,620px)!important}
 }
 </style>
+<style id="web-guide-style">
+.guide-modal{max-width:980px!important;width:min(94vw,980px)!important;max-height:88vh;overflow:auto;padding:18px!important;overscroll-behavior:contain}
+.guide-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;position:sticky;top:-18px;z-index:4;background:rgba(249,248,242,.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:18px 2px 12px;margin:-18px 0 8px;border-bottom:1px solid var(--line)}
+.guide-head h2{margin:0 0 4px;font-size:24px}.guide-x{flex:0 0 44px;width:44px;height:44px;border:1px solid var(--line);border-radius:50%;background:white;font-size:28px;line-height:1;cursor:pointer}.guide-content{display:grid;gap:18px}.guide-tier{display:grid;gap:9px}.guide-tier-title{display:flex;align-items:center;gap:10px;font-weight:900;font-size:15px;color:#785718}.guide-tier-title:after{content:"";height:2px;background:linear-gradient(90deg,#d4a72c,transparent);flex:1}.guide-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.guide-card{background:rgba(255,255,255,.82);border:1px solid var(--line);border-radius:14px;padding:12px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 12px;align-items:start}.guide-name{font-weight:900;font-size:15px}.guide-points{font-weight:900;color:#8a6316;background:#fff2cf;border-radius:999px;padding:4px 9px;white-space:nowrap}.guide-desc{grid-column:1/-1;font-size:13px;line-height:1.4;color:#4c4c45}.guide-example{grid-column:1/-1;background:#f3f0e7;border-radius:10px;padding:8px 10px;font-size:25px;letter-spacing:2px;line-height:1.25;overflow-wrap:anywhere}.guide-note{font-size:11px;color:#777;grid-column:1/-1}.guide-close{width:100%;margin-top:16px;min-height:44px}
+@media(max-width:650px){.guide-modal{width:calc(100vw - 18px)!important;max-height:92vh;padding:12px!important;border-radius:18px!important}.guide-head{top:-12px;margin:-12px 0 6px;padding:14px 0 10px}.guide-head h2{font-size:19px}.guide-head .muted{font-size:11px}.guide-grid{grid-template-columns:1fr}.guide-card{padding:10px}.guide-name{font-size:14px}.guide-desc{font-size:12px}.guide-example{font-size:23px}.guide-tier-title{font-size:13px}}
+</style>
 </head>
 <body><div class="app">
 <div class="top"><div><h1>🀄 Mahjong Score</h1><div class="muted">Tap pemain yang menang → Hu/Zi Mo → pilih poin → Catat</div></div><div style="display:flex;gap:6px"><button class="btn light" onclick="openPlayers()">Edit Nama</button><button class="btn light" onclick="openRound()">Ronde Baru</button><button class="btn gold" onclick="openNew()">Game Baru</button></div></div>
@@ -241,7 +247,7 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
  <div id="discardArea" style="display:none"><div class="step"><span class="badge">Siapa membuang?</span></div><div class="choice" id="discardButtons"></div></div>
  <details class="pattern-toggle" id="patternToggle">
   <summary><b id="patternSummary">3. Pilih SATU kombinasi poin <span class="muted">(tap untuk buka)</span></b></summary>
-  <button type="button" class="btn light" style="width:100%;margin:4px 0 10px" onclick="openPatternGuide()">ⓘ Penjelasan & Gambar Kombinasi Poin</button>
+  <button type="button" class="btn light" style="width:100%;margin:4px 0 10px" onclick="openPatternGuide()">ⓘ Panduan Kombinasi Poin</button>
   <div class="patterns" id="patterns"></div>
  </details>
  <div class="step"><span class="badge">4. Masukkan Quad setiap pemain</span></div>
@@ -267,7 +273,7 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
 <div class="label">Kombinasi poin</div><select id="editPattern" style="width:100%;min-height:44px;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:16px;background:white"></select>
 <div class="label">Quad setiap pemain</div><div class="quadgrid" id="editQuadInputs"></div>
 <div class="preview" id="editPreview"></div><div style="display:flex;gap:8px;margin-top:12px"><button class="btn gold" style="flex:1" onclick="saveScoreEdit()">Simpan Koreksi</button><button class="btn light" style="flex:1" onclick="closeScoreEdit()">Batal</button></div></div></div>
-<div class="overlay" id="patternGuide"><div class="modal" style="max-width:900px"><h2>Penjelasan & Gambar Kombinasi Poin</h2><div class="muted" style="margin-bottom:10px">Gunakan panduan gambar berikut untuk melihat contoh setiap kombinasi. Nilai poin yang dipakai untuk perhitungan tetap mengikuti nilai yang sudah Anda ubah di program.</div><img src="panduan-kombinasi-mahjong.jpg" alt="Panduan kombinasi poin Mahjong" style="width:100%;height:auto;border-radius:14px;display:block"><button class="btn light" style="width:100%;margin-top:12px" onclick="closePatternGuide()">Tutup</button></div></div>
+<div class="overlay" id="patternGuide"><div class="modal guide-modal"><div class="guide-head"><div><h2>Panduan Kombinasi Poin</h2><div class="muted">Penjelasan dibuat khusus untuk layar desktop dan mobile. Nilai poin di bawah mengikuti nilai yang dipakai oleh program.</div></div><button type="button" class="guide-x" onclick="closePatternGuide()" aria-label="Tutup">×</button></div><div id="guideContent" class="guide-content"></div><button class="btn light guide-close" onclick="closePatternGuide()">Tutup Panduan</button></div></div>
 <div class="overlay" id="new"><div class="modal"><h2>Game Baru</h2><div class="muted">Masukkan pemain sesuai posisi fisik meja. Pemain pertama menjadi Dealer/東 pada tangan pertama. Setelah itu, pemenang Hu atau Zi Mo menjadi Dealer berikutnya. Ronde hanya menjadi penanda sesi.</div>
 <div class="names"><div><div class="label">東 Timur</div><input id="n0" type="text" maxlength="10" oninput="limitPlayerName(this)"></div><div><div class="label">南 Selatan</div><input id="n1" type="text" maxlength="10" oninput="limitPlayerName(this)"></div><div><div class="label">西 Barat</div><input id="n2" type="text" maxlength="10" oninput="limitPlayerName(this)"></div><div><div class="label">北 Utara</div><input id="n3" type="text" maxlength="10" oninput="limitPlayerName(this)"></div></div>
 <div class="label">Skor awal per pemain</div><input id="start" type="number" value="0" step="300">
@@ -300,6 +306,30 @@ const pats=[
 ["13 Rakyat",12,"Kombinasi khusus 13 kartu terminal dan kehormatan.","🀀 🀁 🀄 🀅 🀇 🀏"],
 ["7 Tangga Surga",12,"Kombinasi khusus 7 Tangga Surga sesuai lembar aturan.","🀇 🀈 🀉 🀊 🀋 🀌 🀍"]
 ]
+const guideDetails={
+"Set Mulia":["Memiliki set triplet/quad dari naga atau angin sesuai tempat duduk.","🀀🀀🀀  🀄🀄🀄"],
+"Petapa":["Menang dengan sepenuhnya tertutup / sepenuhnya terbuka.","🀇🀈🀉  🀐🀑🀒"],
+"Tengah Murni":["Set yang dipakai untuk menang hanya kartu 2–8, tanpa royal.","🀈🀉🀊  🀚🀛🀜"],
+"Urutan Murni (Pinhu)":["Semua set pada tangan hanya set urutan saja, tanpa kartu mulia.","🀇🀈🀉  🀙🀚🀛  🀐🀑🀒"],
+"Urutan Berantai":["Memiliki 2 set urutan dengan logo yang sama; angka paling akhir dari satu set menjadi angka paling awal set lainnya.","🀇🀈🀉  →  🀉🀊🀋"],
+"Ujung Separuh":["Semua set dan pair yang dibuat harus mengandung 1, 9, dan royal; salah satu set harus set urutan.","🀇🀈🀉  🀏🀏🀏  🀀🀀"],
+"Triplet Murni":["Set yang dipakai untuk menang berbentuk triplet atau quad saja.","🀙🀙🀙  🀄🀄🀄  🀀🀀🀀🀀"],
+"Lima Serangkai":["Memiliki kartu yang mengandung semua kelompok kartu: bambu, bulat, karakter, naga, dan angin.","🀐🀐🀐  🀇🀇🀇  🀙🀙🀙  🀄🀄  🀀🀀"],
+"Serupa Separuh":["Menggunakan hanya 1 logo/suit dan kartu royal saja.","🀙🀚🀛  🀝🀞🀟  🀄🀄🀄"],
+"Urutan Mirip":["Memiliki 3 set urutan dengan angka yang sama di semua logo/suit.","🀇🀈🀉  🀙🀚🀛  🀐🀑🀒"],
+"Urutan Lengkap Murni":["Memiliki set 123, 456, 789 pada logo/suit yang sama.","🀇🀈🀉  🀊🀋🀌  🀍🀎🀏"],
+"Komodo (Naga Kecil)":["Memiliki 2 triplet/quad naga dan 1 pair naga.","🀄🀄🀄  🀅🀅🀅  🀆🀆"],
+"Ujung Murni":["Semua set yang dipakai untuk menang mengandung terminal.","🀇🀇🀇  🀏🀏🀏  🀐🀐🀐  🀘🀘"],
+"Tujuh Keajaiban":["Memiliki 7 kembar yang berbeda. Tidak boleh ada quad di komposisi ini.","🀄🀄  🀅🀅  🀇🀇  🀏🀏  🀐🀐  🀙🀙  🀀🀀"],
+"Serupa Murni (Satu Warna)":["Kartu yang dipakai untuk menang hanya terdiri dari 1 logo/suit.","🀙🀚🀛  🀜🀜🀜  🀝🀞🀟  🀠🀠"],
+"Nantaboga (3 Naga Besar)":["Kombinasi tiga Naga Besar.","🀄🀄🀄  🀅🀅🀅  🀆🀆🀆"],
+"Topan (4 Angin Besar/Kecil)":["Kombinasi empat Angin Besar/Kecil.","🀀🀀🀀  🀁🀁🀁  🀂🀂🀂  🀃🀃"],
+"Royal Murni":["Kombinasi murni kartu royal sesuai aturan permainan.","🀀🀁🀂🀃  🀄🀅🀆"],
+"Terminal Murni":["Hanya menggunakan kartu terminal (1 dan 9) sesuai aturan.","🀇🀇🀇  🀏🀏🀏  🀐🀐🀐  🀘🀘"],
+"Quad Murni (4 Quad)":["Memiliki 4 Quad/Kong.","🀙🀙🀙🀙  🀄🀄🀄🀄"],
+"13 Rakyat":["Kombinasi 1 dan 9 dari semua logo/suit, Naga, dan Angin sesuai aturan.","🀇 🀏  🀐 🀘  🀙 🀡  🀀 🀁 🀂 🀃  🀄 🀅 🀆"],
+"7 Tangga Surga":["Tujuh kembar berurutan dengan logo/suit yang sama.","🀇🀇  🀈🀈  🀉🀉  🀊🀊  🀋🀋  🀌🀌  🀍🀍"]
+};
 const $=x=>document.getElementById(x),fmt=n=>new Intl.NumberFormat("id-ID",{maximumFractionDigits:2}).format(n);
 let s=JSON.parse(localStorage.getItem("mahjong_table_v3")||"null")||{names:["Pemain 1","Pemain 2","Pemain 3","Pemain 4"],scores:[0,0,0,0],dealer:0,round:1,roundWind:0,initialEast:0,history:[],seatWinds:[0,1,2,3]};
 if(!Array.isArray(s.seatWinds)||s.seatWinds.length!==4)s.seatWinds=[0,1,2,3];
@@ -396,7 +426,12 @@ function openRound(){let box=$("roundNames");box.innerHTML=[0,1,2,3].map(i=>`<di
 function closeRound(){$("roundModal").classList.remove("show")}
 function startRound(){let names=[0,1,2,3].map(i=>($("rn"+i).value.trim().slice(0,10)||"Pemain "+(i+1)));let d=Number($("roundDealer").value)||0;s.names=names;s.round=(s.round||1)+1;s.dealer=d;s.seatWinds=[0,1,2,3].map(i=>(i-d+4)%4);save();closeRound();render()}
 
-function openPatternGuide(){$("patternGuide").classList.add("show")}
+function buildPatternGuide(){
+ const host=$("guideContent"); if(!host||host.dataset.ready)return;
+ const groups=[]; pats.forEach((p,i)=>{let g=groups.find(x=>x.points===p[1]);if(!g){g={points:p[1],items:[]};groups.push(g)}g.items.push({p,i})});
+ host.innerHTML=groups.map(g=>`<section class="guide-tier"><div class="guide-tier-title">${fmt(g.points)} Poin</div><div class="guide-grid">${g.items.map(({p,i})=>{const d=guideDetails[p[0]]||[p[2],p[3]];return `<article class="guide-card"><div class="guide-name">${i+1}. ${p[0]}</div><div class="guide-points">${fmt(p[1])} poin</div><div class="guide-desc">${d[0]}</div><div class="guide-example" aria-label="Contoh kartu">${d[1]}</div></article>`}).join("")}</div></section>`).join(""); host.dataset.ready="1";
+}
+function openPatternGuide(){buildPatternGuide();$("patternGuide").classList.add("show")}
 function closePatternGuide(){$("patternGuide").classList.remove("show")}
 function openNew(){for(let i=0;i<4;i++)$("n"+i).value=s.names[i];$("new").classList.add("show")}function closeNew(){$("new").classList.remove("show")}
 function newGame(){let st=parseFloat($("start").value)||0;s={names:[0,1,2,3].map(i=>($("n"+i).value.trim().slice(0,10)||"Pemain "+(i+1))),scores:[st,st,st,st],dealer:0,round:1,roundWind:0,initialEast:0,history:[],seatWinds:[0,1,2,3]};winner=null;method=null;discarder=null;save();closeNew();render()}
