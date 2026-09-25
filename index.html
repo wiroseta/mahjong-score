@@ -300,6 +300,42 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
  #editQuadInputs .stepper input{height:36px!important;min-height:36px!important;font-size:15px!important}
 }
 </style>
+
+<style id="iphone-quad-2x2-v10">
+/* iPhone fix: Quad controls use a 2 x 2 grid so all players stay inside the card. */
+@media (max-width: 600px){
+  #quadInputs, #editQuadInputs{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:8px!important;
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    overflow:visible!important;
+    box-sizing:border-box!important;
+  }
+  #quadInputs .quadbox, #editQuadInputs .quadbox{
+    width:100%!important; min-width:0!important; max-width:100%!important;
+    padding:7px 5px!important; box-sizing:border-box!important; overflow:hidden!important;
+  }
+  #quadInputs .stepper, #editQuadInputs .stepper{
+    display:grid!important; grid-template-columns:40px minmax(38px,1fr) 40px!important;
+    gap:5px!important; width:100%!important; min-width:0!important; box-sizing:border-box!important;
+  }
+  #quadInputs .stepper button, #editQuadInputs .stepper button{
+    width:40px!important; min-width:40px!important; height:40px!important; padding:0!important; font-size:24px!important;
+  }
+  #quadInputs .stepper input, #editQuadInputs .stepper input{
+    width:100%!important; min-width:0!important; height:40px!important; min-height:40px!important; padding:2px!important; box-sizing:border-box!important;
+  }
+  #quadInputs .label, #editQuadInputs .label{font-size:11px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+}
+@media (max-width: 350px){
+  #quadInputs, #editQuadInputs{gap:5px!important}
+  #quadInputs .stepper, #editQuadInputs .stepper{grid-template-columns:34px minmax(34px,1fr) 34px!important;gap:3px!important}
+  #quadInputs .stepper button, #editQuadInputs .stepper button{width:34px!important;min-width:34px!important}
+}
+</style>
 </head>
 <body><div class="app">
 <div class="top"><div><h1>🀄 Mahjong Score</h1><div class="muted">Tap pemain yang menang → Hu/Zi Mo → pilih poin → Catat</div></div><div style="display:flex;gap:6px"><button class="btn light" onclick="openPlayers()">Edit Nama</button><button class="btn light" onclick="openRound()">Ronde Baru</button><button class="btn light" onclick="openSettings()">⚙️ Setting</button><button class="btn gold" onclick="openNew()">Game Baru</button></div></div>
