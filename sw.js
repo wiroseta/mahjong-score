@@ -1,4 +1,4 @@
-const CACHE="mahjong-score-v8-rules-page";
+const CACHE="mahjong-score-v9-honors-uniform";
 const ASSETS=["./","./index.html","./manifest.webmanifest","./icon-192.png","./icon-512.png"];
 const TILE_ASSETS=[];
 self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS.concat(TILE_ASSETS)))));
