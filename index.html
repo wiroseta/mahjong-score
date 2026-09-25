@@ -248,6 +248,11 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
 @media(max-width:650px){.mjtile{width:32px!important;height:46px!important}.guide-example{gap:2px!important}}
 </style>
 
+
+<style id="mahjong-components-style">
+.mahjong-components{background:#fffdf7;border:1px solid #ded8c8;border-radius:16px;padding:14px;margin-bottom:16px}.mahjong-components h3{margin:0 0 4px;color:#9b7415;font-size:21px}.mahjong-components-note{font-size:13px;color:#6b6b63;margin-bottom:12px}.mc-row{display:grid;grid-template-columns:150px minmax(0,1fr);gap:10px;align-items:center;padding:8px 0;border-top:1px solid #eee8d9}.mc-row:first-of-type{border-top:0}.mc-label{font-weight:800;color:#176f4d;line-height:1.2}.mc-label small{display:block;font-weight:600;color:#666;margin-top:3px}.mc-tiles{display:grid;grid-template-columns:repeat(9,minmax(34px,1fr));gap:3px;min-width:0}.mc-tiles.honors{grid-template-columns:repeat(7,minmax(38px,1fr));max-width:500px}.mc-item{text-align:center;min-width:0}.mc-item .mjtile{width:100%!important;max-width:44px!important;height:auto!important;aspect-ratio:80/108;margin:auto}.mc-name{font-size:10px;line-height:1.15;color:#555;margin-top:3px;white-space:normal}.mc-num{font-size:10px;font-weight:800;color:#8b7b55;margin-bottom:2px}.mc-subtitle{font-size:12px;font-weight:800;color:#8b7b55;margin:7px 0 2px}
+@media(max-width:650px){.mahjong-components{padding:11px}.mahjong-components h3{font-size:18px}.mc-row{grid-template-columns:1fr;gap:5px}.mc-label small{display:inline;margin-left:4px}.mc-tiles{grid-template-columns:repeat(9,minmax(27px,1fr));gap:1px}.mc-tiles.honors{grid-template-columns:repeat(7,minmax(31px,1fr));gap:2px}.mc-item .mjtile{max-width:34px!important}.mc-name{font-size:8px}.mc-num{font-size:9px}}
+</style>
 <style id="rules-page-style">
 .rules-modal{max-width:900px!important;width:min(94vw,900px)!important;max-height:90vh;overflow:auto;padding:0!important;background:#f7f4eb!important;color:#20241f!important}
 .rules-head{position:sticky;top:0;z-index:3;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 20px;background:rgba(250,248,241,.96);backdrop-filter:blur(18px);border-bottom:1px solid #ded8c8}
@@ -319,6 +324,14 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
  <div class="rules-head"><div><h2>📖 Aturan Bermain Mahjong</h2><div class="muted">Panduan ringkas untuk 4 pemain</div></div><button type="button" class="rules-x" onclick="closeRulesGuide()" aria-label="Tutup">×</button></div>
  <div class="share-guide-actions"><button type="button" class="btn light" onclick="shareGuideImage('rulesGuide','Aturan-Mahjong.png')">🖼️ Share Gambar</button><button type="button" class="btn light" onclick="shareGuidePDF('rulesGuide','Aturan-Mahjong.pdf')">📄 Share PDF</button></div>
  <div class="rules-body">
+
+  <section class="mahjong-components" id="mahjongComponents">
+   <h3>Komponen Mahjong</h3><div class="mahjong-components-note">Kenali jenis tile dan namanya sebelum mulai bermain.</div>
+   <div class="mc-row"><div class="mc-label">Bulat <small>(Tongzi / 筒子)</small></div><div class="mc-tiles" data-component-row="dot"></div></div>
+   <div class="mc-row"><div class="mc-label">Karakter <small>(Wanzi / 萬子)</small></div><div class="mc-tiles" data-component-row="char"></div></div>
+   <div class="mc-row"><div class="mc-label">Bambu <small>(Suozi / 索子)</small></div><div class="mc-tiles" data-component-row="bam"></div></div>
+   <div class="mc-row"><div class="mc-label">Royal / Kartu Mulia <small>Angin &amp; Naga</small></div><div><div class="mc-subtitle">Mata Angin</div><div class="mc-tiles honors" data-component-honors="winds"></div><div class="mc-subtitle">Naga</div><div class="mc-tiles honors" data-component-honors="dragons"></div></div></div>
+  </section>
   <section class="rules-section"><h3>Cara Bermain Untuk 4 Orang</h3>
    <ol><li>Ambil 1 tile dan buang 1 tile sampai ada pemain yang menang.</li><li>Cara menang adalah membuat <span class="rules-term">4 set dan 1 pair</span>. Ada 3 jenis set di Mahjong:</li></ol>
    <div class="rules-set-grid">
@@ -590,7 +603,13 @@ function setManualPointsVisible(show){
  $("manualPointsWrap").style.display=show?"block":"none";
  if(!show){$("extra").value=0;update()}
 }
-function buildRulesVisuals(){document.querySelectorAll("[data-rule-tiles]").forEach(el=>{if(!el.dataset.ready){el.innerHTML=renderMahjongTiles(el.dataset.ruleTiles);el.dataset.ready="1"}})}
+function buildRulesVisuals(){
+ document.querySelectorAll("[data-rule-tiles]").forEach(el=>{if(!el.dataset.ready){el.innerHTML=renderMahjongTiles(el.dataset.ruleTiles);el.dataset.ready="1"}});
+ const suitNames={dot:"Tongzi",char:"Wanzi",bam:"Suozi"};
+ document.querySelectorAll("[data-component-row]").forEach(el=>{if(el.dataset.ready)return;const suit=el.dataset.componentRow;el.innerHTML=Array.from({length:9},(_,i)=>`<div class="mc-item"><div class="mc-num">${i+1}</div>${renderMahjongTiles(suit+(i+1))}<div class="mc-name">${i+1} ${suitNames[suit]}</div></div>`).join("");el.dataset.ready="1"});
+ const honorData={winds:[["east","Timur","東"],["south","Selatan","南"],["west","Barat","西"],["north","Utara","北"]],dragons:[["red","Merah","中"],["green","Hijau","發"],["white","Putih","白"]]};
+ document.querySelectorAll("[data-component-honors]").forEach(el=>{if(el.dataset.ready)return;el.innerHTML=honorData[el.dataset.componentHonors].map(([k,n,c])=>`<div class="mc-item">${renderMahjongTiles(k)}<div class="mc-name">${n}<br>${c}</div></div>`).join("");el.dataset.ready="1"});
+}
 function openRulesGuide(){buildRulesVisuals();$("rulesGuide").classList.add("show")}
 function closeRulesGuide(){$("rulesGuide").classList.remove("show")}
 function openPatternGuide(){buildPatternGuide();$("patternGuide").classList.add("show")}
