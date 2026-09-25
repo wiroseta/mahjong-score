@@ -300,7 +300,7 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
 </div>
 
 <details class="panel historyPanel" id="historyPanel"><summary id="historySummaryButton" role="button" aria-controls="history" aria-expanded="false"><b id="historySummary">Riwayat permainan <span class="muted">(tap untuk buka)</span></b></summary><div id="history" class="history muted">Belum ada tangan.</div></details>
-<div class="panel"><div class="recap-head"><h2>Rekap Semua Pemain</h2></div><div id="allPlayers" class="history muted"></div></div>
+<details class="panel historyPanel" id="allPlayersPanel"><summary id="allPlayersSummaryButton" role="button" aria-controls="allPlayers" aria-expanded="false"><b id="allPlayersSummary">Rekap Semua Pemain <span class="muted">(tap untuk buka)</span></b></summary><div id="allPlayers" class="history muted"></div></details>
 </div>
 
 <div class="bottom"><button class="btn light" onclick="undo()">↶ Undo</button><button class="btn light" onclick="share()">Bagikan Skor</button><button class="btn danger" onclick="openNew()">Reset</button></div>
@@ -655,6 +655,32 @@ function updatePatternSummary(){
     : '3. Kombinasi poin setiap pemain <span class="muted">(tap untuk buka)</span>';
 }
 if(patternToggle){ patternToggle.addEventListener("toggle", updatePatternSummary); updatePatternSummary(); }
+
+const allPlayersPanel=document.getElementById("allPlayersPanel");
+const allPlayersSummary=document.getElementById("allPlayersSummary");
+const allPlayersSummaryButton=document.getElementById("allPlayersSummaryButton");
+function updateAllPlayersSummary(){
+  if(!allPlayersPanel||!allPlayersSummary) return;
+  allPlayersSummary.innerHTML = allPlayersPanel.open
+    ? 'Rekap Semua Pemain <span class="muted">(tap untuk tutup)</span>'
+    : 'Rekap Semua Pemain <span class="muted">(tap untuk buka)</span>';
+  if(allPlayersSummaryButton) allPlayersSummaryButton.setAttribute("aria-expanded", allPlayersPanel.open ? "true" : "false");
+}
+/* iOS Safari/PWA fix: explicitly toggle Rekap Semua Pemain on tap. */
+if(allPlayersPanel){
+  allPlayersPanel.addEventListener("toggle", updateAllPlayersSummary);
+  if(allPlayersSummaryButton){
+    allPlayersSummaryButton.addEventListener("click", function(e){
+      e.preventDefault();
+      allPlayersPanel.open=!allPlayersPanel.open;
+      updateAllPlayersSummary();
+    });
+    allPlayersSummaryButton.addEventListener("keydown", function(e){
+      if(e.key==="Enter" || e.key===" "){ e.preventDefault(); allPlayersPanel.open=!allPlayersPanel.open; updateAllPlayersSummary(); }
+    });
+  }
+  updateAllPlayersSummary();
+}
 </script><script>
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js"));
