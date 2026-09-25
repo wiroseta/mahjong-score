@@ -251,6 +251,7 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
 .rules-head h2{margin:0;color:#173d2f!important}.rules-x{width:44px;height:44px;border:0;border-radius:50%;background:#fff;font-size:28px;cursor:pointer}.rules-body{padding:18px 20px 24px}.rules-section{background:#fff;border:1px solid #ded8c8;border-radius:18px;padding:18px;margin-bottom:14px;box-shadow:0 5px 18px rgba(0,0,0,.06)}
 .rules-section h3{margin:0 0 12px;color:#9b7415;font-size:21px}.rules-section h4{margin:16px 0 7px;color:#176f4d;font-size:16px}.rules-section p,.rules-section li{font-size:16px;line-height:1.55}.rules-section ol,.rules-section ul{padding-left:24px;margin:8px 0}.rules-callout{background:#eef8ef;border:2px solid #42a55d;border-radius:16px;padding:16px}.rules-term{font-weight:800;color:#16804f}.rules-set-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.rules-set{background:#f7f4eb;border-radius:13px;padding:12px;text-align:center}.rules-set b{display:block;margin-bottom:5px}.rules-close{width:100%;margin-top:4px}
 @media(max-width:650px){.rules-modal{width:calc(100vw - 14px)!important;max-height:94vh;border-radius:18px!important}.rules-head{padding:14px}.rules-head h2{font-size:19px}.rules-body{padding:12px}.rules-section{padding:14px;border-radius:15px}.rules-section h3{font-size:18px}.rules-section p,.rules-section li{font-size:14px;line-height:1.5}.rules-set-grid{grid-template-columns:1fr}.rules-x{width:40px;height:40px;font-size:24px}}
+.rules-visual{margin-top:10px;background:#f3f0e7;border-radius:12px;padding:10px;display:flex;flex-wrap:wrap;gap:3px;align-items:center;overflow:visible}.rules-visual .mjtile{flex:0 0 36px!important;width:36px!important;height:52px!important;overflow:hidden!important}.rules-visual .mjtile img{width:100%!important;height:100%!important;object-fit:contain!important;display:block!important}.rules-arrow{font-size:22px;font-weight:900;color:#7b6a3d;margin:0 5px}.rules-caption{font-size:12px;color:#666;margin-top:7px;line-height:1.4}.rules-set .rules-visual{justify-content:center;padding:8px;margin-top:8px}.rules-payment-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.rules-payment-card{background:#fff;border:1px solid #d8dfd3;border-radius:12px;padding:10px}.rules-payment-card b{display:block;color:#176f4d;margin-bottom:5px}@media(max-width:650px){.rules-visual .mjtile{flex-basis:30px!important;width:30px!important;height:43px!important}.rules-payment-row{grid-template-columns:1fr}.rules-arrow{font-size:18px;margin:0 2px}}
 </style>
 
 <style id="recap-rules-tile-layout-fix">
@@ -316,12 +317,22 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
  <div class="rules-body">
   <section class="rules-section"><h3>Cara Bermain Untuk 4 Orang</h3>
    <ol><li>Ambil 1 tile dan buang 1 tile sampai ada pemain yang menang.</li><li>Cara menang adalah membuat <span class="rules-term">4 set dan 1 pair</span>. Ada 3 jenis set di Mahjong:</li></ol>
-   <div class="rules-set-grid"><div class="rules-set"><b>Urutan (Chow)</b>3 tile berurutan dari suit yang sama.</div><div class="rules-set"><b>Triplet (Pong)</b>3 tile yang sama.</div><div class="rules-set"><b>Quad (Kong)</b>4 tile yang sama.</div></div>
+   <div class="rules-set-grid">
+    <div class="rules-set"><b>Urutan (Chow)</b>3 tile berurutan dari suit yang sama.<div class="rules-visual" data-rule-tiles="char3 char4 char5"></div></div>
+    <div class="rules-set"><b>Triplet (Pong)</b>3 tile yang sama.<div class="rules-visual" data-rule-tiles="red red red"></div></div>
+    <div class="rules-set"><b>Quad (Kong)</b>4 tile yang sama.<div class="rules-visual" data-rule-tiles="dot5 dot5 dot5 dot5"></div></div>
+   </div>
+   <h4>Contoh tangan menang: 4 set + 1 pair</h4>
+   <div class="rules-visual" data-rule-tiles="char1 char2 char3 dot2 dot3 dot4 bam4 bam5 bam6 east east east red red"></div>
+   <div class="rules-caption">Contoh: tiga Chow + satu Pong + sepasang Naga Merah. Tangan menang normal berjumlah 14 tile (Kong dapat membuat jumlah fisik tile lebih banyak).</div>
    <ul><li>Set <span class="rules-term">Chow</span> bisa diklaim dari pemain mana saja, namun pemain <span class="rules-term">sebelah kiri dari yang melepaskan tile</span> mendapat prioritas.</li><li>Set <span class="rules-term">Pong</span> bisa diklaim dari pemain mana pun untuk membentuk set triplet.</li><li>Set <span class="rules-term">Kong</span> bisa diklaim dari pemain mana pun atau didapatkan sendiri untuk membentuk set quad.</li></ul>
+   <h4>Hu dan Zi Mo</h4>
+   <div class="rules-payment-row"><div class="rules-payment-card"><b>Hu — mengambil buangan</b><div class="rules-visual" data-rule-tiles="char7 char8"></div><div class="rules-caption">Menunggu 9 Karakter; tile kemenangan berasal dari buangan pemain lain.</div></div><div class="rules-payment-card"><b>Zi Mo — mengambil sendiri</b><div class="rules-visual" data-rule-tiles="bam7 bam8"></div><div class="rules-caption">Menunggu 9 Bambu; tile kemenangan diambil sendiri dari tembok.</div></div></div>
    <p>Pemain boleh mengambil tile yang baru saja dibuang pemain lain jika kurang 1 tile lagi menuju Chow/Pong/Kong/Hu. <span class="rules-term">Zi Mo</span> terjadi bila tile kemenangan diperoleh sendiri dari tembok.</p>
   </section>
   <section class="rules-section rules-callout"><h3>Cara Pembayaran Poin</h3>
    <ul><li>Jika pemain mencapai Mahjong melalui <span class="rules-term">Hu</span>, pemain yang dimakan membayar <strong>1 poin</strong> kepada pemain yang Hu.</li><li>Jika pemain mencapai Mahjong melalui <span class="rules-term">Zi Mo</span>, pembayaran mengikuti perhitungan Zi Mo di program dan dibayar oleh pemain lain.</li><li>Poin kombinasi diberikan kepada <strong>setiap pemain</strong> yang berhasil mengumpulkannya, sesuai nilai kombinasi yang digunakan dalam program.</li></ul>
+   <div class="rules-payment-row"><div class="rules-payment-card"><b>Contoh HU</b><div class="rules-visual" data-rule-tiles="dot7 dot8 dot9"></div><div class="rules-caption">Tile 9 Tongzi dibuang lawan dan melengkapi Chow 7–8–9 → pemberi tile membayar 1 poin HU.</div></div><div class="rules-payment-card"><b>Contoh Zi Mo</b><div class="rules-visual" data-rule-tiles="bam7 bam8 bam9"></div><div class="rules-caption">Tile 9 Bambu diambil sendiri dari tembok dan melengkapi Chow 7–8–9 → pembayaran Zi Mo dihitung oleh program.</div></div></div>
   </section>
   <button class="btn light rules-close" onclick="closeRulesGuide()">Tutup Aturan</button>
  </div>
@@ -489,7 +500,8 @@ function setManualPointsVisible(show){
  $("manualPointsWrap").style.display=show?"block":"none";
  if(!show){$("extra").value=0;update()}
 }
-function openRulesGuide(){$("rulesGuide").classList.add("show")}
+function buildRulesVisuals(){document.querySelectorAll("[data-rule-tiles]").forEach(el=>{if(!el.dataset.ready){el.innerHTML=renderMahjongTiles(el.dataset.ruleTiles);el.dataset.ready="1"}})}
+function openRulesGuide(){buildRulesVisuals();$("rulesGuide").classList.add("show")}
 function closeRulesGuide(){$("rulesGuide").classList.remove("show")}
 function openPatternGuide(){buildPatternGuide();$("patternGuide").classList.add("show")}
 function closePatternGuide(){$("patternGuide").classList.remove("show")}
