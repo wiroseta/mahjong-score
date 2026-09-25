@@ -453,17 +453,46 @@ function guideCaptureNode(id){
 }
 async function nativeCapture(node){
  await waitForShareImages(node); await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
- const rect=node.getBoundingClientRect(), w=Math.max(900,Math.ceil(node.scrollWidth||rect.width)), h=Math.max(1,Math.ceil(node.scrollHeight||rect.height));
- const clone=node.cloneNode(true); clone.style.position='static';clone.style.left='auto';clone.style.top='auto';clone.style.width=w+'px';clone.style.height='auto';clone.style.maxHeight='none';clone.style.overflow='visible';
- const css=[...document.querySelectorAll('style')].map(x=>x.textContent).join('\n');
- const html=new XMLSerializer().serializeToString(clone);
- const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><foreignObject width="100%" height="100%"><div xmlns="http://www.w3.org/1999/xhtml"><style>${css.replace(/<\/style/gi,'<\\/style')}</style>${html}</div></foreignObject></svg>`;
- const blob=new Blob([svg],{type:'image/svg+xml;charset=utf-8'}), url=URL.createObjectURL(blob), img=new Image();
- try{
-  await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=()=>reject(new Error('Gagal merender panduan'));img.src=url});
-  const scale=Math.min(2, Math.max(1, 3200/w)); const canvas=document.createElement('canvas');canvas.width=Math.ceil(w*scale);canvas.height=Math.ceil(h*scale);
-  const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0,canvas.width,canvas.height);return canvas;
- }finally{URL.revokeObjectURL(url)}
+ // Desktop browsers (especially Safari) often block SVG foreignObject when the
+ // captured DOM contains local tile images. Build the export directly on canvas
+ // from the visible guide instead, avoiding foreignObject completely.
+ const w=1200, pad=36, gap=18;
+ const cards=[...node.querySelectorAll('.guide-content > *, .rules-visuals > *')].filter(el=>{
+   const r=el.getBoundingClientRect(); return r.width>0 && r.height>0;
+ });
+ const title=(node.querySelector('h2')?.textContent||'Panduan Mahjong').trim();
+ const rows=[];
+ // Use each guide card as a logical export row. Text and tile images are drawn natively.
+ for(const card of cards){
+   const heading=(card.querySelector('h3,h4,b,strong')?.textContent||'').trim();
+   const txt=(card.innerText||'').replace(/Share Gambar|Share PDF|Tutup Panduan/g,'').trim();
+   const imgs=[...card.querySelectorAll('img')];
+   rows.push({heading,txt,imgs});
+ }
+ if(!rows.length){
+   const content=node.querySelector('.guide-content')||node;
+   rows.push({heading:'',txt:(content.innerText||'').trim(),imgs:[...content.querySelectorAll('img')]});
+ }
+ const measure=document.createElement('canvas').getContext('2d');
+ const wrap=(text,maxWidth,font)=>{measure.font=font;const words=String(text).split(/\s+/);let lines=[],line='';for(const word of words){let t=line?line+' '+word:word;if(measure.measureText(t).width>maxWidth&&line){lines.push(line);line=word}else line=t}if(line)lines.push(line);return lines};
+ let blocks=[]; let total=90;
+ for(const row of rows){
+   let lines=wrap(row.txt, w-pad*2, '24px Arial');
+   let imageH=row.imgs.length?100:0;
+   let bh=28+lines.length*32+imageH+26; blocks.push({...row,lines,bh}); total+=bh+gap;
+ }
+ const canvas=document.createElement('canvas');canvas.width=w;canvas.height=Math.max(300,total+pad);
+ const ctx=canvas.getContext('2d');ctx.fillStyle='#f7f3e8';ctx.fillRect(0,0,canvas.width,canvas.height);
+ ctx.fillStyle='#1d211e';ctx.font='bold 40px Arial';ctx.fillText(title,pad,58);
+ let y=90;
+ for(const b of blocks){
+   ctx.fillStyle='#fff';ctx.strokeStyle='#c9c4b7';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(pad,y,w-pad*2,b.bh,18);ctx.fill();ctx.stroke();
+   let ty=y+36;ctx.fillStyle='#222';ctx.font='24px Arial';
+   for(const line of b.lines){ctx.fillText(line,pad+20,ty);ty+=32}
+   if(b.imgs.length){let x=pad+20, iy=y+b.bh-112;for(const im of b.imgs){try{const iw=Math.min(70,im.naturalWidth||70),ih=Math.min(90,im.naturalHeight||90);ctx.drawImage(im,x,iy,iw,ih);x+=iw+8;if(x>w-pad-80)break}catch(e){}}}
+   y+=b.bh+gap;
+ }
+ return canvas;
 }
 async function shareFileOrDownload(blob,name,title){
  let file; try{file=new File([blob],name,{type:blob.type})}catch(e){}
