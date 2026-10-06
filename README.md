@@ -42,3 +42,9 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Menambahkan katalog lengkap 34 jenis tile (Dots, Characters, Bamboo, Winds, Dragons) memakai aset tile aplikasi sendiri beserta label nama.
 - Katalog tile ikut dimasukkan ke PDF Aturan Bermain.
 - Menghapus tombol bawah “Tutup Aturan”; penutupan menggunakan X.
+
+
+## v12.6
+- iPhone/mobile: header dibuat lebih compact tanpa mengubah proporsi meja/panel; versi dipindahkan ke bawah judul Mahjong Score.
+- iPhone/mobile: tombol Catat Hasil Tangan digeser ke kiri setelah tombol menu footer dengan jarak yang jelas.
+- Desktop tetap menggunakan layout sebelumnya.
