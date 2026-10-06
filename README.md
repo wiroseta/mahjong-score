@@ -1,4 +1,4 @@
-## Version v11
+## Version v12
 
 Approved responsive header/footer navigation and fluid four-player table.
 
@@ -25,3 +25,8 @@ Update istilah permainan:
 - Riwayat menampilkan nomor Ronde dan Tangan.
 
 Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang tersedia menggunakan CSS auto-fit/minmax, bukan jumlah kolom tetap per device.
+
+
+### v12
+- Setelah Catat Hasil Tangan berhasil, tampil notifikasi non-blocking “✓ Skor sudah tercatat”.
+- Notifikasi hilang otomatis sekitar 2,8 detik tanpa tap/klik.
