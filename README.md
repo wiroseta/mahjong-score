@@ -76,3 +76,10 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Login menggunakan PIN tepat 4 digit. PIN dikirim ke Supabase Auth sebagai password internal berawalan `mj` agar tetap memenuhi minimum password Supabase; pengguna hanya melihat/mengetik 4 digit.
 - Pembuatan user baru menggunakan PIN awal tepat 4 digit.
 - Edge Function `mahjong-user-admin` menambahkan action `delete` dan `set-pin` serta create berbasis PIN.
+
+
+## v13.1 — Ubah PIN dari User Management
+- Administrator dapat menekan **Ubah PIN** pada setiap akun, termasuk akun Administrator sendiri.
+- PIN baru wajib tepat 4 digit dan diminta dua kali untuk konfirmasi.
+- Akun Administrator tetap tidak dapat dinonaktifkan atau dihapus dari User Management.
+- Layout tombol User Management di iPhone dibuat lebih compact agar aksi Ubah PIN, Aktif/Nonaktif, dan hapus tetap muat.
