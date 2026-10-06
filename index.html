@@ -314,9 +314,13 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
 .guide-title{text-align:center;min-width:0}.guide-head h2{color:inherit!important;margin:0 0 3px!important}.guide-share,.guide-x{width:44px;height:44px;min-height:44px;border-radius:50%;font-size:25px;line-height:1;cursor:pointer}.guide-share{justify-self:start}.guide-x{justify-self:end}.guide-tier-title{color:#f1bd3d!important;text-shadow:0 1px 1px rgba(0,0,0,.35)}.guide-name{color:#111!important}.guide-close{display:none!important}
 @media(max-width:650px){.data-modal-head{top:-12px!important;margin:-12px -1px 7px!important;padding:11px 1px 8px!important}.guide-head{grid-template-columns:40px minmax(0,1fr) 40px!important;top:-12px!important;margin:-12px 0 8px!important;padding:10px 0 8px!important;gap:8px!important}.guide-share,.guide-x{width:40px;height:40px;min-height:40px;font-size:23px}.guide-title .muted{font-size:10px!important}.guide-tier-title{font-size:14px!important}}
 </style>
+
+<style id="v12-3-rules-share-catalog">
+.rules-head{display:grid!important;grid-template-columns:44px minmax(0,1fr) 44px!important;align-items:center!important}.rules-title{text-align:left;min-width:0}.rules-share,.rules-x{width:44px;height:44px;border:0;border-radius:50%;background:#fff;color:#20241f;font-size:25px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center}.rules-share:disabled{opacity:.6}.tile-catalog{display:grid;gap:16px}.tile-family{background:#f7f4eb;border:1px solid #ded8c8;border-radius:14px;padding:14px}.tile-family h4{margin:0 0 10px!important;color:#176f4d!important}.tile-list{display:grid;grid-template-columns:repeat(9,minmax(64px,1fr));gap:8px}.tile-list.honors{grid-template-columns:repeat(7,minmax(72px,1fr))}.tile-item{min-width:0;text-align:center;background:#fff;border:1px solid #e2dccd;border-radius:10px;padding:8px 4px}.tile-item .mjtile{display:block!important;margin:0 auto 6px;width:42px!important;height:60px!important}.tile-label{font-size:12px;line-height:1.25;color:#222;font-weight:700;overflow-wrap:anywhere}.tile-sub{display:block;font-size:10px;color:#666;font-weight:500;margin-top:2px}@media(max-width:650px){.rules-head{grid-template-columns:40px minmax(0,1fr) 40px!important}.rules-share,.rules-x{width:40px;height:40px;font-size:23px}.rules-title{text-align:center}.rules-title h2{font-size:18px!important}.rules-title .muted{font-size:11px}.tile-list,.tile-list.honors{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.tile-family{padding:10px}.tile-item{padding:7px 3px}.tile-item .mjtile{width:36px!important;height:52px!important}.tile-label{font-size:11px}}
+</style>
 </head>
 <body><div class="app">
-<div class="top"><div class="brand"><h1>🀄 Mahjong Score <span class="app-version">v12.2</span></h1><div class="muted">Tap pemain yang menang → Hu/Zi Mo → pilih poin → Catat</div></div><div class="top-actions"><button class="btn light" onclick="openPlayers()">Edit Nama</button><button class="btn gold" onclick="openNew()">Game Baru</button><div class="menu-wrap"><button class="btn light menu-trigger" aria-label="Menu utama" aria-expanded="false" onclick="toggleMenu('topMenu',this,event)">•••</button><div class="action-menu" id="topMenu"><button onclick="closeMenus();openHistoryModal()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h12M4 10h12M4 15h8"/><path d="M18 14v6m-3-3h6"/></svg></span><span>Riwayat Permainan</span></button><button onclick="closeMenus();openRecapModal()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="7" r="3"/><circle cx="17" cy="8" r="2.5"/><path d="M3 19c.5-4 2.2-6 5-6s4.5 2 5 6M14 19c.3-2.8 1.5-4.4 3.6-4.4 1.8 0 3 1.2 3.4 3.4"/></svg></span><span>Rekap Semua Pemain</span></button><button onclick="closeMenus();openRound()">↻ <span>Ronde Baru</span></button><button onclick="closeMenus();share()">⇧ <span>Bagikan Skor</span></button><button onclick="closeMenus();openSettings()">⚙ <span>Setting</span></button></div></div></div></div>
+<div class="top"><div class="brand"><h1>🀄 Mahjong Score <span class="app-version">v12.3</span></h1><div class="muted">Tap pemain yang menang → Hu/Zi Mo → pilih poin → Catat</div></div><div class="top-actions"><button class="btn light" onclick="openPlayers()">Edit Nama</button><button class="btn gold" onclick="openNew()">Game Baru</button><div class="menu-wrap"><button class="btn light menu-trigger" aria-label="Menu utama" aria-expanded="false" onclick="toggleMenu('topMenu',this,event)">•••</button><div class="action-menu" id="topMenu"><button onclick="closeMenus();openHistoryModal()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h12M4 10h12M4 15h8"/><path d="M18 14v6m-3-3h6"/></svg></span><span>Riwayat Permainan</span></button><button onclick="closeMenus();openRecapModal()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="7" r="3"/><circle cx="17" cy="8" r="2.5"/><path d="M3 19c.5-4 2.2-6 5-6s4.5 2 5 6M14 19c.3-2.8 1.5-4.4 3.6-4.4 1.8 0 3 1.2 3.4 3.4"/></svg></span><span>Rekap Semua Pemain</span></button><button onclick="closeMenus();openRound()">↻ <span>Ronde Baru</span></button><button onclick="closeMenus();share()">⇧ <span>Bagikan Skor</span></button><button onclick="closeMenus();openSettings()">⚙ <span>Setting</span></button></div></div></div></div>
 
 <div class="table">
  <div id="p3" class="player pN" onclick="selectWinner(3)"></div>
@@ -370,7 +374,7 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
 <label style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.55)"><span><b>Tambahan poin manual</b><br><small class="muted">Tampilkan kolom poin tambahan untuk pemenang.</small></span><input id="manualPointsToggle" type="checkbox" onchange="setManualPointsVisible(this.checked)" style="width:22px;height:22px"></label>
 </div><button type="button" class="btn gold" style="width:100%;margin-top:14px" onclick="closeSettings()">Selesai</button></div></div>
 <div class="overlay" id="rulesGuide"><div class="modal rules-modal">
- <div class="rules-head"><div><h2>📖 Aturan Bermain Mahjong</h2><div class="muted">Panduan ringkas untuk 4 pemain</div></div><button type="button" class="rules-x" onclick="closeRulesGuide()" aria-label="Tutup">×</button></div>
+ <div class="rules-head"><button type="button" class="rules-share" onclick="shareRulesGuidePDF()" aria-label="Bagikan PDF Aturan" title="Bagikan PDF">⇧</button><div class="rules-title"><h2>📖 Aturan Bermain Mahjong</h2><div class="muted">Panduan ringkas untuk 4 pemain</div></div><button type="button" class="rules-x" onclick="closeRulesGuide()" aria-label="Tutup">×</button></div>
  <div class="rules-body">
   <section class="rules-section"><h3>Cara Bermain Untuk 4 Orang</h3>
    <ol><li>Ambil 1 tile dan buang 1 tile sampai ada pemain yang menang.</li><li>Cara menang adalah membuat <span class="rules-term">4 set dan 1 pair</span>. Ada 3 jenis set di Mahjong:</li></ol>
@@ -387,11 +391,14 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
    <div class="rules-payment-row"><div class="rules-payment-card"><b>Hu — mengambil buangan</b><div class="rules-visual" data-rule-tiles="char7 char8"></div><div class="rules-caption">Menunggu 9 Karakter; tile kemenangan berasal dari buangan pemain lain.</div></div><div class="rules-payment-card"><b>Zi Mo — mengambil sendiri</b><div class="rules-visual" data-rule-tiles="bam7 bam8"></div><div class="rules-caption">Menunggu 9 Bambu; tile kemenangan diambil sendiri dari tembok.</div></div></div>
    <p>Pemain boleh mengambil tile yang baru saja dibuang pemain lain jika kurang 1 tile lagi menuju Chow/Pong/Kong/Hu. <span class="rules-term">Zi Mo</span> terjadi bila tile kemenangan diperoleh sendiri dari tembok.</p>
   </section>
+  <section class="rules-section tile-catalog-section"><h3>Komponen / Daftar Tile Mahjong</h3>
+   <p>Set Mahjong terdiri dari tiga suit bernomor 1–9 serta tile Royal/Honor berupa empat Angin dan tiga Naga.</p>
+   <div id="rulesTileCatalog" class="tile-catalog"></div>
+  </section>
   <section class="rules-section rules-callout"><h3>Cara Pembayaran Poin</h3>
    <ul><li>Jika pemain mencapai Mahjong melalui <span class="rules-term">Hu</span>, pemain yang dimakan membayar <strong>1 poin</strong> kepada pemain yang Hu.</li><li>Jika pemain mencapai Mahjong melalui <span class="rules-term">Zi Mo</span>, pembayaran mengikuti perhitungan Zi Mo di program dan dibayar oleh pemain lain.</li><li>Poin kombinasi diberikan kepada <strong>setiap pemain</strong> yang berhasil mengumpulkannya, sesuai nilai kombinasi yang digunakan dalam program.</li></ul>
    <div class="rules-payment-row"><div class="rules-payment-card"><b>Contoh HU</b><div class="rules-visual" data-rule-tiles="dot7 dot8 dot9"></div><div class="rules-caption">Tile 9 Tongzi dibuang lawan dan melengkapi Chow 7–8–9 → pemberi tile membayar 1 poin HU.</div></div><div class="rules-payment-card"><b>Contoh Zi Mo</b><div class="rules-visual" data-rule-tiles="bam7 bam8 bam9"></div><div class="rules-caption">Tile 9 Bambu diambil sendiri dari tembok dan melengkapi Chow 7–8–9 → pembayaran Zi Mo dihitung oleh program.</div></div></div>
   </section>
-  <button class="btn light rules-close" onclick="closeRulesGuide()">Tutup Aturan</button>
  </div>
 </div></div>
 <div class="overlay" id="patternGuide"><div class="modal guide-modal"><div class="guide-head"><button type="button" class="guide-share" onclick="sharePatternGuidePDF()" aria-label="Bagikan PDF Panduan" title="Bagikan PDF">⇧</button><div class="guide-title"><h2>Panduan Kombinasi Poin</h2><div class="muted">Nilai poin mengikuti program. Contoh tile mengikuti jenis dan gambar pada panduan.</div></div><button type="button" class="guide-x" onclick="closePatternGuide()" aria-label="Tutup">×</button></div><div id="guideContent" class="guide-content"></div></div></div>
@@ -559,7 +566,14 @@ function setManualPointsVisible(show){
  $("manualPointsWrap").style.display=show?"block":"none";
  if(!show){$("extra").value=0;update()}
 }
-function buildRulesVisuals(){document.querySelectorAll("[data-rule-tiles]").forEach(el=>{if(!el.dataset.ready){el.innerHTML=renderMahjongTiles(el.dataset.ruleTiles);el.dataset.ready="1"}})}
+const RULE_TILE_FAMILIES=[
+ {title:"Bulat / Dots (Tongzi)",items:Array.from({length:9},(_,i)=>({key:`dot${i+1}`,label:`${i+1} Bulat`,sub:`Tongzi ${i+1}`}))},
+ {title:"Karakter / Characters (Wanzi)",items:Array.from({length:9},(_,i)=>({key:`char${i+1}`,label:`${i+1} Karakter`,sub:`Wanzi ${i+1}`}))},
+ {title:"Bambu / Bamboo (Suozi)",items:Array.from({length:9},(_,i)=>({key:`bam${i+1}`,label:`${i+1} Bambu`,sub:`Suozi ${i+1}`}))},
+ {title:"Royal / Honor — Angin & Naga",honors:true,items:[{key:"east",label:"Angin Timur",sub:"East"},{key:"south",label:"Angin Selatan",sub:"South"},{key:"west",label:"Angin Barat",sub:"West"},{key:"north",label:"Angin Utara",sub:"North"},{key:"red",label:"Naga Merah",sub:"Red Dragon"},{key:"green",label:"Naga Hijau",sub:"Green Dragon"},{key:"white",label:"Naga Putih",sub:"White Dragon"}]}
+];
+function buildRulesTileCatalog(){const host=$("rulesTileCatalog");if(!host||host.dataset.ready)return;host.innerHTML=RULE_TILE_FAMILIES.map(f=>`<div class="tile-family"><h4>${f.title}</h4><div class="tile-list ${f.honors?'honors':''}">${f.items.map(it=>`<div class="tile-item">${renderMahjongTiles(it.key)}<div class="tile-label">${it.label}<span class="tile-sub">${it.sub}</span></div></div>`).join('')}</div></div>`).join('');host.dataset.ready="1"}
+function buildRulesVisuals(){document.querySelectorAll("[data-rule-tiles]").forEach(el=>{if(!el.dataset.ready){el.innerHTML=renderMahjongTiles(el.dataset.ruleTiles);el.dataset.ready="1"}});buildRulesTileCatalog()}
 function openRulesGuide(){buildRulesVisuals();$("rulesGuide").classList.add("show")}
 function closeRulesGuide(){$("rulesGuide").classList.remove("show")}
 function openPatternGuide(){buildPatternGuide();$("patternGuide").classList.add("show")}
@@ -618,6 +632,25 @@ async function buildPatternGuidePDF(){
    y+=cardH+18;
  }
  return canvasesToPDF(pages);
+}
+async function shareRulesGuidePDF(){
+ try{
+  buildRulesVisuals();const btn=document.querySelector('.rules-share');if(btn){btn.disabled=true;btn.textContent='…'}
+  const blob=await buildRulesGuidePDF();const file=new File([blob],'Aturan-Bermain-Mahjong.pdf',{type:'application/pdf'});
+  if(navigator.share&&(!navigator.canShare||navigator.canShare({files:[file]}))){await navigator.share({title:'Aturan Bermain Mahjong',text:'Aturan Bermain Mahjong',files:[file]})}
+  else{const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=file.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)}
+ }catch(err){if(err&&err.name!=='AbortError')alert('PDF belum dapat dibuat: '+(err.message||err))}
+ finally{const btn=document.querySelector('.rules-share');if(btn){btn.disabled=false;btn.textContent='⇧'}}
+}
+async function buildRulesGuidePDF(){
+ const W=1240,H=1754,M=62,pages=[];let c,ctx,y;const cache={};async function img(k){if(!cache[k])cache[k]=await loadImg(TILE_IMAGES[k]);return cache[k]}
+ const page=()=>{c=document.createElement('canvas');c.width=W;c.height=H;ctx=c.getContext('2d');ctx.fillStyle='#f7f3e8';ctx.fillRect(0,0,W,H);ctx.fillStyle='#153d2d';ctx.fillRect(0,0,W,120);ctx.fillStyle='#fff';ctx.font='700 38px system-ui';ctx.fillText('Aturan Bermain Mahjong',M,68);ctx.font='20px system-ui';ctx.fillText('Mahjong Score v12.3 · Panduan 4 pemain',M,101);y=155;pages.push(c)};
+ const need=h=>{if(y+h>H-65)page()};const title=t=>{need(55);ctx.fillStyle='#9b7415';ctx.font='700 28px system-ui';ctx.fillText(t,M,y+30);y+=48};const para=t=>{ctx.fillStyle='#333';ctx.font='20px system-ui';y=pdfWrap(ctx,t,M,y,W-2*M,29,8)+10};
+ page();title('Cara Bermain Untuk 4 Orang');para('1. Ambil 1 tile dan buang 1 tile sampai ada pemain yang menang.  2. Cara menang adalah membuat 4 set dan 1 pair. Set dapat berupa Chow (urutan), Pong (triplet), atau Kong (quad).');para('Hu berarti menang dari tile buangan pemain lain. Zi Mo berarti tile kemenangan diambil sendiri dari tembok. Chow, Pong, dan Kong mengikuti aturan klaim yang dijelaskan di aplikasi.');
+ title('Cara Pembayaran Poin');para('Hu: pemain yang tile-nya dimakan membayar 1 poin kepada pemenang. Zi Mo: pembayaran dihitung oleh program dan dibayar pemain lain. Poin kombinasi diberikan kepada setiap pemain sesuai kombinasi yang berhasil dikumpulkan.');
+ title('Komponen / Daftar Tile Mahjong');para('Tiga suit bernomor 1–9 serta empat Angin dan tiga Naga. Gambar di bawah menggunakan aset tile milik aplikasi.');
+ for(const f of RULE_TILE_FAMILIES){need(f.honors?245:285);ctx.fillStyle='#fff';ctx.strokeStyle='#d8cfbd';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(M,y,W-2*M,f.honors?220:260,16);ctx.fill();ctx.stroke();ctx.fillStyle='#176f4d';ctx.font='700 23px system-ui';ctx.fillText(f.title,M+18,y+34);let x=M+18,yy=y+52;const tw=54,th=76,gap=52;for(let i=0;i<f.items.length;i++){const it=f.items[i];if(i&&i%9===0){x=M+18;yy+=120}try{ctx.drawImage(await img(it.key),x,yy,tw,th)}catch(e){}ctx.fillStyle='#222';ctx.font='700 13px system-ui';ctx.textAlign='center';ctx.fillText(it.label,x+tw/2,yy+94);ctx.fillStyle='#666';ctx.font='11px system-ui';ctx.fillText(it.sub,x+tw/2,yy+109);ctx.textAlign='left';x+=tw+gap}y+=f.honors?238:278}
+ return canvasesToPDF(pages)
 }
 function canvasesToPDF(canvases){
  const enc=new TextEncoder(),parts=[],offsets=[0];let pos=0;const add=s=>{const b=typeof s==='string'?enc.encode(s):s;parts.push(b);pos+=b.length};add('%PDF-1.4\n%âãÏÓ\n');

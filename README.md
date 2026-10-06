@@ -36,3 +36,9 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - 8 UI/UX improvements: proportional desktop table, history/recap modals in global menu, icons, conditional combination total, auto-collapse combination panel after record, safer footer menu placement, and stronger winner highlight.
 
 - v12.1 UI refinement: compact, high-contrast titled headers for Riwayat Permainan and Rekap Semua Pemain modals on desktop/mobile.
+
+## v12.3
+- Aturan Bermain: tombol Share PDF di kiri atas, X tetap di kanan atas.
+- Menambahkan katalog lengkap 34 jenis tile (Dots, Characters, Bamboo, Winds, Dragons) memakai aset tile aplikasi sendiri beserta label nama.
+- Katalog tile ikut dimasukkan ke PDF Aturan Bermain.
+- Menghapus tombol bawah “Tutup Aturan”; penutupan menggunakan X.
