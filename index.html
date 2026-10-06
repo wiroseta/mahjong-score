@@ -76,25 +76,13 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 /* Ronde dan Tangan ditampilkan dua baris agar lebih mudah dibaca */
 .center .round{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.15;text-align:center;white-space:nowrap}
 .center .round>div{display:block;width:100%}
-
-.share-guide-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}.share-guide-actions .btn{flex:1;min-width:145px}.share-capture{background:#fff!important;color:#111!important;padding:18px!important;border-radius:16px!important}.share-capture .guide-x,.share-capture .rules-x,.share-capture .guide-close,.share-capture .rules-close,.share-capture .share-guide-actions{display:none!important}
-@media(max-width:520px){.share-guide-actions .btn{width:100%;flex-basis:100%}}
-
-/* iPhone-friendly +/- steppers */
-.stepper{display:grid;grid-template-columns:38px minmax(34px,1fr) 38px;gap:4px;align-items:center}
-.stepper button{min-width:38px;height:38px;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.92);font-size:24px;font-weight:900;line-height:1;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
-.stepper input[type=number]{appearance:textfield;-moz-appearance:textfield;text-align:center;padding:4px!important;min-height:38px!important;height:38px;font-weight:900}
-.stepper input[type=number]::-webkit-inner-spin-button,.stepper input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
-@media(max-width:390px){.stepper{grid-template-columns:32px minmax(28px,1fr) 32px;gap:2px}.stepper button{min-width:32px;height:34px;font-size:21px}.stepper input[type=number]{height:34px!important;min-height:34px!important}}
-.pattern-stepper{display:grid;grid-template-columns:42px minmax(0,1fr) 42px;gap:5px;align-items:center}.pattern-stepper button{min-width:42px;height:44px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.92);font-size:25px;font-weight:900;line-height:1;touch-action:manipulation;-webkit-tap-highlight-color:transparent}.pattern-stepper select{min-width:0}.pattern-stepper button:active{transform:scale(.96)}@media(max-width:390px){.pattern-stepper{grid-template-columns:38px minmax(0,1fr) 38px;gap:3px}.pattern-stepper button{min-width:38px;height:42px}}
-.edit-pattern-stepper{display:grid;grid-template-columns:minmax(0,1fr) 44px 44px;gap:5px;align-items:center}.edit-pattern-stepper button{min-width:44px;height:44px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.92);font-size:25px;font-weight:900;line-height:1;touch-action:manipulation;-webkit-tap-highlight-color:transparent}.edit-pattern-stepper select{min-width:0}.edit-pattern-stepper button:active{transform:scale(.96)}@media(max-width:390px){.edit-pattern-stepper{grid-template-columns:minmax(0,1fr) 40px 40px;gap:3px}.edit-pattern-stepper button{min-width:40px;height:42px}}
 </style><link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-192.png">
 <meta name="mobile-web-app-capable" content="yes">
 
 <style id="compact-one-screen">
 /* Compact layout for iPhone / iPad: keep the active scoring controls in one viewport as much as possible */
-.historyPanel>.historyToggle{cursor:pointer;width:100%;border:0;background:transparent;padding:0;text-align:left;color:inherit;font:inherit;-webkit-appearance:none;appearance:none;touch-action:manipulation}.historyPanel>.history{display:none}.historyPanel.is-open>.history{display:block;margin-top:8px}
+.historyPanel>summary{cursor:pointer;list-style:none}.historyPanel>summary::-webkit-details-marker{display:none}
 @media (min-width:760px) and (orientation:landscape){
  .app{max-width:1180px;padding:8px 10px 66px;display:grid;grid-template-columns:minmax(430px,.9fr) minmax(420px,1.1fr);gap:10px;align-items:start}
  .top{grid-column:1/-1}.table{margin:0;min-height:calc(100vh - 125px);max-height:650px}.panel{margin-top:0}
@@ -108,7 +96,7 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
  .pattern-toggle{margin:3px 0}.pattern-toggle summary{padding:6px 8px;font-size:10px;border-radius:8px}.pattern-toggle[open] summary{margin-bottom:4px}.patterns{gap:3px}.pat span{grid-template-columns:48px 1fr auto!important;min-height:58px!important;padding:4px!important}.tilepic{height:44px;font-size:21px}.pattext strong{font-size:10px}.pattext small{font-size:8px}.pat em{font-size:9px}
  .quadgrid{gap:3px}.quadbox{padding:3px;border-radius:7px}.quadbox .label{font-size:8px;margin:0 0 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.quadbox input{padding:3px;min-height:30px;font-size:13px;border-radius:6px}
  .panel>div[style*="grid-template-columns:1fr 1fr"]{gap:4px!important;margin-top:4px!important}.label{font-size:9px;margin:2px 0}.totalbar{padding:3px 6px;margin-top:0;border-radius:8px;font-size:9px}.totalbar b{font-size:16px}.panel>.muted{display:none}.preview{font-size:9px;line-height:1.25;margin:3px 0}.record{position:static;padding:7px;min-height:36px;font-size:12px;border-radius:8px}
- .historyPanel{padding:6px;font-size:10px}.historyPanel .historyToggle{font-size:10px}.bottom{padding:4px 5px calc(4px + env(safe-area-inset-bottom));gap:4px}.bottom .btn{min-height:34px;padding:5px;font-size:9px}
+ .historyPanel{padding:6px;font-size:10px}.historyPanel summary{font-size:10px}.bottom{padding:4px 5px calc(4px + env(safe-area-inset-bottom));gap:4px}.bottom .btn{min-height:34px;padding:5px;font-size:9px}
 }
 @media (max-width:390px){.table{min-height:225px}.player{width:86px}.center{width:86px}.quadgrid{grid-template-columns:repeat(4,1fr)}}
 .dealer-label,.dealer-name{display:block}.dealer-label{font-size:.72em;opacity:.9}.dealer-name{font-size:1.12em;white-space:normal}
@@ -257,11 +245,6 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
 @media(max-width:650px){.mjtile{width:32px!important;height:46px!important}.guide-example{gap:2px!important}}
 </style>
 
-
-<style id="mahjong-components-style">
-.mahjong-components{background:#fffdf7;border:1px solid #ded8c8;border-radius:16px;padding:14px;margin-bottom:16px}.mahjong-components h3{margin:0 0 4px;color:#9b7415;font-size:21px}.mahjong-components-note{font-size:13px;color:#6b6b63;margin-bottom:12px}.mc-row{display:grid;grid-template-columns:150px minmax(0,1fr);gap:10px;align-items:center;padding:8px 0;border-top:1px solid #eee8d9}.mc-row:first-of-type{border-top:0}.mc-label{font-weight:800;color:#176f4d;line-height:1.2}.mc-label small{display:block;font-weight:600;color:#666;margin-top:3px}.mc-tiles{display:grid;grid-template-columns:repeat(9,minmax(34px,1fr));gap:3px;min-width:0}.mc-tiles.honors{grid-template-columns:repeat(7,minmax(38px,1fr));max-width:500px}.mc-item{text-align:center;min-width:0}.mc-item .mjtile{width:100%!important;max-width:44px!important;height:auto!important;aspect-ratio:80/108;margin:auto}.mc-name{font-size:10px;line-height:1.15;color:#555;margin-top:3px;white-space:normal}.mc-num{font-size:10px;font-weight:800;color:#8b7b55;margin-bottom:2px}.mc-subtitle{font-size:12px;font-weight:800;color:#8b7b55;margin:7px 0 2px}
-@media(max-width:650px){.mahjong-components{padding:11px}.mahjong-components h3{font-size:18px}.mc-row{grid-template-columns:1fr;gap:5px}.mc-label small{display:inline;margin-left:4px}.mc-tiles{grid-template-columns:repeat(9,minmax(27px,1fr));gap:1px}.mc-tiles.honors{grid-template-columns:repeat(7,minmax(31px,1fr));gap:2px}.mc-item .mjtile{max-width:34px!important}.mc-name{font-size:8px}.mc-num{font-size:9px}}
-</style>
 <style id="rules-page-style">
 .rules-modal{max-width:900px!important;width:min(94vw,900px)!important;max-height:90vh;overflow:auto;padding:0!important;background:#f7f4eb!important;color:#20241f!important}
 .rules-head{position:sticky;top:0;z-index:3;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 20px;background:rgba(250,248,241,.96);backdrop-filter:blur(18px);border-bottom:1px solid #ded8c8}
@@ -276,69 +259,33 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
 @media(max-width:650px){.recap-head{align-items:stretch}.rules-recap-btn{width:100%}.guide-example .mjtile{flex-basis:32px!important;width:32px!important;height:46px!important}}
 </style>
 
-<style id="edit-quad-fluid-v8">
-/* Koreksi Hasil: Quad fluid/responsive — semua 4 pemain selalu terlihat tanpa scroll horizontal */
-#editQuadInputs{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important;width:100%;box-sizing:border-box}
-#editQuadInputs .quadbox{min-width:0!important;width:auto!important;box-sizing:border-box;overflow:hidden}
-#editQuadInputs .stepper{grid-template-columns:minmax(34px,.8fr) minmax(38px,.9fr) minmax(34px,.8fr)!important;gap:4px!important;width:100%;min-width:0}
-#editQuadInputs .stepper button{width:100%!important;min-width:0!important;padding:0!important}
-#editQuadInputs .stepper input{width:100%!important;min-width:0!important;padding:2px!important;box-sizing:border-box}
-#editQuadInputs .label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+<style id="v11-approved-ui">
+/* v11 approved navigation: same interaction model on desktop and iPhone. */
+.app-version{font-size:.58em;font-weight:750;opacity:.82;vertical-align:.14em;white-space:nowrap}
+.top-actions{display:flex;gap:6px;align-items:center}.menu-wrap{position:relative}.menu-trigger{min-width:52px;letter-spacing:2px}
+.action-menu{display:none;position:absolute;right:0;top:calc(100% + 8px);z-index:30;width:210px;padding:6px;background:rgba(250,248,241,.98);color:#20231f;border:1px solid rgba(70,67,57,.18);border-radius:16px;box-shadow:0 16px 40px rgba(0,0,0,.28);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px)}
+.action-menu.show{display:block}.action-menu button{width:100%;min-height:46px;border:0;border-radius:11px;background:transparent;color:inherit;text-align:left;font:inherit;font-weight:800;padding:9px 11px;display:flex;gap:10px;align-items:center}.action-menu button:hover{background:rgba(0,0,0,.06)}.action-menu .menu-danger{color:#a52e27}
+.bottom{align-items:center}.bottom .footer-record{position:static!important;bottom:auto!important;width:min(620px,calc(100% - 72px));min-height:46px;padding:11px 18px;font-size:16px;margin:0}.bottom-menu-wrap{flex:0 0 auto}.bottom-action-menu{top:auto;bottom:calc(100% + 8px);left:0;right:auto;width:190px}
+/* Fluid desktop table: four seats must stay visible when browser height/width shrinks. */
+@media (min-width:760px) and (orientation:landscape){
+ .app{grid-template-columns:minmax(330px,.9fr) minmax(390px,1.1fr)!important}
+ .table{height:clamp(320px,calc(100vh - 140px),650px)!important;min-height:0!important;max-height:none!important}
+ .player{width:clamp(112px,15vw,170px)!important;min-height:clamp(70px,11vh,96px)!important;padding:clamp(3px,.65vw,6px)!important}
+ .pN{top:clamp(4px,1.2vh,15px)!important}.pS{bottom:clamp(4px,1.2vh,15px)!important}.pW{left:clamp(4px,.8vw,15px)!important}.pE{right:clamp(4px,.8vw,15px)!important}
+ .wind{font-size:clamp(14px,1.7vw,20px)!important;line-height:1}.name{font-size:clamp(11px,1.25vw,14px)!important}.score{font-size:clamp(16px,1.8vw,21px)!important;line-height:1.05}.handwins{font-size:clamp(8px,.9vw,11px)!important}
+ .center{width:clamp(82px,10vw,108px)!important}.center .round{font-size:clamp(8px,.85vw,10px)!important;padding:clamp(5px,.6vw,7px) 4px!important}
+}
+@media (min-width:760px) and (orientation:landscape) and (max-height:650px){.table{height:calc(100vh - 140px)!important}.player .muted{display:none}.player.dealer:after{font-size:7px;padding:2px 4px}.top{padding-top:7px;padding-bottom:7px}}
 @media(max-width:600px){
- #editQuadInputs{gap:5px!important}
- #editQuadInputs .quadbox{padding:5px 3px!important}
- #editQuadInputs .stepper{grid-template-columns:minmax(28px,.75fr) minmax(32px,.9fr) minmax(28px,.75fr)!important;gap:2px!important}
- #editQuadInputs .stepper button{height:38px!important;font-size:22px!important}
- #editQuadInputs .stepper input{height:38px!important;min-height:38px!important;font-size:16px!important}
- #editQuadInputs .label{font-size:10px!important}
+ .top{align-items:flex-start!important}.brand{min-width:0;flex:1}.top h1{white-space:nowrap}.top-actions{gap:4px;flex:0 0 auto}.top-actions .btn{padding:5px 7px!important;font-size:9px!important}.top-actions .menu-trigger{min-width:38px!important;padding-left:5px!important;padding-right:5px!important}
+ .action-menu{position:fixed;top:58px;right:8px;width:min(230px,calc(100vw - 16px));font-size:13px}.bottom-action-menu{position:absolute;top:auto;bottom:calc(100% + 6px);left:0;right:auto;width:180px}
+ .bottom{overflow:visible!important;justify-content:center!important;white-space:normal!important}.bottom .menu-trigger{width:56px;min-width:56px!important}.bottom .footer-record{flex:1!important;width:auto!important;min-height:40px!important;font-size:12px!important;padding:7px 9px!important}
 }
-@media(max-width:390px){
- #editQuadInputs{gap:3px!important}
- #editQuadInputs .quadbox{padding:4px 2px!important}
- #editQuadInputs .stepper{grid-template-columns:minmax(25px,.7fr) minmax(29px,.85fr) minmax(25px,.7fr)!important;gap:1px!important}
- #editQuadInputs .stepper button{height:36px!important;font-size:20px!important;border-radius:8px!important}
- #editQuadInputs .stepper input{height:36px!important;min-height:36px!important;font-size:15px!important}
-}
-</style>
-
-<style id="iphone-quad-2x2-v10">
-/* iPhone fix: Quad controls use a 2 x 2 grid so all players stay inside the card. */
-@media (max-width: 600px){
-  #quadInputs, #editQuadInputs{
-    display:grid!important;
-    grid-template-columns:repeat(2,minmax(0,1fr))!important;
-    gap:8px!important;
-    width:100%!important;
-    max-width:100%!important;
-    min-width:0!important;
-    overflow:visible!important;
-    box-sizing:border-box!important;
-  }
-  #quadInputs .quadbox, #editQuadInputs .quadbox{
-    width:100%!important; min-width:0!important; max-width:100%!important;
-    padding:7px 5px!important; box-sizing:border-box!important; overflow:hidden!important;
-  }
-  #quadInputs .stepper, #editQuadInputs .stepper{
-    display:grid!important; grid-template-columns:40px minmax(38px,1fr) 40px!important;
-    gap:5px!important; width:100%!important; min-width:0!important; box-sizing:border-box!important;
-  }
-  #quadInputs .stepper button, #editQuadInputs .stepper button{
-    width:40px!important; min-width:40px!important; height:40px!important; padding:0!important; font-size:24px!important;
-  }
-  #quadInputs .stepper input, #editQuadInputs .stepper input{
-    width:100%!important; min-width:0!important; height:40px!important; min-height:40px!important; padding:2px!important; box-sizing:border-box!important;
-  }
-  #quadInputs .label, #editQuadInputs .label{font-size:11px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
-}
-@media (max-width: 350px){
-  #quadInputs, #editQuadInputs{gap:5px!important}
-  #quadInputs .stepper, #editQuadInputs .stepper{grid-template-columns:34px minmax(34px,1fr) 34px!important;gap:3px!important}
-  #quadInputs .stepper button, #editQuadInputs .stepper button{width:34px!important;min-width:34px!important}
-}
+@media(max-width:380px){.top-actions .btn{padding:4px 5px!important;font-size:8px!important}.top-actions .menu-trigger{min-width:34px!important}.app-version{font-size:.52em}}
 </style>
 </head>
 <body><div class="app">
-<div class="top"><div><h1>🀄 Mahjong Score</h1><div class="muted">Tap pemain yang menang → Hu/Zi Mo → pilih poin → Catat</div></div><div style="display:flex;gap:6px"><button class="btn light" onclick="openPlayers()">Edit Nama</button><button class="btn light" onclick="openRound()">Ronde Baru</button><button class="btn light" onclick="openSettings()">⚙️ Setting</button><button class="btn gold" onclick="openNew()">Game Baru</button></div></div>
+<div class="top"><div class="brand"><h1>🀄 Mahjong Score <span class="app-version">v11</span></h1><div class="muted">Tap pemain yang menang → Hu/Zi Mo → pilih poin → Catat</div></div><div class="top-actions"><button class="btn light" onclick="openPlayers()">Edit Nama</button><button class="btn gold" onclick="openNew()">Game Baru</button><div class="menu-wrap"><button class="btn light menu-trigger" aria-label="Menu utama" aria-expanded="false" onclick="toggleMenu('topMenu',this,event)">•••</button><div class="action-menu" id="topMenu"><button onclick="closeMenus();openRound()">↻ <span>Ronde Baru</span></button><button onclick="closeMenus();share()">⇧ <span>Bagikan Skor</span></button><button onclick="closeMenus();openSettings()">⚙ <span>Setting</span></button></div></div></div></div>
 
 <div class="table">
  <div id="p3" class="player pN" onclick="selectWinner(3)"></div>
@@ -361,19 +308,19 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
   <div style="margin:4px 0 10px"><button type="button" class="btn light" style="width:100%" onclick="openPatternGuide()">ⓘ Panduan Kombinasi Poin</button></div>
   <div class="patterns" id="patterns"></div>
  </details>
- <div id="quadPointsWrap"><div class="step"><span class="badge">4. Masukkan Quad setiap pemain</span></div>
- <div class="quadgrid" id="quadInputs"></div></div>
+ <div class="step"><span class="badge">4. Masukkan Quad setiap pemain</span></div>
+ <div class="quadgrid" id="quadInputs"></div>
  <div id="manualPointsWrap" style="display:none;margin-top:8px"><div class="label">Tambahan poin manual untuk pemenang</div><input type="number" id="extra" value="0" step="1" min="0" style="width:100%"></div><div class="totalbar point-total-box" style="margin-top:8px"><span>Total kombinasi semua pemain</span><b id="total">0</b></div>
 <div class="muted" style="margin-top:7px">Pembayaran dasar: Zi Mo = 5 poin dari setiap lawan • Hu = 2 poin dari setiap lawan, dan pemberi tile HU membayar tambahan 1 poin kepada pemenang • kombinasi poin dapat dimiliki setiap pemain dan dibayar oleh 3 pemain lain • setiap Quad memberi pemain tersebut +1 poin dari masing-masing 3 pemain lain. Semua Quad dimasukkan sebelum menekan “Catat Hasil Tangan”.</div>
  <div class="preview" id="preview"></div>
- <button class="record" onclick="record()">✓ CATAT HASIL TANGAN</button>
+
 </div>
 
-<div class="panel historyPanel" id="historyPanel"><button type="button" class="historyToggle" id="historySummaryButton" aria-controls="history" aria-expanded="false"><b id="historySummary">Riwayat permainan <span class="muted">(tap untuk buka)</span></b></button><div id="history" class="history muted">Belum ada tangan.</div></div>
-<div class="panel historyPanel" id="allPlayersPanel"><button type="button" class="historyToggle" id="allPlayersSummaryButton" aria-controls="allPlayers" aria-expanded="false"><b id="allPlayersSummary">Rekap Semua Pemain <span class="muted">(tap untuk buka)</span></b></button><div id="allPlayers" class="history muted"></div></div>
+<details class="panel historyPanel" id="historyPanel"><summary><b id="historySummary">Riwayat permainan <span class="muted">(tap untuk buka)</span></b></summary><div id="history" class="history muted">Belum ada tangan.</div></details>
+<div class="panel"><div class="recap-head"><h2>Rekap Semua Pemain</h2></div><div id="allPlayers" class="history muted"></div></div>
 </div>
 
-<div class="bottom"><button class="btn light" onclick="undo()">↶ Undo</button><button class="btn light" onclick="share()">Bagikan Skor</button><button class="btn danger" onclick="openNew()">Reset</button></div>
+<div class="bottom"><div class="menu-wrap bottom-menu-wrap"><button class="btn light menu-trigger" aria-label="Menu Undo dan Reset" aria-expanded="false" onclick="toggleMenu('bottomMenu',this,event)">•••</button><div class="action-menu bottom-action-menu" id="bottomMenu"><button onclick="closeMenus();undo()">↶ <span>Undo</span></button><button class="menu-danger" onclick="closeMenus();openNew()">↺ <span>Reset</span></button></div></div><button class="record footer-record" onclick="record()">✓ CATAT HASIL TANGAN</button></div>
 
 <div class="overlay" id="players"><div class="modal"><h2>Edit Nama Pemain</h2><div class="muted">Perubahan nama berlaku mulai tangan berikutnya. Riwayat lama tetap memakai nama pemain yang bermain saat itu, sehingga pemain lama tidak hilang dari rekap.</div><div id="playerEditRows"></div><div style="display:flex;gap:8px;margin-top:12px"><button class="btn gold" style="flex:1" onclick="savePlayers()">Simpan</button><button class="btn light" style="flex:1" onclick="closePlayers()">Batal</button></div></div></div>
 
@@ -381,8 +328,8 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
 <div class="overlay" id="editScore"><div class="modal"><h2>Koreksi Hasil</h2><div class="muted" id="editInfo"></div>
 <div class="label">Cara menang</div><div class="seg"><button type="button" id="editHu" onclick="setEditMethod('hu')">Hu</button><button type="button" id="editZimo" onclick="setEditMethod('zimo')">Zi Mo</button></div>
 <div id="editDiscardWrap"><div class="label">Pemain yang membuang kartu (Hu)</div><select id="editDiscarder" style="width:100%;min-height:44px;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:16px;background:white"></select></div>
-<details id="editPatternDetails" class="pattern-toggle" ontoggle="updateEditPatternSummary()"><summary><b id="editPatternSummary">Kombinasi poin setiap pemain <span class="muted">(0 semua • tap untuk buka)</span></b></summary><div id="editPatternsByPlayer" style="margin-top:8px"></div></details>
-<details id="editQuadDetails" class="pattern-toggle" style="margin-top:8px" ontoggle="updateEditQuadSummary()"><summary><b id="editQuadSummary">Quad setiap pemain <span class="muted">(tap untuk buka)</span></b></summary><div class="quadgrid" id="editQuadInputs" style="margin-top:8px"></div></details>
+<div class="label">Kombinasi poin setiap pemain</div><div id="editPatternsByPlayer"></div>
+<div class="label">Quad setiap pemain</div><div class="quadgrid" id="editQuadInputs"></div>
 <div class="preview" id="editPreview"></div><div style="display:flex;gap:8px;margin-top:12px"><button class="btn gold" style="flex:1" onclick="saveScoreEdit()">Simpan Koreksi</button><button class="btn light" style="flex:1" onclick="closeScoreEdit()">Batal</button></div></div></div>
 
 <div class="overlay" id="settings"><div class="modal"><h2>⚙️ Setting</h2><div class="muted">Pengaturan tampilan dan panduan permainan.</div>
@@ -392,16 +339,7 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
 </div><button type="button" class="btn gold" style="width:100%;margin-top:14px" onclick="closeSettings()">Selesai</button></div></div>
 <div class="overlay" id="rulesGuide"><div class="modal rules-modal">
  <div class="rules-head"><div><h2>📖 Aturan Bermain Mahjong</h2><div class="muted">Panduan ringkas untuk 4 pemain</div></div><button type="button" class="rules-x" onclick="closeRulesGuide()" aria-label="Tutup">×</button></div>
- <div class="share-guide-actions"><button type="button" class="btn light" onclick="shareGuideImage('rulesGuide','Aturan-Mahjong.png')">🖼️ Share Gambar</button><button type="button" class="btn light" onclick="shareGuidePDF('rulesGuide','Aturan-Mahjong.pdf')">📄 Share PDF</button></div>
  <div class="rules-body">
-
-  <section class="mahjong-components" id="mahjongComponents">
-   <h3>Komponen Mahjong</h3><div class="mahjong-components-note">Kenali jenis tile dan namanya sebelum mulai bermain.</div>
-   <div class="mc-row"><div class="mc-label">Bulat <small>(Tongzi / 筒子)</small></div><div class="mc-tiles" data-component-row="dot"></div></div>
-   <div class="mc-row"><div class="mc-label">Karakter <small>(Wanzi / 萬子)</small></div><div class="mc-tiles" data-component-row="char"></div></div>
-   <div class="mc-row"><div class="mc-label">Bambu <small>(Suozi / 索子)</small></div><div class="mc-tiles" data-component-row="bam"></div></div>
-   <div class="mc-row"><div class="mc-label">Royal / Kartu Mulia <small>Angin &amp; Naga</small></div><div><div class="mc-subtitle">Mata Angin</div><div class="mc-tiles honors" data-component-honors="winds"></div><div class="mc-subtitle">Naga</div><div class="mc-tiles honors" data-component-honors="dragons"></div></div></div>
-  </section>
   <section class="rules-section"><h3>Cara Bermain Untuk 4 Orang</h3>
    <ol><li>Ambil 1 tile dan buang 1 tile sampai ada pemain yang menang.</li><li>Cara menang adalah membuat <span class="rules-term">4 set dan 1 pair</span>. Ada 3 jenis set di Mahjong:</li></ol>
    <div class="rules-set-grid">
@@ -424,7 +362,7 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
   <button class="btn light rules-close" onclick="closeRulesGuide()">Tutup Aturan</button>
  </div>
 </div></div>
-<div class="overlay" id="patternGuide"><div class="modal guide-modal"><div class="guide-head"><div><h2>Panduan Kombinasi Poin</h2><div class="muted">Penjelasan dibuat khusus untuk layar desktop dan mobile. Nilai poin mengikuti program. Contoh tile mengikuti jenis dan gambar pada panduan asli.</div></div><button type="button" class="guide-x" onclick="closePatternGuide()" aria-label="Tutup">×</button></div><div class="share-guide-actions"><button type="button" class="btn light" onclick="shareGuideImage('patternGuide','Kombinasi-Poin-Mahjong.png')">🖼️ Share Gambar</button><button type="button" class="btn light" onclick="shareGuidePDF('patternGuide','Kombinasi-Poin-Mahjong.pdf')">📄 Share PDF</button></div><div id="guideContent" class="guide-content"></div><button class="btn light guide-close" onclick="closePatternGuide()">Tutup Panduan</button></div></div>
+<div class="overlay" id="patternGuide"><div class="modal guide-modal"><div class="guide-head"><div><h2>Panduan Kombinasi Poin</h2><div class="muted">Penjelasan dibuat khusus untuk layar desktop dan mobile. Nilai poin mengikuti program. Contoh tile mengikuti jenis dan gambar pada panduan asli.</div></div><button type="button" class="guide-x" onclick="closePatternGuide()" aria-label="Tutup">×</button></div><div id="guideContent" class="guide-content"></div><button class="btn light guide-close" onclick="closePatternGuide()">Tutup Panduan</button></div></div>
 <div class="overlay" id="new"><div class="modal"><h2>Game Baru</h2><div class="muted">Masukkan pemain sesuai posisi fisik meja. Pemain pertama menjadi Dealer/東 pada tangan pertama. Setelah itu, pemenang Hu atau Zi Mo menjadi Dealer berikutnya. Ronde hanya menjadi penanda sesi.</div>
 <div class="names"><div><div class="label">東 Timur</div><input id="n0" type="text" maxlength="10" oninput="limitPlayerName(this)"></div><div><div class="label">南 Selatan</div><input id="n1" type="text" maxlength="10" oninput="limitPlayerName(this)"></div><div><div class="label">西 Barat</div><input id="n2" type="text" maxlength="10" oninput="limitPlayerName(this)"></div><div><div class="label">北 Utara</div><input id="n3" type="text" maxlength="10" oninput="limitPlayerName(this)"></div></div>
 <div class="label">Skor awal per pemain</div><input id="start" type="number" value="0" step="300">
@@ -457,7 +395,7 @@ const pats=[
 ["13 Rakyat",12,"Kombinasi khusus 13 kartu terminal dan kehormatan.","🀀 🀁 🀄 🀅 🀇 🀏"],
 ["7 Tangga Surga",12,"Kombinasi khusus 7 Tangga Surga sesuai lembar aturan.","🀇 🀈 🀉 🀊 🀋 🀌 🀍"]
 ]
-const guideDetails={"Set Mulia":["Memiliki Triplet atau Quad dari Naga apa pun, atau Triplet/Quad Mata Angin yang sama dengan tempat duduk pemain.","red red red east east east"],"Petapa":["Menang dengan sepenuhnya tertutup / sepenuhnya terbuka. Contoh berikut menunjukkan satu tangan 13 tile.","char1 char2 char3 char4 char5 char6 dot2 dot3 dot4 bam4 bam5 bam6 east"],"Tengah Murni":["Set yang dipakai untuk menang hanya kartu 2–8, tanpa royal.","char2 char3 char4 char5 char6 char7 dot3 dot4 dot5 bam4 bam5 bam6 dot8"],"Urutan Murni (Pinhu)":["Semua set pada tangan hanya set urutan saja, tanpa kartu mulia.","char1 char2 char3 char4 char5 char6 dot2 dot3 dot4 bam5 bam6 bam7 dot8"],"Urutan Berantai":["Memiliki 2 set urutan dengan logo yang sama; angka paling akhir dari satu set menjadi angka paling awal set lainnya.","char1 char2 char3 char3 char4 char5 dot2 dot3 dot4 bam5 bam6 bam7 east"],"Ujung Separuh":["Semua set dan pair yang dibuat harus mengandung 1, 9, dan royal; salah satu set harus set urutan.","char1 char2 char3 char9 char9 char9 dot1 dot1 dot1 bam9 bam9 bam9 east"],"Triplet Murni":["Set yang dipakai untuk menang berbentuk triplet atau quad saja.","dot1 dot1 dot1 red red red east east east char5 char5 char5 green"],"Lima Serangkai":["Memiliki kartu yang mengandung semua kelompok kartu: bambu, bulat, karakter, naga, dan angin.","bam1 bam1 bam1 char1 char1 char1 dot1 dot1 dot1 red red east east"],"Serupa Separuh":["Menggunakan hanya 1 logo/suit dan kartu royal saja.","dot1 dot2 dot3 dot4 dot5 dot6 dot7 dot8 dot9 red red red east"],"Urutan Mirip":["Memiliki 3 set urutan dengan angka yang sama di semua logo/suit.","char1 char2 char3 dot1 dot2 dot3 bam1 bam2 bam3 east east east red"],"Urutan Lengkap Murni":["Memiliki set 123, 456, 789 pada logo/suit yang sama.","char1 char2 char3 char4 char5 char6 char7 char8 char9 east east east red"],"Komodo (Naga Kecil)":["Memiliki 2 triplet/quad naga dan 1 pair naga.","red red red green green green white white char1 char2 char3 dot1 dot1"],"Ujung Murni":["Semua set yang dipakai untuk menang mengandung terminal.","char1 char1 char1 char9 char9 char9 dot1 dot1 dot1 bam9 bam9 bam9 east"],"Tujuh Keajaiban":["Tujuh pasang berbeda; contoh 13 tile menunjukkan enam pasang dan satu tile menunggu pasangannya. Tidak boleh ada quad.","red red green green char1 char1 char9 char9 dot1 dot1 bam1 bam1 east"],"Serupa Murni (Satu Warna)":["Kartu yang dipakai untuk menang hanya terdiri dari 1 logo/suit.","dot1 dot2 dot3 dot3 dot4 dot5 dot5 dot6 dot7 dot7 dot8 dot9 dot9"],"Nantaboga (3 Naga Besar)":["Kombinasi tiga Naga Besar. Contoh 13 tile menunjukkan tiga triplet Naga dan set/pair pelengkap.","red red red green green green white white white char1 char2 char3 east"],"Topan (4 Angin Besar/Kecil)":["Kombinasi empat Angin Besar/Kecil. Contoh 13 tile menunjukkan pola empat kelompok Angin yang sedang dibentuk.","east east east south south south west west west north north north red"],"Royal Murni":["Kombinasi murni kartu royal: hanya Angin dan Naga.","east east east south south south west west west red red red north"],"Terminal Murni":["Hanya menggunakan kartu terminal (1 dan 9) sesuai aturan.","char1 char1 char1 char9 char9 char9 dot1 dot1 dot1 bam9 bam9 bam9 dot9"],"Quad Murni (4 Quad)":["Memiliki 4 Quad/Kong. Contoh 13 tile menunjukkan susunan menuju empat Kong; tile tambahan Kong dicatat melalui sistem Quad.","dot1 dot1 dot1 dot1 red red red red east east east east char9"],"13 Rakyat":["Kombinasi 13 tile unik: 1 dan 9 dari semua suit, tiga Naga, dan empat Angin.","char1 char9 dot1 dot9 bam1 bam9 east south west north red green white"],"7 Tangga Surga":["Tujuh kembar berurutan dengan logo/suit yang sama. Contoh 13 tile menunjukkan enam pasang dan satu tile menunggu pasangannya.","char1 char1 char2 char2 char3 char3 char4 char4 char5 char5 char6 char6 char7"]};
+const guideDetails={"Set Mulia":["Memiliki set triplet/quad dari naga atau angin sesuai tempat duduk.","east east east char2 char3 char4 dot2 dot3 dot4 bam2 bam3 bam4 red"],"Petapa":["Menang dengan sepenuhnya tertutup / sepenuhnya terbuka. Contoh berikut menunjukkan satu tangan 13 tile.","char1 char2 char3 char4 char5 char6 dot2 dot3 dot4 bam4 bam5 bam6 east"],"Tengah Murni":["Set yang dipakai untuk menang hanya kartu 2–8, tanpa royal.","char2 char3 char4 char5 char6 char7 dot3 dot4 dot5 bam4 bam5 bam6 dot8"],"Urutan Murni (Pinhu)":["Semua set pada tangan hanya set urutan saja, tanpa kartu mulia.","char1 char2 char3 char4 char5 char6 dot2 dot3 dot4 bam5 bam6 bam7 dot8"],"Urutan Berantai":["Memiliki 2 set urutan dengan logo yang sama; angka paling akhir dari satu set menjadi angka paling awal set lainnya.","char1 char2 char3 char3 char4 char5 dot2 dot3 dot4 bam5 bam6 bam7 east"],"Ujung Separuh":["Semua set dan pair yang dibuat harus mengandung 1, 9, dan royal; salah satu set harus set urutan.","char1 char2 char3 char9 char9 char9 dot1 dot1 dot1 bam9 bam9 bam9 east"],"Triplet Murni":["Set yang dipakai untuk menang berbentuk triplet atau quad saja.","dot1 dot1 dot1 red red red east east east char5 char5 char5 green"],"Lima Serangkai":["Memiliki kartu yang mengandung semua kelompok kartu: bambu, bulat, karakter, naga, dan angin.","bam1 bam1 bam1 char1 char1 char1 dot1 dot1 dot1 red red east east"],"Serupa Separuh":["Menggunakan hanya 1 logo/suit dan kartu royal saja.","dot1 dot2 dot3 dot4 dot5 dot6 dot7 dot8 dot9 red red red east"],"Urutan Mirip":["Memiliki 3 set urutan dengan angka yang sama di semua logo/suit.","char1 char2 char3 dot1 dot2 dot3 bam1 bam2 bam3 east east east red"],"Urutan Lengkap Murni":["Memiliki set 123, 456, 789 pada logo/suit yang sama.","char1 char2 char3 char4 char5 char6 char7 char8 char9 east east east red"],"Komodo (Naga Kecil)":["Memiliki 2 triplet/quad naga dan 1 pair naga.","red red red green green green white white char1 char2 char3 dot1 dot1"],"Ujung Murni":["Semua set yang dipakai untuk menang mengandung terminal.","char1 char1 char1 char9 char9 char9 dot1 dot1 dot1 bam9 bam9 bam9 east"],"Tujuh Keajaiban":["Tujuh pasang berbeda; contoh 13 tile menunjukkan enam pasang dan satu tile menunggu pasangannya. Tidak boleh ada quad.","red red green green char1 char1 char9 char9 dot1 dot1 bam1 bam1 east"],"Serupa Murni (Satu Warna)":["Kartu yang dipakai untuk menang hanya terdiri dari 1 logo/suit.","dot1 dot2 dot3 dot3 dot4 dot5 dot5 dot6 dot7 dot7 dot8 dot9 dot9"],"Nantaboga (3 Naga Besar)":["Kombinasi tiga Naga Besar. Contoh 13 tile menunjukkan tiga triplet Naga dan set/pair pelengkap.","red red red green green green white white white char1 char2 char3 east"],"Topan (4 Angin Besar/Kecil)":["Kombinasi empat Angin Besar/Kecil. Contoh 13 tile menunjukkan pola empat kelompok Angin yang sedang dibentuk.","east east east south south south west west west north north north red"],"Royal Murni":["Kombinasi murni kartu royal: hanya Angin dan Naga.","east east east south south south west west west red red red north"],"Terminal Murni":["Hanya menggunakan kartu terminal (1 dan 9) sesuai aturan.","char1 char1 char1 char9 char9 char9 dot1 dot1 dot1 bam9 bam9 bam9 dot9"],"Quad Murni (4 Quad)":["Memiliki 4 Quad/Kong. Contoh 13 tile menunjukkan susunan menuju empat Kong; tile tambahan Kong dicatat melalui sistem Quad.","dot1 dot1 dot1 dot1 red red red red east east east east char9"],"13 Rakyat":["Kombinasi 13 tile unik: 1 dan 9 dari semua suit, tiga Naga, dan empat Angin.","char1 char9 dot1 dot9 bam1 bam9 east south west north red green white"],"7 Tangga Surga":["Tujuh kembar berurutan dengan logo/suit yang sama. Contoh 13 tile menunjukkan enam pasang dan satu tile menunggu pasangannya.","char1 char1 char2 char2 char3 char3 char4 char4 char5 char5 char6 char6 char7"]};
 const $=x=>document.getElementById(x),fmt=n=>new Intl.NumberFormat("id-ID",{maximumFractionDigits:2}).format(n);
 let s=JSON.parse(localStorage.getItem("mahjong_table_v3")||"null")||{names:["Pemain 1","Pemain 2","Pemain 3","Pemain 4"],scores:[0,0,0,0],dealer:0,round:1,roundWind:0,initialEast:0,history:[],seatWinds:[0,1,2,3]};
 if(!Array.isArray(s.seatWinds)||s.seatWinds.length!==4)s.seatWinds=[0,1,2,3];
@@ -466,22 +404,17 @@ if(!Number.isInteger(s.initialEast))s.initialEast=s.seatWinds.indexOf(0)>=0?s.se
 if(s.seatWinds.indexOf(0)>=0)s.dealer=s.seatWinds.indexOf(0);
 const windName=i=>winds[s.seatWinds[i]], windChar=i=>chars[s.seatWinds[i]];
 let winner=null,method=null,discarder=null;
-let editHistoryIndex=null;
 function save(){localStorage.setItem("mahjong_table_v3",JSON.stringify(s))}
 function patternOptions(selected=""){return `<option value="">Tanpa kombinasi (0 poin)</option>`+pats.map((p,i)=>`<option value="${i}" ${String(i)===String(selected)?"selected":""}>${p[0]} — ${p[1]} poin</option>`).join("")}
-function patternStepperHTML(dataAttr,i,selected='',edit=false){return `<select ${dataAttr}="${i}" onchange="${edit?"updateEditPreview()":"update()"}" style="width:100%;min-height:46px;border:1px solid var(--line);border-radius:10px;padding:7px 10px;font-size:14px;background:white">${patternOptions(selected)}</select>`}
-function stepPattern(btn,delta,edit=false){let wrap=btn.closest('.pattern-stepper'),sel=wrap?wrap.querySelector('select'):null;if(!sel)return;let next=sel.selectedIndex+delta;next=Math.max(0,Math.min(sel.options.length-1,next));sel.selectedIndex=next;sel.dispatchEvent(new Event('change',{bubbles:true}));}
-function renderPlayerPatterns(){ $("patterns").innerHTML=[0,1,2,3].map(i=>`<div class="quadbox" style="margin-bottom:8px"><div class="label">${windChar(i)} ${s.names[i]}</div>${patternStepperHTML('data-pp',i,'',false)}</div>`).join("") }
+function renderPlayerPatterns(){ $("patterns").innerHTML=[0,1,2,3].map(i=>`<div class="quadbox" style="margin-bottom:8px"><div class="label">${windChar(i)} ${s.names[i]}</div><select class="playerPattern" data-pp="${i}" onchange="update()" style="width:100%;min-height:46px;border:1px solid var(--line);border-radius:10px;padding:9px;font-size:16px;background:white">${patternOptions("")}</select></div>`).join("") }
 $("extra").oninput=update;
 setManualPointsVisible(localStorage.getItem("mahjong_manual_points_visible")==="1");
-function stepNumber(btn,delta,updateFn){let wrap=btn.closest('.stepper'),inp=wrap?wrap.querySelector('input[type=number]'):null;if(!inp)return;let min=inp.min!==''?Number(inp.min):-Infinity,max=inp.max!==''?Number(inp.max):Infinity,v=Number(inp.value)||0;v=Math.max(min,Math.min(max,v+delta));inp.value=v;inp.dispatchEvent(new Event('input',{bubbles:true}));if(typeof updateFn==='function')updateFn();}
-function stepperHTML(attrs,value=0){return `<div class="stepper"><button type="button" aria-label="Kurangi" onclick="stepNumber(this,-1)">−</button><input type="number" ${attrs} value="${value}" inputmode="numeric"><button type="button" aria-label="Tambah" onclick="stepNumber(this,1)">+</button></div>`}
 function render(){
  for(let i=0;i<4;i++){let el=$("p"+i);el.classList.toggle("selected",winner===i);el.classList.toggle("dealer",s.dealer===i);let sc=s.scores[i],wins=s.history.filter(h=>h.method!=="quad"&&h.winner===i).length;el.innerHTML=`<div class="wind">${windChar(i)}</div><div class="name">${s.names[i]}</div><div class="muted">${windName(i)}</div><div class="score ${sc>0?'pos':sc<0?'neg':''}">${sc>0?"+":""}${fmt(sc)}</div><div class="handwins">🏆 ${wins} tangan</div>`}
  $("roundWind").textContent=s.round||1;$("hands").textContent=s.history.filter(h=>h.method!=="quad"&&(h.round||1)===(s.round||1)).length+1;
  $("winnerText").textContent=winner===null?"— belum dipilih —":s.names[winner]+" ("+windName(winner)+")";
  renderDiscard();
- $("quadInputs").innerHTML=[0,1,2,3].map(i=>`<div class="quadbox"><div class="label">${windChar(i)} ${s.names[i]}</div>${stepperHTML(`class="quadInput" data-q="${i}" min="0" step="1" oninput="update()"`,0)}</div>`).join("");
+ $("quadInputs").innerHTML=[0,1,2,3].map(i=>`<div class="quadbox"><div class="label">${windChar(i)} ${s.names[i]}</div><input type="number" class="quadInput" data-q="${i}" value="0" min="0" step="1" oninput="update()"></div>`).join("");
  renderPlayerPatterns(); history();update();
 }
 function selectWinner(i){winner=i;if(discarder===i)discarder=null;render()}
@@ -524,91 +457,9 @@ function record(){
  /* Aturan meja: pemenang terakhir (Hu atau Zi Mo) menjadi Dealer/East berikutnya. Posisi fisik tetap. */
  s.dealer=winner;
  s.seatWinds=[0,1,2,3].map(i=>(i-s.dealer+4)%4);
- save();winner=null;method=null;discarder=null;document.querySelectorAll("[data-pp]").forEach(e=>e.value="");$("extra").value=0;document.querySelectorAll("[data-q]").forEach(e=>e.value=0);$("huBtn").classList.remove("on");$("ziBtn").classList.remove("on");$("discardArea").style.display="none";
- render();
+ save();winner=null;method=null;discarder=null;document.querySelectorAll("[data-pp]").forEach(e=>e.value="");$("extra").value=0;document.querySelectorAll("[data-q]").forEach(e=>e.value=0);$("huBtn").classList.remove("on");$("ziBtn").classList.remove("on");$("discardArea").style.display="none";render();
 }
-async function waitForShareImages(node){
- const imgs=[...node.querySelectorAll('img')];
- await Promise.all(imgs.map(img=>img.complete?Promise.resolve():new Promise(r=>{img.onload=img.onerror=r})));
-}
-function guideCaptureNode(id){
- if(id==='patternGuide') buildPatternGuide(); else buildRulesVisuals();
- const modal=document.querySelector('#'+id+' .modal');
- const clone=modal.cloneNode(true); clone.classList.add('share-capture');
- clone.style.width='900px';clone.style.maxWidth='900px';clone.style.maxHeight='none';clone.style.overflow='visible';clone.style.position='fixed';clone.style.left='-10000px';clone.style.top='0';
- document.body.appendChild(clone); return clone;
-}
-async function nativeCapture(node){
- await waitForShareImages(node); await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
- // Desktop browsers (especially Safari) often block SVG foreignObject when the
- // captured DOM contains local tile images. Build the export directly on canvas
- // from the visible guide instead, avoiding foreignObject completely.
- const w=1200, pad=36, gap=18;
- const cards=[...node.querySelectorAll('.guide-content > *, .rules-visuals > *')].filter(el=>{
-   const r=el.getBoundingClientRect(); return r.width>0 && r.height>0;
- });
- const title=(node.querySelector('h2')?.textContent||'Panduan Mahjong').trim();
- const rows=[];
- // Use each guide card as a logical export row. Text and tile images are drawn natively.
- for(const card of cards){
-   const heading=(card.querySelector('h3,h4,b,strong')?.textContent||'').trim();
-   const txt=(card.innerText||'').replace(/Share Gambar|Share PDF|Tutup Panduan/g,'').trim();
-   const imgs=[...card.querySelectorAll('img')];
-   rows.push({heading,txt,imgs});
- }
- if(!rows.length){
-   const content=node.querySelector('.guide-content')||node;
-   rows.push({heading:'',txt:(content.innerText||'').trim(),imgs:[...content.querySelectorAll('img')]});
- }
- const measure=document.createElement('canvas').getContext('2d');
- const wrap=(text,maxWidth,font)=>{measure.font=font;const words=String(text).split(/\s+/);let lines=[],line='';for(const word of words){let t=line?line+' '+word:word;if(measure.measureText(t).width>maxWidth&&line){lines.push(line);line=word}else line=t}if(line)lines.push(line);return lines};
- let blocks=[]; let total=90;
- for(const row of rows){
-   let lines=wrap(row.txt, w-pad*2, '24px Arial');
-   let imageH=row.imgs.length?100:0;
-   let bh=28+lines.length*32+imageH+26; blocks.push({...row,lines,bh}); total+=bh+gap;
- }
- const canvas=document.createElement('canvas');canvas.width=w;canvas.height=Math.max(300,total+pad);
- const ctx=canvas.getContext('2d');ctx.fillStyle='#f7f3e8';ctx.fillRect(0,0,canvas.width,canvas.height);
- ctx.fillStyle='#1d211e';ctx.font='bold 40px Arial';ctx.fillText(title,pad,58);
- let y=90;
- for(const b of blocks){
-   ctx.fillStyle='#fff';ctx.strokeStyle='#c9c4b7';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(pad,y,w-pad*2,b.bh,18);ctx.fill();ctx.stroke();
-   let ty=y+36;ctx.fillStyle='#222';ctx.font='24px Arial';
-   for(const line of b.lines){ctx.fillText(line,pad+20,ty);ty+=32}
-   if(b.imgs.length){let x=pad+20, iy=y+b.bh-112;for(const im of b.imgs){try{const iw=Math.min(70,im.naturalWidth||70),ih=Math.min(90,im.naturalHeight||90);ctx.drawImage(im,x,iy,iw,ih);x+=iw+8;if(x>w-pad-80)break}catch(e){}}}
-   y+=b.bh+gap;
- }
- return canvas;
-}
-async function shareFileOrDownload(blob,name,title){
- let file; try{file=new File([blob],name,{type:blob.type})}catch(e){}
- try{if(file&&navigator.canShare&&navigator.canShare({files:[file]})&&navigator.share){await navigator.share({title,files:[file]});return}}catch(e){if(e&&e.name==='AbortError')return}
- const a=document.createElement('a');const u=URL.createObjectURL(blob);a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),3000);
-}
-function canvasToBlob(canvas,type='image/png',quality=1){return new Promise(resolve=>canvas.toBlob(resolve,type,quality))}
-function dataUrlBytes(dataUrl){const b=atob(dataUrl.split(',')[1]);const u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}
-function makePdfFromCanvases(canvases){
- const enc=new TextEncoder(), parts=[], offsets=[0], objs=[]; let pos=0;
- const push=x=>{let u=typeof x==='string'?enc.encode(x):x;parts.push(u);pos+=u.length};
- push('%PDF-1.4\n%âãÏÓ\n');
- const pageIds=canvases.map((_,i)=>3+i*3), imgIds=canvases.map((_,i)=>4+i*3), contentIds=canvases.map((_,i)=>5+i*3); const maxId=2+canvases.length*3;
- function obj(id,body,binary){offsets[id]=pos;push(id+' 0 obj\n'+body);if(binary){push('\nstream\n');push(binary);push('\nendstream')}push('\nendobj\n')}
- obj(1,'<< /Type /Catalog /Pages 2 0 R >>');obj(2,'<< /Type /Pages /Count '+canvases.length+' /Kids ['+pageIds.map(x=>x+' 0 R').join(' ')+'] >>');
- canvases.forEach((c,i)=>{const jpg=dataUrlBytes(c.toDataURL('image/jpeg',0.90)); const pw=595.28,ph=841.89,m=24, iw=pw-2*m, ih=iw*c.height/c.width, drawH=Math.min(ih,ph-2*m), drawW=drawH*c.width/c.height, x=(pw-drawW)/2,y=ph-m-drawH; const cmd=`q\n${drawW.toFixed(2)} 0 0 ${drawH.toFixed(2)} ${x.toFixed(2)} ${y.toFixed(2)} cm\n/Im0 Do\nQ`;const cb=enc.encode(cmd);
-  obj(pageIds[i],`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pw} ${ph}] /Resources << /XObject << /Im0 ${imgIds[i]} 0 R >> >> /Contents ${contentIds[i]} 0 R >>`);
-  obj(imgIds[i],`<< /Type /XObject /Subtype /Image /Width ${c.width} /Height ${c.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpg.length} >>`,jpg);
-  obj(contentIds[i],`<< /Length ${cb.length} >>`,cb);
- });
- const xref=pos;push('xref\n0 '+(maxId+1)+'\n0000000000 65535 f \n');for(let i=1;i<=maxId;i++)push(String(offsets[i]||0).padStart(10,'0')+' 00000 n \n');push(`trailer\n<< /Size ${maxId+1} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`);return new Blob(parts,{type:'application/pdf'});
-}
-async function shareGuideImage(id,name){
- const node=guideCaptureNode(id);try{const canvas=await nativeCapture(node),blob=await canvasToBlob(canvas,'image/png',1);if(!blob)throw new Error('PNG gagal dibuat');await shareFileOrDownload(blob,name,'Panduan Mahjong')}catch(e){console.error(e);alert('Gambar belum berhasil dibuat. Coba buka panduan terlebih dahulu lalu tekan Share Gambar lagi.')}finally{node.remove()}
-}
-async function shareGuidePDF(id,name){
- const node=guideCaptureNode(id);try{const canvas=await nativeCapture(node);const ratio=(841.89-48)/(595.28-48), pagePx=Math.floor(canvas.width*ratio), pages=[];for(let y=0;y<canvas.height;y+=pagePx){const h=Math.min(pagePx,canvas.height-y),c=document.createElement('canvas');c.width=canvas.width;c.height=h;c.getContext('2d').drawImage(canvas,0,y,canvas.width,h,0,0,canvas.width,h);pages.push(c)}const blob=makePdfFromCanvases(pages);await shareFileOrDownload(blob,name,'Panduan Mahjong')}catch(e){console.error(e);alert('PDF belum berhasil dibuat. Coba buka panduan terlebih dahulu lalu tekan Share PDF lagi.')}finally{node.remove()}
-}
-
+let editHistoryIndex=null;
 function getLegacyHandNo(idx){let h=s.history[idx];if(!h)return 1;let older=s.history.slice(idx+1).filter(x=>x.round===h.round && x.method!=="quad").length;return older+1}
 function history(){
  $("history").innerHTML=s.history.length?s.history.map((h,idx)=>{let hn=Array.isArray(h.namesAtTime)?h.namesAtTime:s.names;let wname=hn[h.winner]||s.names[h.winner],dname=(h.discarder!==null&&h.discarder!==undefined)?(hn[h.discarder]||s.names[h.discarder]):"";return `<div class="entry">
@@ -618,17 +469,15 @@ function history(){
  ${h.delta.map((v,i)=>`${hn[i]||s.names[i]} ${v>=0?"+":""}${fmt(v)}`).join(" · ")}<br><span class="muted">${h.time}</span></div>`}).join(""):"Belum ada tangan.";
  renderAllPlayers();
 }
-function renderAllPlayers(){let wins={};s.history.slice().reverse().forEach(h=>{if(h.method!=="hu"&&h.method!=="zimo")return;if(!Number.isInteger(h.winner))return;let hn=Array.isArray(h.namesAtTime)?h.namesAtTime:s.names,n=hn[h.winner]||s.names[h.winner];if(!n)return;if(!wins[n])wins[n]={hu:0,zimo:0};wins[n][h.method]++});s.names.forEach(n=>{if(!(n in wins))wins[n]={hu:0,zimo:0}});let rows=Object.entries(wins);$("allPlayers").innerHTML=rows.length?`<div style="display:grid;grid-template-columns:minmax(80px,1fr) 46px 54px 54px;gap:6px 8px;align-items:center"><b>Pemain</b><b style="text-align:center">HU</b><b style="text-align:center">ZI MO</b><b style="text-align:center">TOTAL</b>${rows.map(([n,v])=>`<span><b>${n}</b></span><span style="text-align:center">${v.hu}</span><span style="text-align:center">${v.zimo}</span><span style="text-align:center"><b>${v.hu+v.zimo}</b></span>`).join("")}</div>`:"Belum ada pemain."}
+function renderAllPlayers(){let totals={};s.history.slice().reverse().forEach(h=>{if(!Array.isArray(h.delta))return;let hn=Array.isArray(h.namesAtTime)?h.namesAtTime:s.names;h.delta.forEach((v,i)=>{let n=hn[i]||s.names[i];totals[n]=(totals[n]||0)+v})});s.names.forEach((n,i)=>{if(!(n in totals))totals[n]=0});$("allPlayers").innerHTML=Object.entries(totals).map(([n,v])=>`<span style="display:inline-block;margin:3px 10px 3px 0"><b>${n}</b>: ${v>=0?"+":""}${fmt(v)}</span>`).join("")||"Belum ada pemain."}
 
 let editMethod="hu";
-function fillEditPatternsByPlayer(h){let saved=Array.isArray(h.playerPatterns)?h.playerPatterns:[null,null,null,null]; if(!h.playerPatterns && h.patternName) saved[h.winner]={name:h.patternName,points:h.patternPoints||0}; $("editPatternsByPlayer").innerHTML=[0,1,2,3].map(i=>{let idx=saved[i]?pats.findIndex(p=>p[0]===saved[i].name):-1;return `<div class="quadbox" style="margin:6px 0"><div class="label">${windChar(i)} ${s.names[i]}</div>${patternStepperHTML('data-epp',i,idx>=0?idx:'',true)}</div>`}).join("")}
+function fillEditPatternsByPlayer(h){let saved=Array.isArray(h.playerPatterns)?h.playerPatterns:[null,null,null,null]; if(!h.playerPatterns && h.patternName) saved[h.winner]={name:h.patternName,points:h.patternPoints||0}; $("editPatternsByPlayer").innerHTML=[0,1,2,3].map(i=>{let idx=saved[i]?pats.findIndex(p=>p[0]===saved[i].name):-1;return `<div class="quadbox" style="margin:6px 0"><div class="label">${windChar(i)} ${s.names[i]}</div><select data-epp="${i}" onchange="updateEditPreview()" style="width:100%;min-height:44px;border:1px solid var(--line);border-radius:10px;padding:9px;font-size:16px;background:white">${patternOptions(idx>=0?idx:"")}</select></div>`}).join("")}
 function setEditMethod(m){editMethod=m;$("editHu").classList.toggle("active",m==="hu");$("editZimo").classList.toggle("active",m==="zimo");$("editDiscardWrap").style.display=m==="hu"?"block":"none";updateEditPreview()}
 function getEditPatterns(){let a=[null,null,null,null];document.querySelectorAll("[data-epp]").forEach(e=>{if(e.value!=="")a[+e.dataset.epp]=pats[+e.value]});return a}
 function getEditQuads(){let q=[0,0,0,0];document.querySelectorAll("[data-eq]").forEach(e=>q[+e.dataset.eq]=Math.max(0,parseInt(e.value)||0));return q}
-function updateEditPatternSummary(){let el=$("editPatternSummary"),d=$("editPatternDetails");if(!el||!d)return;let has=getEditPatterns().some(Boolean);el.innerHTML=`Kombinasi poin setiap pemain <span class="muted">(${d.open?"tap untuk tutup":has?"ada poin • tap untuk buka":"0 semua • tap untuk buka"})</span>`}
-function updateEditQuadSummary(){let el=$("editQuadSummary"),d=$("editQuadDetails");if(!el||!d)return;let has=getEditQuads().some(q=>q>0);el.innerHTML=`Quad setiap pemain <span class="muted">(${d.open?"tap untuk tutup":has?"ada poin • tap untuk buka":"0 semua • tap untuk buka"})</span>`}
-function updateEditPreview(){if(editHistoryIndex===null)return;updateEditPatternSummary();updateEditQuadSummary();let h=s.history[editHistoryIndex],pps=getEditPatterns(),base=editMethod==="zimo"?5:2,qs=getEditQuads(),nd=[0,0,0,0];for(let i=0;i<4;i++)if(i!==h.winner){nd[i]-=base;nd[h.winner]+=base}pps.forEach((pat,owner)=>{if(!pat)return;for(let i=0;i<4;i++)if(i!==owner){nd[i]-=pat[1];nd[owner]+=pat[1]}});if(editMethod==="hu"){let ed=Number($("editDiscarder").value);if(Number.isInteger(ed)&&ed!==h.winner){nd[ed]-=1;nd[h.winner]+=1}}for(let q=0;q<4;q++)for(let n=0;n<qs[q];n++)for(let i=0;i<4;i++)if(i!==q){nd[i]-=1;nd[q]+=1}let cp=pps.map((p,i)=>p?`${s.names[i]}: ${p[0]} (${p[1]})`:null).filter(Boolean),qt=qs.map((q,i)=>q?`${s.names[i]}: ${q} Quad`:null).filter(Boolean);$("editPreview").innerHTML=`${editMethod==="zimo"?"Zi Mo":"Hu"}: dasar <b>${base} poin dari setiap lawan</b>${cp.length?`<br>Kombinasi: ${cp.join(" • ")}`:"<br>Kombinasi: tidak ada"}${qt.length?`<br>Quad: ${qt.join(" • ")}`:"<br>Quad: tidak ada"}<br>`+nd.map((v,i)=>`${s.names[i]} <b>${v>=0?"+":""}${fmt(v)}</b>`).join(" • ")}
-function openScoreEdit(idx){let h=s.history[idx];if(!h||h.method==="quad")return;editHistoryIndex=idx;$("editInfo").textContent="Pemenang: "+s.names[h.winner];fillEditPatternsByPlayer(h);const hasPattern=getEditPatterns().some(Boolean),pd=$("editPatternDetails");if(pd)pd.open=hasPattern;updateEditPatternSummary();let eq=Array.isArray(h.quads)?h.quads:[0,0,0,0];$("editQuadInputs").innerHTML=[0,1,2,3].map(i=>`<div class="quadbox"><div class="label">${windChar(i)} ${s.names[i]}</div>${stepperHTML(`data-eq="${i}" min="0" step="1" oninput="updateEditPreview()"`,Math.max(0,parseInt(eq[i])||0))}</div>`).join("");const hasQuad=eq.some(q=>(parseInt(q)||0)>0),qd=$("editQuadDetails");if(qd)qd.open=hasQuad;updateEditQuadSummary();$("editDiscarder").innerHTML=s.names.map((n,i)=>i===h.winner?"":`<option value="${i}">${n}</option>`).join("");let d=(h.discarder!==null&&h.discarder!==undefined&&h.discarder!==h.winner)?h.discarder:[0,1,2,3].find(i=>i!==h.winner);$("editDiscarder").value=d;$("editDiscarder").onchange=updateEditPreview;setEditMethod(h.method==="zimo"?"zimo":"hu");$("editScore").classList.add("show")}
+function updateEditPreview(){if(editHistoryIndex===null)return;let h=s.history[editHistoryIndex],pps=getEditPatterns(),base=editMethod==="zimo"?5:2,qs=getEditQuads(),nd=[0,0,0,0];for(let i=0;i<4;i++)if(i!==h.winner){nd[i]-=base;nd[h.winner]+=base}pps.forEach((pat,owner)=>{if(!pat)return;for(let i=0;i<4;i++)if(i!==owner){nd[i]-=pat[1];nd[owner]+=pat[1]}});if(editMethod==="hu"){let ed=Number($("editDiscarder").value);if(Number.isInteger(ed)&&ed!==h.winner){nd[ed]-=1;nd[h.winner]+=1}}for(let q=0;q<4;q++)for(let n=0;n<qs[q];n++)for(let i=0;i<4;i++)if(i!==q){nd[i]-=1;nd[q]+=1}let cp=pps.map((p,i)=>p?`${s.names[i]}: ${p[0]} (${p[1]})`:null).filter(Boolean),qt=qs.map((q,i)=>q?`${s.names[i]}: ${q} Quad`:null).filter(Boolean);$("editPreview").innerHTML=`${editMethod==="zimo"?"Zi Mo":"Hu"}: dasar <b>${base} poin dari setiap lawan</b>${cp.length?`<br>Kombinasi: ${cp.join(" • ")}`:"<br>Kombinasi: tidak ada"}${qt.length?`<br>Quad: ${qt.join(" • ")}`:"<br>Quad: tidak ada"}<br>`+nd.map((v,i)=>`${s.names[i]} <b>${v>=0?"+":""}${fmt(v)}</b>`).join(" • ")}
+function openScoreEdit(idx){let h=s.history[idx];if(!h||h.method==="quad")return;editHistoryIndex=idx;$("editInfo").textContent="Pemenang: "+s.names[h.winner];fillEditPatternsByPlayer(h);let eq=Array.isArray(h.quads)?h.quads:[0,0,0,0];$("editQuadInputs").innerHTML=[0,1,2,3].map(i=>`<div class="quadbox"><div class="label">${windChar(i)} ${s.names[i]}</div><input type="number" data-eq="${i}" value="${Math.max(0,parseInt(eq[i])||0)}" min="0" step="1" oninput="updateEditPreview()"></div>`).join("");$("editDiscarder").innerHTML=s.names.map((n,i)=>i===h.winner?"":`<option value="${i}">${n}</option>`).join("");let d=(h.discarder!==null&&h.discarder!==undefined&&h.discarder!==h.winner)?h.discarder:[0,1,2,3].find(i=>i!==h.winner);$("editDiscarder").value=d;$("editDiscarder").onchange=updateEditPreview;setEditMethod(h.method==="zimo"?"zimo":"hu");$("editScore").classList.add("show")}
 function closeScoreEdit(){editHistoryIndex=null;$("editScore").classList.remove("show")}
 function saveScoreEdit(){if(editHistoryIndex===null)return;let h=s.history[editHistoryIndex],pps=getEditPatterns(),base=editMethod==="zimo"?5:2,old=h.delta||[0,0,0,0],nd=[0,0,0,0];for(let i=0;i<4;i++)if(i!==h.winner){nd[i]-=base;nd[h.winner]+=base}pps.forEach((pat,owner)=>{if(!pat)return;for(let i=0;i<4;i++)if(i!==owner){nd[i]-=pat[1];nd[owner]+=pat[1]}});if(editMethod==="hu"){let ed=Number($("editDiscarder").value);if(Number.isInteger(ed)&&ed!==h.winner){nd[ed]-=1;nd[h.winner]+=1}}let qs=getEditQuads();for(let q=0;q<4;q++)for(let n=0;n<qs[q];n++)for(let i=0;i<4;i++)if(i!==q){nd[i]-=1;nd[q]+=1}s.scores=s.scores.map((score,i)=>score-old[i]+nd[i]);h.method=editMethod;h.discarder=editMethod==="hu"?Number($("editDiscarder").value):null;h.delta=nd;h.each=base;h.playerPatterns=pps.map(p=>p?{name:p[0],points:p[1]}:null);h.patternName=null;h.patternPoints=0;h.extra=0;h.total=pps.reduce((a,p)=>a+(p?p[1]:0),0);h.quads=qs;h.patterns=pps.map((p,i)=>p?`${s.names[i]}: ${p[0]}`:null).filter(Boolean);qs.forEach((q,i)=>{if(q)h.patterns.push(`${s.names[i]} ${q} Quad`)});h.edited=true;save();closeScoreEdit();render()}
 function deleteQuad(idx){
@@ -668,7 +517,6 @@ function buildPatternGuide(){
 function openSettings(){
  const visible=localStorage.getItem("mahjong_manual_points_visible")==="1";
  $("manualPointsToggle").checked=visible;
-
  $("settings").classList.add("show");
 }
 function closeSettings(){$("settings").classList.remove("show")}
@@ -677,33 +525,28 @@ function setManualPointsVisible(show){
  $("manualPointsWrap").style.display=show?"block":"none";
  if(!show){$("extra").value=0;update()}
 }
-function buildRulesVisuals(){
- document.querySelectorAll("[data-rule-tiles]").forEach(el=>{if(!el.dataset.ready){el.innerHTML=renderMahjongTiles(el.dataset.ruleTiles);el.dataset.ready="1"}});
- const suitNames={dot:"Tongzi",char:"Wanzi",bam:"Suozi"};
- document.querySelectorAll("[data-component-row]").forEach(el=>{if(el.dataset.ready)return;const suit=el.dataset.componentRow;el.innerHTML=Array.from({length:9},(_,i)=>`<div class="mc-item"><div class="mc-num">${i+1}</div>${renderMahjongTiles(suit+(i+1))}<div class="mc-name">${i+1} ${suitNames[suit]}</div></div>`).join("");el.dataset.ready="1"});
- const honorData={winds:[["east","Timur","東"],["south","Selatan","南"],["west","Barat","西"],["north","Utara","北"]],dragons:[["red","Merah","中"],["green","Hijau","發"],["white","Putih","白"]]};
- document.querySelectorAll("[data-component-honors]").forEach(el=>{if(el.dataset.ready)return;el.innerHTML=honorData[el.dataset.componentHonors].map(([k,n,c])=>`<div class="mc-item">${renderMahjongTiles(k)}<div class="mc-name">${n}<br>${c}</div></div>`).join("");el.dataset.ready="1"});
-}
+function buildRulesVisuals(){document.querySelectorAll("[data-rule-tiles]").forEach(el=>{if(!el.dataset.ready){el.innerHTML=renderMahjongTiles(el.dataset.ruleTiles);el.dataset.ready="1"}})}
 function openRulesGuide(){buildRulesVisuals();$("rulesGuide").classList.add("show")}
 function closeRulesGuide(){$("rulesGuide").classList.remove("show")}
 function openPatternGuide(){buildPatternGuide();$("patternGuide").classList.add("show")}
 function closePatternGuide(){$("patternGuide").classList.remove("show")}
 function openNew(){for(let i=0;i<4;i++)$("n"+i).value=s.names[i];$("new").classList.add("show")}function closeNew(){$("new").classList.remove("show")}
 function newGame(){let st=parseFloat($("start").value)||0;s={names:[0,1,2,3].map(i=>($("n"+i).value.trim().slice(0,10)||"Pemain "+(i+1))),scores:[st,st,st,st],dealer:0,round:1,roundWind:0,initialEast:0,history:[],seatWinds:[0,1,2,3]};winner=null;method=null;discarder=null;save();closeNew();render()}
+function closeMenus(){document.querySelectorAll(".action-menu.show").forEach(m=>m.classList.remove("show"));document.querySelectorAll(".menu-trigger[aria-expanded=true]").forEach(b=>b.setAttribute("aria-expanded","false"))}
+function toggleMenu(id,btn,ev){if(ev)ev.stopPropagation();const menu=$(id),was=menu.classList.contains("show");closeMenus();if(!was){menu.classList.add("show");btn.setAttribute("aria-expanded","true")}}
+document.addEventListener("click",e=>{if(!e.target.closest(".menu-wrap"))closeMenus()});
 function share(){let currentHand=s.history.filter(h=>h.method!=="quad"&&(h.round||1)===(s.round||1)).length+1;let totalHands=s.history.filter(h=>h.method!=="quad").length;let text="🀄 Skor Mahjong — Ronde "+(s.round||1)+" • Tangan "+currentHand+"\n"+s.names.map((n,i)=>{let wins=s.history.filter(h=>h.method!=="quad"&&h.winner===i).length;return `${windChar(i)} ${n}: ${fmt(s.scores[i])} • ${wins} tangan menang`}).join("\n")+"\nDealer: "+s.names[s.dealer]+" (東 Timur)\nTotal tangan selesai: "+totalHands;if(navigator.share)navigator.share({title:"Skor Mahjong",text});else navigator.clipboard.writeText(text).then(()=>alert("Skor disalin."))}
 render();
 
 const historyPanel=document.getElementById("historyPanel");
 const historySummary=document.getElementById("historySummary");
-const historySummaryButton=document.getElementById("historySummaryButton");
-function setHistoryOpen(open){
+function updateHistorySummary(){
   if(!historyPanel||!historySummary) return;
-  historyPanel.classList.toggle("is-open",!!open);
-  historySummary.innerHTML=open ? 'Riwayat permainan <span class="muted">(tap untuk tutup)</span>' : 'Riwayat permainan <span class="muted">(tap untuk buka)</span>';
-  if(historySummaryButton) historySummaryButton.setAttribute("aria-expanded",open?"true":"false");
+  historySummary.innerHTML = historyPanel.open
+    ? 'Riwayat permainan <span class="muted">(tap untuk tutup)</span>'
+    : 'Riwayat permainan <span class="muted">(tap untuk buka)</span>';
 }
-if(historySummaryButton){historySummaryButton.addEventListener("click",function(){setHistoryOpen(!historyPanel.classList.contains("is-open"));});}
-setHistoryOpen(false);
+if(historyPanel){ historyPanel.addEventListener("toggle", updateHistorySummary); updateHistorySummary(); }
 
 const patternToggle=document.getElementById("patternToggle");
 const patternSummary=document.getElementById("patternSummary");
@@ -714,19 +557,6 @@ function updatePatternSummary(){
     : '3. Kombinasi poin setiap pemain <span class="muted">(tap untuk buka)</span>';
 }
 if(patternToggle){ patternToggle.addEventListener("toggle", updatePatternSummary); updatePatternSummary(); }
-
-const allPlayersPanel=document.getElementById("allPlayersPanel");
-const allPlayersSummary=document.getElementById("allPlayersSummary");
-const allPlayersSummaryButton=document.getElementById("allPlayersSummaryButton");
-function setAllPlayersOpen(open){
-  if(!allPlayersPanel||!allPlayersSummary) return;
-  allPlayersPanel.classList.toggle("is-open",!!open);
-  allPlayersSummary.innerHTML=open ? 'Rekap Semua Pemain <span class="muted">(tap untuk tutup)</span>' : 'Rekap Semua Pemain <span class="muted">(tap untuk buka)</span>';
-  if(allPlayersSummaryButton) allPlayersSummaryButton.setAttribute("aria-expanded",open?"true":"false");
-}
-if(allPlayersSummaryButton){allPlayersSummaryButton.addEventListener("click",function(){setAllPlayersOpen(!allPlayersPanel.classList.contains("is-open"));});}
-setAllPlayersOpen(false);
-
 </script><script>
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js"));

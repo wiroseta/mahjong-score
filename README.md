@@ -1,3 +1,7 @@
+## Version v11
+
+Approved responsive header/footer navigation and fluid four-player table.
+
 # Mahjong Score 4P PWA
 
 Files are ready for GitHub Pages.
