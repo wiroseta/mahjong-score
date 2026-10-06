@@ -1,4 +1,4 @@
-// Isi dua nilai ini dari Supabase Project Settings > API.
-// Publishable/anon key aman digunakan di frontend. JANGAN taruh service_role key di file ini.
-window.MAHJONG_SUPABASE_URL = "YOUR_SUPABASE_URL";
-window.MAHJONG_SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+// Supabase configuration for Mahjong Score frontend.
+// Publishable key is intended for browser use. Never place a secret/service_role key here.
+window.MAHJONG_SUPABASE_URL = "https://zhwaevvfvqymgdiaylyn.supabase.co";
+window.MAHJONG_SUPABASE_ANON_KEY = "sb_publishable_YUjr2I3apsaVPQLVNhbakw_DPNeJK4T";

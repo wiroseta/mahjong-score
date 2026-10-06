@@ -62,3 +62,10 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Logout tersedia di menu utama.
 - Konfigurasi frontend ada di auth-config.js. Jangan pernah memasukkan service_role key ke file frontend.
 - Edge Function supabase/functions/mahjong-user-admin menangani create/list/enable-disable user dengan service role hanya di server.
+
+
+## v12.9 — Supabase Production Configuration
+- Project URL dan publishable key Supabase Mahjong Score sudah dipasang di `auth-config.js`.
+- Login Admin/User v12.8 dipertahankan.
+- Cache PWA dinaikkan ke v12.9.
+- Edge Function yang digunakan: `mahjong-user-admin`.
