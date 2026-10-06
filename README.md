@@ -90,3 +90,10 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - iPhone User Management: setiap user memakai baris compact; username/status fleksibel di kiri, tombol Ubah PIN, Aktifkan/Nonaktifkan, dan minus tetap satu baris di kanan; admin hanya memiliki Ubah PIN.
 - Daftar User Management tidak horizontal overflow dan dapat scroll vertikal bila user banyak.
 - Seluruh fungsi/fix v13.1 dan sebelumnya dipertahankan.
+
+
+## v15.1
+- Reset mempertahankan nama pemain, tetapi mengulang skor, ronde/tangan, dealer, riwayat, Quad, kombinasi poin, dan state permainan aktif ke awal.
+- Game Baru kembali memulai dengan nama default Pemain 1–Pemain 4 dan state permainan baru.
+- Input Quad iPhone/desktop otomatis select-all saat dipilih; iPhone meminta keyboard digit.
+- Spinner number bawaan Quad diganti kontrol minus di kiri dan plus di kanan, termasuk Koreksi Hasil.
