@@ -83,3 +83,10 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - PIN baru wajib tepat 4 digit dan diminta dua kali untuk konfirmasi.
 - Akun Administrator tetap tidak dapat dinonaktifkan atau dihapus dari User Management.
 - Layout tombol User Management di iPhone dibuat lebih compact agar aksi Ubah PIN, Aktif/Nonaktif, dan hapus tetap muat.
+
+## v15.0 — Approved Header + iPhone User Management Layout
+- Browser/desktop: logo Mahjong Score sedikit diperbesar; instruksi ditempatkan tepat di bawah title dengan jarak vertikal lebih lega.
+- iPhone: header memakai safe-area atas agar logo/title tidak bertabrakan dengan status bar; logo sedikit diperbesar tanpa memperbesar header secara berlebihan; nomor versi berada tepat di bawah title.
+- iPhone User Management: setiap user memakai baris compact; username/status fleksibel di kiri, tombol Ubah PIN, Aktifkan/Nonaktifkan, dan minus tetap satu baris di kanan; admin hanya memiliki Ubah PIN.
+- Daftar User Management tidak horizontal overflow dan dapat scroll vertikal bila user banyak.
+- Seluruh fungsi/fix v13.1 dan sebelumnya dipertahankan.
