@@ -356,9 +356,27 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
   .bottom-menu-wrap{left:6px!important}
 }
 </style>
+
+<style id="v12-7-iphone-footer-menu-fix">
+/* v12.7 — iPhone footer menu: keep Undo/Reset popup above the fixed footer.
+   v12.6 set top:48px on every .action-menu; this explicitly excludes the footer popup. */
+@media (max-width:600px){
+  .bottom-menu-wrap .bottom-action-menu{
+    position:absolute!important;
+    top:auto!important;
+    bottom:calc(100% + 8px)!important;
+    left:0!important;
+    right:auto!important;
+    z-index:10020!important;
+    pointer-events:auto!important;
+  }
+  .bottom-menu-wrap{z-index:10010!important;pointer-events:auto!important}
+  .bottom-menu-wrap .menu-trigger{position:relative!important;z-index:10011!important;pointer-events:auto!important;touch-action:manipulation}
+}
+</style>
 </head>
 <body><div class="app">
-<div class="top"><div class="brand"><h1>🀄 Mahjong Score <span class="app-version">v12.6</span></h1><div class="muted">Tap pemain yang menang → Hu/Zi Mo → pilih poin → Catat</div></div><div class="top-actions"><button class="btn light" onclick="openPlayers()">Edit Nama</button><button class="btn gold" onclick="openNew()">Game Baru</button><div class="menu-wrap"><button class="btn light menu-trigger" aria-label="Menu utama" aria-expanded="false" onclick="toggleMenu('topMenu',this,event)">•••</button><div class="action-menu" id="topMenu"><button onclick="closeMenus();openHistoryModal()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h12M4 10h12M4 15h8"/><path d="M18 14v6m-3-3h6"/></svg></span><span>Riwayat Permainan</span></button><button onclick="closeMenus();openRecapModal()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="7" r="3"/><circle cx="17" cy="8" r="2.5"/><path d="M3 19c.5-4 2.2-6 5-6s4.5 2 5 6M14 19c.3-2.8 1.5-4.4 3.6-4.4 1.8 0 3 1.2 3.4 3.4"/></svg></span><span>Rekap Semua Pemain</span></button><button onclick="closeMenus();openRound()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg></span><span>Ronde Baru</span></button><button onclick="closeMenus();share()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="m7.5 8.5 4.5-4.5 4.5 4.5"/><path d="M5 13v6h14v-6"/></svg></span><span>Bagikan Skor</span></button><button onclick="closeMenus();openSettings()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3A1.7 1.7 0 0 0 10 3V2.8h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1z"/></svg></span><span>Setting</span></button></div></div></div></div>
+<div class="top"><div class="brand"><h1>🀄 Mahjong Score <span class="app-version">v12.7</span></h1><div class="muted">Tap pemain yang menang → Hu/Zi Mo → pilih poin → Catat</div></div><div class="top-actions"><button class="btn light" onclick="openPlayers()">Edit Nama</button><button class="btn gold" onclick="openNew()">Game Baru</button><div class="menu-wrap"><button class="btn light menu-trigger" aria-label="Menu utama" aria-expanded="false" onclick="toggleMenu('topMenu',this,event)">•••</button><div class="action-menu" id="topMenu"><button onclick="closeMenus();openHistoryModal()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h12M4 10h12M4 15h8"/><path d="M18 14v6m-3-3h6"/></svg></span><span>Riwayat Permainan</span></button><button onclick="closeMenus();openRecapModal()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="7" r="3"/><circle cx="17" cy="8" r="2.5"/><path d="M3 19c.5-4 2.2-6 5-6s4.5 2 5 6M14 19c.3-2.8 1.5-4.4 3.6-4.4 1.8 0 3 1.2 3.4 3.4"/></svg></span><span>Rekap Semua Pemain</span></button><button onclick="closeMenus();openRound()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg></span><span>Ronde Baru</span></button><button onclick="closeMenus();share()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="m7.5 8.5 4.5-4.5 4.5 4.5"/><path d="M5 13v6h14v-6"/></svg></span><span>Bagikan Skor</span></button><button onclick="closeMenus();openSettings()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3A1.7 1.7 0 0 0 10 3V2.8h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1z"/></svg></span><span>Setting</span></button></div></div></div></div>
 
 <div class="table">
  <div id="p3" class="player pN" onclick="selectWinner(3)"></div>

@@ -48,3 +48,9 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - iPhone/mobile: header dibuat lebih compact tanpa mengubah proporsi meja/panel; versi dipindahkan ke bawah judul Mahjong Score.
 - iPhone/mobile: tombol Catat Hasil Tangan digeser ke kiri setelah tombol menu footer dengan jarak yang jelas.
 - Desktop tetap menggunakan layout sebelumnya.
+
+
+## v12.7
+- Fix iPhone: tombol menu `...` di footer kembali dapat ditekan.
+- Popup Undo/Reset dipaksa terbuka ke atas footer dan tidak lagi terkena aturan posisi menu header v12.6.
+- Tidak mengubah fungsi Undo, Reset, Catat Hasil Tangan, atau layout lain.
