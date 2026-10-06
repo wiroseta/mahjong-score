@@ -1,4 +1,4 @@
-## Version v12
+## Version v12.1
 
 Approved responsive header/footer navigation and fluid four-player table.
 
@@ -34,3 +34,5 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 
 ## v12.1
 - 8 UI/UX improvements: proportional desktop table, history/recap modals in global menu, icons, conditional combination total, auto-collapse combination panel after record, safer footer menu placement, and stronger winner highlight.
+
+- v12.1 UI refinement: compact, high-contrast titled headers for Riwayat Permainan and Rekap Semua Pemain modals on desktop/mobile.
