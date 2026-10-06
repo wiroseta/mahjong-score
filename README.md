@@ -106,3 +106,9 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Sinkronkan label versi PDF panduan/aturan ke v15.2.
 - Sederhanakan service worker dengan menghapus daftar TILE_ASSETS kosong dan naikkan cache ke v15.2.
 - Tidak ada perubahan aturan skor, layout, atau workflow dibanding v15.1.
+
+
+## v15.2.1 Regression Fix
+- Perbaiki angka Quad yang tidak terlihat pada kontrol `− angka +`, termasuk Koreksi Hasil, dengan warna teks eksplisit yang aman untuk Safari/iPhone dan desktop.
+- Tampilkan nomor versi v15.2.1 pada header browser/desktop dan pertahankan tampilannya di bawah title pada iPhone.
+- Naikkan cache PWA ke v15.2.1 agar perbaikan UI segera terambil.
