@@ -11,13 +11,21 @@ Deno.serve(async(req)=>{
   const body=await req.json(), action=body.action
   if(action==='create'){
    const username=String(body.username||'').trim().toLowerCase().replace(/[^a-z0-9._-]/g,''); if(!username)throw new Error('Username tidak valid.')
-   if(String(body.password||'').length<6)throw new Error('Password minimal 6 karakter.')
-   const {data,error}=await admin.auth.admin.createUser({email:`${username}@mahjong.local`,password:body.password,email_confirm:true,app_metadata:{role:'user',username}});if(error)throw error
+   const pin=String(body.pin||''); if(!/^\d{4}$/.test(pin))throw new Error('PIN harus tepat 4 digit.')
+   const {data,error}=await admin.auth.admin.createUser({email:`${username}@mahjong.local`,password:`mj${pin}`,email_confirm:true,app_metadata:{role:'user',username}});if(error)throw error
    return json({user:{id:data.user.id,username}},200)
   }
   if(action==='list'){
    const {data,error}=await admin.auth.admin.listUsers({page:1,perPage:1000});if(error)throw error
    return json({users:data.users.map((u:any)=>({id:u.id,email:u.email,username:u.app_metadata?.username||u.email?.split('@')[0],role:u.app_metadata?.role||'user',banned:!!u.banned_until&&new Date(u.banned_until)>new Date()}))},200)
+  }
+  if(action==='delete'){
+   const {data:target,error:targetError}=await admin.auth.admin.getUserById(body.userId);if(targetError)throw targetError;if(target.user?.app_metadata?.role==='admin')throw new Error('Administrator tidak dapat dihapus.')
+   const {error}=await admin.auth.admin.deleteUser(body.userId);if(error)throw error;return json({ok:true},200)
+  }
+  if(action==='set-pin'){
+   const pin=String(body.pin||'');if(!/^\d{4}$/.test(pin))throw new Error('PIN harus tepat 4 digit.')
+   const {error}=await admin.auth.admin.updateUserById(body.userId,{password:`mj${pin}`});if(error)throw error;return json({ok:true},200)
   }
   if(action==='set-active'){
    const {error}=await admin.auth.admin.updateUserById(body.userId,{ban_duration:body.active?'none':'876000h'});if(error)throw error;return json({ok:true},200)

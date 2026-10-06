@@ -69,3 +69,10 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Login Admin/User v12.8 dipertahankan.
 - Cache PWA dinaikkan ke v12.9.
 - Edge Function yang digunakan: `mahjong-user-admin`.
+
+## v13.0 — User Delete, iPhone User Management, PIN 4 Digit
+- User Management menambahkan tombol minus merah untuk menghapus user non-Administrator, dengan konfirmasi; Administrator dilindungi dari delete di UI dan Edge Function.
+- Layout User Management iPhone dibuat lebih compact agar daftar user dan action lebih mudah terlihat dalam viewport.
+- Login menggunakan PIN tepat 4 digit. PIN dikirim ke Supabase Auth sebagai password internal berawalan `mj` agar tetap memenuhi minimum password Supabase; pengguna hanya melihat/mengetik 4 digit.
+- Pembuatan user baru menggunakan PIN awal tepat 4 digit.
+- Edge Function `mahjong-user-admin` menambahkan action `delete` dan `set-pin` serta create berbasis PIN.
