@@ -54,3 +54,11 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Fix iPhone: tombol menu `...` di footer kembali dapat ditekan.
 - Popup Undo/Reset dipaksa terbuka ke atas footer dan tidak lagi terkena aturan posisi menu header v12.6.
 - Tidak mengubah fungsi Undo, Reset, Catat Hasil Tangan, atau layout lain.
+
+## v12.8 — Login Admin/User
+- Login persisten memakai Supabase Auth; Game Baru tidak logout.
+- Tidak ada pendaftaran publik. User baru dibuat dari User Management oleh Administrator.
+- User Management hanya terlihat untuk akun dengan app_metadata.role = admin.
+- Logout tersedia di menu utama.
+- Konfigurasi frontend ada di auth-config.js. Jangan pernah memasukkan service_role key ke file frontend.
+- Edge Function supabase/functions/mahjong-user-admin menangani create/list/enable-disable user dengan service role hanya di server.

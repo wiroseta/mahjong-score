@@ -1,5 +1,5 @@
-const CACHE="mahjong-score-v12-7";
-const ASSETS=["./","./index.html","./manifest.webmanifest","./icon-192.png","./icon-512.png"];
+const CACHE="mahjong-score-v12-8";
+const ASSETS=["./","./index.html","./auth-config.js","./manifest.webmanifest","./icon-192.png","./icon-512.png"];
 const TILE_ASSETS=[];
 self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS.concat(TILE_ASSETS)))));
 self.addEventListener("activate",e=>e.waitUntil(self.clients.claim()));
