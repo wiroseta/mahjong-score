@@ -30,3 +30,7 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 ### v12
 - Setelah Catat Hasil Tangan berhasil, tampil notifikasi non-blocking “✓ Skor sudah tercatat”.
 - Notifikasi hilang otomatis sekitar 2,8 detik tanpa tap/klik.
+
+
+## v12.1
+- 8 UI/UX improvements: proportional desktop table, history/recap modals in global menu, icons, conditional combination total, auto-collapse combination panel after record, safer footer menu placement, and stronger winner highlight.
