@@ -108,7 +108,20 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Tidak ada perubahan aturan skor, layout, atau workflow dibanding v15.1.
 
 
-## v15.2.1 Regression Fix
+## v15.2.2 Regression Fix
 - Perbaiki angka Quad yang tidak terlihat pada kontrol `− angka +`, termasuk Koreksi Hasil, dengan warna teks eksplisit yang aman untuk Safari/iPhone dan desktop.
-- Tampilkan nomor versi v15.2.1 pada header browser/desktop dan pertahankan tampilannya di bawah title pada iPhone.
-- Naikkan cache PWA ke v15.2.1 agar perbaikan UI segera terambil.
+- Tampilkan nomor versi v15.2.2 pada header browser/desktop dan pertahankan tampilannya di bawah title pada iPhone.
+- Naikkan cache PWA ke v15.2.2 agar perbaikan UI segera terambil.
+
+
+## v15.2.2 iPhone Quad Value Visibility Fix
+- Memperbaiki nilai Quad pada Koreksi Hasil yang tidak terlihat di iPhone/Safari.
+- Input Quad memakai field numeric-keyboard berbasis text agar angka dirender stabil, dengan nilai terpusat dan kontras eksplisit.
+- Kontrol − [angka] +, select-all, perhitungan, dan seluruh fungsi v15.2.1 dipertahankan.
+
+
+## v15.2.3 History Divider Cleanup
+- Riwayat Permainan tidak lagi menampilkan dua garis mendatar berdekatan tepat di bawah header modal.
+- Border atas pada entri riwayat pertama dihilangkan; garis pemisah antar-entri berikutnya tetap dipertahankan.
+- Seluruh perbaikan v15.2.2, termasuk visibilitas nilai Quad pada iPhone/Safari, tetap dipertahankan.
+- Cache PWA dan label versi disinkronkan ke v15.2.3.
