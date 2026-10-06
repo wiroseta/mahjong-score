@@ -92,8 +92,17 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Seluruh fungsi/fix v13.1 dan sebelumnya dipertahankan.
 
 
-## v15.1
+## v15.2
 - Reset mempertahankan nama pemain, tetapi mengulang skor, ronde/tangan, dealer, riwayat, Quad, kombinasi poin, dan state permainan aktif ke awal.
 - Game Baru kembali memulai dengan nama default Pemain 1–Pemain 4 dan state permainan baru.
 - Input Quad iPhone/desktop otomatis select-all saat dipilih; iPhone meminta keyboard digit.
 - Spinner number bawaan Quad diganti kontrol minus di kiri dan plus di kanan, termasuk Koreksi Hasil.
+
+
+## v15.2 Cleanup
+- Konsolidasi 21 blok CSS menjadi satu stylesheet internal tanpa mengubah urutan cascade.
+- Hapus folder tile SVG eksternal yang tidak direferensikan; katalog tile menggunakan TILE_IMAGES embedded.
+- Rapikan penamaan blok auth/Quad legacy.
+- Sinkronkan label versi PDF panduan/aturan ke v15.2.
+- Sederhanakan service worker dengan menghapus daftar TILE_ASSETS kosong dan naikkan cache ke v15.2.
+- Tidak ada perubahan aturan skor, layout, atau workflow dibanding v15.1.
