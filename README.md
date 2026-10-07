@@ -1,4 +1,20 @@
-## Version v15.4.3
+## v15.4.6 — Transfer Close Button Consistency
+- Semua tombol X pada modal Transfer Permainan sekarang menggunakan komponen `modal-x` global yang sama dengan halaman/modal lain, sehingga bentuknya bulat dan konsisten.
+- Menghapus style `transfer-x` khusus agar tidak ada dua sumber style untuk tombol tutup.
+- Seluruh fungsi v15.4.5 tetap dipertahankan.
+
+## v15.4.6 — Share QR Code
+- Menambahkan tombol Bagikan QR Code pada dialog Kirim Permainan via QR Code.
+- Membagikan QR sebagai file PNG melalui share sheet bawaan iPhone/Android (WhatsApp, Messages, AirDrop, Telegram, email, dan target lain yang tersedia).
+- Jika file sharing tidak didukung, aplikasi mencoba membagikan link transfer; fallback terakhir menyimpan PNG.
+- Seluruh fungsi/fix v15.4.4 dan sebelumnya dipertahankan.
+
+## Version v15.4.6
+
+## v15.4.6 — User Management moved into Settings
+- User Management dipindahkan dari menu global `...` ke dalam `Setting`.
+- Tombol User Management di Setting hanya tampil untuk Administrator; user biasa tidak melihatnya.
+- Seluruh fungsi/fix v15.4.3 tetap dipertahankan.
 
 ## v15.4.3 — QR Compression & Transfer Header Fix
 - Tombol × pada dialog Transfer/Kirim/Terima QR sejajar di kanan title.
