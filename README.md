@@ -1,3 +1,11 @@
+## v15.5.14 — Voice Quad/Gang + ZI MO Recognition Fix
+
+- Memperbaiki pemilihan alternatif SpeechRecognition: hasil Voice paling lengkap diprioritaskan, termasuk Quad/Gang dan kombinasi, bukan berhenti pada alternatif pertama yang hanya mengenali winner/method.
+- Memperkuat pengenalan Quad/Gang dengan variasi transkripsi umum: quad/kuad/quat/kwad/kwat/guad dan gang/kang/kong/gong.
+- Memperkuat ZI MO agar ucapan “zhi mo” cukup; tetap menerima variasi zi mo/ji mo/ci mo/si mo/chi mo/shi mo serta bentuk rapat.
+- “zhi zi mo” tetap kompatibel.
+- HU/discarder, kombinasi multi-player, score engine, dan konfirmasi Catat Hasil Tangan tidak diubah.
+
 ## v15.5.13 — Voice Kombinasi Poin Multi-Player
 
 - Voice dapat memilih kombinasi untuk beberapa pemain dalam satu ucapan dengan format nama pemain + nama kombinasi, misalnya `Yenny Set Mulia, Alan Petapa, Budi Triplet Murni`.
