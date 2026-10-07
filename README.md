@@ -1,4 +1,8 @@
-## Version v15.2.8
+## Version v15.2.9
+
+- Winner instruction returned to the scoring panel above Step 2; removed from the table center.
+- Mobile table uses more available vertical viewport, especially iPhone Larger Text/Display Zoom, while keeping the one-screen compact layout.
+
 
 Approved responsive header/footer navigation and fluid four-player table.
 
@@ -145,10 +149,10 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Sinkronisasi versi diperbaiki: heading README, aplikasi, PDF/Rules, dan cache PWA mengikuti v15.2.7.
 
 
-### v15.2.8
+### v15.2.9
 - Langkah 1 dipindahkan dari panel skor ke area meja: petunjuk `Tap pemain yang menang` dan status pemenang sekarang tampil di tengah meja sehingga panel bawah lebih ringkas.
 - Urutan langkah diubah menjadi 1 Pilih pemenang → 2 Cara menang → 3 Quad → 4 Kombinasi poin.
 - Kombinasi poin tetap collapsible dan sekarang menjadi langkah terakhir agar alur input lebih natural dan hemat ruang vertikal.
 - Pesan peringatan merah pada mobile diperbesar sedikit agar lebih mudah dibaca.
 - Compact layout tetap mempertahankan kontrol Quad mobile berupa field angka langsung dan desktop berupa − / angka / +.
-- Versi aplikasi, PDF/Rules, README, dan cache PWA disinkronkan ke v15.2.8.
+- Versi aplikasi, PDF/Rules, README, dan cache PWA disinkronkan ke v15.2.9.
