@@ -1,4 +1,12 @@
-## v15.5.4 — Apple Safari Voice Dictation Fallback
+## v15.5.5 — Cross-Platform HU Discarder Voice Parser Fix
+
+- Memperbaiki parser voice pembuang HU untuk Android Speech Recognition dan jalur input Apple/Safari.
+- Mendukung bentuk: “Yenny HU dari Herman”, “Yenny HU Herman”, “Yenny HU yang buang Herman”, “Yenny HU yang membuang Herman”, “Yenny HU pembuang Herman”, “Yenny HU dibuang oleh Herman”, dan “Yenny HU from Herman”.
+- Nama pemain, Pemain/Player 1–4, serta alias mata angin Indonesia/Inggris/Mandarin tetap mengikuti posisi `seatWinds` aktual.
+- Parser yang sama digunakan lintas platform; tidak ada engine skor terpisah.
+- Voice tetap hanya mengisi UI/preview dan tidak mencatat skor otomatis.
+- Layout footer tetap: `•••` → `CATAT HASIL TANGAN` → `🎙️ Voice`.
+- Seluruh fitur dan fix v15.5.4 serta versi sebelumnya dipertahankan.
 
 - iPhone/iPad: tombol Voice membuka input khusus yang memakai Dictation dari keyboard iOS, sehingga tidak bergantung pada Web Speech API Safari yang dapat gagal/hang.
 - Setelah Dictation menghasilkan teks, tombol Gunakan Voice meneruskan teks ke parser voice Mahjong yang sama; skor tetap tidak dicatat otomatis.
