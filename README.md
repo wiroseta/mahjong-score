@@ -1,4 +1,4 @@
-## v15.5.16 — Voice Diagnostic / Raw Recognition Learning
+## v15.5.17 — Voice Diagnostic / Raw Recognition Learning
 
 - Menambahkan Voice Diagnostic di Setting tanpa mengubah layout layar skor utama.
 - Diagnostic merekam transcript mentah SpeechRecognition sebelum parser Mahjong, termasuk hingga 5 alternatif dan confidence bila browser menyediakannya.
@@ -343,3 +343,10 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - HU discarder detection accepts additional connector phrases and a contextual second-player fallback.
 - Voice Score and Voice Game Baru perform microphone permission preflight on the Voice tap, release the temporary media stream, then start a fresh recognition session. Browser/OS remains authoritative for permission.
 - Android/Chrome uses the same robust flow; all v15.5.9 behavior is retained.
+
+
+## v15.5.17 Voice Diagnostic-trained parser
+- Menambahkan alias ZI MO berdasarkan hasil nyata iPhone Safari id-ID: cemok, cemuk, cemuh, cemoko, gemuk.
+- Menambahkan `kuat` sebagai variasi recognition QUAD dan `cong`/`kan` sebagai variasi KONG/GANG hanya di parser Quad.
+- Confidence Safari tetap tidak dipakai untuk keputusan parser.
+- Voice Diagnostic tetap tersedia untuk pengujian lanjutan.
