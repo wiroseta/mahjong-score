@@ -1,4 +1,10 @@
-## v15.5.7 — Voice Game Baru + App Language Voice
+## v15.5.8 — One-Button Voice Apple/Safari + Voice Game Baru
+
+- Apple/iPhone/iPad/Mac Safari UI dikembalikan ke satu tombol Voice: dialog Voice Apple/Safari dan kolom Dictation khusus dihapus.
+- Tombol Voice sekarang langsung mencoba `SpeechRecognition` / `webkitSpeechRecognition` yang tersedia di browser, termasuk Safari bila API tersedia.
+- Jika browser tidak menyediakan direct Speech Recognition, aplikasi menampilkan status bahwa voice langsung tidak didukung dan input manual tetap tersedia; tidak membuka dialog tambahan.
+- Bahasa recognition tetap mengikuti bahasa aplikasi (id-ID / en-US / zh-CN).
+- Voice Game Baru tetap hanya mengisi nama Pemain 1–4 dan tidak pernah otomatis memulai game.
 
 - Game Baru now has Voice name entry for Pemain/Player 1–4. Voice fills the four name fields only; user must still press Mulai.
 - Supports labeled Indonesian/English player commands and Mandarin 玩家/选手 1–4, plus a four-name separated fallback.
