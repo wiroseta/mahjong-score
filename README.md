@@ -1,4 +1,4 @@
-## Version v15.4.0
+## Version v15.4.1
 
 - Menambahkan **Kirim Permainan** dan **Terima Permainan** pada menu utama untuk memindahkan permainan aktif antar user/device.
 - Transfer membawa nama 4 pemain, skor, ronde/tangan, dealer/seat wind, dan riwayat permainan sehingga permainan dapat dilanjutkan pada device penerima.
@@ -198,3 +198,11 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Device penerima cukup scan dengan kamera iPhone/Android; Mahjong Score terbuka dan meminta konfirmasi sebelum mengganti permainan aktif.
 - Data pada device pengirim tidak dihapus atau diubah.
 - QR langsung dibatasi untuk payload yang aman; jika riwayat terlalu panjang, aplikasi meminta memakai transfer file sebagai fallback.
+
+
+## v15.4.1 — Transfer Permainan Menu & Local QR Fix
+- Menu global `•••` sekarang hanya menampilkan satu menu induk `Transfer Permainan`.
+- Di dalamnya tersedia Kirim via QR Code, Kirim via File/Dokumen, Terima via QR Code, dan Terima via File/Dokumen.
+- QR Code pengiriman dibuat secara lokal/offline di aplikasi, tidak lagi bergantung pada layanan gambar QR eksternal.
+- Terima via QR memberi petunjuk scan menggunakan Kamera iPhone/Android; konfirmasi sebelum menimpa permainan aktif tetap dipertahankan.
+- Seluruh fungsi/fix versi sebelumnya dipertahankan.
