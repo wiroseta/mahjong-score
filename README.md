@@ -1,3 +1,8 @@
+## v15.5.2 — Footer Order Fix
+- Tombol voice dipindahkan ke sebelah kanan tombol CATAT HASIL TANGAN.
+- Khusus mobile, tombol CATAT HASIL TANGAN dibuat lebih sempit/fleksibel agar tombol Catat, Voice, dan menu bawah tidak bertumpuk.
+- Fungsi voice, alias nama/nomor/mata angin, rule skor, dan seluruh fitur v15.5.0 tetap dipertahankan.
+
 ## v15.5.0 — Voice Score Input
 
 - Tambah tombol mikrofon untuk mengisi hasil tangan dengan suara tanpa mencatat otomatis.
