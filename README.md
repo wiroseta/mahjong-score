@@ -1,3 +1,10 @@
+## v15.5.7 — Voice Game Baru + App Language Voice
+
+- Game Baru now has Voice name entry for Pemain/Player 1–4. Voice fills the four name fields only; user must still press Mulai.
+- Supports labeled Indonesian/English player commands and Mandarin 玩家/选手 1–4, plus a four-name separated fallback.
+- Player names remain limited to 10 characters.
+- Preserves v15.5.6 language-following recognition and all prior v15.5.5 score voice fixes.
+
 ## v15.5.6 — Voice Language Follows App Language
 
 - Bahasa speech recognition tidak lagi mengikuti bahasa sistem iPhone/browser dan tidak lagi dikunci langsung di engine voice.
