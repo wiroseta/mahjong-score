@@ -1,4 +1,12 @@
-## v15.5.9 — Robust Cross-Platform One-Button Voice
+## v15.5.11 — Smart Context Voice Parser
+
+- Voice Score now uses the four active player names as a constrained dynamic vocabulary for contextual/fuzzy matching.
+- Winner is resolved from spoken order and HU/ZI MO position; for HU, the second distinct player can be resolved as discarder even when Safari omits “dari/from” or mistranscribes the Mahjong keyword.
+- Two distinct player names in a short score command can contextually recover HU when the HU token is lost; one-player commands are not silently guessed as ZI MO.
+- Existing exact aliases (Player/Pemain 1–4 and current seat winds), Apple HU/ZI MO variants, Quad parsing, one-button UI, microphone preflight, and Android/Chrome behavior are retained.
+- Voice still only fills the score UI/preview and never records a hand automatically.
+
+## v15.5.11 — Apple HU / ZI MO / Discarder + Microphone Permission Fix
 
 - Memperkuat satu tombol Voice untuk Safari/WebKit (iPhone/iPad/Mac) dan Chrome/Android tanpa dialog Dictation tambahan.
 - Setiap tap Voice membuang recognizer lama dan membuat instance SpeechRecognition baru, lalu menerapkan bahasa aplikasi sebelum start.
@@ -294,3 +302,10 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - QR Code pengiriman dibuat secara lokal/offline di aplikasi, tidak lagi bergantung pada layanan gambar QR eksternal.
 - Terima via QR memberi petunjuk scan menggunakan Kamera iPhone/Android; konfirmasi sebelum menimpa permainan aktif tetap dipertahankan.
 - Seluruh fungsi/fix versi sebelumnya dipertahankan.
+
+
+### v15.5.11
+- Apple/Safari voice parser recognizes common phonetic variants of HU and ZI MO.
+- HU discarder detection accepts additional connector phrases and a contextual second-player fallback.
+- Voice Score and Voice Game Baru perform microphone permission preflight on the Voice tap, release the temporary media stream, then start a fresh recognition session. Browser/OS remains authoritative for permission.
+- Android/Chrome uses the same robust flow; all v15.5.9 behavior is retained.
