@@ -1,7 +1,11 @@
-## Version v15.2.9
+## Version v15.2.10
 
-- Winner instruction returned to the scoring panel above Step 2; removed from the table center.
-- Mobile table uses more available vertical viewport, especially iPhone Larger Text/Display Zoom, while keeping the one-screen compact layout.
+- Step 1 is now a dynamic status/instruction line: winner, HU/ZI MO, and discarder are shown as selections progress.
+- The next required action is shown inline in red; redundant red validation text at the bottom of the score panel is removed.
+- Completed HU status shows e.g. `Pemain yang menang: Ari (Barat), menang dengan HU dari Yenny`; ZI MO shows the corresponding ZI MO status.
+- Winner status wraps safely on mobile and cannot overflow horizontally.
+- Tall mobile screens such as Samsung A17 use more available viewport height for the table while preserving compact iPhone behavior.
+- Score preview remains visible after the required HU/ZI MO selections are complete.
 
 
 Approved responsive header/footer navigation and fluid four-player table.
@@ -149,10 +153,10 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Sinkronisasi versi diperbaiki: heading README, aplikasi, PDF/Rules, dan cache PWA mengikuti v15.2.7.
 
 
-### v15.2.9
+### v15.2.10
 - Langkah 1 dipindahkan dari panel skor ke area meja: petunjuk `Tap pemain yang menang` dan status pemenang sekarang tampil di tengah meja sehingga panel bawah lebih ringkas.
 - Urutan langkah diubah menjadi 1 Pilih pemenang → 2 Cara menang → 3 Quad → 4 Kombinasi poin.
 - Kombinasi poin tetap collapsible dan sekarang menjadi langkah terakhir agar alur input lebih natural dan hemat ruang vertikal.
 - Pesan peringatan merah pada mobile diperbesar sedikit agar lebih mudah dibaca.
 - Compact layout tetap mempertahankan kontrol Quad mobile berupa field angka langsung dan desktop berupa − / angka / +.
-- Versi aplikasi, PDF/Rules, README, dan cache PWA disinkronkan ke v15.2.9.
+- Versi aplikasi, PDF/Rules, README, dan cache PWA disinkronkan ke v15.2.10.
