@@ -1,36 +1,72 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
-const cors={ 'Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'authorization, x-client-info, apikey, content-type' }
-Deno.serve(async(req)=>{
- if(req.method==='OPTIONS') return new Response('ok',{headers:cors})
- try{
-  const url=Deno.env.get('SUPABASE_URL')!, anon=Deno.env.get('SUPABASE_ANON_KEY')!, service=Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-  const auth=req.headers.get('Authorization')||''
-  const caller=createClient(url,anon,{global:{headers:{Authorization:auth}}})
-  const {data:{user},error}=await caller.auth.getUser(); if(error||!user||user.app_metadata?.role!=='admin') throw new Error('Akses Administrator diperlukan.')
-  const admin=createClient(url,service,{auth:{autoRefreshToken:false,persistSession:false}})
-  const body=await req.json(), action=body.action
-  if(action==='create'){
-   const username=String(body.username||'').trim().toLowerCase().replace(/[^a-z0-9._-]/g,''); if(!username)throw new Error('Username tidak valid.')
-   const pin=String(body.pin||''); if(!/^\d{4}$/.test(pin))throw new Error('PIN harus tepat 4 digit.')
-   const {data,error}=await admin.auth.admin.createUser({email:`${username}@mahjong.local`,password:`mj${pin}`,email_confirm:true,app_metadata:{role:'user',username}});if(error)throw error
-   return json({user:{id:data.user.id,username}},200)
-  }
-  if(action==='list'){
-   const {data,error}=await admin.auth.admin.listUsers({page:1,perPage:1000});if(error)throw error
-   return json({users:data.users.map((u:any)=>({id:u.id,email:u.email,username:u.app_metadata?.username||u.email?.split('@')[0],role:u.app_metadata?.role||'user',banned:!!u.banned_until&&new Date(u.banned_until)>new Date()}))},200)
-  }
-  if(action==='delete'){
-   const {data:target,error:targetError}=await admin.auth.admin.getUserById(body.userId);if(targetError)throw targetError;if(target.user?.app_metadata?.role==='admin')throw new Error('Administrator tidak dapat dihapus.')
-   const {error}=await admin.auth.admin.deleteUser(body.userId);if(error)throw error;return json({ok:true},200)
-  }
-  if(action==='set-pin'){
-   const pin=String(body.pin||'');if(!/^\d{4}$/.test(pin))throw new Error('PIN harus tepat 4 digit.')
-   const {error}=await admin.auth.admin.updateUserById(body.userId,{password:`mj${pin}`});if(error)throw error;return json({ok:true},200)
-  }
-  if(action==='set-active'){
-   const {error}=await admin.auth.admin.updateUserById(body.userId,{ban_duration:body.active?'none':'876000h'});if(error)throw error;return json({ok:true},200)
-  }
-  throw new Error('Aksi tidak dikenal.')
- }catch(e){return json({error:e instanceof Error?e.message:String(e)},400)}
+
+const cors = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+}
+const json = (body: unknown, status=200) => new Response(JSON.stringify(body), {status, headers:{...cors,'Content-Type':'application/json'}})
+const validRole = (v: unknown): v is 'admin'|'scorekeeper' => v === 'admin' || v === 'scorekeeper'
+const usernameEmail = (u:string) => u.trim().toLowerCase().replace(/[^a-z0-9._-]/g,'') + '@mahjong.local'
+
+Deno.serve(async (req) => {
+  if (req.method === 'OPTIONS') return new Response('ok', {headers:cors})
+  if (req.method !== 'POST') return json({error:'Method not allowed'},405)
+  try {
+    const url = Deno.env.get('SUPABASE_URL')!
+    const anon = Deno.env.get('SUPABASE_ANON_KEY')!
+    const service = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+    const authHeader = req.headers.get('Authorization') || ''
+    if (!authHeader.startsWith('Bearer ')) return json({error:'Unauthorized'},401)
+
+    const callerClient = createClient(url, anon, {global:{headers:{Authorization:authHeader}},auth:{persistSession:false}})
+    const {data:{user:caller},error:callerError} = await callerClient.auth.getUser()
+    if (callerError || !caller || caller.app_metadata?.role !== 'admin') return json({error:'Administrator required'},403)
+
+    const admin = createClient(url, service, {auth:{persistSession:false,autoRefreshToken:false}})
+    const body = await req.json()
+    const action = String(body?.action || '')
+
+    if (action === 'list') {
+      const {data,error} = await admin.auth.admin.listUsers({page:1,perPage:1000})
+      if (error) throw error
+      return json({users:data.users.map(u=>({
+        id:u.id,email:u.email,username:u.user_metadata?.username || u.email?.split('@')[0] || '',
+        role:validRole(u.app_metadata?.role)?u.app_metadata.role:'scorekeeper',
+        banned:!!u.banned_until && new Date(u.banned_until).getTime()>Date.now()
+      }))})
+    }
+
+    if (action === 'create') {
+      const username=String(body.username||'').trim(); const pin=String(body.pin||''); const role=body.role
+      if (!username || !/^\d{4}$/.test(pin) || !validRole(role)) return json({error:'Username, PIN 4 digit, dan role valid diperlukan.'},400)
+      const email=usernameEmail(username); if(email==='@mahjong.local') return json({error:'Username tidak valid.'},400)
+      const {data,error}=await admin.auth.admin.createUser({email,password:'mj'+pin,email_confirm:true,user_metadata:{username},app_metadata:{role}})
+      if(error) throw error
+      return json({user:{id:data.user.id}})
+    }
+
+    const userId=String(body.userId||'')
+    if(!userId) return json({error:'userId diperlukan.'},400)
+    const {data:{user:target},error:targetError}=await admin.auth.admin.getUserById(userId)
+    if(targetError||!target) return json({error:'User tidak ditemukan.'},404)
+
+    if(action==='set-pin'){
+      const pin=String(body.pin||''); if(!/^\d{4}$/.test(pin)) return json({error:'PIN harus tepat 4 digit.'},400)
+      const {error}=await admin.auth.admin.updateUserById(userId,{password:'mj'+pin}); if(error) throw error; return json({ok:true})
+    }
+    if(action==='set-role'){
+      const role=body.role; if(!validRole(role)) return json({error:'Role hanya Administrator atau Score Keeper.'},400)
+      const {error}=await admin.auth.admin.updateUserById(userId,{app_metadata:{...(target.app_metadata||{}),role}}); if(error) throw error; return json({ok:true,role})
+    }
+    if(action==='set-active'){
+      if(target.app_metadata?.role==='admin' && body.active===false) return json({error:'Administrator tidak dapat dinonaktifkan.'},400)
+      const active=!!body.active; const {error}=await admin.auth.admin.updateUserById(userId,{ban_duration:active?'none':'876000h'}); if(error) throw error; return json({ok:true})
+    }
+    if(action==='delete'){
+      if(target.app_metadata?.role==='admin') return json({error:'Administrator tidak dapat dihapus.'},400)
+      const {error}=await admin.auth.admin.deleteUser(userId); if(error) throw error; return json({ok:true})
+    }
+    return json({error:'Action tidak dikenal.'},400)
+  } catch (e) { return json({error:e instanceof Error?e.message:String(e)},400) }
 })
-function json(v:unknown,status=200){return new Response(JSON.stringify(v),{status,headers:{...cors,'Content-Type':'application/json'}})}
