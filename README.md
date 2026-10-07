@@ -1,10 +1,10 @@
-## v15.6.1 — Mobile Quad Wheel Picker
+## v15.6.2 — Mobile Quad Wheel Picker
 
 - iPhone/Android: Quad utama dan Koreksi Hasil memakai custom vertical wheel 0–4; swipe atas/bawah, tanpa input keyboard.
 - Mobile tidak lagi menampilkan tombol +/− untuk Quad. Desktop mempertahankan − / nilai / +.
 - Perhitungan Quad dan batas 0–4 tidak berubah; seluruh Voice v15.5.17 dipertahankan.
 
-## v15.6.1 — Voice Diagnostic / Raw Recognition Learning
+## v15.6.2 — Voice Diagnostic / Raw Recognition Learning
 
 - Menambahkan Voice Diagnostic di Setting tanpa mengubah layout layar skor utama.
 - Diagnostic merekam transcript mentah SpeechRecognition sebelum parser Mahjong, termasuk hingga 5 alternatif dan confidence bila browser menyediakannya.
@@ -351,18 +351,18 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Android/Chrome uses the same robust flow; all v15.5.9 behavior is retained.
 
 
-## v15.6.1 Voice Diagnostic-trained parser
+## v15.6.2 Voice Diagnostic-trained parser
 - Menambahkan alias ZI MO berdasarkan hasil nyata iPhone Safari id-ID: cemok, cemuk, cemuh, cemoko, gemuk.
 - Menambahkan `kuat` sebagai variasi recognition QUAD dan `cong`/`kan` sebagai variasi KONG/GANG hanya di parser Quad.
 - Confidence Safari tetap tidak dipakai untuk keputusan parser.
 - Voice Diagnostic tetap tersedia untuk pengujian lanjutan.
 
 
-## v15.6.1
+## v15.6.2
 - Mobile Quad wheel now uses native momentum scrolling with CSS scroll snap for smoother iPhone/Android operation; no mobile keyboard.
 - Voice Diagnostic is restricted to Administrator role in both Settings visibility and function access.
 
-## v15.6.1 — Two-role & Multi-table Live View
+## v15.6.2 — Two-role & Multi-table Live View
 - Login roles: Administrator and Score Keeper only.
 - Score Keeper is separate from the four players and may or may not be one of them.
 - Administrator and Score Keeper can publish an active table as a QR Live Score.
@@ -371,9 +371,15 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Requires `supabase_live_multitable_v15_6_1.sql` and the `mahjong-user-admin` Edge Function to accept `role` on create and `set-role`.
 
 
-## v15.6.1 — Simplified Account Roles
+## v15.6.2 — Simplified Account Roles
 - Removed the Player account role before first v15.6 deployment.
 - Only Administrator and Score Keeper can log in.
 - Players follow a table by scanning its QR as Guest Live View; no player account is required.
 - Guest Live View remains read-only and scoped to one live-game token.
 - Legacy authenticated users without a supported role fall back to Score Keeper so an upgrade does not lock out existing operators.
+
+
+## v15.6.2
+- Memulihkan renderer inti kartu pemain dan kontrol winner/HU-ZI MO yang hilang.
+- Mempertahankan mobile momentum Quad wheel v15.5.19 dan fondasi multi-role/multi-table v15.6.1.
+- Tidak memerlukan perubahan Supabase tambahan dibanding v15.6.1.
