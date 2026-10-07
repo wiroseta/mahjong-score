@@ -131,3 +131,9 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Mobile header keeps the Mahjong logo and title side-by-side to save vertical space, including iPhone Display Zoom Larger Text.
 - Quad controls on phones (iPhone/Android) use direct numeric fields only; minus/plus remain on desktop.
 - The same mobile Quad behavior applies in Koreksi Hasil.
+
+
+### v15.2.5
+- Quad per pemain dibatasi 0–4 sesuai struktur tangan Mahjong standar (4 set + 1 pair).
+- Input Quad Catat Hasil Tangan dan Koreksi Hasil otomatis membatasi nilai maksimum 4 dan minimum 0.
+- Tombol + desktop berhenti di 4 dan tombol − berhenti di 0; mobile tetap memakai field angka langsung tanpa tombol ±.
