@@ -1,4 +1,4 @@
-## Version v15.2.10
+## Version v15.2.11
 
 - Step 1 is now a dynamic status/instruction line: winner, HU/ZI MO, and discarder are shown as selections progress.
 - The next required action is shown inline in red; redundant red validation text at the bottom of the score panel is removed.
@@ -152,6 +152,12 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Bagian Quad menampilkan petunjuk `0–4 per pemain`; jika pengguna mencoba memasukkan nilai di atas 4, nilai tetap dibatasi ke 4 dan petunjuk sementara berubah menjadi peringatan `Maksimum 4 Quad per pemain`.
 - Sinkronisasi versi diperbaiki: heading README, aplikasi, PDF/Rules, dan cache PWA mengikuti v15.2.7.
 
+
+### v15.2.11
+- Fix khusus keterbacaan Langkah 1 pada Android/Samsung: teks utama status pemenang dipaksa warna gelap dan tidak lagi menjadi putih/pucat.
+- Warna merah tetap hanya untuk petunjuk tindakan berikutnya (`Lanjut ...`).
+- Tinggi/layout mobile v15.2.10 sengaja tidak diubah agar ruang tetap tersedia saat summary skor muncul.
+- Versi aplikasi, PDF/Rules, README, dan cache PWA disinkronkan ke v15.2.11.
 
 ### v15.2.10
 - Langkah 1 dipindahkan dari panel skor ke area meja: petunjuk `Tap pemain yang menang` dan status pemenang sekarang tampil di tengah meja sehingga panel bawah lebih ringkas.
