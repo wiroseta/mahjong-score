@@ -1,5 +1,11 @@
-## v15.5.2 — Footer Order Fix
-- Tombol voice dipindahkan ke sebelah kanan tombol CATAT HASIL TANGAN.
+## v15.5.3 — iPhone Voice Dictation Fallback
+
+- iPhone/iPad: tombol Voice membuka input khusus yang memakai Dictation dari keyboard iOS, sehingga tidak bergantung pada Web Speech API Safari yang dapat gagal/hang.
+- Setelah Dictation menghasilkan teks, tombol Gunakan Voice meneruskan teks ke parser voice Mahjong yang sama; skor tetap tidak dicatat otomatis.
+- Android/desktop tetap memakai SpeechRecognition bila tersedia.
+- Parser nama pemain, Pemain/Player 1–4, mata angin Indonesia/Inggris/Mandarin, HU/ZI MO, pembuang, dan Quad dipertahankan.
+- Footer tetap: menu ••• → CATAT HASIL TANGAN → Voice.
+
 - Khusus mobile, tombol CATAT HASIL TANGAN dibuat lebih sempit/fleksibel agar tombol Catat, Voice, dan menu bawah tidak bertumpuk.
 - Fungsi voice, alias nama/nomor/mata angin, rule skor, dan seluruh fitur v15.5.0 tetap dipertahankan.
 
