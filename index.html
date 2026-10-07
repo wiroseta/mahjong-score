@@ -509,8 +509,8 @@ body.auth-pending .app,body.auth-pending .bottom{visibility:hidden}
 </style>
 </head>
 <script src="qrcode-local.js"></script>
-<body class="auth-pending"><div id="authGate" class="auth-gate"><form class="auth-card" onsubmit="loginMahjong(event)"><h2>🀄 Mahjong Score <span class="app-version">v15.5.8</span></h2><div class="muted">Masuk untuk menggunakan aplikasi.</div><label class="label" for="loginUsername">Username</label><input id="loginUsername" autocomplete="username" autocapitalize="none" required><label class="label" for="loginPassword">PIN 4 digit</label><input id="loginPassword" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="current-password" placeholder="••••" required><button class="btn gold" type="submit" style="width:100%">Login</button><div id="authMessage" class="auth-msg" aria-live="polite"></div></form></div><div class="app">
-<div class="overlay" id="gameTransferMenuModal"><div class="modal" style="max-width:430px"><div class="transfer-modal-head"><h3>Transfer Permainan</h3><button class="modal-x" onclick="closeGameTransferMenu()">✕</button></div><p class="muted" style="margin-top:6px">Pilih cara mengirim atau menerima permainan.</p><div style="display:grid;gap:10px;margin-top:14px"><button class="btn gold" onclick="closeGameTransferMenu();showGameTransferQR()">Kirim Permainan via QR Code</button><button class="btn light" onclick="closeGameTransferMenu();sendGameTransfer()">Kirim Permainan via File / Dokumen</button><button class="btn light" onclick="closeGameTransferMenu();showReceiveQRHelp()">Terima Permainan via QR Code</button><button class="btn light" onclick="closeGameTransferMenu();openGameTransferFile()">Terima Permainan via File / Dokumen</button></div></div></div><div class="overlay" id="receiveQRHelpModal"><div class="modal" style="max-width:430px"><div class="transfer-modal-head"><h3>Terima Permainan via QR Code</h3><button class="modal-x" onclick="closeReceiveQRHelp()">✕</button></div><p style="margin-top:10px">Pilih cara menerima QR Code:</p><div style="display:grid;gap:10px;margin-top:14px"><button class="btn gold" onclick="showReceiveQRCameraHelp()">Scan QR dengan Kamera</button><button class="btn light" onclick="openGameTransferQRImage()">Pilih Gambar QR dari Foto / File</button></div><p id="receiveQRImageStatus" class="muted" style="font-size:13px;margin-top:12px">Gambar QR yang diterima melalui WhatsApp, Messages, Telegram, AirDrop, email, atau aplikasi lain dapat dipilih dari Foto/Files. Gambar dibaca lokal di device ini.</p></div></div><div class="overlay" id="qrTransferModal"><div class="modal" style="max-width:430px;text-align:center"><div class="transfer-modal-head"><h3>Kirim Permainan via QR Code</h3><button class="modal-x" onclick="closeGameTransferQR()">✕</button></div><p class="muted" style="margin-top:6px">Scan dengan kamera iPhone/Android penerima. Tidak perlu download file.</p><div id="qrTransferImage" style="display:flex;justify-content:center;align-items:center;min-height:250px;margin:12px auto"></div><div id="qrTransferStatus" class="muted" style="font-size:13px"></div><button id="shareQRButton" class="btn gold" style="display:none;width:100%;margin-top:12px" onclick="shareGameTransferQR()">Bagikan QR Code</button><p style="font-size:13px;margin-top:10px">Setelah QR dibuka, penerima tetap harus menyetujui konfirmasi sebelum permainan aktifnya diganti.</p></div></div><input id="gameTransferFile" type="file" accept="application/json,.json,.mahjong" hidden onchange="receiveGameTransfer(event)"><input id="gameTransferQRImage" type="file" accept="image/*,.png,.jpg,.jpeg,.webp" hidden onchange="receiveGameTransferQRImage(event)"><div class="top"><div class="brand"><span class="brand-logo" aria-hidden="true">🀄</span><div class="brand-copy"><h1>Mahjong Score</h1><span class="app-version">v15.5.8</span><div class="brand-instruction muted">Tap pemain yang menang → Hu/Zi Mo → pilih poin → Catat</div></div></div><div class="top-actions"><button class="btn light" onclick="openPlayers()">Edit Nama</button><button class="btn gold" onclick="openNew()">Game Baru</button><div class="menu-wrap"><button class="btn light menu-trigger" aria-label="Menu utama" aria-expanded="false" onclick="toggleMenu('topMenu',this,event)">•••</button><div class="action-menu" id="topMenu"><button onclick="closeMenus();openHistoryModal()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h12M4 10h12M4 15h8"/><path d="M18 14v6m-3-3h6"/></svg></span><span>Riwayat Permainan</span></button><button onclick="closeMenus();openRecapModal()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="7" r="3"/><circle cx="17" cy="8" r="2.5"/><path d="M3 19c.5-4 2.2-6 5-6s4.5 2 5 6M14 19c.3-2.8 1.5-4.4 3.6-4.4 1.8 0 3 1.2 3.4 3.4"/></svg></span><span>Rekap Semua Pemain</span></button><button onclick="closeMenus();openRound()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg></span><span>Ronde Baru</span></button><button onclick="closeMenus();share()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="m7.5 8.5 4.5-4.5 4.5 4.5"/><path d="M5 13v6h14v-6"/></svg></span><span>Bagikan Skor</span></button><button onclick="closeMenus();openGameTransferMenu()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h13"/><path d="m13 4 4 4-4 4"/><path d="M20 16H7"/><path d="m11 12-4 4 4 4"/></svg></span><span>Transfer Permainan</span></button><button onclick="closeMenus();openSettings()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3A1.7 1.7 0 0 0 10 3V2.8h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1z"/></svg></span><span>Setting</span></button><button onclick="closeMenus();logoutMahjong()"><span class="menu-icon" aria-hidden="true">↪</span><span>Logout</span></button></div></div></div></div>
+<body class="auth-pending"><div id="authGate" class="auth-gate"><form class="auth-card" onsubmit="loginMahjong(event)"><h2>🀄 Mahjong Score <span class="app-version">v15.5.9</span></h2><div class="muted">Masuk untuk menggunakan aplikasi.</div><label class="label" for="loginUsername">Username</label><input id="loginUsername" autocomplete="username" autocapitalize="none" required><label class="label" for="loginPassword">PIN 4 digit</label><input id="loginPassword" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="current-password" placeholder="••••" required><button class="btn gold" type="submit" style="width:100%">Login</button><div id="authMessage" class="auth-msg" aria-live="polite"></div></form></div><div class="app">
+<div class="overlay" id="gameTransferMenuModal"><div class="modal" style="max-width:430px"><div class="transfer-modal-head"><h3>Transfer Permainan</h3><button class="modal-x" onclick="closeGameTransferMenu()">✕</button></div><p class="muted" style="margin-top:6px">Pilih cara mengirim atau menerima permainan.</p><div style="display:grid;gap:10px;margin-top:14px"><button class="btn gold" onclick="closeGameTransferMenu();showGameTransferQR()">Kirim Permainan via QR Code</button><button class="btn light" onclick="closeGameTransferMenu();sendGameTransfer()">Kirim Permainan via File / Dokumen</button><button class="btn light" onclick="closeGameTransferMenu();showReceiveQRHelp()">Terima Permainan via QR Code</button><button class="btn light" onclick="closeGameTransferMenu();openGameTransferFile()">Terima Permainan via File / Dokumen</button></div></div></div><div class="overlay" id="receiveQRHelpModal"><div class="modal" style="max-width:430px"><div class="transfer-modal-head"><h3>Terima Permainan via QR Code</h3><button class="modal-x" onclick="closeReceiveQRHelp()">✕</button></div><p style="margin-top:10px">Pilih cara menerima QR Code:</p><div style="display:grid;gap:10px;margin-top:14px"><button class="btn gold" onclick="showReceiveQRCameraHelp()">Scan QR dengan Kamera</button><button class="btn light" onclick="openGameTransferQRImage()">Pilih Gambar QR dari Foto / File</button></div><p id="receiveQRImageStatus" class="muted" style="font-size:13px;margin-top:12px">Gambar QR yang diterima melalui WhatsApp, Messages, Telegram, AirDrop, email, atau aplikasi lain dapat dipilih dari Foto/Files. Gambar dibaca lokal di device ini.</p></div></div><div class="overlay" id="qrTransferModal"><div class="modal" style="max-width:430px;text-align:center"><div class="transfer-modal-head"><h3>Kirim Permainan via QR Code</h3><button class="modal-x" onclick="closeGameTransferQR()">✕</button></div><p class="muted" style="margin-top:6px">Scan dengan kamera iPhone/Android penerima. Tidak perlu download file.</p><div id="qrTransferImage" style="display:flex;justify-content:center;align-items:center;min-height:250px;margin:12px auto"></div><div id="qrTransferStatus" class="muted" style="font-size:13px"></div><button id="shareQRButton" class="btn gold" style="display:none;width:100%;margin-top:12px" onclick="shareGameTransferQR()">Bagikan QR Code</button><p style="font-size:13px;margin-top:10px">Setelah QR dibuka, penerima tetap harus menyetujui konfirmasi sebelum permainan aktifnya diganti.</p></div></div><input id="gameTransferFile" type="file" accept="application/json,.json,.mahjong" hidden onchange="receiveGameTransfer(event)"><input id="gameTransferQRImage" type="file" accept="image/*,.png,.jpg,.jpeg,.webp" hidden onchange="receiveGameTransferQRImage(event)"><div class="top"><div class="brand"><span class="brand-logo" aria-hidden="true">🀄</span><div class="brand-copy"><h1>Mahjong Score</h1><span class="app-version">v15.5.9</span><div class="brand-instruction muted">Tap pemain yang menang → Hu/Zi Mo → pilih poin → Catat</div></div></div><div class="top-actions"><button class="btn light" onclick="openPlayers()">Edit Nama</button><button class="btn gold" onclick="openNew()">Game Baru</button><div class="menu-wrap"><button class="btn light menu-trigger" aria-label="Menu utama" aria-expanded="false" onclick="toggleMenu('topMenu',this,event)">•••</button><div class="action-menu" id="topMenu"><button onclick="closeMenus();openHistoryModal()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h12M4 10h12M4 15h8"/><path d="M18 14v6m-3-3h6"/></svg></span><span>Riwayat Permainan</span></button><button onclick="closeMenus();openRecapModal()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="7" r="3"/><circle cx="17" cy="8" r="2.5"/><path d="M3 19c.5-4 2.2-6 5-6s4.5 2 5 6M14 19c.3-2.8 1.5-4.4 3.6-4.4 1.8 0 3 1.2 3.4 3.4"/></svg></span><span>Rekap Semua Pemain</span></button><button onclick="closeMenus();openRound()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg></span><span>Ronde Baru</span></button><button onclick="closeMenus();share()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="m7.5 8.5 4.5-4.5 4.5 4.5"/><path d="M5 13v6h14v-6"/></svg></span><span>Bagikan Skor</span></button><button onclick="closeMenus();openGameTransferMenu()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h13"/><path d="m13 4 4 4-4 4"/><path d="M20 16H7"/><path d="m11 12-4 4 4 4"/></svg></span><span>Transfer Permainan</span></button><button onclick="closeMenus();openSettings()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3A1.7 1.7 0 0 0 10 3V2.8h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1z"/></svg></span><span>Setting</span></button><button onclick="closeMenus();logoutMahjong()"><span class="menu-icon" aria-hidden="true">↪</span><span>Logout</span></button></div></div></div></div>
 
 <div class="table">
  <div id="p3" class="player pN" onclick="selectWinner(3)"></div>
@@ -670,15 +670,14 @@ function hand(){return getPlayerPatterns().reduce((a,p)=>a+(p?p[1]:0),0)+(parseF
 function getQuads(){let q=[0,0,0,0];document.querySelectorAll("[data-q]").forEach(e=>q[+e.dataset.q]=clampQuad(e.value));return q}
 // v15.5.0 — Voice scoring. Uses the existing score UI/engine; never records automatically.
 let voiceRecognition=null,voiceListening=false;
-// v15.5.8 — Voice uses one-button direct SpeechRecognition where the browser supports it; language follows the app.
+let newGameVoiceRecognition=null,newGameVoiceListening=false;
+let voiceSessionId=0,voiceWatchdog=null;
+// v15.5.9 — Cross-platform one-button voice hardening for Safari/WebKit and Android/Chrome.
 function getVoiceRecognitionLang(){
  const appLang=String(document.documentElement.lang||"id").trim().toLowerCase().replace("_","-");
  if(appLang==="zh"||appLang.startsWith("zh-"))return "zh-CN";
  if(appLang==="en"||appLang.startsWith("en-"))return appLang==="en-gb"?"en-GB":"en-US";
  return "id-ID";
-}
-function syncAppleVoiceInputLanguage(){
- const input=$("iosVoiceText");if(input)input.setAttribute("lang",getVoiceRecognitionLang());
 }
 function voiceNormalize(t){return String(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9\s]/g," ").replace(/\s+/g," ").trim()}
 function voiceStatus(msg,isError=false){const e=$("voiceStatus");if(!e)return;e.textContent=msg||"";e.classList.toggle("show",!!msg);e.style.color=isError?"#b3261e":""}
@@ -692,28 +691,22 @@ function voiceFindPlayer(text,exclude=null){
  let hits=[];for(let i=0;i<4;i++){if(i===exclude)continue;for(const a of voicePlayerAliases(i)){const re=new RegExp(`(^|\\s)${a.replace(/[.*+?^${}()|[\\]\\]/g,'\\$&')}(?=\\s|$)`);const m=text.match(re);if(m){hits.push({i,pos:m.index,len:a.length,alias:a});break}}}
  hits.sort((a,b)=>a.pos-b.pos||b.len-a.len);return hits.length?hits[0].i:null
 }
-function voiceNumber(t){const map={nol:0,zero:0,satu:1,satu:1,one:1,dua:2,two:2,tiga:3,three:3,empat:4,four:4};if(/^\d+$/.test(t))return Math.max(0,Math.min(4,+t));return map[t]??null}
+function voiceNumber(t){const map={nol:0,zero:0,satu:1,one:1,dua:2,two:2,tiga:3,three:3,empat:4,four:4};if(/^\d+$/.test(t))return Math.max(0,Math.min(4,+t));return map[t]??null}
 function parseVoiceScore(raw){
  const text=voiceNormalize(raw);let mth=null;if(/\b(zi mo|zimo|self draw|selfdraw)\b/.test(text))mth='zimo';else if(/\b(hu|hoo)\b/.test(text))mth='hu';
  let winText=text.split(/\b(?:hu|hoo|zi mo|zimo|self draw|selfdraw)\b/)[0],win=voiceFindPlayer(winText);
  if(win===null)win=voiceFindPlayer(text);
  let disc=null;
  if(mth==='hu'){
-   // v15.5.8: robust HU discarder parsing for direct voice recognition.
-   // Prefer explicit discard cues, then accept the first different player mentioned after HU.
    const cue=text.match(/\b(?:dari|from|buangan|yang\s+buang|yang\s+membuang|pembuang|dibuang\s+oleh|discard(?:ed)?\s+by)\b([\s\S]*)/);
    if(cue)disc=voiceFindPlayer(voiceNormalize(cue[1]),win);
-   if(disc===null){
-     const after=text.split(/\b(?:hu|hoo)\b/)[1]||'';
-     disc=voiceFindPlayer(voiceNormalize(after),win);
-   }
+   if(disc===null){const after=text.split(/\b(?:hu|hoo)\b/)[1]||'';disc=voiceFindPlayer(voiceNormalize(after),win)}
  }
  let qs=[0,0,0,0];
  for(let i=0;i<4;i++)for(const a of voicePlayerAliases(i)){
    const esc=a.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
    let re1=new RegExp(`(?:${esc})\\s+(?:(nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])\\s+)?(?:quad|kong)\\b`),re2=new RegExp(`(?:quad|kong)\\s+(?:${esc})(?:\\s+(nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4]))?\\b`),q=text.match(re1)||text.match(re2);if(q){qs[i]=voiceNumber(q[1]||'satu')??1;break}
  }
- // Natural winner-owned form: "Alan Zi Mo dua Quad".
  if(win!==null){const q=text.match(/\b(nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])\s+(?:quad|kong)\b/);if(q&&!qs.some(Boolean))qs[win]=voiceNumber(q[1])??0;else if(/\b(?:quad|kong)\b/.test(text)&&!qs.some(Boolean))qs[win]=1}
  return {raw,text,winner:win,method:mth,discarder:disc,quads:qs}
 }
@@ -727,19 +720,43 @@ function applyVoiceScore(r){
  const q=r.quads.map((n,i)=>n?`${s.names[i]} ${n} Quad`:null).filter(Boolean);
  voiceStatus(`✓ Voice: ${s.names[winner]} ${method==='zimo'?'ZI MO':'HU dari '+s.names[discarder]}${q.length?' • '+q.join(' • '):''}. Periksa preview, lalu tekan CATAT HASIL TANGAN.`)
 }
-function stopVoiceScore(){if(voiceRecognition&&voiceListening)try{voiceRecognition.stop()}catch(e){}voiceListening=false;const b=$("voiceRecordButton");if(b)b.classList.remove('listening')}
+function clearVoiceWatchdog(){if(voiceWatchdog){clearTimeout(voiceWatchdog);voiceWatchdog=null}}
+function quietBeforeVoice(){
+ // WebKit can fail to restart recognition after page audio/TTS. Stop what the page controls before each fresh session.
+ try{if(window.speechSynthesis)window.speechSynthesis.cancel()}catch(e){}
+ document.querySelectorAll('audio,video').forEach(m=>{try{m.pause()}catch(e){}});
+}
+function releaseRecognition(rec){if(!rec)return;try{rec.onstart=rec.onresult=rec.onerror=rec.onend=null;rec.abort()}catch(e){}}
+function resetVoiceEngines(){
+ voiceSessionId++;clearVoiceWatchdog();releaseRecognition(voiceRecognition);releaseRecognition(newGameVoiceRecognition);
+ voiceRecognition=null;newGameVoiceRecognition=null;voiceListening=false;newGameVoiceListening=false;
+ const a=$("voiceRecordButton"),b=$("newGameVoiceButton");if(a)a.classList.remove('listening');if(b)b.classList.remove('listening');
+}
+function recognitionErrorMessage(err){
+ if(err==='not-allowed'||err==='service-not-allowed')return 'Izin mikrofon / Speech Recognition ditolak. Izinkan akses untuk Mahjong Score lalu coba lagi.';
+ if(err==='audio-capture')return 'Mikrofon tidak tersedia. Periksa izin mikrofon dan coba lagi.';
+ if(err==='no-speech')return 'Tidak ada ucapan yang terdengar. Coba lagi.';
+ if(err==='network')return 'Layanan voice sedang tidak dapat diakses. Periksa koneksi lalu coba lagi.';
+ if(err==='aborted')return '';
+ return 'Voice gagal: '+err;
+}
+function freshRecognition(){
+ const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return null;
+ quietBeforeVoice();const rec=new SR();rec.lang=getVoiceRecognitionLang();rec.interimResults=false;rec.continuous=false;rec.maxAlternatives=5;return rec;
+}
+function stopVoiceScore(){resetVoiceEngines()}
 function toggleVoiceScore(){
  if(voiceListening){stopVoiceScore();return}
- const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){voiceStatus('Voice recognition langsung tidak didukung browser ini. Gunakan input manual.',true);return}
- try{voiceRecognition=new SR();voiceRecognition.lang=getVoiceRecognitionLang();voiceRecognition.interimResults=false;voiceRecognition.continuous=false;voiceRecognition.maxAlternatives=3;
- voiceRecognition.onstart=()=>{voiceListening=true;const b=$("voiceRecordButton");if(b)b.classList.add('listening');voiceStatus('🎙️ Mendengarkan… Sebut pemenang + HU/ZI MO + pembuang (untuk HU) + Quad bila ada.')};
- voiceRecognition.onresult=e=>{const alts=Array.from(e.results[0]||[]);let best=null;for(const a of alts){const p=parseVoiceScore(a.transcript);if(p.winner!==null&&p.method&&(p.method!=='hu'||p.discarder!==null)){best=p;break}if(!best)best=p}if(best)applyVoiceScore(best)};
- voiceRecognition.onerror=e=>{const msg=e.error==='not-allowed'?'Izin mikrofon ditolak. Izinkan mikrofon untuk Mahjong Score.':e.error==='no-speech'?'Tidak ada ucapan yang terdengar. Coba lagi.':'Voice gagal: '+e.error;voiceStatus(msg,true)};
- voiceRecognition.onend=()=>{voiceListening=false;const b=$("voiceRecordButton");if(b)b.classList.remove('listening')};voiceRecognition.start()}catch(e){voiceStatus('Voice tidak dapat dimulai: '+e.message,true)}
+ resetVoiceEngines();const rec=freshRecognition();if(!rec){voiceStatus('Voice recognition langsung tidak didukung browser ini. Gunakan input manual.',true);return}
+ const sid=voiceSessionId;voiceRecognition=rec;
+ rec.onstart=()=>{if(sid!==voiceSessionId)return;voiceListening=true;const b=$("voiceRecordButton");if(b)b.classList.add('listening');voiceStatus('🎙️ Mendengarkan… Sebut pemenang + HU/ZI MO + pembuang (untuk HU) + Quad bila ada.');clearVoiceWatchdog();voiceWatchdog=setTimeout(()=>{if(sid===voiceSessionId&&voiceListening){try{rec.stop()}catch(e){}}},15000)};
+ rec.onresult=e=>{if(sid!==voiceSessionId)return;let best=null;for(let ri=e.resultIndex||0;ri<e.results.length;ri++){for(const a of Array.from(e.results[ri]||[])){const p=parseVoiceScore(a.transcript);if(p.winner!==null&&p.method&&(p.method!=='hu'||p.discarder!==null)){best=p;break}if(!best)best=p}if(best&&best.winner!==null&&best.method&&(best.method!=='hu'||best.discarder!==null))break}if(best)applyVoiceScore(best)};
+ rec.onerror=e=>{if(sid!==voiceSessionId)return;const msg=recognitionErrorMessage(e.error);if(msg)voiceStatus(msg,true)};
+ rec.onend=()=>{if(sid!==voiceSessionId)return;clearVoiceWatchdog();voiceListening=false;const b=$("voiceRecordButton");if(b)b.classList.remove('listening');if(voiceRecognition===rec)voiceRecognition=null};
+ try{rec.start()}catch(e){releaseRecognition(rec);voiceRecognition=null;voiceStatus('Voice tidak dapat dimulai. Tutup aplikasi lain yang memakai mikrofon lalu coba lagi.',true)}
 }
 
-// v15.5.8 — Voice Game Baru: fills player-name fields only; never starts a game automatically.
-let newGameVoiceRecognition=null,newGameVoiceListening=false;
+// v15.5.9 — Voice Game Baru uses the same fresh cross-platform recognition lifecycle; it only fills names.
 function newGameVoiceStatus(msg,isError=false){const e=$("newGameVoiceStatus");if(!e)return;e.textContent=msg||"";e.classList.toggle("error",!!isError)}
 function cleanVoicePlayerName(v){return String(v||"").trim().replace(/^[,;:\-\s]+|[,;:\-\s]+$/g,"").replace(/\s+/g," ").slice(0,10)}
 function parseNewGameVoiceNames(raw){
@@ -748,19 +765,19 @@ function parseNewGameVoiceNames(raw){
  const hits=[...src.matchAll(marker)];let out=[null,null,null,null];
  const idxOf=m=>{const x=m.toLowerCase();if(/(?:1|one|satu|一)/u.test(x))return 0;if(/(?:2|two|dua|二)/u.test(x))return 1;if(/(?:3|three|tiga|三)/u.test(x))return 2;return 3};
  if(hits.length){for(let j=0;j<hits.length;j++){const a=hits[j],start=a.index+a[0].length,end=j+1<hits.length?hits[j+1].index:src.length;out[idxOf(a[0])]=cleanVoicePlayerName(src.slice(start,end))}return out}
- // Fallback for clearly separated four-name dictation/transcripts.
  const parts=src.split(/\s*(?:,|;|\||\/|\bdan\b|\band\b|，|、)\s*/iu).map(cleanVoicePlayerName).filter(Boolean);return parts.length===4?parts:[]
 }
 function applyNewGameVoiceNames(raw){const names=parseNewGameVoiceNames(raw);if(!names.length)return newGameVoiceStatus('Belum dapat mengenali 4 nama. Coba: “Pemain satu Budi, pemain dua Anton, pemain tiga Rudi, pemain empat Joko.”',true);let count=0;for(let i=0;i<4;i++)if(names[i]){const e=$("n"+i);if(e){e.value=names[i];limitPlayerName(e);count++}}if(count<4)return newGameVoiceStatus(`Voice mengenali ${count} nama. Lengkapi nama yang belum terisi atau coba voice lagi.`,true);newGameVoiceStatus('✓ 4 nama sudah diisi dari Voice. Periksa nama, lalu tekan Mulai.')}
-function stopNewGameVoice(){if(newGameVoiceRecognition&&newGameVoiceListening)try{newGameVoiceRecognition.stop()}catch(e){}newGameVoiceListening=false;const b=$("newGameVoiceButton");if(b)b.classList.remove('listening')}
+function stopNewGameVoice(){resetVoiceEngines()}
 function toggleNewGameVoice(){
  if(newGameVoiceListening){stopNewGameVoice();return}
- const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return newGameVoiceStatus('Voice recognition langsung tidak didukung browser ini. Gunakan input nama manual.',true);
- try{newGameVoiceRecognition=new SR();newGameVoiceRecognition.lang=getVoiceRecognitionLang();newGameVoiceRecognition.interimResults=false;newGameVoiceRecognition.continuous=false;newGameVoiceRecognition.maxAlternatives=3;
- newGameVoiceRecognition.onstart=()=>{newGameVoiceListening=true;const b=$("newGameVoiceButton");if(b)b.classList.add('listening');newGameVoiceStatus('🎙️ Mendengarkan nama Pemain 1–4…')};
- newGameVoiceRecognition.onresult=e=>{const alts=Array.from(e.results[0]||[]);let best='';for(const a of alts){best=a.transcript;if(parseNewGameVoiceNames(best).filter(Boolean).length===4)break}applyNewGameVoiceNames(best)};
- newGameVoiceRecognition.onerror=e=>newGameVoiceStatus(e.error==='not-allowed'?'Izin mikrofon ditolak.':e.error==='no-speech'?'Tidak ada ucapan yang terdengar. Coba lagi.':'Voice gagal: '+e.error,true);
- newGameVoiceRecognition.onend=()=>{newGameVoiceListening=false;const b=$("newGameVoiceButton");if(b)b.classList.remove('listening')};newGameVoiceRecognition.start()}catch(e){newGameVoiceStatus('Voice tidak dapat dimulai: '+e.message,true)}
+ resetVoiceEngines();const rec=freshRecognition();if(!rec)return newGameVoiceStatus('Voice recognition langsung tidak didukung browser ini. Gunakan input nama manual.',true);
+ const sid=voiceSessionId;newGameVoiceRecognition=rec;
+ rec.onstart=()=>{if(sid!==voiceSessionId)return;newGameVoiceListening=true;const b=$("newGameVoiceButton");if(b)b.classList.add('listening');newGameVoiceStatus('🎙️ Mendengarkan nama Pemain 1–4…');clearVoiceWatchdog();voiceWatchdog=setTimeout(()=>{if(sid===voiceSessionId&&newGameVoiceListening){try{rec.stop()}catch(e){}}},15000)};
+ rec.onresult=e=>{if(sid!==voiceSessionId)return;let best='',bestCount=0;for(let ri=e.resultIndex||0;ri<e.results.length;ri++)for(const a of Array.from(e.results[ri]||[])){const c=parseNewGameVoiceNames(a.transcript).filter(Boolean).length;if(c>bestCount){best=a.transcript;bestCount=c}if(c===4)break}if(best)applyNewGameVoiceNames(best)};
+ rec.onerror=e=>{if(sid!==voiceSessionId)return;const msg=recognitionErrorMessage(e.error);if(msg)newGameVoiceStatus(msg,true)};
+ rec.onend=()=>{if(sid!==voiceSessionId)return;clearVoiceWatchdog();newGameVoiceListening=false;const b=$("newGameVoiceButton");if(b)b.classList.remove('listening');if(newGameVoiceRecognition===rec)newGameVoiceRecognition=null};
+ try{rec.start()}catch(e){releaseRecognition(rec);newGameVoiceRecognition=null;newGameVoiceStatus('Voice tidak dapat dimulai. Tutup aplikasi lain yang memakai mikrofon lalu coba lagi.',true)}
 }
 
 function calculation(){
@@ -955,7 +972,7 @@ async function shareGameTransferQR(){
 function applyTransferredGame(data,sourceLabel){if(!data||data.format!=="mahjong-score-transfer"||!validTransferGame(data.game))throw new Error("Data transfer tidak valid.");const g=data.game,names=g.names.join(", "),scores=g.scores.map(fmt).join(" / ");if(!confirm(`Terima permainan ${sourceLabel||"dari device lain"}?\n\nPemain: ${names}\nSkor: ${scores}\n\nPermainan yang sekarang di device ini akan diganti.`))return false;s=JSON.parse(JSON.stringify(g));if(!Array.isArray(s.seatWinds)||s.seatWinds.length!==4)s.seatWinds=[0,1,2,3];if(!Number.isInteger(s.roundWind))s.roundWind=0;if(!Number.isInteger(s.initialEast))s.initialEast=0;winner=null;method=null;discarder=null;save();render();alert("✓ Pemain, skor, ronde, dealer, dan riwayat permainan berhasil diterima.");return true}
 async function receiveGameTransferQRText(text,sourceLabel){const gzMarker="#mahjong-transfer-gz=",rawMarker="#mahjong-transfer=";const value=String(text||"").trim(),gzAt=value.indexOf(gzMarker),rawAt=value.indexOf(rawMarker);if(gzAt<0&&rawAt<0)throw new Error("QR ini bukan QR transfer permainan Mahjong Score.");let json;if(gzAt>=0)json=await gunzipTransferText(transferBase64UrlToBytes(value.slice(gzAt+gzMarker.length)));else json=transferFromBase64Url(value.slice(rawAt+rawMarker.length));const data=JSON.parse(json);return applyTransferredGame(data,sourceLabel||"dari QR Code")}
 async function receiveGameTransferFromQR(){const gzMarker="#mahjong-transfer-gz=",rawMarker="#mahjong-transfer=";if(!location.hash.startsWith(gzMarker)&&!location.hash.startsWith(rawMarker))return;const hash=location.hash;history.replaceState(null,"",location.pathname+location.search);try{setTimeout(()=>receiveGameTransferQRText(hash,"dari QR Code").catch(()=>alert("QR transfer permainan tidak valid atau rusak.")),250)}catch(e){setTimeout(()=>alert("QR transfer permainan tidak valid atau rusak."),200)}}
-function transferSnapshot(){return {format:"mahjong-score-transfer",formatVersion:1,appVersion:"15.5.8",createdAt:new Date().toISOString(),game:JSON.parse(JSON.stringify(s))}}
+function transferSnapshot(){return {format:"mahjong-score-transfer",formatVersion:1,appVersion:"15.5.9",createdAt:new Date().toISOString(),game:JSON.parse(JSON.stringify(s))}}
 async function sendGameTransfer(){
  const payload=transferSnapshot(),blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
  const stamp=new Date().toISOString().slice(0,19).replace(/[:T]/g,"-");
@@ -1004,7 +1021,7 @@ function pdfWrap(ctx,text,x,y,maxWidth,lineHeight,maxLines=5){
 function loadImg(src){return new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=src})}
 async function buildPatternGuidePDF(){
  const W=1240,H=1754,margin=62; const pages=[]; let c,ctx,y;
- const newPage=()=>{c=document.createElement('canvas');c.width=W;c.height=H;ctx=c.getContext('2d');ctx.fillStyle='#f7f3e8';ctx.fillRect(0,0,W,H);ctx.fillStyle='#153d2d';ctx.fillRect(0,0,W,120);ctx.fillStyle='#fff';ctx.font='700 38px system-ui';ctx.fillText('Panduan Kombinasi Poin Mahjong',margin,70);ctx.font='20px system-ui';ctx.fillText('Mahjong Score v15.5.8',margin,101);y=155;pages.push(c)};newPage();
+ const newPage=()=>{c=document.createElement('canvas');c.width=W;c.height=H;ctx=c.getContext('2d');ctx.fillStyle='#f7f3e8';ctx.fillRect(0,0,W,H);ctx.fillStyle='#153d2d';ctx.fillRect(0,0,W,120);ctx.fillStyle='#fff';ctx.font='700 38px system-ui';ctx.fillText('Panduan Kombinasi Poin Mahjong',margin,70);ctx.font='20px system-ui';ctx.fillText('Mahjong Score v15.5.9',margin,101);y=155;pages.push(c)};newPage();
  const tileCache={}; async function tileImg(key){if(!tileCache[key])tileCache[key]=await loadImg(TILE_IMAGES[key]);return tileCache[key]}
  for(let i=0;i<patterns.length;i++){
    const p=patterns[i],d=guideDetails[p[0]]||[p[2],p[3]],keys=String(d[1]||'').trim().split(/\s+/).filter(Boolean);
@@ -1029,7 +1046,7 @@ async function shareRulesGuidePDF(){
 }
 async function buildRulesGuidePDF(){
  const W=1240,H=1754,M=62,pages=[];let c,ctx,y;const cache={};async function img(k){if(!cache[k])cache[k]=await loadImg(TILE_IMAGES[k]);return cache[k]}
- const page=()=>{c=document.createElement('canvas');c.width=W;c.height=H;ctx=c.getContext('2d');ctx.fillStyle='#f7f3e8';ctx.fillRect(0,0,W,H);ctx.fillStyle='#153d2d';ctx.fillRect(0,0,W,120);ctx.fillStyle='#fff';ctx.font='700 38px system-ui';ctx.fillText('Aturan Bermain Mahjong',M,68);ctx.font='20px system-ui';ctx.fillText('Mahjong Score v15.5.8 · Panduan 4 pemain',M,101);y=155;pages.push(c)};
+ const page=()=>{c=document.createElement('canvas');c.width=W;c.height=H;ctx=c.getContext('2d');ctx.fillStyle='#f7f3e8';ctx.fillRect(0,0,W,H);ctx.fillStyle='#153d2d';ctx.fillRect(0,0,W,120);ctx.fillStyle='#fff';ctx.font='700 38px system-ui';ctx.fillText('Aturan Bermain Mahjong',M,68);ctx.font='20px system-ui';ctx.fillText('Mahjong Score v15.5.9 · Panduan 4 pemain',M,101);y=155;pages.push(c)};
  const need=h=>{if(y+h>H-65)page()};const title=t=>{need(55);ctx.fillStyle='#9b7415';ctx.font='700 28px system-ui';ctx.fillText(t,M,y+30);y+=48};const para=t=>{ctx.fillStyle='#333';ctx.font='20px system-ui';y=pdfWrap(ctx,t,M,y,W-2*M,29,8)+10};
  page();title('Cara Bermain Untuk 4 Orang');para('1. Ambil 1 tile dan buang 1 tile sampai ada pemain yang menang.  2. Cara menang adalah membuat 4 set dan 1 pair. Set dapat berupa Chow (urutan), Pong (triplet), atau Kong (quad).');para('Hu berarti menang dari tile buangan pemain lain. Zi Mo berarti tile kemenangan diambil sendiri dari tembok. Chow, Pong, dan Kong mengikuti aturan klaim yang dijelaskan di aplikasi.');
  title('Cara Pembayaran Poin');para('Hu: pemain yang tile-nya dimakan membayar 1 poin kepada pemenang. Zi Mo: pembayaran dihitung oleh program dan dibayar pemain lain. Poin kombinasi diberikan kepada setiap pemain sesuai kombinasi yang berhasil dikumpulkan.');
@@ -1090,7 +1107,7 @@ initMahjongAuth();
 </script>
 </body></html>
 <style id="v15-5-4-footer-order-fix">
-/* v15.5.8 — footer single-row source of truth: menu → record → voice */
+/* v15.5.9 — footer single-row source of truth: menu → record → voice */
 @media(max-width:600px){
  .bottom{display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:5px!important;padding-left:6px!important;padding-right:6px!important;overflow:visible!important;white-space:normal!important}
  .bottom-menu-wrap{position:relative!important;left:auto!important;top:auto!important;transform:none!important;order:1!important;flex:0 0 38px!important;width:38px!important;min-width:38px!important;z-index:10010!important}

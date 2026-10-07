@@ -1,3 +1,14 @@
+## v15.5.9 — Robust Cross-Platform One-Button Voice
+
+- Memperkuat satu tombol Voice untuk Safari/WebKit (iPhone/iPad/Mac) dan Chrome/Android tanpa dialog Dictation tambahan.
+- Setiap tap Voice membuang recognizer lama dan membuat instance SpeechRecognition baru, lalu menerapkan bahasa aplikasi sebelum start.
+- Audio/video halaman dan Web Speech synthesis yang dapat mengganggu WebKit dihentikan sebelum sesi recognition baru.
+- Score Voice dan Voice Game Baru saling membersihkan sesi lama agar tidak berebut mikrofon.
+- Menambah lifecycle cleanup, timeout sesi 15 detik, maxAlternatives 5, pemilihan alternatif hasil terbaik, serta pesan error izin/mikrofon/network yang lebih jelas.
+- Voice tetap tidak pernah mencatat skor atau memulai Game Baru secara otomatis.
+- Bahasa tetap mengikuti aplikasi: Indonesia id-ID, English en-US/en-GB, Mandarin zh-CN.
+- Seluruh fitur/fix v15.5.8 dan versi sebelumnya dipertahankan.
+
 ## v15.5.8 — One-Button Voice Apple/Safari + Voice Game Baru
 
 - Apple/iPhone/iPad/Mac Safari UI dikembalikan ke satu tombol Voice: dialog Voice Apple/Safari dan kolom Dictation khusus dihapus.
