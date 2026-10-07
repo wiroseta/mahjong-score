@@ -1,4 +1,12 @@
-## v15.5.11 — Smart Context Voice Parser
+## v15.5.12 — Voice Quad / Gang Multi-Player Parser
+
+- Mempertahankan Smart Context Voice Parser v15.5.11 untuk winner, HU/ZI MO, dan pemberi HU.
+- Voice Quad menerima istilah Quad atau Gang, termasuk variasi transkripsi umum: quad/kuad/quat dan gang/kang/kong.
+- Beberapa pemain dapat menyebut Quad/Gang dalam satu perintah; setiap nama dipasangkan dengan nilai 0–4 masing-masing.
+- Mendukung pola “Yenny Gang dua”, “Yenny dua Gang”, “Gang dua Yenny”, dan “dua Gang Yenny”.
+- Voice hanya mengisi UI/preview; pencatatan skor tetap memerlukan tombol Catat Hasil Tangan.
+
+## v15.5.12 — Smart Context Voice Parser
 
 - Voice Score now uses the four active player names as a constrained dynamic vocabulary for contextual/fuzzy matching.
 - Winner is resolved from spoken order and HU/ZI MO position; for HU, the second distinct player can be resolved as discarder even when Safari omits “dari/from” or mistranscribes the Mahjong keyword.
@@ -6,7 +14,7 @@
 - Existing exact aliases (Player/Pemain 1–4 and current seat winds), Apple HU/ZI MO variants, Quad parsing, one-button UI, microphone preflight, and Android/Chrome behavior are retained.
 - Voice still only fills the score UI/preview and never records a hand automatically.
 
-## v15.5.11 — Apple HU / ZI MO / Discarder + Microphone Permission Fix
+## v15.5.12 — Apple HU / ZI MO / Discarder + Microphone Permission Fix
 
 - Memperkuat satu tombol Voice untuk Safari/WebKit (iPhone/iPad/Mac) dan Chrome/Android tanpa dialog Dictation tambahan.
 - Setiap tap Voice membuang recognizer lama dan membuat instance SpeechRecognition baru, lalu menerapkan bahasa aplikasi sebelum start.
@@ -304,7 +312,7 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Seluruh fungsi/fix versi sebelumnya dipertahankan.
 
 
-### v15.5.11
+### v15.5.12
 - Apple/Safari voice parser recognizes common phonetic variants of HU and ZI MO.
 - HU discarder detection accepts additional connector phrases and a contextual second-player fallback.
 - Voice Score and Voice Game Baru perform microphone permission preflight on the Voice tap, release the temporary media stream, then start a fresh recognition session. Browser/OS remains authoritative for permission.
