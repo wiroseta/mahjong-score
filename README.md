@@ -1,4 +1,10 @@
-## Version v15.2.13
+## Version v15.3.1
+
+- Menambahkan **Kirim Permainan** dan **Terima Permainan** pada menu utama untuk memindahkan permainan aktif antar user/device.
+- Transfer membawa nama 4 pemain, skor, ronde/tangan, dealer/seat wind, dan riwayat permainan sehingga permainan dapat dilanjutkan pada device penerima.
+- Pengiriman menggunakan file transfer `.mahjong.json` melalui Share Sheet bila didukung; fallback mengunduh file untuk dikirim manual.
+- Penerima wajib mengonfirmasi sebelum state permainan lokal diganti.
+- Tidak memerlukan service-role key, tabel database baru, atau perubahan Edge Function Supabase.
 
 - Step 1 is now a dynamic status/instruction line: winner, HU/ZI MO, and discarder are shown as selections progress.
 - The next required action is shown inline in red; redundant red validation text at the bottom of the score panel is removed.
@@ -178,3 +184,11 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Pesan peringatan merah pada mobile diperbesar sedikit agar lebih mudah dibaca.
 - Compact layout tetap mempertahankan kontrol Quad mobile berupa field angka langsung dan desktop berupa − / angka / +.
 - Versi aplikasi, PDF/Rules, README, dan cache PWA disinkronkan ke v15.2.10.
+
+
+### v15.3.1
+
+- Edit Nama Pemain: saat field nama ditap/diklik atau mendapat fokus, seluruh nama langsung terseleksi (select-all) agar dapat langsung diganti; berlaku mobile dan desktop.
+- Transfer permainan antar user/device melalui menu Kirim Permainan / Terima Permainan.
+- Seluruh fix dan requirement v15.2.13 dipertahankan.
+- Versi aplikasi, PDF/Rules, README, dan cache PWA disinkronkan ke v15.3.1.
