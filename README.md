@@ -1,4 +1,4 @@
-## Version v15.4.1
+## Version v15.4.2
 
 - Menambahkan **Kirim Permainan** dan **Terima Permainan** pada menu utama untuk memindahkan permainan aktif antar user/device.
 - Transfer membawa nama 4 pemain, skor, ronde/tangan, dealer/seat wind, dan riwayat permainan sehingga permainan dapat dilanjutkan pada device penerima.
@@ -200,7 +200,7 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - QR langsung dibatasi untuk payload yang aman; jika riwayat terlalu panjang, aplikasi meminta memakai transfer file sebagai fallback.
 
 
-## v15.4.1 — Transfer Permainan Menu & Local QR Fix
+## v15.4.2 — Transfer Permainan Menu & Local QR Fix
 - Menu global `•••` sekarang hanya menampilkan satu menu induk `Transfer Permainan`.
 - Di dalamnya tersedia Kirim via QR Code, Kirim via File/Dokumen, Terima via QR Code, dan Terima via File/Dokumen.
 - QR Code pengiriman dibuat secara lokal/offline di aplikasi, tidak lagi bergantung pada layanan gambar QR eksternal.
