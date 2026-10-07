@@ -1,4 +1,11 @@
-## Version v15.4.2
+## Version v15.4.3
+
+## v15.4.3 — QR Compression & Transfer Header Fix
+- Tombol × pada dialog Transfer/Kirim/Terima QR sejajar di kanan title.
+- Payload QR dikompresi gzip secara lokal sebelum dibuat QR agar riwayat permainan yang lebih panjang tetap dapat masuk dalam QR.
+- Penerima mendukung QR terkompresi serta format QR v15.4.2 dan tetap meminta konfirmasi sebelum mengganti permainan aktif.
+- Transfer file/dokumen tetap tersedia sebagai fallback untuk permainan yang ekstrem panjangnya.
+
 
 - Menambahkan **Kirim Permainan** dan **Terima Permainan** pada menu utama untuk memindahkan permainan aktif antar user/device.
 - Transfer membawa nama 4 pemain, skor, ronde/tangan, dealer/seat wind, dan riwayat permainan sehingga permainan dapat dilanjutkan pada device penerima.
