@@ -1,4 +1,4 @@
-## v15.5.3 — iPhone Voice Dictation Fallback
+## v15.5.4 — Apple Safari Voice Dictation Fallback
 
 - iPhone/iPad: tombol Voice membuka input khusus yang memakai Dictation dari keyboard iOS, sehingga tidak bergantung pada Web Speech API Safari yang dapat gagal/hang.
 - Setelah Dictation menghasilkan teks, tombol Gunakan Voice meneruskan teks ke parser voice Mahjong yang sama; skor tetap tidak dicatat otomatis.
