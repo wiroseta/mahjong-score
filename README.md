@@ -1,3 +1,10 @@
+## v15.4.7 — Receive QR from Shared Image
+- `Terima Permainan via QR Code` sekarang memiliki dua pilihan: scan QR dengan Kamera, atau pilih gambar QR dari Foto / File.
+- Gambar QR PNG/JPG/WebP yang diterima melalui WhatsApp, Messages, Telegram, AirDrop, email, atau aplikasi lain dapat dibaca langsung dari device penerima.
+- Pembacaan gambar dilakukan lokal di browser/device dan menggunakan alur validasi serta konfirmasi yang sama sebelum permainan aktif diganti.
+- Metode kamera dan transfer File / Dokumen tetap dipertahankan sebagai pilihan/fallback.
+- Seluruh fungsi/fix v15.4.6 dan sebelumnya dipertahankan.
+
 ## v15.4.6 — Transfer Close Button Consistency
 - Semua tombol X pada modal Transfer Permainan sekarang menggunakan komponen `modal-x` global yang sama dengan halaman/modal lain, sehingga bentuknya bulat dan konsisten.
 - Menghapus style `transfer-x` khusus agar tidak ada dua sumber style untuk tombol tutup.
