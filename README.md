@@ -1,4 +1,4 @@
-## Version v15.2.6
+## Version v15.2.7
 
 Approved responsive header/footer navigation and fluid four-player table.
 
@@ -139,7 +139,7 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Tombol + desktop berhenti di 4 dan tombol − berhenti di 0; mobile tetap memakai field angka langsung tanpa tombol ±.
 
 
-### v15.2.6
+### v15.2.7
 - Alignment nomor langkah 1, 2, 3, dan 4 pada panel Catat Hasil Tangan diseragamkan pada satu sumbu kiri di desktop dan mobile, termasuk iPhone Display Zoom Larger Text.
 - Bagian Quad menampilkan petunjuk `0–4 per pemain`; jika pengguna mencoba memasukkan nilai di atas 4, nilai tetap dibatasi ke 4 dan petunjuk sementara berubah menjadi peringatan `Maksimum 4 Quad per pemain`.
-- Sinkronisasi versi diperbaiki: heading README, aplikasi, PDF/Rules, dan cache PWA mengikuti v15.2.6.
+- Sinkronisasi versi diperbaiki: heading README, aplikasi, PDF/Rules, dan cache PWA mengikuti v15.2.7.
