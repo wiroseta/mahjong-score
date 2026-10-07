@@ -1,4 +1,4 @@
-## Version v15.3.1
+## Version v15.4.0
 
 - Menambahkan **Kirim Permainan** dan **Terima Permainan** pada menu utama untuk memindahkan permainan aktif antar user/device.
 - Transfer membawa nama 4 pemain, skor, ronde/tangan, dealer/seat wind, dan riwayat permainan sehingga permainan dapat dilanjutkan pada device penerima.
@@ -186,9 +186,15 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Versi aplikasi, PDF/Rules, README, dan cache PWA disinkronkan ke v15.2.10.
 
 
-### v15.3.1
+### v15.4.0
 
 - Edit Nama Pemain: saat field nama ditap/diklik atau mendapat fokus, seluruh nama langsung terseleksi (select-all) agar dapat langsung diganti; berlaku mobile dan desktop.
 - Transfer permainan antar user/device melalui menu Kirim Permainan / Terima Permainan.
 - Seluruh fix dan requirement v15.2.13 dipertahankan.
-- Versi aplikasi, PDF/Rules, README, dan cache PWA disinkronkan ke v15.3.1.
+- Versi aplikasi, PDF/Rules, README, dan cache PWA disinkronkan ke v15.4.0.
+
+## v15.4.0 — Transfer Permainan via QR Code
+- Menu baru **Kirim via QR Code** menampilkan QR dari permainan aktif tanpa membuat/download file.
+- Device penerima cukup scan dengan kamera iPhone/Android; Mahjong Score terbuka dan meminta konfirmasi sebelum mengganti permainan aktif.
+- Data pada device pengirim tidak dihapus atau diubah.
+- QR langsung dibatasi untuk payload yang aman; jika riwayat terlalu panjang, aplikasi meminta memakai transfer file sebagai fallback.
