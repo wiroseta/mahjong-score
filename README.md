@@ -1,3 +1,10 @@
+## v15.5.0 — Voice Score Input
+
+- Tambah tombol mikrofon untuk mengisi hasil tangan dengan suara tanpa mencatat otomatis.
+- Voice mengenali nama pemain aktif, Pemain/Player 1–4, serta mata angin Indonesia/Inggris/Mandarin (Timur/East/Dong, Selatan/South/Nan, Barat/West/Xi, Utara/North/Bei). Alias mata angin mengikuti `seatWinds` permainan aktif.
+- Mendukung HU, ZI MO, pemain pembuang, dan Quad 0–4. Hasil voice masuk ke UI/preview yang sama dan pengguna tetap menekan Catat Hasil Tangan sebagai konfirmasi.
+- Input manual dan seluruh fitur transfer v15.4.7 tetap dipertahankan.
+
 ## v15.4.7 — Receive QR from Shared Image
 - `Terima Permainan via QR Code` sekarang memiliki dua pilihan: scan QR dengan Kamera, atau pilih gambar QR dari Foto / File.
 - Gambar QR PNG/JPG/WebP yang diterima melalui WhatsApp, Messages, Telegram, AirDrop, email, atau aplikasi lain dapat dibaca langsung dari device penerima.
