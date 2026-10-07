@@ -1,3 +1,12 @@
+## v15.5.13 — Voice Kombinasi Poin Multi-Player
+
+- Voice dapat memilih kombinasi untuk beberapa pemain dalam satu ucapan dengan format nama pemain + nama kombinasi, misalnya `Yenny Set Mulia, Alan Petapa, Budi Triplet Murni`.
+- Daftar nama kombinasi diambil langsung dari `pats` yang digunakan UI/scoring, sehingga tidak ada daftar poin Voice terpisah.
+- Sesuai UI saat ini, setiap pemain tetap memilih maksimum SATU kombinasi; beberapa pemain dapat masing-masing memiliki kombinasinya sendiri.
+- Mendukung nama/alias penting seperti Pinhu, Tiga Belas Rakyat, Tujuh Tangga Surga, Tiga Naga Besar, Empat Angin, dan Quad Murni.
+- `Quad Murni` dilindungi agar tidak salah dibaca sebagai input jumlah Quad/Gang biasa.
+- HU/ZI MO/discarder v15.5.11 dan Quad/Gang multi-player v15.5.12 tetap dipertahankan. Voice tidak pernah otomatis mencatat hasil.
+
 ## v15.5.12 — Voice Quad / Gang Multi-Player Parser
 
 - Mempertahankan Smart Context Voice Parser v15.5.11 untuk winner, HU/ZI MO, dan pemberi HU.
