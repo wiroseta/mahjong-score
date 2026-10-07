@@ -125,3 +125,9 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Border atas pada entri riwayat pertama dihilangkan; garis pemisah antar-entri berikutnya tetap dipertahankan.
 - Seluruh perbaikan v15.2.2, termasuk visibilitas nilai Quad pada iPhone/Safari, tetap dipertahankan.
 - Cache PWA dan label versi disinkronkan ke v15.2.3.
+
+
+### v15.2.4
+- Mobile header keeps the Mahjong logo and title side-by-side to save vertical space, including iPhone Display Zoom Larger Text.
+- Quad controls on phones (iPhone/Android) use direct numeric fields only; minus/plus remain on desktop.
+- The same mobile Quad behavior applies in Koreksi Hasil.
