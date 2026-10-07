@@ -1,3 +1,11 @@
+## v15.5.6 — Voice Language Follows App Language
+
+- Bahasa speech recognition tidak lagi mengikuti bahasa sistem iPhone/browser dan tidak lagi dikunci langsung di engine voice.
+- Bahasa voice sekarang mengikuti bahasa aplikasi/dokumen: Indonesia (`id`/`id-ID`) → `id-ID`, English (`en`) → `en-US` atau `en-GB`, Mandarin/Chinese (`zh`) → `zh-CN`.
+- Jalur Android/desktop menerapkan locale tersebut langsung ke `SpeechRecognition.lang`.
+- Jalur Apple/Safari Dictation menyinkronkan atribut bahasa field Voice dengan bahasa aplikasi; parser voice dan fallback v15.5.5 tetap dipertahankan.
+- Seluruh fix HU/discarder lintas platform dan fitur v15.5.5 tetap dipertahankan.
+
 ## v15.5.5 — Cross-Platform HU Discarder Voice Parser Fix
 
 - Memperbaiki parser voice pembuang HU untuk Android Speech Recognition dan jalur input Apple/Safari.
