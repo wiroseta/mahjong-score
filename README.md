@@ -1,4 +1,4 @@
-## Version v15.2.12
+## Version v15.2.13
 
 - Step 1 is now a dynamic status/instruction line: winner, HU/ZI MO, and discarder are shown as selections progress.
 - The next required action is shown inline in red; redundant red validation text at the bottom of the score panel is removed.
@@ -152,6 +152,12 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Bagian Quad menampilkan petunjuk `0–4 per pemain`; jika pengguna mencoba memasukkan nilai di atas 4, nilai tetap dibatasi ke 4 dan petunjuk sementara berubah menjadi peringatan `Maksimum 4 Quad per pemain`.
 - Sinkronisasi versi diperbaiki: heading README, aplikasi, PDF/Rules, dan cache PWA mengikuti v15.2.7.
 
+
+### v15.2.13
+- Khusus mobile phone (≤600px), kontrol Quad dibuat vertikal: `+` di atas, nilai Quad di tengah, dan `−` di bawah. Desktop tetap memakai `− [nilai] +`. Batas Quad tetap 0–4.
+- Pada dialog Game Baru, tap/click field nama pemain langsung memilih seluruh nama (select-all) agar nama default Pemain 1–4 dapat langsung diganti. Berlaku pada mobile dan desktop.
+- Seluruh fix v15.2.12, termasuk keterbacaan status Android dan instruksi langkah berikutnya berwarna merah, dipertahankan.
+- Versi aplikasi, PDF/Rules, README, dan cache PWA disinkronkan ke v15.2.13.
 
 ### v15.2.12
 - Fix khusus Android/Samsung untuk petunjuk Langkah 1: `Lanjut pilih HU atau ZI MO` dan `Lanjut pilih pemain yang membuang kartu` dipaksa merah, termasuk `-webkit-text-fill-color` agar tidak tertimpa warna gelap parent pada browser Android/WebKit/Blink.
