@@ -1,3 +1,12 @@
+## v15.5.16 — Voice Diagnostic / Raw Recognition Learning
+
+- Menambahkan Voice Diagnostic di Setting tanpa mengubah layout layar skor utama.
+- Diagnostic merekam transcript mentah SpeechRecognition sebelum parser Mahjong, termasuk hingga 5 alternatif dan confidence bila browser menyediakannya.
+- Setiap test terpisah; dianjurkan mengucapkan ZI MO 10–20 kali untuk melihat variasi nyata Safari/WebKit.
+- Tombol Salin Hasil Diagnostic menghasilkan laporan yang dapat di-paste ke ChatGPT untuk analisis.
+- Diagnostic tidak mengubah winner, HU/ZI MO, discarder, Quad, kombinasi, skor, atau riwayat permainan.
+- Seluruh fitur/fix v15.5.14 dipertahankan.
+
 ## v15.5.14 — Voice Quad/Gang + ZI MO Recognition Fix
 
 - Memperbaiki pemilihan alternatif SpeechRecognition: hasil Voice paling lengkap diprioritaskan, termasuk Quad/Gang dan kombinasi, bukan berhenti pada alternatif pertama yang hanya mengenali winner/method.
