@@ -1,4 +1,4 @@
-## Version v15.2.7
+## Version v15.2.8
 
 Approved responsive header/footer navigation and fluid four-player table.
 
@@ -143,3 +143,12 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Alignment nomor langkah 1, 2, 3, dan 4 pada panel Catat Hasil Tangan diseragamkan pada satu sumbu kiri di desktop dan mobile, termasuk iPhone Display Zoom Larger Text.
 - Bagian Quad menampilkan petunjuk `0–4 per pemain`; jika pengguna mencoba memasukkan nilai di atas 4, nilai tetap dibatasi ke 4 dan petunjuk sementara berubah menjadi peringatan `Maksimum 4 Quad per pemain`.
 - Sinkronisasi versi diperbaiki: heading README, aplikasi, PDF/Rules, dan cache PWA mengikuti v15.2.7.
+
+
+### v15.2.8
+- Langkah 1 dipindahkan dari panel skor ke area meja: petunjuk `Tap pemain yang menang` dan status pemenang sekarang tampil di tengah meja sehingga panel bawah lebih ringkas.
+- Urutan langkah diubah menjadi 1 Pilih pemenang → 2 Cara menang → 3 Quad → 4 Kombinasi poin.
+- Kombinasi poin tetap collapsible dan sekarang menjadi langkah terakhir agar alur input lebih natural dan hemat ruang vertikal.
+- Pesan peringatan merah pada mobile diperbesar sedikit agar lebih mudah dibaca.
+- Compact layout tetap mempertahankan kontrol Quad mobile berupa field angka langsung dan desktop berupa − / angka / +.
+- Versi aplikasi, PDF/Rules, README, dan cache PWA disinkronkan ke v15.2.8.
