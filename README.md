@@ -1,25 +1,25 @@
-## v15.6.23 — Guest fullscreen button visibility fix
+## v15.6.24 — Guest fullscreen button visibility fix
 Tombol ⛶ ditampilkan di Live Viewer Android dan Mac, termasuk saat PWA standalone. iPhone tetap tanpa tombol. Safari Mac tanpa Fullscreen API menampilkan shortcut Control + Command + F.
 
-## v15.6.23 — Guest Live Viewer: Riwayat Ringkas
+## v15.6.24 — Guest Live Viewer: Riwayat Ringkas
 - Riwayat Permainan pada tampilan pemain menampilkan 2 entri terbaru secara default.
 - Tombol Lihat lebih banyak membuka entri lainnya, dan Lihat lebih sedikit menutupnya kembali.
 - Kondisi buka/tutup tetap terjaga ketika Live Viewer menerima pembaruan skor.
 - Score Keeper dan semua fungsi versi sebelumnya tetap dipertahankan.
 
-## v15.6.23 — Smart Voice Input (Sekaligus / Bertahap)
+## v15.6.24 — Smart Voice Input (Sekaligus / Bertahap)
 - Voice Score dapat menyebut satu hasil lengkap atau beberapa ucapan terpisah.
 - Perintah baru hanya mengubah informasi yang disebut; Quad/pola yang sudah ada dipertahankan.
 - Pengulangan perintah identik tidak menambah Quad; koreksi pemenang, pembuang, atau nilai Quad mengganti nilai lama.
 - Voice tidak pernah menekan Catat Hasil Tangan otomatis.
 - Seluruh fitur v15.6.15 tetap tersedia.
 
-## v15.6.23 — Compact Horizontal Guest Live Viewer
+## v15.6.24 — Compact Horizontal Guest Live Viewer
 - Live Viewer pemain memakai satu baris horizontal berdasarkan seatWinds aktual: Dong → Nan → Xi → Bei.
 - Pemenang yang menjadi Dong otomatis tampil paling kiri tanpa menghitung angin terpisah.
 - Ronde/Tangan dipindahkan ke kanan atas meja Live Viewer; indikator LIVE tetap kecil di kiri atas.
 - Layar Score Keeper tidak diubah.
-- Cache PWA dinaikkan ke v15.6.23.
+- Cache PWA dinaikkan ke v15.6.24.
 
 ## v15.6.14 — Guest Live UI Isolation Fix
 
@@ -483,11 +483,11 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Error/loading Live selalu terlihat; tidak lagi menghasilkan layar kosong.
 
 
-v15.6.23: Quad input and Quad correction order follows live seat winds Dong -> Nan -> Xi -> Bei. Player-index data and scoring remain unchanged.
+v15.6.24: Quad input and Quad correction order follows live seat winds Dong -> Nan -> Xi -> Bei. Player-index data and scoring remain unchanged.
 
 
-## v15.6.23 — Guest Fullscreen Android dan Safari Mac
+## v15.6.24 — Guest Fullscreen Android dan Safari Mac
 Tombol ikon ⛶ tersedia pada header Live Viewer untuk Android dan Safari MacBook. Pada iPhone/iPad Safari tombol disembunyikan. Tekan ikon untuk masuk/keluar fullscreen bila didukung browser; pada Safari Mac yang tidak mendukung Fullscreen API tersedia petunjuk Control + Command + F. Score Keeper tidak berubah.
 
 
-v15.6.23: Sembunyikan URL panjang di dialog QR Live; tombol fullscreen Guest tampil pada Android/Mac (tanpa atribut hidden), disembunyikan pada iPhone/iPad Safari.
+v15.6.24: Sembunyikan URL panjang di dialog QR Live; tombol fullscreen Guest tampil pada Android/Mac (tanpa atribut hidden), disembunyikan pada iPhone/iPad Safari.
