@@ -1,4 +1,11 @@
-## v15.6.40 — Compact Remote Diagnostic Indicator
+## v15.6.42 — Fixed Recap Header and Column Labels
+
+- Rekap Semua Pemain: judul, header kolom Pemain / Skor / Hu / Zi Mo / Total dan tombol tutup tetap terlihat ketika daftar digulir.
+- Hanya daftar pemain yang scroll; header tidak menutupi baris pertama. Tampilan kolom tetap sejajar pada layar kecil.
+- Cleanup terarah: aturan CSS rekap lama yang tumpang tindih dihapus dan diganti satu kelompok aturan khusus modal rekap. Tidak mengubah perhitungan skor, riwayat, Gemini, atau Supabase.
+- Tidak memerlukan SQL maupun redeploy Edge Function.
+
+## v15.6.41 — Compact Remote Diagnostic Indicator
 
 - Indikator Remote Diagnostic ON hanya menampilkan ikon 🔍 kecil di pojok kiri atas, mengikuti safe area perangkat.
 - Indikator tidak dapat diklik dan tidak memengaruhi tombol atau alur skor; saat OFF ikon disembunyikan.
@@ -581,5 +588,9 @@ v15.6.28: Sembunyikan URL panjang di dialog QR Live; tombol fullscreen Guest tam
 Admin can opt in with a checkbox in Voice Diagnostic. Once opted in, every real speech test, speech error and offline parser self-test is queued and automatically uploaded to Supabase. No audio files are uploaded. Offline reports retry when online or when the diagnostic screen is opened. Turning consent off stops new uploads and clears unsent local reports. For new installations, refer to the v15.6.31 section in `supabase_scheme_history.sql` and apply required historical migrations individually in order; do NOT run the whole history file. For existing v15.6.31 installations, only run `supabase_latest.sql`. The database allows authenticated admins only to upload/view reports. For reviewing data use the Supabase Table Editor (`mahjong_voice_diagnostics`) or export its rows for the next development session; the assistant cannot silently read the database in future chats. Speech test target list is not ground truth for an individual spoken utterance; raw transcription and parser outputs must be reviewed manually before adding aliases.
 
 
-## v15.6.40 — Periksa Target Sekarang
-Administrator dapat meminta pemeriksaan pada target ON melalui tombol **🔍 Periksa Target Sekarang**. Permintaan memakai kolom `request_id` dan `request_at` pada tabel target; perangkat aktif mengirim laporan `remote_request` dengan ID korelasi yang sama. Admin menunggu maksimal 90 detik dan melihat laporan yang masuk, kemudian dapat menekan Analisis AI. Tidak mengakses audio, layar, atau skor. Untuk fitur ini, jalankan `supabase_latest.sql` di SQL Editor sekali dan perbarui seluruh berkas GitHub Pages. Jika perangkat target belum membuka v15.6.40, permintaan tidak akan dijalankan.
+## v15.6.41 — Periksa Target Sekarang
+Administrator dapat meminta pemeriksaan pada target ON melalui tombol **🔍 Periksa Target Sekarang**. Permintaan memakai kolom `request_id` dan `request_at` pada tabel target; perangkat aktif mengirim laporan `remote_request` dengan ID korelasi yang sama. Admin menunggu maksimal 90 detik dan melihat laporan yang masuk, kemudian dapat menekan Analisis AI. Tidak mengakses audio, layar, atau skor. Untuk fitur ini, jalankan `supabase_latest.sql` di SQL Editor sekali dan perbarui seluruh berkas GitHub Pages. Jika perangkat target belum membuka v15.6.41, permintaan tidak akan dijalankan.
+
+
+## v15.6.41 — Riwayat Permainan Pagination
+Riwayat Permainan memiliki header tetap (judul, navigasi nomor halaman, dan tutup) serta area hasil yang dapat digulir. Tiap halaman memuat lima hasil kecuali halaman pertama memuat sisa pembagian lima (misalnya 13 hasil: 3 / 5 / 5). Koreksi dan Hapus Quad tetap menggunakan indeks riwayat asli. Tidak ada perubahan SQL atau Edge Function.
