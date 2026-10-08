@@ -1,34 +1,39 @@
-## v15.6.27 — Urutan Kombinasi Poin mengikuti mata angin
+## v15.6.28 — Pembuang HU urut Dong → Nan → Xi → Bei
+- Tombol pembuang HU mengikuti urutan angin aktual Dong, Nan, Xi, Bei, tanpa pemenang.
+- Dropdown pembuang dalam Koreksi Hasil memakai posisi angin yang tersimpan pada tangan tersebut.
+- Tidak mengubah siapa yang boleh membuang, skor, atau pilihan pembuang yang tersimpan.
+
+## v15.6.28 — Urutan Kombinasi Poin mengikuti mata angin
 - Input Kombinasi Poin utama dan Koreksi Hasil kini diurutkan menurut seatWinds aktual: Dong → Nan → Xi → Bei, sama seperti Quad. Nilai dan identitas pemain tetap terikat ke indeks pemain masing-masing; tidak mengubah skor maupun data tersimpan.
 
-## v15.6.27 — Stop Voice on Record (semua perangkat)
+## v15.6.28 — Stop Voice on Record (semua perangkat)
 - Setelah hasil tangan valid dan tombol Catat Hasil Tangan ditekan, seluruh sesi Voice dihentikan sebelum skor disimpan.
 - Callback hasil recognition terlambat diabaikan melalui voiceSessionId; indikator Recording dimatikan.
 - Voice hanya mulai lagi setelah pengguna menekan tombol Voice. Berlaku pada Safari iPhone/iPad/Mac dan Android/Chrome.
 - Input yang belum valid tidak mematikan Voice; pengguna dapat menyelesaikan input sebelum mencatat.
 
-## v15.6.27 — Guest fullscreen button visibility fix
+## v15.6.28 — Guest fullscreen button visibility fix
 Tombol ⛶ ditampilkan di Live Viewer Android dan Mac, termasuk saat PWA standalone. iPhone tetap tanpa tombol. Safari Mac tanpa Fullscreen API menampilkan shortcut Control + Command + F.
 
-## v15.6.27 — Guest Live Viewer: Riwayat Ringkas
+## v15.6.28 — Guest Live Viewer: Riwayat Ringkas
 - Riwayat Permainan pada tampilan pemain menampilkan 2 entri terbaru secara default.
 - Tombol Lihat lebih banyak membuka entri lainnya, dan Lihat lebih sedikit menutupnya kembali.
 - Kondisi buka/tutup tetap terjaga ketika Live Viewer menerima pembaruan skor.
 - Score Keeper dan semua fungsi versi sebelumnya tetap dipertahankan.
 
-## v15.6.27 — Smart Voice Input (Sekaligus / Bertahap)
+## v15.6.28 — Smart Voice Input (Sekaligus / Bertahap)
 - Voice Score dapat menyebut satu hasil lengkap atau beberapa ucapan terpisah.
 - Perintah baru hanya mengubah informasi yang disebut; Quad/pola yang sudah ada dipertahankan.
 - Pengulangan perintah identik tidak menambah Quad; koreksi pemenang, pembuang, atau nilai Quad mengganti nilai lama.
 - Voice tidak pernah menekan Catat Hasil Tangan otomatis.
 - Seluruh fitur v15.6.15 tetap tersedia.
 
-## v15.6.27 — Compact Horizontal Guest Live Viewer
+## v15.6.28 — Compact Horizontal Guest Live Viewer
 - Live Viewer pemain memakai satu baris horizontal berdasarkan seatWinds aktual: Dong → Nan → Xi → Bei.
 - Pemenang yang menjadi Dong otomatis tampil paling kiri tanpa menghitung angin terpisah.
 - Ronde/Tangan dipindahkan ke kanan atas meja Live Viewer; indikator LIVE tetap kecil di kiri atas.
 - Layar Score Keeper tidak diubah.
-- Cache PWA dinaikkan ke v15.6.27.
+- Cache PWA dinaikkan ke v15.6.28.
 
 ## v15.6.14 — Guest Live UI Isolation Fix
 
@@ -492,17 +497,17 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Error/loading Live selalu terlihat; tidak lagi menghasilkan layar kosong.
 
 
-v15.6.27: Quad input and Quad correction order follows live seat winds Dong -> Nan -> Xi -> Bei. Player-index data and scoring remain unchanged.
+v15.6.28: Quad input and Quad correction order follows live seat winds Dong -> Nan -> Xi -> Bei. Player-index data and scoring remain unchanged.
 
 
-## v15.6.27 — Guest Fullscreen Android dan Safari Mac
+## v15.6.28 — Guest Fullscreen Android dan Safari Mac
 Tombol ikon ⛶ tersedia pada header Live Viewer untuk Android dan Safari MacBook. Pada iPhone/iPad Safari tombol disembunyikan. Tekan ikon untuk masuk/keluar fullscreen bila didukung browser; pada Safari Mac yang tidak mendukung Fullscreen API tersedia petunjuk Control + Command + F. Score Keeper tidak berubah.
 
 
-v15.6.27: Sembunyikan URL panjang di dialog QR Live; tombol fullscreen Guest tampil pada Android/Mac (tanpa atribut hidden), disembunyikan pada iPhone/iPad Safari.
+v15.6.28: Sembunyikan URL panjang di dialog QR Live; tombol fullscreen Guest tampil pada Android/Mac (tanpa atribut hidden), disembunyikan pada iPhone/iPad Safari.
 
 
-## v15.6.27 — Arah tempat duduk dan urutan pembuang HU
+## v15.6.28 — Arah tempat duduk dan urutan pembuang HU
 - Angin Dong → Nan → Xi → Bei mengikuti arah berlawanan jarum jam berdasarkan indeks kursi fisik.
 - Pilihan pembuang HU diurutkan mundur dari angin pemenang, tidak lagi berdasarkan nomor pemain.
 - Game tersimpan dimigrasi sekali untuk arah angin baru; skor, nama, dan riwayat tetap utuh.
