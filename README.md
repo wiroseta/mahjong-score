@@ -1,9 +1,18 @@
-## v15.6.31 — Zi Mo Voice aliases dan Parser Self Diagnostic
+## v15.6.32 — Isolated Voice Diagnostic dan fonetik Zi Mo
+
+- Alias tambahan: jemuk dan cukem (cemuk dan cemok tetap didukung).
+- Voice Diagnostic meminta satu target per percobaan, menyimpan target yang dipilih dan status PASS/FAIL/INFO tiap alternatif.
+- PASS untuk HU/ZI MO mensyaratkan metode cocok dan tidak ada kata tambahan; sinonim lain tidak boleh menyembunyikan kegagalan pengenalan fonetik.
+- Self Diagnostic menambahkan pengujian alias mandiri dan penolakan target yang tercampur sinonim.
+- Cloud reporting tetap opt-in dan memakai tabel SQL v15.6.31 yang sama; tidak perlu migrasi database baru.
+- Self Diagnostic offline tidak dapat menguji mikrofon perangkat secara nyata.
+
+## v15.6.32 — Zi Mo Voice aliases dan Parser Self Diagnostic
 - Zi Mo menerima variasi fonetik Bahasa Indonesia, Self Draw, Ambil Sendiri, dan Menang Sendiri.
 - Parser HU tetap terpisah; satu sumber daftar alias, tanpa perubahan perhitungan skor.
 - Voice Diagnostic (Administrator) menampilkan hasil parser untuk alternatif transkripsi, serta tombol Self Diagnostic Parser (Offline) dengan PASS/FAIL untuk variasi Zi Mo, HU, dan pemeriksaan tidak ada pencatatan otomatis.
 - Self Diagnostic tidak membutuhkan mikrofon dan tidak mengubah skor, nama, atau riwayat.
-- Versi UI dan cache PWA dinaikkan ke v15.6.31.
+- Versi UI dan cache PWA dinaikkan ke v15.6.32.
 
 ## v15.6.28 — Pembuang HU urut Dong → Nan → Xi → Bei
 - Tombol pembuang HU mengikuti urutan angin aktual Dong, Nan, Xi, Bei, tanpa pemenang.
@@ -520,5 +529,5 @@ v15.6.28: Sembunyikan URL panjang di dialog QR Live; tombol fullscreen Guest tam
 - Game tersimpan dimigrasi sekali untuk arah angin baru; skor, nama, dan riwayat tetap utuh.
 
 
-## v15.6.31 — Voice Diagnostic Cloud Reporting
+## v15.6.32 — Voice Diagnostic Cloud Reporting
 Admin can opt in with a checkbox in Voice Diagnostic. Once opted in, every real speech test, speech error and offline parser self-test is queued and automatically uploaded to Supabase. No audio files are uploaded. Offline reports retry when online or when the diagnostic screen is opened. Turning consent off stops new uploads and clears unsent local reports. Run `supabase_voice_diagnostic_v15_6_31.sql` once before using the feature. The database allows authenticated admins only to upload/view reports. For reviewing data use the Supabase Table Editor (`mahjong_voice_diagnostics`) or export its rows for the next development session; the assistant cannot silently read the database in future chats. Speech test target list is not ground truth for an individual spoken utterance; raw transcription and parser outputs must be reviewed manually before adding aliases.
