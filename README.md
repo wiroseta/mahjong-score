@@ -1,4 +1,4 @@
-## v15.6.39 — Compact Remote Diagnostic Indicator
+## v15.6.40 — Compact Remote Diagnostic Indicator
 
 - Indikator Remote Diagnostic ON hanya menampilkan ikon 🔍 kecil di pojok kiri atas, mengikuti safe area perangkat.
 - Indikator tidak dapat diklik dan tidak memengaruhi tombol atau alur skor; saat OFF ikon disembunyikan.
@@ -579,3 +579,7 @@ v15.6.28: Sembunyikan URL panjang di dialog QR Live; tombol fullscreen Guest tam
 
 ## v15.6.32 — Voice Diagnostic Cloud Reporting
 Admin can opt in with a checkbox in Voice Diagnostic. Once opted in, every real speech test, speech error and offline parser self-test is queued and automatically uploaded to Supabase. No audio files are uploaded. Offline reports retry when online or when the diagnostic screen is opened. Turning consent off stops new uploads and clears unsent local reports. For new installations, refer to the v15.6.31 section in `supabase_scheme_history.sql` and apply required historical migrations individually in order; do NOT run the whole history file. For existing v15.6.31 installations, only run `supabase_latest.sql`. The database allows authenticated admins only to upload/view reports. For reviewing data use the Supabase Table Editor (`mahjong_voice_diagnostics`) or export its rows for the next development session; the assistant cannot silently read the database in future chats. Speech test target list is not ground truth for an individual spoken utterance; raw transcription and parser outputs must be reviewed manually before adding aliases.
+
+
+## v15.6.40 — Periksa Target Sekarang
+Administrator dapat meminta pemeriksaan pada target ON melalui tombol **🔍 Periksa Target Sekarang**. Permintaan memakai kolom `request_id` dan `request_at` pada tabel target; perangkat aktif mengirim laporan `remote_request` dengan ID korelasi yang sama. Admin menunggu maksimal 90 detik dan melihat laporan yang masuk, kemudian dapat menekan Analisis AI. Tidak mengakses audio, layar, atau skor. Untuk fitur ini, jalankan `supabase_latest.sql` di SQL Editor sekali dan perbarui seluruh berkas GitHub Pages. Jika perangkat target belum membuka v15.6.40, permintaan tidak akan dijalankan.

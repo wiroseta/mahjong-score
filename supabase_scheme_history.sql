@@ -123,3 +123,6 @@ grant select,insert on public.mahjong_ai_diagnostic_reports to authenticated;
 -- v15.6.36: Admin-only deletion of diagnostic reports; see supabase_latest.sql for current upgrade.
 
 -- v15.6.38: Realtime publication for mahjong_ai_diagnostic_targets; see supabase_latest.sql.
+
+-- v15.6.40: Admin-triggered on-demand diagnostic; see supabase_latest.sql.
+-- ALTER TABLE public.mahjong_ai_diagnostic_targets ADD COLUMN request_id uuid, ADD COLUMN request_at timestamptz;
