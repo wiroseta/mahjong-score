@@ -1,4 +1,4 @@
-## v15.6.9 — Live Health Indicator + Persistent QR Sharing
+## v15.6.10 — Compact In-Table Live Indicator
 
 - Dashboard Score Keeper menampilkan indikator LIVE dengan titik hijau pulse saat sinkronisasi sehat.
 - Jika publish snapshot ke Supabase gagal, indikator berubah oranye menjadi LIVE · Gangguan Koneksi.
@@ -423,3 +423,10 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Username divalidasi dan harus unik; login berikutnya menggunakan username baru.
 - Edge Function mahjong-user-admin menambahkan action set-username yang memperbarui email login internal dan user_metadata.username secara atomik.
 - Role tetap hanya Administrator dan Score Keeper; Administrator tetap memiliki seluruh hak Score Keeper.
+
+
+### v15.6.10
+- Memindahkan indikator LIVE dari header ke sudut kiri atas di dalam meja hijau.
+- Indikator diperkecil karena hanya berfungsi sebagai penanda status.
+- Titik hijau tetap pulse saat sinkronisasi sehat; status gangguan tetap oranye.
+- Tap indikator tetap membuka kontrol Live Score.
