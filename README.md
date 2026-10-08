@@ -1,3 +1,10 @@
+## v15.6.30 — Zi Mo Voice aliases dan Parser Self Diagnostic
+- Zi Mo menerima variasi fonetik Bahasa Indonesia, Self Draw, Ambil Sendiri, dan Menang Sendiri.
+- Parser HU tetap terpisah; satu sumber daftar alias, tanpa perubahan perhitungan skor.
+- Voice Diagnostic (Administrator) menampilkan hasil parser untuk alternatif transkripsi, serta tombol Self Diagnostic Parser (Offline) dengan PASS/FAIL untuk variasi Zi Mo, HU, dan pemeriksaan tidak ada pencatatan otomatis.
+- Self Diagnostic tidak membutuhkan mikrofon dan tidak mengubah skor, nama, atau riwayat.
+- Versi UI dan cache PWA dinaikkan ke v15.6.30.
+
 ## v15.6.28 — Pembuang HU urut Dong → Nan → Xi → Bei
 - Tombol pembuang HU mengikuti urutan angin aktual Dong, Nan, Xi, Bei, tanpa pemenang.
 - Dropdown pembuang dalam Koreksi Hasil memakai posisi angin yang tersimpan pada tangan tersebut.
