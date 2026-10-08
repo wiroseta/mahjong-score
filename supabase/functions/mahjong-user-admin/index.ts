@@ -51,6 +51,19 @@ Deno.serve(async (req) => {
     const {data:{user:target},error:targetError}=await admin.auth.admin.getUserById(userId)
     if(targetError||!target) return json({error:'User tidak ditemukan.'},404)
 
+    if(action==='set-username'){
+      const username=String(body.username||'').trim()
+      if(!username || !/^[A-Za-z0-9._-]+$/.test(username)) return json({error:'Username hanya boleh berisi huruf, angka, titik, garis bawah, atau tanda minus.'},400)
+      const email=usernameEmail(username)
+      if(email==='@mahjong.local') return json({error:'Username tidak valid.'},400)
+      const {data:listData,error:listError}=await admin.auth.admin.listUsers({page:1,perPage:1000})
+      if(listError) throw listError
+      const duplicate=listData.users.some(u=>u.id!==userId && (u.email||'').toLowerCase()===email.toLowerCase())
+      if(duplicate) return json({error:'Username sudah digunakan.'},409)
+      const {error}=await admin.auth.admin.updateUserById(userId,{email,user_metadata:{...(target.user_metadata||{}),username}})
+      if(error) throw error
+      return json({ok:true,username})
+    }
     if(action==='set-pin'){
       const pin=String(body.pin||''); if(!/^\d{4}$/.test(pin)) return json({error:'PIN harus tepat 4 digit.'},400)
       const {error}=await admin.auth.admin.updateUserById(userId,{password:'mj'+pin}); if(error) throw error; return json({ok:true})
