@@ -1,7 +1,11 @@
-# v15.6.34 — Gemini Diagnostic Fix & Version Synchronization
+## v15.6.35 — Tampilan AI Diagnostic
+
+Hasil analisis Gemini/OpenAI sekarang ditampilkan sebagai Ringkasan, Kemungkinan Penyebab, Pemeriksaan yang Disarankan, Tingkat Keyakinan, dan provider. Output JSON berlapis dan blok Markdown JSON ditangani dengan aman menggunakan DOM textContent. Logika permainan, SQL, dan Edge Function tidak diubah. **Edge Function dalam paket adalah salinan baseline v15.6.34; jangan deploy ulang Edge Function dari ZIP ini karena Edge Function yang sudah berjalan di Supabase telah diperbarui secara terpisah untuk Gemini Model Discovery.**
+
+# v15.6.35 — Gemini Diagnostic Fix & Version Synchronization
 
 - Gemini is attempted first with a 20-second timeout, 1500 output tokens and disabled thinking budget; OpenAI remains fallback. Provider failure diagnostics are logged server-side.
-- Application version markers, AI Diagnostic report version, PDF/rules labels, manifest description and PWA cache synchronized to v15.6.34.
+- Application version markers, AI Diagnostic report version, PDF/rules labels, manifest description and PWA cache synchronized to v15.6.35.
 - No SQL migration required when v15.6.33 database setup already exists; deploy updated Edge Function and site files only. Existing scoring, voice, remote monitoring, and historical schema references remain unchanged.
 
 ## v15.6.33 — AI Diagnostic & Remote Monitoring
