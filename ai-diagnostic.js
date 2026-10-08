@@ -1,4 +1,4 @@
-/* Mahjong AI Diagnostic v15.6.38 — isolated from scoring state. */
+/* Mahjong AI Diagnostic v15.6.39 — isolated from scoring state. */
 (()=>{'use strict';
 const $=id=>document.getElementById(id), KEY='mahjong_diag_device_id';
 let deviceId=localStorage.getItem(KEY);if(!deviceId){deviceId=crypto.randomUUID();localStorage.setItem(KEY,deviceId)}
@@ -6,7 +6,7 @@ let config=null,lastSignature='',lastSend=0,active=false,issues=[],timer=null,er
 let remoteChannel=null,remoteUserId=null,remoteClient=null,remoteSubscribed=false;
 const safe=(v,n=180)=>String(v??'').slice(0,n);
 function status(t){const el=$('aiDiagStatus');if(el)el.textContent=t}
-function showNotice(enabled){let el=$('aiDiagNotice');if(!el){el=document.createElement('div');el.id='aiDiagNotice';el.style.cssText='position:fixed;bottom:calc(65px + env(safe-area-inset-bottom));left:10px;z-index:20;background:#eef5ed;color:#173b2b;border:1px solid #7eab8a;border-radius:9px;padding:5px 9px;font-size:11px;box-shadow:0 2px 10px #0002';el.textContent='🔍 Diagnostic aktif · tanpa audio';document.body.appendChild(el)}el.hidden=!enabled}
+function showNotice(enabled){let el=$('aiDiagNotice');if(!el){el=document.createElement('div');el.id='aiDiagNotice';el.setAttribute('role','status');el.setAttribute('aria-label','Remote Diagnostic aktif, tanpa audio');el.title='Remote Diagnostic aktif · tanpa audio';el.style.cssText='position:fixed;top:calc(env(safe-area-inset-top, 0px) + 3px);left:calc(env(safe-area-inset-left, 0px) + 3px);z-index:20;width:22px;height:22px;display:flex;align-items:center;justify-content:center;background:#eef5ed;color:#173b2b;border:1px solid #7eab8a;border-radius:50%;font-size:15px;line-height:1;box-shadow:0 1px 5px #0002;pointer-events:none;user-select:none';el.textContent='🔍';document.body.appendChild(el)}el.hidden=!enabled;el.style.display=enabled?'flex':'none'}
 function client(){return window.mahjongSupabase||mahjongSupabase}
 function uid(){return window.mahjongSession?.user?.id||mahjongSession?.user?.id}
 function admin(){return !!(window.mahjongIsAdmin||mahjongIsAdmin)}
@@ -15,7 +15,7 @@ if(!window.SpeechRecognition&&!window.webkitSpeechRecognition)found.push({code:'
 if(!client())found.push({code:'DB_UNAVAILABLE',severity:'warning',detail:'Supabase client tidak tersedia'});
 if(errors.length)found.push({code:'JS_ERROR',severity:'error',detail:errors.slice(-3).join(' | ')});
 return found}
-async function upload(report){if(!client()||!uid()||!navigator.onLine)return;const {error}=await client().from('mahjong_ai_diagnostic_reports').insert({user_id:uid(),device_id:deviceId,app_version:'15.6.38',report});if(error)throw error}
+async function upload(report){if(!client()||!uid()||!navigator.onLine)return;const {error}=await client().from('mahjong_ai_diagnostic_reports').insert({user_id:uid(),device_id:deviceId,app_version:'15.6.39',report});if(error)throw error}
 async function run(manual=false){if(!uid()||!client())return;const allowed=admin()?(manual||config?.enabled):config?.enabled;if(!allowed)return;
 const found=check();issues=found;const signature=JSON.stringify(found);if(manual||signature!==lastSignature){lastSignature=signature;if(found.length||manual){try{await upload({kind:manual?'manual':'monitor',issues:found,platform:safe(navigator.userAgent,240),at:new Date().toISOString()});lastSend=Date.now()}catch(e){status('Laporan belum terkirim: '+safe(e.message))}}}
 if(admin()&&$('aiDiagnostic')?.classList.contains('show')){status(`Perangkat ini: ${found.length?'⚠ '+found.length+' temuan':'✓ Normal'} · ${new Date().toLocaleTimeString()}`);await loadReports()}}
@@ -76,7 +76,7 @@ async function deleteReport(id,button){
  try{
   const {data,error}=await client().from('mahjong_ai_diagnostic_reports').delete().eq('id',id).select('id');
   if(error)throw error;
-  if(!data?.length)throw Error('Laporan tidak terhapus. Periksa izin administrator / SQL v15.6.38.');
+  if(!data?.length)throw Error('Laporan tidak terhapus. Periksa izin administrator / SQL v15.6.39.');
   await loadReports();status('Laporan diagnostik berhasil dihapus.');
  }catch(e){status('Gagal menghapus laporan: '+safe(e.message,220));button.disabled=false}
 }

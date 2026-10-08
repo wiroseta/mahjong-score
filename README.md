@@ -1,3 +1,10 @@
+## v15.6.39 — Compact Remote Diagnostic Indicator
+
+- Indikator Remote Diagnostic ON hanya menampilkan ikon 🔍 kecil di pojok kiri atas, mengikuti safe area perangkat.
+- Indikator tidak dapat diklik dan tidak memengaruhi tombol atau alur skor; saat OFF ikon disembunyikan.
+- Realtime, polling 60 detik, Gemini, serta seluruh fitur v15.6.38 tetap dipertahankan.
+- Tidak ada perubahan SQL atau Edge Function; `supabase_latest.sql` tetap merupakan upgrade database terakhir v15.6.38.
+
 ## v15.6.38 — Realtime Remote Monitoring
 - Remote Diagnostic targets now use a per-user Supabase Realtime `postgres_changes` subscription to detect enable/disable without reloading the player's page.
 - The existing 60-second polling and foreground refresh remain as fallbacks; a disconnected channel is retried on the next poll.
