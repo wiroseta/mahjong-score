@@ -403,7 +403,7 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Tidak ada perubahan backend/SQL pada release ini.
 
 
-## v15.6.6 — Administrator Edit Username
+## v15.6.7 — Administrator Edit Username
 - Administrator dapat mengubah username user dari User Management melalui tombol Edit Username.
 - Username divalidasi dan harus unik; login berikutnya menggunakan username baru.
 - Edge Function mahjong-user-admin menambahkan action set-username yang memperbarui email login internal dan user_metadata.username secara atomik.
