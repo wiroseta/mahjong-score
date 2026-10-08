@@ -1,11 +1,11 @@
-## v15.6.12 — About This Program & Proprietary Legal Terms
+## v15.6.13 — About This Program & Proprietary Legal Terms
 
 - Added `Setting → About This Program`.
 - Displays application version, Author / Developer: Ariawan, and © 2026 Ariawan. All Rights Reserved.
 - Added proprietary-software legal terms covering ownership, copying, modification, redistribution, commercial use, derivative works, disclaimer, limitation of liability, and written-permission requirement.
 - Preserves the dedicated read-only QR Guest Live Viewer and all previous fixes.
 
-## v15.6.12 — Dedicated Read-Only QR Guest Live Viewer
+## v15.6.13 — Dedicated Read-Only QR Guest Live Viewer
 
 - QR Guest sekarang memiliki tampilan khusus pemain, bukan UI Score Keeper yang disembunyikan sebagian.
 - Live Viewer menampilkan meja 4 pemain, skor, dealer, ronde/tangan, Riwayat Permainan read-only, dan Rekap Semua Pemain.
@@ -446,3 +446,8 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Indikator diperkecil karena hanya berfungsi sebagai penanda status.
 - Titik hijau tetap pulse saat sinkronisasi sehat; status gangguan tetap oranye.
 - Tap indikator tetap membuka kontrol Live Score.
+
+
+## v15.6.13
+- Fix kritis Guest Live Viewer: viewer berada di dalam `.app`, sehingga `app.style.display=none` ikut menyembunyikan viewer. Mode guest sekarang menyembunyikan sibling UI Score Keeper tanpa menyembunyikan viewer.
+- Error/loading Live selalu terlihat; tidak lagi menghasilkan layar kosong.
