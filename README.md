@@ -1,4 +1,10 @@
-# v15.6.33 — AI Diagnostic & Remote Monitoring
+# v15.6.34 — Gemini Diagnostic Fix & Version Synchronization
+
+- Gemini is attempted first with a 20-second timeout, 1500 output tokens and disabled thinking budget; OpenAI remains fallback. Provider failure diagnostics are logged server-side.
+- Application version markers, AI Diagnostic report version, PDF/rules labels, manifest description and PWA cache synchronized to v15.6.34.
+- No SQL migration required when v15.6.33 database setup already exists; deploy updated Edge Function and site files only. Existing scoring, voice, remote monitoring, and historical schema references remain unchanged.
+
+## v15.6.33 — AI Diagnostic & Remote Monitoring
 
 This build adds admin-only AI Diagnostic in Setting. Remote targets persist in Supabase; enabled users report lightweight browser checks while the page is visible. Gemini is primary; OpenAI is a technical fallback. The separate arithmetic simulation is not a full game-engine test. Existing scoring and voice logic are unchanged.
 
