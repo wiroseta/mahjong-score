@@ -1,3 +1,20 @@
+# v15.6.33 — AI Diagnostic & Remote Monitoring
+
+This build adds admin-only AI Diagnostic in Setting. Remote targets persist in Supabase; enabled users report lightweight browser checks while the page is visible. Gemini is primary; OpenAI is a technical fallback. The separate arithmetic simulation is not a full game-engine test. Existing scoring and voice logic are unchanged.
+
+## Deployment steps (in order)
+1. Backup the existing site and Supabase data.
+2. Run `supabase_latest.sql` in Supabase SQL Editor once, only if the v15.6.31 schema is already applied. `supabase_scheme_history.sql` is an archive only; DO NOT execute the whole history file. Do not run earlier SQL again if already applied.
+3. Deploy Edge Function `mahjong-ai-diagnostic` with JWT verification enabled.
+4. Set Edge Function secrets `GEMINI_API_KEY` and `OPENAI_API_KEY` in Supabase; optionally `GEMINI_MODEL`, `OPENAI_MODEL`, `MAHJONG_AI_MONTHLY_LIMIT` (default 100). Never put keys in auth-config.js or index.html.
+5. Upload changed website files `index.html`, `ai-diagnostic.js`, `sw.js`, `manifest.webmanifest`, and updated README to GitHub Pages. Retain all other existing files.
+6. Sign in as Admin, open Setting → AI Diagnostic, run local check, enable one test user, open the app on that user's device, wait up to 60 seconds, then verify reports. Press Analisis AI to test Gemini; temporarily disabling Gemini on the server can test OpenAI fallback.
+
+## Limitations
+Remote monitoring requires a signed-in, active PWA, network access for reports, and is not persistent execution while the app is closed. It does not activate microphones or transmit raw audio. User-visible notice and privacy policy should be reviewed before enabling remote monitoring. Monthly limit counts saved AI analyses, not every API attempt; enforce provider-side spending limits too. No automatic code fixes.
+
+---
+
 ## v15.6.32 — Isolated Voice Diagnostic dan fonetik Zi Mo
 
 - Alias tambahan: jemuk dan cukem (cemuk dan cemok tetap didukung).
@@ -459,7 +476,7 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Administrator and Score Keeper can publish an active table as a QR Live Score.
 - Players/viewers do not need accounts: QR Guest Live Viewer is read-only and receives updates only for that Game/Table token.
 - Multiple tables are isolated by unique live-game records/tokens.
-- Requires `supabase_live_multitable_v15_6_1.sql` and the `mahjong-user-admin` Edge Function to accept `role` on create and `set-role`.
+- Requires the historical v15.6.1 schema (archived in `supabase_scheme_history.sql`) and the `mahjong-user-admin` Edge Function to accept `role` on create and `set-role`.
 
 
 ## v15.6.5 — Simplified Account Roles
@@ -530,4 +547,4 @@ v15.6.28: Sembunyikan URL panjang di dialog QR Live; tombol fullscreen Guest tam
 
 
 ## v15.6.32 — Voice Diagnostic Cloud Reporting
-Admin can opt in with a checkbox in Voice Diagnostic. Once opted in, every real speech test, speech error and offline parser self-test is queued and automatically uploaded to Supabase. No audio files are uploaded. Offline reports retry when online or when the diagnostic screen is opened. Turning consent off stops new uploads and clears unsent local reports. Run `supabase_voice_diagnostic_v15_6_31.sql` once before using the feature. The database allows authenticated admins only to upload/view reports. For reviewing data use the Supabase Table Editor (`mahjong_voice_diagnostics`) or export its rows for the next development session; the assistant cannot silently read the database in future chats. Speech test target list is not ground truth for an individual spoken utterance; raw transcription and parser outputs must be reviewed manually before adding aliases.
+Admin can opt in with a checkbox in Voice Diagnostic. Once opted in, every real speech test, speech error and offline parser self-test is queued and automatically uploaded to Supabase. No audio files are uploaded. Offline reports retry when online or when the diagnostic screen is opened. Turning consent off stops new uploads and clears unsent local reports. For new installations, refer to the v15.6.31 section in `supabase_scheme_history.sql` and apply required historical migrations individually in order; do NOT run the whole history file. For existing v15.6.31 installations, only run `supabase_latest.sql`. The database allows authenticated admins only to upload/view reports. For reviewing data use the Supabase Table Editor (`mahjong_voice_diagnostics`) or export its rows for the next development session; the assistant cannot silently read the database in future chats. Speech test target list is not ground truth for an individual spoken utterance; raw transcription and parser outputs must be reviewed manually before adding aliases.
