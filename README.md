@@ -1,3 +1,9 @@
+## v15.6.9 — Live Health Indicator + Persistent QR Sharing
+
+- Dashboard Score Keeper menampilkan indikator LIVE dengan titik hijau pulse saat sinkronisasi sehat.
+- Jika publish snapshot ke Supabase gagal, indikator berubah oranye menjadi LIVE · Gangguan Koneksi.
+- Menekan indikator tetap membuka kontrol Live Sharing/QR.
+
 ## v15.6.8 — Persistent Live Sharing + QR / Share Link
 
 - Live Sharing cukup diaktifkan sekali; modal boleh ditutup dan pencatatan skor berjalan seperti biasa.
