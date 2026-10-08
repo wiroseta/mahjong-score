@@ -119,3 +119,5 @@ revoke all on public.mahjong_ai_diagnostic_targets, public.mahjong_ai_diagnostic
 grant select,insert,update on public.mahjong_ai_diagnostic_targets to authenticated;
 grant select,insert on public.mahjong_ai_diagnostic_reports to authenticated;
 
+
+-- v15.6.36: Admin-only deletion of diagnostic reports; see supabase_latest.sql for current upgrade.

@@ -1,4 +1,4 @@
-/* Mahjong AI Diagnostic v15.6.35 — isolated from scoring state. */
+/* Mahjong AI Diagnostic v15.6.36 — isolated from scoring state. */
 (()=>{'use strict';
 const $=id=>document.getElementById(id), KEY='mahjong_diag_device_id';
 let deviceId=localStorage.getItem(KEY);if(!deviceId){deviceId=crypto.randomUUID();localStorage.setItem(KEY,deviceId)}
@@ -14,7 +14,7 @@ if(!window.SpeechRecognition&&!window.webkitSpeechRecognition)found.push({code:'
 if(!client())found.push({code:'DB_UNAVAILABLE',severity:'warning',detail:'Supabase client tidak tersedia'});
 if(errors.length)found.push({code:'JS_ERROR',severity:'error',detail:errors.slice(-3).join(' | ')});
 return found}
-async function upload(report){if(!client()||!uid()||!navigator.onLine)return;const {error}=await client().from('mahjong_ai_diagnostic_reports').insert({user_id:uid(),device_id:deviceId,app_version:'15.6.35',report});if(error)throw error}
+async function upload(report){if(!client()||!uid()||!navigator.onLine)return;const {error}=await client().from('mahjong_ai_diagnostic_reports').insert({user_id:uid(),device_id:deviceId,app_version:'15.6.36',report});if(error)throw error}
 async function run(manual=false){if(!uid()||!client())return;const allowed=admin()?(manual||config?.enabled):config?.enabled;if(!allowed)return;
 const found=check();issues=found;const signature=JSON.stringify(found);if(manual||signature!==lastSignature){lastSignature=signature;if(found.length||manual){try{await upload({kind:manual?'manual':'monitor',issues:found,platform:safe(navigator.userAgent,240),at:new Date().toISOString()});lastSend=Date.now()}catch(e){status('Laporan belum terkirim: '+safe(e.message))}}}
 if(admin()&&$('aiDiagnostic')?.classList.contains('show')){status(`Perangkat ini: ${found.length?'⚠ '+found.length+' temuan':'✓ Normal'} · ${new Date().toLocaleTimeString()}`);await loadReports()}}
@@ -41,7 +41,18 @@ function renderAiResult(root,result){
  if(result?.analyzed_at){const date=new Date(result.analyzed_at);if(!isNaN(date))card.appendChild(diagNode('div','Dianalisis: '+date.toLocaleString(),'ai-diag-result-meta'))}
 }
 function renderReport(root,report){const r=report&&typeof report==='object'?report:{};const issues=Array.isArray(r.issues)?r.issues:[];const label=r.kind==='manual'?'Pemeriksaan perangkat':r.kind==='monitor'?'Monitoring perangkat':safe(r.kind||'Diagnostic',50);root.appendChild(diagNode('div',label+' · '+(issues.length?issues.length+' temuan':'Tidak ada temuan tercatat'),'ai-diag-report-summary'));if(issues.length){const ul=diagNode('ul',undefined,'ai-diag-issues');for(const issue of issues)ul.appendChild(diagNode('li',safe(issue?.detail||issue?.code||JSON.stringify(issue),220)));root.appendChild(ul)}if(r.platform)root.appendChild(diagNode('div',safe(r.platform,240),'ai-diag-result-meta'))}
-async function loadReports(){if(!admin()||!$('aiDiagReports'))return;const {data,error}=await client().from('mahjong_ai_diagnostic_reports').select('id,created_at,user_id,device_id,report,ai_result').order('created_at',{ascending:false}).limit(30);if(error){status('Gagal membaca laporan: '+safe(error.message));return}const el=$('aiDiagReports');el.replaceChildren();for(const r of data||[]){const item=diagNode('article',undefined,'ai-diag-report-item');item.appendChild(diagNode('div',new Date(r.created_at).toLocaleString()+' · '+safe(r.user_id,12)+' · '+safe(r.device_id,8),'ai-diag-report-meta'));renderReport(item,r.report);if(r.ai_result)renderAiResult(item,r.ai_result);else item.appendChild(diagNode('div','Belum dianalisis','ai-diag-result-meta'));const btn=diagNode('button','🤖 Analisis AI');btn.className='btn light';btn.type='button';btn.onclick=()=>analyze(r.id);item.appendChild(btn);el.appendChild(item)}}
+async function loadReports(){if(!admin()||!$('aiDiagReports'))return;const {data,error}=await client().from('mahjong_ai_diagnostic_reports').select('id,created_at,user_id,device_id,report,ai_result').order('created_at',{ascending:false}).limit(30);if(error){status('Gagal membaca laporan: '+safe(error.message));return}const el=$('aiDiagReports');el.replaceChildren();for(const r of data||[]){const item=diagNode('article',undefined,'ai-diag-report-item');item.appendChild(diagNode('div',new Date(r.created_at).toLocaleString()+' · '+safe(r.user_id,12)+' · '+safe(r.device_id,8),'ai-diag-report-meta'));renderReport(item,r.report);if(r.ai_result)renderAiResult(item,r.ai_result);else item.appendChild(diagNode('div','Belum dianalisis','ai-diag-result-meta'));const actions=diagNode('div',undefined,'ai-diag-actions');const btn=diagNode('button','🤖 Analisis AI');btn.className='btn light';btn.type='button';btn.onclick=()=>analyze(r.id);actions.appendChild(btn);const del=diagNode('button','🗑️ Hapus Laporan');del.className='btn light ai-diag-delete';del.type='button';del.setAttribute('aria-label','Hapus laporan diagnostik');del.onclick=()=>deleteReport(r.id,del);actions.appendChild(del);item.appendChild(actions);el.appendChild(item)}}
+async function deleteReport(id,button){
+ if(!admin()||!client())return;
+ if(!confirm('Hapus laporan diagnostik ini secara permanen dari Supabase?\n\nTindakan ini tidak dapat dibatalkan. Skor permainan tidak terpengaruh.'))return;
+ button.disabled=true;status('Menghapus laporan diagnostik…');
+ try{
+  const {data,error}=await client().from('mahjong_ai_diagnostic_reports').delete().eq('id',id).select('id');
+  if(error)throw error;
+  if(!data?.length)throw Error('Laporan tidak terhapus. Periksa izin administrator / SQL v15.6.36.');
+  await loadReports();status('Laporan diagnostik berhasil dihapus.');
+ }catch(e){status('Gagal menghapus laporan: '+safe(e.message,220));button.disabled=false}
+}
 async function analyze(id){if(!admin())return;status('Menghubungi Gemini…');try{const {data,error}=await client().functions.invoke('mahjong-ai-diagnostic',{body:{report_id:id}});if(error)throw error;if(data?.error)throw Error(data.error);status('Analisis selesai melalui '+data.provider);await loadReports()}catch(e){status('Analisis gagal: '+safe(e.message,250))}}
 window.openAiDiagnostic=async()=>{if(!admin())return;$('aiDiagnostic').classList.add('show');status('Memuat…');try{await Promise.all([loadTargets(),loadReports()]);await refresh()}catch(e){status('Setup Supabase diperlukan: '+safe(e.message))}};
 window.closeAiDiagnostic=()=>{$('aiDiagnostic').classList.remove('show')};
