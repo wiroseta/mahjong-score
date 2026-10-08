@@ -1,3 +1,12 @@
+## v15.6.11 — Dedicated Read-Only QR Guest Live Viewer
+
+- QR Guest sekarang memiliki tampilan khusus pemain, bukan UI Score Keeper yang disembunyikan sebagian.
+- Live Viewer menampilkan meja 4 pemain, skor, dealer, ronde/tangan, Riwayat Permainan read-only, dan Rekap Semua Pemain.
+- Tidak ada tombol Koreksi, Hapus, Catat Hasil Tangan, Voice, Game Baru, Edit Nama, atau menu Score Keeper.
+- Tombol `Keluar Live` hanya menutup Live Viewer pada perangkat pemain; tidak mengubah sesi Live di Supabase.
+- Viewer memperbarui state dari RPC read-only `mahjong_get_live_game` setiap 2 detik.
+- Sesi yang diakhiri Score Keeper menampilkan status berakhir dan menghentikan polling viewer.
+
 ## v15.6.10 — Compact In-Table Live Indicator
 
 - Dashboard Score Keeper menampilkan indikator LIVE dengan titik hijau pulse saat sinkronisasi sehat.
