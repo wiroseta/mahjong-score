@@ -1,11 +1,25 @@
-## v15.6.13 — About This Program & Proprietary Legal Terms
+## v15.6.15 — Compact Horizontal Guest Live Viewer
+- Live Viewer pemain memakai satu baris horizontal berdasarkan seatWinds aktual: Dong → Nan → Xi → Bei.
+- Pemenang yang menjadi Dong otomatis tampil paling kiri tanpa menghitung angin terpisah.
+- Ronde/Tangan dipindahkan ke kanan atas meja Live Viewer; indikator LIVE tetap kecil di kiri atas.
+- Layar Score Keeper tidak diubah.
+- Cache PWA dinaikkan ke v15.6.15.
+
+## v15.6.14 — Guest Live UI Isolation Fix
+
+- QR Guest Live Viewer is now the only application UI visible in `?live=` mode.
+- Score Keeper sticky footer, Catat Hasil Tangan, bottom menu, Voice, score toast, and action menus are force-hidden with a final-cascade guest-mode rule.
+- Fixes the mobile Safari case where a later `!important` footer rule overrode JavaScript `display:none`.
+- `Keluar Live` remains local to the viewer and does not stop the Supabase live session.
+
+## v15.6.14 — About This Program & Proprietary Legal Terms
 
 - Added `Setting → About This Program`.
 - Displays application version, Author / Developer: Ariawan, and © 2026 Ariawan. All Rights Reserved.
 - Added proprietary-software legal terms covering ownership, copying, modification, redistribution, commercial use, derivative works, disclaimer, limitation of liability, and written-permission requirement.
 - Preserves the dedicated read-only QR Guest Live Viewer and all previous fixes.
 
-## v15.6.13 — Dedicated Read-Only QR Guest Live Viewer
+## v15.6.14 — Dedicated Read-Only QR Guest Live Viewer
 
 - QR Guest sekarang memiliki tampilan khusus pemain, bukan UI Score Keeper yang disembunyikan sebagian.
 - Live Viewer menampilkan meja 4 pemain, skor, dealer, ronde/tangan, Riwayat Permainan read-only, dan Rekap Semua Pemain.
@@ -448,6 +462,6 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 - Tap indikator tetap membuka kontrol Live Score.
 
 
-## v15.6.13
+## v15.6.14
 - Fix kritis Guest Live Viewer: viewer berada di dalam `.app`, sehingga `app.style.display=none` ikut menyembunyikan viewer. Mode guest sekarang menyembunyikan sibling UI Score Keeper tanpa menyembunyikan viewer.
 - Error/loading Live selalu terlihat; tidak lagi menghasilkan layar kosong.
