@@ -1,3 +1,12 @@
+## v15.6.8 — Persistent Live Sharing + QR / Share Link
+
+- Live Sharing cukup diaktifkan sekali; modal boleh ditutup dan pencatatan skor berjalan seperti biasa.
+- Selama sesi Live aktif, setiap perubahan state yang tersimpan otomatis dipublikasikan ke Supabase untuk viewer QR.
+- Modal Live Score menampilkan QR Code besar, Bagikan Link, dan Salin Link; pemain tidak perlu mengetik URL atau login.
+- Layar utama menampilkan indikator `LIVE · Nama Meja` yang dapat ditekan untuk membuka kembali kontrol Live Sharing.
+- Akhiri Live Sharing menonaktifkan token/QR lama.
+- Fondasi Administrator / Score Keeper, User Management, Voice, Quad wheel, transfer permainan, dan seluruh fix v15.6.7 dipertahankan.
+
 ## v15.6.5 — Mobile Quad Wheel Picker
 
 - iPhone/Android: Quad utama dan Koreksi Hasil memakai custom vertical wheel 0–4; swipe atas/bawah, tanpa input keyboard.
