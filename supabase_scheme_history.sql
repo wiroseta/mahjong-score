@@ -121,3 +121,5 @@ grant select,insert on public.mahjong_ai_diagnostic_reports to authenticated;
 
 
 -- v15.6.36: Admin-only deletion of diagnostic reports; see supabase_latest.sql for current upgrade.
+
+-- v15.6.37: Realtime publication for mahjong_ai_diagnostic_targets; see supabase_latest.sql.

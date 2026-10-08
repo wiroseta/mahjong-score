@@ -1,3 +1,10 @@
+## v15.6.37 — Realtime Remote Monitoring
+- Remote Diagnostic targets now use a per-user Supabase Realtime `postgres_changes` subscription to detect enable/disable without reloading the player's page.
+- The existing 60-second polling and foreground refresh remain as fallbacks; a disconnected channel is retried on the next poll.
+- Realtime notifications trigger an authenticated RLS-protected refresh; no score, audio or game state is transmitted through the channel.
+- Run `supabase_latest.sql` once to enable publication of the diagnostic target table and preserve admin-only diagnostic report deletion permissions from v15.6.36.
+- Keep the already-working Gemini Edge Function and secrets unchanged. No Edge Function redeployment required.
+
 ## v15.6.36 — Hapus laporan AI Diagnostic (Administrator)
 - Tombol **🗑️ Hapus Laporan** per item di AI Diagnostic → Laporan Terbaru.
 - Konfirmasi sebelum penghapusan permanen, hanya Administrator melalui RLS Supabase.
