@@ -1,4 +1,4 @@
--- MAHJONG SCORE v15.6.37 | CURRENT DATABASE UPGRADE ONLY
+-- MAHJONG SCORE v15.6.38 | CURRENT DATABASE UPGRADE ONLY
 -- Enables Realtime for remote diagnostic target changes and preserves v15.6.36 delete access.
 -- Run once in Supabase SQL Editor. No game score tables are modified.
 

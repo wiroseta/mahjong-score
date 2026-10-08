@@ -1,4 +1,4 @@
-## v15.6.37 — Realtime Remote Monitoring
+## v15.6.38 — Realtime Remote Monitoring
 - Remote Diagnostic targets now use a per-user Supabase Realtime `postgres_changes` subscription to detect enable/disable without reloading the player's page.
 - The existing 60-second polling and foreground refresh remain as fallbacks; a disconnected channel is retried on the next poll.
 - Realtime notifications trigger an authenticated RLS-protected refresh; no score, audio or game state is transmitted through the channel.

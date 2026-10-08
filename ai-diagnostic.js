@@ -1,4 +1,4 @@
-/* Mahjong AI Diagnostic v15.6.37 — isolated from scoring state. */
+/* Mahjong AI Diagnostic v15.6.38 — isolated from scoring state. */
 (()=>{'use strict';
 const $=id=>document.getElementById(id), KEY='mahjong_diag_device_id';
 let deviceId=localStorage.getItem(KEY);if(!deviceId){deviceId=crypto.randomUUID();localStorage.setItem(KEY,deviceId)}
@@ -15,7 +15,7 @@ if(!window.SpeechRecognition&&!window.webkitSpeechRecognition)found.push({code:'
 if(!client())found.push({code:'DB_UNAVAILABLE',severity:'warning',detail:'Supabase client tidak tersedia'});
 if(errors.length)found.push({code:'JS_ERROR',severity:'error',detail:errors.slice(-3).join(' | ')});
 return found}
-async function upload(report){if(!client()||!uid()||!navigator.onLine)return;const {error}=await client().from('mahjong_ai_diagnostic_reports').insert({user_id:uid(),device_id:deviceId,app_version:'15.6.37',report});if(error)throw error}
+async function upload(report){if(!client()||!uid()||!navigator.onLine)return;const {error}=await client().from('mahjong_ai_diagnostic_reports').insert({user_id:uid(),device_id:deviceId,app_version:'15.6.38',report});if(error)throw error}
 async function run(manual=false){if(!uid()||!client())return;const allowed=admin()?(manual||config?.enabled):config?.enabled;if(!allowed)return;
 const found=check();issues=found;const signature=JSON.stringify(found);if(manual||signature!==lastSignature){lastSignature=signature;if(found.length||manual){try{await upload({kind:manual?'manual':'monitor',issues:found,platform:safe(navigator.userAgent,240),at:new Date().toISOString()});lastSend=Date.now()}catch(e){status('Laporan belum terkirim: '+safe(e.message))}}}
 if(admin()&&$('aiDiagnostic')?.classList.contains('show')){status(`Perangkat ini: ${found.length?'⚠ '+found.length+' temuan':'✓ Normal'} · ${new Date().toLocaleTimeString()}`);await loadReports()}}
@@ -46,7 +46,7 @@ function ensureRemoteRealtime(){
   });
  }catch(_){stopRemoteRealtime()}
 }
-async function loadTargets(){if(!admin())return;const [users,targets]=await Promise.all([adminApi('list'),client().from('mahjong_ai_diagnostic_targets').select('user_id,enabled')]);if(targets.error)throw targets.error;const state=new Map((targets.data||[]).map(t=>[t.user_id,t.enabled]));const select=$('aiDiagTarget');select.replaceChildren();for(const u of users.users||[]){const o=document.createElement('option');o.value=u.id;o.textContent=(u.username||u.email||u.id)+(state.get(u.id)?' · ON':' · OFF');select.appendChild(o)}}
+async function loadTargets(){if(!admin())return;const [users,targets]=await Promise.all([adminApi('list'),client().from('mahjong_ai_diagnostic_targets').select('user_id,enabled')]);if(targets.error)throw targets.error;const state=new Map((targets.data||[]).map(t=>[t.user_id,t.enabled]));const select=$('aiDiagTarget');const previous=select.value;select.replaceChildren();for(const u of users.users||[]){const o=document.createElement('option');o.value=u.id;o.textContent=(u.username||u.email||u.id)+(state.get(u.id)?' · ON':' · OFF');select.appendChild(o)}if(previous&&Array.from(select.options).some(o=>o.value===previous))select.value=previous}
 // Display AI output as readable sections; never inject report/model text as HTML.
 function diagNode(tag,text,cls){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=String(text);return n}
 function decodeAiText(raw){if(typeof raw!=='string')return raw;let t=raw.trim().replace(/^```(?:json)?\s*/i,'').replace(/\s*```$/,'').trim();try{return JSON.parse(t)}catch{return t}}
@@ -76,13 +76,29 @@ async function deleteReport(id,button){
  try{
   const {data,error}=await client().from('mahjong_ai_diagnostic_reports').delete().eq('id',id).select('id');
   if(error)throw error;
-  if(!data?.length)throw Error('Laporan tidak terhapus. Periksa izin administrator / SQL v15.6.37.');
+  if(!data?.length)throw Error('Laporan tidak terhapus. Periksa izin administrator / SQL v15.6.38.');
   await loadReports();status('Laporan diagnostik berhasil dihapus.');
  }catch(e){status('Gagal menghapus laporan: '+safe(e.message,220));button.disabled=false}
 }
 async function analyze(id){if(!admin())return;status('Menghubungi Gemini…');try{const {data,error}=await client().functions.invoke('mahjong-ai-diagnostic',{body:{report_id:id}});if(error)throw error;if(data?.error)throw Error(data.error);status('Analisis selesai melalui '+data.provider);await loadReports()}catch(e){status('Analisis gagal: '+safe(e.message,250))}}
-window.openAiDiagnostic=async()=>{if(!admin())return;$('aiDiagnostic').classList.add('show');status('Memuat…');try{await Promise.all([loadTargets(),loadReports()]);await refresh()}catch(e){status('Setup Supabase diperlukan: '+safe(e.message))}};
-window.closeAiDiagnostic=()=>{$('aiDiagnostic').classList.remove('show')};
+// Loading of target list and reports is independent. Always settle the visible loading state.
+let diagnosticOpenSequence=0;
+const withDeadline=(promise,label,ms=12000)=>Promise.race([promise,new Promise((_,reject)=>setTimeout(()=>reject(Error(label+' melewati batas waktu '+Math.round(ms/1000)+' detik')),ms))]);
+window.openAiDiagnostic=async()=>{
+ if(!admin())return;
+ const sequence=++diagnosticOpenSequence;
+ $('aiDiagnostic').classList.add('show');status('Memuat…');
+ const results=await Promise.allSettled([
+  withDeadline(loadTargets(),'Daftar pengguna'),
+  withDeadline(loadReports(),'Laporan diagnostik')
+ ]);
+ if(sequence!==diagnosticOpenSequence||!$('aiDiagnostic').classList.contains('show'))return;
+ const failures=results.map((r,i)=>r.status==='rejected'?(i===0?'Target: ':'Laporan: ')+safe(r.reason?.message||r.reason,150):null).filter(Boolean);
+ status(failures.length?'Gagal memuat sebagian data: '+failures.join(' | '):'Data diagnostik berhasil dimuat.');
+ // Own-device refresh must not block the admin dialog or overwrite its loading status.
+ void refresh();
+};
+window.closeAiDiagnostic=()=>{diagnosticOpenSequence++;$('aiDiagnostic').classList.remove('show')};
 window.aiDiagRunNow=()=>run(true);
 window.aiDiagToggle=async(enabled)=>{if(!admin())return;const id=$('aiDiagTarget').value;if(!id)return;try{const {error}=await client().from('mahjong_ai_diagnostic_targets').upsert({user_id:id,enabled,updated_by:uid()},{onConflict:'user_id'});if(error)throw error;status('Remote Diagnostic '+(enabled?'aktif':'nonaktif')+' untuk pengguna terpilih.');await loadTargets();await refresh()}catch(e){status('Gagal: '+safe(e.message))}};
 window.aiDiagToggleAll=async(enabled)=>{if(!admin()||!confirm((enabled?'Aktifkan':'Nonaktifkan')+' monitoring untuk seluruh pengguna?'))return;try{const users=await adminApi('list');for(const u of users.users||[]){const {error}=await client().from('mahjong_ai_diagnostic_targets').upsert({user_id:u.id,enabled,updated_by:uid()},{onConflict:'user_id'});if(error)throw error}status('Pengaturan seluruh pengguna disimpan.');await loadTargets();await refresh()}catch(e){status('Gagal: '+safe(e.message))}};
