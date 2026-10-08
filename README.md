@@ -1,4 +1,4 @@
-## v15.6.42 — Fixed Recap Header and Column Labels
+## v15.6.45 — Fixed Recap Header and Column Labels
 
 - Rekap Semua Pemain: judul, header kolom Pemain / Skor / Hu / Zi Mo / Total dan tombol tutup tetap terlihat ketika daftar digulir.
 - Hanya daftar pemain yang scroll; header tidak menutupi baris pertama. Tampilan kolom tetap sejajar pada layar kecil.

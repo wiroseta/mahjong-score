@@ -1,4 +1,4 @@
-/* Mahjong AI Diagnostic v15.6.42 — isolated from scoring state. */
+/* Mahjong AI Diagnostic v15.6.45 — isolated from scoring state. */
 (()=>{'use strict';
 const $=id=>document.getElementById(id), KEY='mahjong_diag_device_id';
 let deviceId=localStorage.getItem(KEY);if(!deviceId){deviceId=crypto.randomUUID();localStorage.setItem(KEY,deviceId)}
@@ -16,7 +16,7 @@ if(!window.SpeechRecognition&&!window.webkitSpeechRecognition)found.push({code:'
 if(!client())found.push({code:'DB_UNAVAILABLE',severity:'warning',detail:'Supabase client tidak tersedia'});
 if(errors.length)found.push({code:'JS_ERROR',severity:'error',detail:errors.slice(-3).join(' | ')});
 return found}
-async function upload(report){if(!client()||!uid()||!navigator.onLine)return;const {error}=await client().from('mahjong_ai_diagnostic_reports').insert({user_id:uid(),device_id:deviceId,app_version:'15.6.42',report});if(error)throw error}
+async function upload(report){if(!client()||!uid()||!navigator.onLine)return;const {error}=await client().from('mahjong_ai_diagnostic_reports').insert({user_id:uid(),device_id:deviceId,app_version:'15.6.45',report});if(error)throw error}
 async function run(manual=false){if(!uid()||!client())return;const allowed=admin()?(manual||config?.enabled):config?.enabled;if(!allowed)return;
 const found=check();issues=found;const signature=JSON.stringify(found);if(manual||signature!==lastSignature){lastSignature=signature;if(found.length||manual){try{await upload({kind:manual?'manual':'monitor',issues:found,platform:safe(navigator.userAgent,240),at:new Date().toISOString()});lastSend=Date.now()}catch(e){status('Laporan belum terkirim: '+safe(e.message))}}}
 if(admin()&&!requestWaiting&&$('aiDiagnostic')?.classList.contains('show')){status(`Perangkat ini: ${found.length?'⚠ '+found.length+' temuan':'✓ Normal'} · ${new Date().toLocaleTimeString()}`);await loadReports()}}
@@ -90,7 +90,7 @@ async function deleteReport(id,button){
  try{
   const {data,error}=await client().from('mahjong_ai_diagnostic_reports').delete().eq('id',id).select('id');
   if(error)throw error;
-  if(!data?.length)throw Error('Laporan tidak terhapus. Periksa izin administrator / SQL v15.6.42.');
+  if(!data?.length)throw Error('Laporan tidak terhapus. Periksa izin administrator / SQL v15.6.45.');
   await loadReports();status('Laporan diagnostik berhasil dihapus.');
  }catch(e){status('Gagal menghapus laporan: '+safe(e.message,220));button.disabled=false}
 }
@@ -120,7 +120,7 @@ window.aiDiagRequestTarget=async()=>{
    if(readError)throw readError;
    if(reports?.length){await loadReports();status('✓ Laporan dari '+label+' diterima. Pilih Analisis AI untuk memproses dengan Gemini.');return}
   }
-  status('Belum ada laporan dari '+label+'. Pastikan aplikasi target v15.6.42 terbuka, online, dan Diagnostic ON.');
+  status('Belum ada laporan dari '+label+'. Pastikan aplikasi target v15.6.45 terbuka, online, dan Diagnostic ON.');
  }catch(e){status('Permintaan gagal: '+safe(e.message,220))}
  finally{requestWaiting=false;if(button)button.disabled=false}
 };

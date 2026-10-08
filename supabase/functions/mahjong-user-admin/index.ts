@@ -46,6 +46,28 @@ Deno.serve(async (req) => {
       return json({user:{id:data.user.id}})
     }
 
+    // v15.6.45: server-side administrator-only Live Sharing management.
+    if (action === 'live-list' || action === 'live-stop' || action === 'live-stop-all') {
+      if (action === 'live-list') {
+        const {data,error}=await admin.from('mahjong_live_games').select('id,table_name,scorekeeper_id,updated_at').eq('active',true).order('updated_at',{ascending:false}).limit(500)
+        if(error)throw error
+        const {data:users,error:usersError}=await admin.auth.admin.listUsers({page:1,perPage:1000})
+        if(usersError)throw usersError
+        const names=new Map(users.users.map(u=>[u.id,u.user_metadata?.username||u.email?.split('@')[0]||'']))
+        return json({tables:(data||[]).map(r=>({...r,username:names.get(r.scorekeeper_id)||'Pengguna tidak dikenal'}))})
+      }
+      if(action==='live-stop'){
+        const tableId=String(body.tableId||'')
+        if(!/^[0-9a-f]{8}-[0-9a-f-]{27,}$/i.test(tableId))return json({error:'ID meja tidak valid.'},400)
+        const {data,error}=await admin.from('mahjong_live_games').update({active:false,updated_at:new Date().toISOString()}).eq('id',tableId).eq('active',true).select('id')
+        if(error)throw error
+        return json({ok:true,stopped:data?.length||0})
+      }
+      const {data,error}=await admin.from('mahjong_live_games').update({active:false,updated_at:new Date().toISOString()}).eq('active',true).select('id')
+      if(error)throw error
+      return json({ok:true,stopped:data?.length||0})
+    }
+
     const userId=String(body.userId||'')
     if(!userId) return json({error:'userId diperlukan.'},400)
     const {data:{user:target},error:targetError}=await admin.auth.admin.getUserById(userId)
