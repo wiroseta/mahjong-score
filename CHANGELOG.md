@@ -1,3 +1,9 @@
+## v15.6.55 — Modular Voice Parser (2026-10-09)
+- Memisahkan fungsi parser Voice dan daftar sinonim ke `js/voice-parser.js` tanpa mengubah mesin mikrofon, UI skor, atau pencatatan skor.
+- Menambah frasa Bahasa Indonesia untuk ZI MO dan HU, termasuk “ambil sendiri” dan “ambil buangan”.
+- Menambah Test Parser Manual admin di Voice Diagnostic; hanya menampilkan hasil, tidak mengubah state permainan.
+- Memperluas Self Diagnostic parser untuk sinonim baru dan memperbarui cache PWA.
+
 ## v15.6.54 — Judul Riwayat dan Rekap Score Konsisten
 
 - Menyamakan judul popup Riwayat Score dan Rekap Score dengan menu utama.

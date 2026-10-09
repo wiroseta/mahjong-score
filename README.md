@@ -594,3 +594,7 @@ Administrator dapat meminta pemeriksaan pada target ON melalui tombol **🔍 Per
 
 ## v15.6.41 — Riwayat Permainan Pagination
 Riwayat Permainan memiliki header tetap (judul, navigasi nomor halaman, dan tutup) serta area hasil yang dapat digulir. Tiap halaman memuat lima hasil kecuali halaman pertama memuat sisa pembagian lima (misalnya 13 hasil: 3 / 5 / 5). Koreksi dan Hapus Quad tetap menggunakan indeks riwayat asli. Tidak ada perubahan SQL atau Edge Function.
+
+
+### v15.6.55 — Modular Voice Parser
+Voice parser terpisah di `js/voice-parser.js`; pengujian transkripsi manual tersedia untuk admin pada Voice Diagnostic. Sinonim bahasa Indonesia untuk ambil sendiri / ambil buangan ditambahkan. Perubahan parser perlu pembaruan cache Service Worker.
