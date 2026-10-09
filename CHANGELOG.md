@@ -1,3 +1,5 @@
+v15.6.76 — Voice Debug dipisahkan sebagai panel keempat yang mandiri (setelah Test Voice), dengan hitungan riwayat 0–5. Tidak ada perubahan parser/AI.
+
 ## v15.6.75 — Contextual Voice Grounding and Debug Placement
 - Voice Debug moved immediately below Mulai Test Voice / Hapus Hasil; dark, legible header.
 - Context-scoped Safari HU repair: `<active player> ibu dari Yeni/Yenny` only when Yenny is an active player.

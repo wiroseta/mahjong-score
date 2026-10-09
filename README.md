@@ -1,3 +1,5 @@
+v15.6.76 — Voice Debug dipisahkan sebagai panel keempat yang mandiri (setelah Test Voice), dengan hitungan riwayat 0–5. Tidak ada perubahan parser/AI.
+
 Mahjong Score 4P PWA v15.6.75 — Structured Multi-Command Voice.
 
 Deploy changed GitHub files: index.html, js/voice-parser.js, sw.js.
