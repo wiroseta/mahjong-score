@@ -33,3 +33,7 @@ Do not fabricate `confirmed_by_user` or treat AI guesses as truth. Capturing con
 - Only `js/voice-parser.js` is included in PR; separate PR guard rejects all other changed files.
 - Automatic merge is disabled. A proposed Pull Request must be reviewed and merged manually after required checks pass.
 - These checks reduce risk, but cannot prove semantic correctness or automatically roll back an undetected regression. Consider a staging/canary workflow before enabling unattended production merges.
+
+
+## v15.6.90
+Workflow now runs daily at 02:00 UTC (09:00 WIB) or manually; only creates a parser-only PR, never merges. In Voice Diagnostic > Voice Debug, administrator may explicitly confirm a failed Safari Quad transcript with player and count. This uses existing Supabase diagnostic queue and human-confirmed schema.
