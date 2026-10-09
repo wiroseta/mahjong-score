@@ -62,3 +62,10 @@ v15.6.76 — Voice Debug dipisahkan sebagai panel keempat yang mandiri (setelah 
 - Game Baru Voice accepts four short names in 東/南/西/北 order, with or without separators, and retains numbered names.
 - Edit Nama Pemain now has its own Voice button: “Ari diganti Yenny”; duplicate names require explicit resolution and save validation.
 - Voice recognition shares the existing microphone lifecycle, with no automatic saving.
+
+## v15.6.84 — Voice otomatis satu tombol
+- Hapus pemilihan tahap, indikator 1/3–3/3, dan tombol Lewati tahap.
+- Safari mengenali HU/Zi Mo, Quad eksplisit, dan kombinasi dari setiap ucapan dalam urutan bebas; memeriksa hingga lima alternatif transkripsi.
+- Gemini menerima perintah campuran maupun perintah terpisah, tanpa petunjuk tahap yang membatasi interpretasi.
+- Hasil Voice melengkapi preview, tidak otomatis mencatat tangan. Quad tanpa kata perintah yang ambigu tidak diterapkan otomatis.
+- Pengaturan engine Safari/Gemini tetap hanya oleh Administrator. Tidak ada perubahan Edge Function/SQL.

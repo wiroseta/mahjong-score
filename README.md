@@ -652,3 +652,6 @@ Voice parser terpisah di `js/voice-parser.js`; pengujian transkripsi manual ters
 
 ### v15.6.57 — JavaScript Structure Cleanup
 `ai-diagnostic.js` dan `auth-config.js` dipindahkan dari root ke `js/`. Semua referensi di `index.html`, cache `sw.js`, dan dokumentasi diperbarui. Tidak mengubah logika autentikasi, diagnostik AI, ataupun aturan permainan.
+
+### v15.6.84 — Voice otomatis
+Satu tombol Voice untuk HU/Zi Mo, Quad, atau kombinasi dalam urutan apa saja. Administrator memilih engine Safari atau Gemini. Safari memerlukan petunjuk Quad eksplisit jika ucapan nama + angka ambigu. Hasil hanya mengisi preview dan tidak mencatat skor otomatis.
