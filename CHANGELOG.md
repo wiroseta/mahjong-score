@@ -1,3 +1,12 @@
+## v15.6.52 — Menu Navigation & Undo Icon (9 Oktober 2026)
+
+- Tombol Game Baru dipindahkan dari header ke posisi pertama menu utama; Edit Nama tetap di header.
+- Menu header `•••` diganti ikon tiga garis horizontal; urutan menu: Game Baru, Riwayat Permainan, Rekap Semua Pemain, Ronde Baru, Live Score, Transfer Score, Bagikan Score, Setting, Logout.
+- Ikon Game Baru memakai karakter Hong Zhong `中` hitam; ikon semua menu lain (termasuk Riwayat dan Rekap) dipertahankan dari versi sebelumnya.
+- Tombol footer `•••` diganti ikon Ronde Baru yang dicerminkan secara horizontal; menu Undo dan Reset tetap dibuka, tidak menjalankan Undo langsung.
+- Penanda versi aplikasi, dokumen, manifest dan cache Service Worker diselaraskan ke v15.6.52.
+- Tidak mengubah logika skor, penyimpanan, Voice, autentikasi, atau Supabase.
+
 ## v15.6.51 — Perbaikan kritis persistensi data (9 Oktober 2026)
 
 - Memperbaiki akar masalah v15.6.50: wrapper penyimpanan memanggil `window.mahjongStorageRead/Write/Remove` yang tidak pernah didefinisikan, sehingga semua akses gagal dan permainan kembali ke awal saat reload.
