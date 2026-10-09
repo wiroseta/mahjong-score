@@ -85,7 +85,7 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 .transfer-modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left}
 .transfer-modal-head h3{margin:0;min-width:0}
 
-/* v15.6.74 — AI Diagnostic report rendering only. */
+/* v15.6.75 — AI Diagnostic report rendering only. */
 #aiDiagReports .ai-diag-report-item{padding:12px 4px;border-bottom:1px solid rgba(180,180,180,.35);font-size:13px;line-height:1.5;overflow-wrap:anywhere;white-space:normal}
 #aiDiagReports .ai-diag-report-meta{font-size:12px;opacity:.8;margin-bottom:6px}
 #aiDiagReports .ai-diag-report-summary{font-weight:600;margin-bottom:5px}
@@ -102,7 +102,7 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 #aiDiagReports .ai-diag-delete{border:1px solid #b96969;color:#922d2d;background:#fff7f5}
 #aiDiagReports .ai-diag-delete:disabled{opacity:.5;cursor:wait}
 
-/* v15.6.74 — User Management / Live Sharing controls; isolated styles */
+/* v15.6.75 — User Management / Live Sharing controls; isolated styles */
 #userManagement .modal{overflow-y:auto!important;min-height:0}
 #userManagementList{flex:0 1 auto!important;min-height:0}
 .admin-live-panel{margin-top:10px;border-top:1px solid rgba(60,75,62,.22);padding-top:8px;flex:0 0 auto}
@@ -114,7 +114,7 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 .admin-live-row button{flex-shrink:0;min-height:38px}
 .admin-live-stop-all{width:100%;margin-top:8px;color:#a33030!important}
 @media(max-width:600px){#userManagement .modal{max-height:calc(100dvh - 20px)!important}#userManagementList{max-height:36dvh!important;overflow:auto!important}.admin-live-row button{font-size:12px;padding:7px}}
-/* v15.6.74 — compact user rows and independent collapsible user list. */
+/* v15.6.75 — compact user rows and independent collapsible user list. */
 #userManagement .admin-users-panel{margin-top:10px;border-top:1px solid rgba(60,75,62,.22);padding-top:8px}
 #userManagement .admin-users-toggle{display:block;width:100%;padding:10px 4px;text-align:left;border:0;background:transparent;color:inherit;font:inherit;font-weight:700;cursor:pointer}
 #userManagement #userManagementList[hidden]{display:none!important}
@@ -127,7 +127,7 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 #userManagement .user-delete-btn{width:34px!important;min-width:34px!important;height:34px!important;font-size:21px!important;border-radius:9px!important}
 @media(max-width:600px){#userManagement .user-row{padding:7px!important;gap:5px!important}#userManagement .user-row b,#userManagement .username-edit-link{font-size:13px!important}#userManagement .user-actions .btn{font-size:10px!important;padding:6px!important;min-height:34px!important}#userManagement .user-delete-btn{width:34px!important;min-width:34px!important;height:34px!important}}
 
-/* v15.6.74: menu icons use the existing icon family; footer mirrors Ronde Baru. */
+/* v15.6.75: menu icons use the existing icon family; footer mirrors Ronde Baru. */
 /* Header action buttons share one measured height, including the hamburger. */
 .top-actions>.btn,.top-actions>.menu-wrap>.menu-trigger{box-sizing:border-box;height:46px;min-height:46px}
 @media(max-width:600px){.top-actions>.btn,.top-actions>.menu-wrap>.menu-trigger{height:34px!important;min-height:34px!important}}
@@ -137,7 +137,7 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 .menu-hongzhong{font-size:24px;font-weight:800;line-height:1;color:#171a18}
 #topMenu{max-height:min(76vh,610px);overflow-y:auto;overscroll-behavior:contain}
 
-/* v15.6.74 — Voice Diagnostic panels */
+/* v15.6.75 — Voice Diagnostic panels */
 .voice-diag-panel{margin-top:10px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:rgba(255,255,255,.06)}
 .voice-diag-panel>summary{cursor:pointer;list-style:none;padding:12px 13px;font-size:14px;font-weight:800;touch-action:manipulation}
 .voice-diag-panel>summary::-webkit-details-marker{display:none}
@@ -149,7 +149,7 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 .voice-diag-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 @media(max-width:390px){.voice-diag-actions .btn{font-size:12px;padding:9px 4px}}
 
-/* v15.6.74 — single action per user, independent settings modal */
+/* v15.6.75 — single action per user, independent settings modal */
 #userManagement .user-row{display:flex;justify-content:space-between;align-items:center}
 #userManagement .user-row .btn{font-size:12px;min-height:38px;white-space:nowrap}
 #userDetail .user-detail-grid{display:grid;gap:12px;padding-top:12px}
@@ -168,7 +168,7 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 @media(prefers-reduced-motion:reduce){#userDetail .user-detail-switch input[type="checkbox"],#userDetail .user-detail-switch input[type="checkbox"]::after{transition:none}}
 #userDetail h3{margin:6px 0 0}
 
-/* v15.6.74: independent user detail overlay and compact icon action */
+/* v15.6.75: independent user detail overlay and compact icon action */
 #userDetail{z-index:130}
 #userDetail.show{display:flex}
 .user-row .user-settings-icon svg{display:block;width:34px;height:34px;flex:none;stroke:currentColor}
@@ -496,7 +496,7 @@ body.auth-pending .app,body.auth-pending .bottom{visibility:hidden}
 .quad-control input.quad-value{display:block!important;width:100%!important;min-width:28px!important;height:34px!important;padding:3px 2px!important;text-align:center!important;font-size:16px!important;line-height:28px!important;font-weight:900!important;color:#1f211e!important;-webkit-text-fill-color:#1f211e!important;opacity:1!important;caret-color:#1f211e!important;background:#fff!important;border:1px solid var(--line)!important;border-radius:8px!important;-webkit-appearance:none!important;appearance:none!important}
 .quad-step{width:34px;height:34px;min-width:34px;padding:0;border:1px solid var(--line);border-radius:8px;background:rgba(255,255,255,.94);color:#1f211e;font-size:20px;font-weight:900;line-height:1;display:flex;align-items:center;justify-content:center;touch-action:manipulation}
 @media(max-width:600px){.quad-control{display:grid;grid-template-columns:1fr;grid-template-rows:20px 28px 20px;gap:1px;justify-items:stretch;align-items:center}.quad-control .quad-step{display:flex!important;width:100%!important;height:20px!important;min-width:0!important;min-height:20px!important;padding:0!important;font-size:16px!important;line-height:1!important;border-radius:6px!important}.quad-control .quad-step:first-child{grid-row:3}.quad-control input.quad-value{grid-row:2;min-width:0!important;width:100%!important;height:28px!important;min-height:28px!important;padding:1px 3px!important;font-size:15px!important;line-height:22px!important;border-radius:6px!important}.quad-control .quad-step:last-child{grid-row:1}}
-/* v15.6.74 — mobile Quad wheel: no text/number input is interactive, so iPhone/Android keyboard never opens. */
+/* v15.6.75 — mobile Quad wheel: no text/number input is interactive, so iPhone/Android keyboard never opens. */
 .quad-wheel{display:none}
 @media(max-width:600px){.quad-control>.quad-step,.quad-control>input.quad-value{display:none!important}.quad-control{display:block!important}.quad-wheel{display:block;position:relative;height:56px;overflow-y:auto;overflow-x:hidden;border:1px solid var(--line);border-radius:8px;background:rgba(255,255,255,.94);scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;scrollbar-width:none;user-select:none;-webkit-user-select:none}.quad-wheel::-webkit-scrollbar{display:none}.quad-wheel-track{display:flex;flex-direction:column;align-items:stretch;padding:16px 0;pointer-events:auto}.quad-wheel-item{height:24px;min-height:24px;line-height:24px;text-align:center;font-size:12px;opacity:.38;font-weight:700;scroll-snap-align:center;scroll-snap-stop:always;cursor:pointer}.quad-wheel-item.active{font-size:20px;opacity:1;font-weight:900}.quad-wheel:after{content:"";position:sticky;display:block;left:5px;right:5px;top:16px;height:24px;margin-top:-40px;border-top:1px solid rgba(74,70,59,.18);border-bottom:1px solid rgba(74,70,59,.18);pointer-events:none}}
 
@@ -582,7 +582,7 @@ body.auth-pending .app,body.auth-pending .bottom{visibility:hidden}
  .bottom .voice-record{flex-basis:38px!important;width:38px!important;min-width:38px!important}
 }
 
-/* v15.6.74 — roles + multi-table live view */
+/* v15.6.75 — roles + multi-table live view */
 
 #guestLiveView{position:fixed;inset:0;z-index:30000;overflow:auto;background:var(--bg);padding:12px 12px calc(18px + env(safe-area-inset-bottom));color:var(--ink)}#guestLiveView[hidden]{display:none!important}
 .app.guest-only> :not(#guestLiveView){display:none!important}.app.guest-only{display:block!important}.app.guest-only #guestLiveView{display:block!important}
@@ -597,7 +597,7 @@ body.auth-pending .app,body.auth-pending .bottom{visibility:hidden}
 @media(max-width:600px){.live-status-table{top:6px;left:7px}.live-status-indicator{font-size:7px;padding:1px 2px;gap:3px}.live-status-dot{width:5px;height:5px}.live-share-actions{grid-template-columns:1fr 1fr}}
 </style>
 <style id="history-pagination-v15-6-45">
-/* v15.6.74: fixed modal header, independently scrolling paged history. */
+/* v15.6.75: fixed modal header, independently scrolling paged history. */
 #historyModal .data-modal{display:flex;flex-direction:column;overflow:hidden;max-height:min(88dvh,900px)}
 #historyModal .data-modal-head{position:relative!important;top:auto!important;flex:0 0 auto;display:grid!important;grid-template-columns:minmax(0,1fr) auto 38px;align-items:center;gap:8px;margin:0 0 8px!important;padding:4px 0 10px!important;background:transparent!important;z-index:3}
 #historyModal .data-modal-head h2{font-size:clamp(15px,2.8vw,22px)!important;white-space:nowrap;min-width:0}
@@ -650,7 +650,7 @@ body.auth-pending .app,body.auth-pending .bottom{visibility:hidden}
 }
 </style>
 <style id="v15-6-14-guest-live-isolation-fix">
-/* v15.6.74 — QR Guest is a dedicated viewer. Never expose Score Keeper controls behind it. */
+/* v15.6.75 — QR Guest is a dedicated viewer. Never expose Score Keeper controls behind it. */
 body.guest-live-mode .bottom,
 body.guest-live-mode .record,
 body.guest-live-mode .score-toast,
@@ -660,7 +660,7 @@ body.guest-live-mode .app.guest-only> :not(#guestLiveView){display:none!importan
 body.guest-live-mode .app.guest-only #guestLiveView{display:block!important;}
 body.guest-live-mode{padding-bottom:0!important;}
 
-/* v15.6.74 — Android guest viewer occupies the available screen edge to edge. */
+/* v15.6.75 — Android guest viewer occupies the available screen edge to edge. */
 body.guest-live-mode{margin:0!important;padding:0!important;min-height:100dvh!important;overflow:hidden!important;}
 body.guest-live-mode .app.guest-only{display:block!important;margin:0!important;padding:0!important;max-width:none!important;min-height:100dvh!important;}
 body.guest-live-mode #guestLiveView{position:fixed!important;inset:0!important;width:100%!important;height:100dvh!important;max-height:100dvh!important;box-sizing:border-box!important;overflow-x:hidden!important;overflow-y:auto!important;overscroll-behavior:contain;}
@@ -687,9 +687,9 @@ body.guest-live-mode .guest-live-actions .guest-fullscreen-button[style*="displa
 </style>
 </head>
 <script src="./js/qrcode-local.js"></script>
-<body class="auth-pending"><div id="authGate" class="auth-gate"><form class="auth-card" onsubmit="loginMahjong(event)"><h2>🀄 Mahjong Score <span class="app-version">v15.6.74</span></h2><div class="muted">Masuk untuk menggunakan aplikasi.</div><label class="label" for="loginUsername">Username</label><input id="loginUsername" autocomplete="username" autocapitalize="none" required><label class="label" for="loginPassword">PIN 4 digit</label><input id="loginPassword" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="current-password" placeholder="••••" required><button class="btn gold" type="submit" style="width:100%">Login</button><div id="authMessage" class="auth-msg" aria-live="polite"></div></form></div><div class="app">
+<body class="auth-pending"><div id="authGate" class="auth-gate"><form class="auth-card" onsubmit="loginMahjong(event)"><h2>🀄 Mahjong Score <span class="app-version">v15.6.75</span></h2><div class="muted">Masuk untuk menggunakan aplikasi.</div><label class="label" for="loginUsername">Username</label><input id="loginUsername" autocomplete="username" autocapitalize="none" required><label class="label" for="loginPassword">PIN 4 digit</label><input id="loginPassword" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="current-password" placeholder="••••" required><button class="btn gold" type="submit" style="width:100%">Login</button><div id="authMessage" class="auth-msg" aria-live="polite"></div></form></div><div class="app">
 <div class="overlay" id="gameTransferMenuModal"><div class="modal" style="max-width:430px"><div class="transfer-modal-head"><h3>Transfer Permainan</h3><button class="modal-x" onclick="closeGameTransferMenu()">✕</button></div><p class="muted" style="margin-top:6px">Pilih cara mengirim atau menerima permainan.</p><div style="display:grid;gap:10px;margin-top:14px"><button class="btn gold" onclick="closeGameTransferMenu();showGameTransferQR()">Kirim Permainan via QR Code</button><button class="btn light" onclick="closeGameTransferMenu();sendGameTransfer()">Kirim Permainan via File / Dokumen</button><button class="btn light" onclick="closeGameTransferMenu();showReceiveQRHelp()">Terima Permainan via QR Code</button><button class="btn light" onclick="closeGameTransferMenu();openGameTransferFile()">Terima Permainan via File / Dokumen</button></div></div></div><div class="overlay" id="receiveQRHelpModal"><div class="modal" style="max-width:430px"><div class="transfer-modal-head"><h3>Terima Permainan via QR Code</h3><button class="modal-x" onclick="closeReceiveQRHelp()">✕</button></div><p style="margin-top:10px">Pilih cara menerima QR Code:</p><div style="display:grid;gap:10px;margin-top:14px"><button class="btn gold" onclick="showReceiveQRCameraHelp()">Scan QR dengan Kamera</button><button class="btn light" onclick="openGameTransferQRImage()">Pilih Gambar QR dari Foto / File</button></div><p id="receiveQRImageStatus" class="muted" style="font-size:13px;margin-top:12px">Gambar QR yang diterima melalui WhatsApp, Messages, Telegram, AirDrop, email, atau aplikasi lain dapat dipilih dari Foto/Files. Gambar dibaca lokal di device ini.</p></div></div><div class="overlay" id="qrTransferModal"><div class="modal" style="max-width:430px;text-align:center"><div class="transfer-modal-head"><h3>Kirim Permainan via QR Code</h3><button class="modal-x" onclick="closeGameTransferQR()">✕</button></div><p class="muted" style="margin-top:6px">Scan dengan kamera iPhone/Android penerima. Tidak perlu download file.</p><div id="qrTransferImage" style="display:flex;justify-content:center;align-items:center;min-height:250px;margin:12px auto"></div><div id="qrTransferStatus" class="muted" style="font-size:13px"></div><button id="shareQRButton" class="btn gold" style="display:none;width:100%;margin-top:12px" onclick="shareGameTransferQR()">Bagikan QR Code</button><p style="font-size:13px;margin-top:10px">Setelah QR dibuka, penerima tetap harus menyetujui konfirmasi sebelum permainan aktifnya diganti.</p></div></div><input id="gameTransferFile" type="file" accept="application/json,.json,.mahjong" hidden onchange="receiveGameTransfer(event)"><input id="gameTransferQRImage" type="file" accept="image/*,.png,.jpg,.jpeg,.webp" hidden onchange="receiveGameTransferQRImage(event)"><div class="overlay" id="liveSharingModal"><div class="modal" style="max-width:460px"><div class="transfer-modal-head"><h3>Live Score Meja</h3><button class="modal-x" onclick="closeLiveSharing()">✕</button></div><div class="label">Nama / Nomor Meja</div><input id="liveTableName" maxlength="30" placeholder="Memuat nama meja..." style="width:100%;min-height:44px" onfocus="this.select()" onclick="this.select()" oninput="liveTableNameEdited()"><div id="liveTableWarning" role="status" style="font-size:13px;color:#a33030;margin-top:5px"></div><div id="liveSharePanel" style="display:none"><div id="liveQRImage" style="display:flex;justify-content:center;min-height:10px;margin-top:10px"></div><div id="liveShareStatus" class="muted" style="font-size:13px;margin-top:6px;text-align:center"></div><div class="live-share-actions"><button class="btn gold" onclick="shareLiveLink()">Bagikan Link</button><button class="btn light" onclick="copyLiveLink()">Salin Link</button></div></div><button id="startLiveButton" class="btn gold" style="width:100%;margin-top:12px" onclick="startLiveSharing()">Mulai Live Sharing</button><button id="stopLiveButton" class="btn light" style="display:none;width:100%;margin-top:10px" onclick="stopLiveSharing()">Akhiri Live Sharing</button></div></div>
-<div id="guestLiveView" hidden><div class="guest-live-shell"><div class="guest-live-head"><div><div class="guest-live-title">🀄 Live Mahjong Score</div><div id="guestLiveMeta" class="guest-live-meta">Memuat pertandingan…</div></div><div class="guest-live-actions"><button id="guestFullscreenButton" class="guest-live-exit guest-fullscreen-button" type="button" onclick="toggleGuestFullscreen()" aria-label="Layar penuh" title="Layar penuh">⛶</button><button class="guest-live-exit" type="button" onclick="exitGuestLive()">Keluar Live</button></div></div><div id="guestLiveContent"><div class="guest-table"><div class="guest-live-badge" id="guestLiveBadge">LIVE</div><div class="guest-players-row"><div id="guestP0" class="guest-player"></div><div id="guestP1" class="guest-player"></div><div id="guestP2" class="guest-player"></div><div id="guestP3" class="guest-player"></div></div><div class="guest-round"><div>RONDE <span id="guestRound">1</span></div><div>TANGAN <span id="guestHand">1</span></div></div></div><section class="guest-section"><h3>Riwayat Score</h3><div id="guestLiveHistory">Belum ada tangan.</div></section><section class="guest-section"><h3>Rekap Score</h3><div id="guestLiveRecap">Belum ada pemain.</div></section></div></div></div><div class="top"><div class="brand"><span class="brand-logo" aria-hidden="true">🀄</span><div class="brand-copy"><h1>Mahjong Score<span class="app-version">v15.6.74</span></h1><div class="brand-instruction muted">Tap pemain yang menang → Hu/Zi Mo → pilih poin → Catat</div></div></div><div class="top-actions"><button class="btn light" onclick="openPlayers()">Edit Nama</button><div class="menu-wrap"><button class="btn light menu-trigger" aria-label="Menu utama" aria-expanded="false" onclick="toggleMenu('topMenu',this,event)"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><div class="action-menu" id="topMenu"><button onclick="closeMenus();openNew()"><span class="menu-icon menu-hongzhong" aria-hidden="true">中</span><span>Game Baru</span></button><button onclick="closeMenus();openHistoryModal()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h12M4 10h12M4 15h8"/><path d="M18 14v6m-3-3h6"/></svg></span><span>Riwayat Score</span></button><button onclick="closeMenus();openRecapModal()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="7" r="3"/><circle cx="17" cy="8" r="2.5"/><path d="M3 19c.5-4 2.2-6 5-6s4.5 2 5 6M14 19c.3-2.8 1.5-4.4 3.6-4.4 1.8 0 3 1.2 3.4 3.4"/></svg></span><span>Rekap Score</span></button><button onclick="closeMenus();openRound()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg></span><span>Ronde Baru</span></button><button id="liveSharingMenuButton" onclick="closeMenus();openLiveSharing()"><span class="menu-icon" aria-hidden="true">◎</span><span>Live Score</span></button><button onclick="closeMenus();openGameTransferMenu()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h13"/><path d="m13 4 4 4-4 4"/><path d="M20 16H7"/><path d="m11 12-4 4 4 4"/></svg></span><span>Transfer Score</span></button><button onclick="closeMenus();share()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="m7.5 8.5 4.5-4.5 4.5 4.5"/><path d="M5 13v6h14v-6"/></svg></span><span>Bagikan Score</span></button><button onclick="closeMenus();openSettings()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3A1.7 1.7 0 0 0 10 3V2.8h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1z"/></svg></span><span>Setting</span></button><button onclick="closeMenus();logoutMahjong()"><span class="menu-icon" aria-hidden="true">↪</span><span>Logout</span></button></div></div></div></div>
+<div id="guestLiveView" hidden><div class="guest-live-shell"><div class="guest-live-head"><div><div class="guest-live-title">🀄 Live Mahjong Score</div><div id="guestLiveMeta" class="guest-live-meta">Memuat pertandingan…</div></div><div class="guest-live-actions"><button id="guestFullscreenButton" class="guest-live-exit guest-fullscreen-button" type="button" onclick="toggleGuestFullscreen()" aria-label="Layar penuh" title="Layar penuh">⛶</button><button class="guest-live-exit" type="button" onclick="exitGuestLive()">Keluar Live</button></div></div><div id="guestLiveContent"><div class="guest-table"><div class="guest-live-badge" id="guestLiveBadge">LIVE</div><div class="guest-players-row"><div id="guestP0" class="guest-player"></div><div id="guestP1" class="guest-player"></div><div id="guestP2" class="guest-player"></div><div id="guestP3" class="guest-player"></div></div><div class="guest-round"><div>RONDE <span id="guestRound">1</span></div><div>TANGAN <span id="guestHand">1</span></div></div></div><section class="guest-section"><h3>Riwayat Score</h3><div id="guestLiveHistory">Belum ada tangan.</div></section><section class="guest-section"><h3>Rekap Score</h3><div id="guestLiveRecap">Belum ada pemain.</div></section></div></div></div><div class="top"><div class="brand"><span class="brand-logo" aria-hidden="true">🀄</span><div class="brand-copy"><h1>Mahjong Score<span class="app-version">v15.6.75</span></h1><div class="brand-instruction muted">Tap pemain yang menang → Hu/Zi Mo → pilih poin → Catat</div></div></div><div class="top-actions"><button class="btn light" onclick="openPlayers()">Edit Nama</button><div class="menu-wrap"><button class="btn light menu-trigger" aria-label="Menu utama" aria-expanded="false" onclick="toggleMenu('topMenu',this,event)"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><div class="action-menu" id="topMenu"><button onclick="closeMenus();openNew()"><span class="menu-icon menu-hongzhong" aria-hidden="true">中</span><span>Game Baru</span></button><button onclick="closeMenus();openHistoryModal()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h12M4 10h12M4 15h8"/><path d="M18 14v6m-3-3h6"/></svg></span><span>Riwayat Score</span></button><button onclick="closeMenus();openRecapModal()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="7" r="3"/><circle cx="17" cy="8" r="2.5"/><path d="M3 19c.5-4 2.2-6 5-6s4.5 2 5 6M14 19c.3-2.8 1.5-4.4 3.6-4.4 1.8 0 3 1.2 3.4 3.4"/></svg></span><span>Rekap Score</span></button><button onclick="closeMenus();openRound()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg></span><span>Ronde Baru</span></button><button id="liveSharingMenuButton" onclick="closeMenus();openLiveSharing()"><span class="menu-icon" aria-hidden="true">◎</span><span>Live Score</span></button><button onclick="closeMenus();openGameTransferMenu()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h13"/><path d="m13 4 4 4-4 4"/><path d="M20 16H7"/><path d="m11 12-4 4 4 4"/></svg></span><span>Transfer Score</span></button><button onclick="closeMenus();share()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="m7.5 8.5 4.5-4.5 4.5 4.5"/><path d="M5 13v6h14v-6"/></svg></span><span>Bagikan Score</span></button><button onclick="closeMenus();openSettings()"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3A1.7 1.7 0 0 0 10 3V2.8h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1z"/></svg></span><span>Setting</span></button><button onclick="closeMenus();logoutMahjong()"><span class="menu-icon" aria-hidden="true">↪</span><span>Logout</span></button></div></div></div></div>
 
 <div class="table">
  <button id="liveStatusIndicator" class="live-status-indicator live-status-table" type="button" onclick="openLiveSharing()" hidden><span class="live-status-dot" aria-hidden="true"></span><span class="live-status-text">LIVE</span></button>
@@ -751,16 +751,17 @@ body.guest-live-mode .guest-live-actions .guest-fullscreen-button[style*="displa
 </div><button type="button" class="btn gold" style="width:100%;margin-top:14px" onclick="closeSettings()">Selesai</button></div></div>
 
 
-<div class="overlay" id="aboutProgram"><div class="modal" style="max-width:620px"><div class="data-modal-head"><div><h2>ℹ️ About This Program</h2><div class="muted">Informasi aplikasi dan ketentuan penggunaan.</div></div><button class="modal-x" onclick="closeAboutProgram()" aria-label="Tutup">×</button></div><div style="margin-top:14px;line-height:1.55"><h3 style="margin:0">Mahjong Score 4P</h3><div><b>Version:</b> v15.6.74</div><div><b>Author / Developer:</b> Ariawan</div><div><b>Copyright:</b> © 2026 Ariawan. All Rights Reserved.</div><div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)"><b>Proprietary Software — Legal Terms</b><p>This software, including its source code, user interface, visual design, game logic, documentation, and related assets, is proprietary and protected by applicable copyright and intellectual-property laws.</p><p>No part of this program may be copied, reproduced, modified, adapted, translated, reverse engineered, redistributed, published, sold, sublicensed, commercially exploited, or used to create derivative software or services without prior written permission from the copyright owner.</p><p>Access to or use of this application does not transfer ownership or any intellectual-property rights to the user. All rights not expressly granted are reserved by the copyright owner.</p><p><b>Disclaimer:</b> This software is provided “as is” and “as available,” without warranties of any kind to the maximum extent permitted by law. The author is not liable for loss of data, loss of profits, interruption of play, or other direct or indirect damages arising from use of or inability to use the software, except where liability cannot legally be excluded.</p><p style="margin-bottom:0"><b>Permission:</b> Any copying, distribution, modification, commercial use, or other use beyond ordinary authorized operation requires prior written permission from Ariawan.</p></div></div><button type="button" class="btn gold" style="width:100%;margin-top:16px" onclick="closeAboutProgram()">Selesai</button></div></div>
+<div class="overlay" id="aboutProgram"><div class="modal" style="max-width:620px"><div class="data-modal-head"><div><h2>ℹ️ About This Program</h2><div class="muted">Informasi aplikasi dan ketentuan penggunaan.</div></div><button class="modal-x" onclick="closeAboutProgram()" aria-label="Tutup">×</button></div><div style="margin-top:14px;line-height:1.55"><h3 style="margin:0">Mahjong Score 4P</h3><div><b>Version:</b> v15.6.75</div><div><b>Author / Developer:</b> Ariawan</div><div><b>Copyright:</b> © 2026 Ariawan. All Rights Reserved.</div><div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)"><b>Proprietary Software — Legal Terms</b><p>This software, including its source code, user interface, visual design, game logic, documentation, and related assets, is proprietary and protected by applicable copyright and intellectual-property laws.</p><p>No part of this program may be copied, reproduced, modified, adapted, translated, reverse engineered, redistributed, published, sold, sublicensed, commercially exploited, or used to create derivative software or services without prior written permission from the copyright owner.</p><p>Access to or use of this application does not transfer ownership or any intellectual-property rights to the user. All rights not expressly granted are reserved by the copyright owner.</p><p><b>Disclaimer:</b> This software is provided “as is” and “as available,” without warranties of any kind to the maximum extent permitted by law. The author is not liable for loss of data, loss of profits, interruption of play, or other direct or indirect damages arising from use of or inability to use the software, except where liability cannot legally be excluded.</p><p style="margin-bottom:0"><b>Permission:</b> Any copying, distribution, modification, commercial use, or other use beyond ordinary authorized operation requires prior written permission from Ariawan.</p></div></div><button type="button" class="btn gold" style="width:100%;margin-top:16px" onclick="closeAboutProgram()">Selesai</button></div></div>
 <div class="overlay" id="aiDiagnostic"><div class="modal" style="max-width:600px"><div class="data-modal-head"><div><h2>🤖 AI Diagnostic</h2><div class="muted">Admin · Gemini utama, OpenAI fallback. Tidak mengubah permainan.</div></div><button class="modal-x" onclick="closeAiDiagnostic()" aria-label="Tutup">×</button></div><div style="display:grid;gap:8px;margin-top:12px"><button class="btn gold" onclick="aiDiagRunNow()">🔍 Periksa Perangkat Ini</button><button class="btn light" onclick="aiDiagSimulation()">🎲 Simulasi Aritmetika (Terisolasi)</button><label class="label" for="aiDiagTarget">Target Remote Diagnostic</label><select id="aiDiagTarget" style="min-height:42px"></select><button class="btn gold" id="aiDiagRequestButton" onclick="aiDiagRequestTarget()">🔍 Periksa Target Sekarang</button><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><button class="btn gold" onclick="aiDiagToggle(true)">Aktifkan Target</button><button class="btn light" onclick="aiDiagToggle(false)">Matikan Target</button><button class="btn light" onclick="aiDiagToggleAll(true)">Aktifkan Semua</button><button class="btn light" onclick="aiDiagToggleAll(false)">Matikan Semua</button></div><div id="aiDiagStatus" class="muted" aria-live="polite">Belum diperiksa.</div><h3 style="margin:8px 0 0">Laporan Terbaru</h3><div id="aiDiagReports" style="max-height:240px;overflow:auto;background:#fff8;border-radius:10px;padding:8px"></div></div></div></div>
 <div class="overlay" id="voiceDiagnostic"><div class="modal" style="max-width:560px"><div class="data-modal-head"><div><h2>🎙️ Voice Diagnostic</h2><div class="muted">Pengujian tanpa mencatat skor permainan.</div></div><button class="modal-x" onclick="closeVoiceDiagnostic()" aria-label="Tutup">×</button></div>
 <details id="voiceDiagVoicePanel" open class="voice-diag-panel"><summary>🎙️ Test Voice</summary><div class="voice-diag-panel-body">
 <label class="label" for="voiceDiagnosticCategory">Jenis Test</label><select id="voiceDiagnosticCategory" onchange="updateVoiceDiagnosticTarget()"><option value="free">Bebas (Free Test)</option><option value="zimo">Zi Mo</option><option value="hu">HU</option><option value="quad">Quad / Gang / Kong</option><option value="points">Angka / Poin</option><option value="players">Nama Pemain</option><option value="combo">Kombinasi Poin</option></select>
-<details id="voiceLiveDebugPanel" style="margin:12px 0;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff"><summary style="font-weight:700;cursor:pointer">🔎 Voice Debug · Voice permainan (5 terakhir)</summary><div class="muted" style="font-size:12px;margin:8px 0">Read-only; transkripsi dan hasil interpretasi tersimpan hanya di perangkat ini. Tidak menyimpan audio dan tidak mengubah skor.</div><textarea id="voiceLiveDebugOutput" readonly style="width:100%;min-height:175px;padding:9px;border:1px solid var(--line);border-radius:8px;font:12px/1.45 ui-monospace,monospace;background:#fff;color:#202420"></textarea><div style="display:flex;gap:8px;margin-top:8px"><button type="button" class="btn light" onclick="copyVoiceLiveDebug()">Salin Debug</button><button type="button" class="btn light" onclick="clearVoiceLiveDebug()">Hapus Debug</button></div></details>
+
 <div id="voiceDiagStructured" hidden><label class="label" for="voiceDiagWinner">Pemenang</label><select id="voiceDiagWinner" onchange="updateVoiceDiagnosticTarget()"></select><div id="voiceDiagDiscarderWrap"><label class="label" for="voiceDiagDiscarder">Pembuang (HU)</label><select id="voiceDiagDiscarder" onchange="updateVoiceDiagnosticTarget()"></select></div></div>
 <div id="voiceDiagTargetWrap"><label class="label" for="voiceDiagnosticExpected">Target Ucapan</label><select id="voiceDiagnosticExpected" onchange="updateVoiceDiagnosticTarget()"></select></div>
 <div id="voiceDiagnosticTarget" class="voice-diag-hint" aria-live="polite"></div>
 <div class="voice-diag-actions"><button id="voiceDiagnosticButton" type="button" class="btn gold" onclick="toggleVoiceDiagnostic()">🎙️ Mulai Test Voice</button><button type="button" class="btn light" onclick="clearVoiceDiagnostic()">Hapus Hasil</button></div>
+<details id="voiceLiveDebugPanel" style="margin:12px 0;padding:10px;border:1px solid rgba(255,255,255,.22);border-radius:10px;background:#26352e;color:#f8f6ed"><summary style="font-weight:700;cursor:pointer;color:#f8f6ed">🔎 Voice Debug · Voice permainan (5 terakhir)</summary><div style="font-size:12px;margin:8px 0;color:#e2e5dc">Read-only; transkripsi dan hasil interpretasi tersimpan hanya di perangkat ini. Tidak menyimpan audio dan tidak mengubah skor.</div><textarea id="voiceLiveDebugOutput" readonly style="width:100%;min-height:175px;padding:9px;border:1px solid var(--line);border-radius:8px;font:12px/1.45 ui-monospace,monospace;background:#fff;color:#202420"></textarea><div style="display:flex;gap:8px;margin-top:8px"><button type="button" class="btn light" onclick="copyVoiceLiveDebug()">Salin Debug</button><button type="button" class="btn light" onclick="clearVoiceLiveDebug()">Hapus Debug</button></div></details>
 </div></details>
 <details class="voice-diag-panel"><summary>📝 Test Parser Manual</summary><div class="voice-diag-panel-body"><label class="label" for="voiceParserManualInput">Kalimat bebas (tanpa mikrofon)</label><textarea id="voiceParserManualInput" placeholder="Contoh: Pemain 1 ambil buangan Pemain 2" style="width:100%;min-height:70px;padding:10px;border:1px solid var(--line);border-radius:10px"></textarea><button type="button" class="btn light" style="width:100%;margin-top:6px" onclick="runVoiceParserManualTest()">🔍 Test Teks &amp; Lihat Hasil</button><div id="voiceParserManualResult" class="voice-status show" style="white-space:pre-wrap;margin-top:6px" aria-live="polite">Masukkan transkripsi untuk pengujian.</div></div></details>
 <details class="voice-diag-panel"><summary>✓ Self Diagnostic Parser (Offline)</summary><div class="voice-diag-panel-body"><div class="muted" style="font-size:12px;margin-bottom:8px">Menguji sinonim internal dan aturan parser tanpa mikrofon.</div><button type="button" class="btn light" style="width:100%" onclick="runVoiceParserSelfDiagnostic()">Jalankan Self Diagnostic</button></div></details>
@@ -829,7 +830,7 @@ const pats=[
 ]
 const guideDetails={"Set Mulia":["Memiliki set triplet/quad dari angin sesuai tempat duduk.","east east east char2 char3 char4 dot2 dot3 dot4 bam2 bam3 bam4 red"],"Petapa":["Menang dengan sepenuhnya tertutup / sepenuhnya terbuka. Contoh berikut menunjukkan satu tangan 13 tile.","char1 char2 char3 char4 char5 char6 dot2 dot3 dot4 bam4 bam5 bam6 east"],"Tengah Murni":["Set yang dipakai untuk menang hanya kartu 2–8, tanpa royal.","char2 char3 char4 char5 char6 char7 dot3 dot4 dot5 bam4 bam5 bam6 dot8"],"Urutan Murni (Pinhu)":["Semua set pada tangan hanya set urutan saja, tanpa kartu mulia.","char1 char2 char3 char4 char5 char6 dot2 dot3 dot4 bam5 bam6 bam7 dot8"],"Urutan Berantai":["Memiliki 2 set urutan dengan logo yang sama; angka paling akhir dari satu set menjadi angka paling awal set lainnya.","char1 char2 char3 char3 char4 char5 dot2 dot3 dot4 bam5 bam6 bam7 east"],"Ujung Separuh":["Semua set dan pair yang dibuat harus mengandung 1, 9, dan royal; salah satu set harus set urutan.","char1 char2 char3 char9 char9 char9 dot1 dot1 dot1 bam9 bam9 bam9 east"],"Triplet Murni":["Set yang dipakai untuk menang berbentuk triplet atau quad saja.","dot1 dot1 dot1 red red red east east east char5 char5 char5 green"],"Lima Serangkai":["Memiliki kartu yang mengandung semua kelompok kartu: bambu, bulat, karakter, naga, dan angin.","bam1 bam1 bam1 char1 char1 char1 dot1 dot1 dot1 red red east east"],"Serupa Separuh":["Menggunakan hanya 1 logo/suit dan kartu royal saja.","dot1 dot2 dot3 dot4 dot5 dot6 dot7 dot8 dot9 red red red east"],"Urutan Mirip":["Memiliki 3 set urutan dengan angka yang sama di semua logo/suit.","char1 char2 char3 dot1 dot2 dot3 bam1 bam2 bam3 east east east red"],"Urutan Lengkap Murni":["Memiliki set 123, 456, 789 pada logo/suit yang sama.","char1 char2 char3 char4 char5 char6 char7 char8 char9 east east east red"],"Komodo (Naga Kecil)":["Memiliki 2 triplet/quad naga dan 1 pair naga.","red red red green green green white white char1 char2 char3 dot1 dot1"],"Ujung Murni":["Semua set yang dipakai untuk menang mengandung terminal.","char1 char1 char1 char9 char9 char9 dot1 dot1 dot1 bam9 bam9 bam9 east"],"Tujuh Keajaiban":["Tujuh pasang berbeda; contoh 13 tile menunjukkan enam pasang dan satu tile menunggu pasangannya. Tidak boleh ada quad.","red red green green char1 char1 char9 char9 dot1 dot1 bam1 bam1 east"],"Serupa Murni (Satu Warna)":["Kartu yang dipakai untuk menang hanya terdiri dari 1 logo/suit.","dot1 dot2 dot3 dot3 dot4 dot5 dot5 dot6 dot7 dot7 dot8 dot9 dot9"],"Nantaboga (3 Naga Besar)":["Kombinasi tiga Naga Besar. Contoh 13 tile menunjukkan tiga triplet Naga dan set/pair pelengkap.","red red red green green green white white white char1 char2 char3 east"],"Topan (4 Angin Besar/Kecil)":["Kombinasi empat Angin Besar/Kecil. Contoh 13 tile menunjukkan pola empat kelompok Angin yang sedang dibentuk.","east east east south south south west west west north north north red"],"Royal Murni":["Kombinasi murni kartu royal: hanya Angin dan Naga.","east east east south south south west west west red red red north"],"Terminal Murni":["Hanya menggunakan kartu terminal (1 dan 9) sesuai aturan.","char1 char1 char1 char9 char9 char9 dot1 dot1 dot1 bam9 bam9 bam9 dot9"],"Quad Murni (4 Quad)":["Memiliki 4 Quad/Kong. Contoh 13 tile menunjukkan susunan menuju empat Kong; tile tambahan Kong dicatat melalui sistem Quad.","dot1 dot1 dot1 dot1 red red red red east east east east char9"],"13 Rakyat":["Kombinasi 13 tile unik: 1 dan 9 dari semua suit, tiga Naga, dan empat Angin.","char1 char9 dot1 dot9 bam1 bam9 east south west north red green white"],"7 Tangga Surga":["Tujuh kembar berurutan dengan logo/suit yang sama. Contoh 13 tile menunjukkan enam pasang dan satu tile menunggu pasangannya.","char1 char1 char2 char2 char3 char3 char4 char4 char5 char5 char6 char6 char7"]};
 const $=x=>document.getElementById(x),fmt=n=>new Intl.NumberFormat("id-ID",{maximumFractionDigits:2}).format(n);
-// v15.6.74: use the browser's real Storage API; never call undefined window helpers.
+// v15.6.75: use the browser's real Storage API; never call undefined window helpers.
 // Keep the original game key for backward compatibility with existing saved games.
 let mahjongStorageAvailable=true;
 let mahjongStorageLoadError=false;
@@ -910,7 +911,7 @@ let diagnosticVoiceRecognition=null,diagnosticVoiceListening=false,voiceDiagnost
 let voiceSessionId=0,voiceWatchdog=null;
 let voicePermissionStreams=new Set(); // Own and release microphone preflight tracks, including late iOS grants.
 let voiceRecordStopCount=0;
-// v15.6.74 — Cross-platform one-button voice hardening for Safari/WebKit and Android/Chrome.
+// v15.6.75 — Cross-platform one-button voice hardening for Safari/WebKit and Android/Chrome.
 function getVoiceRecognitionLang(){
  const appLang=String(document.documentElement.lang||"id").trim().toLowerCase().replace("_","-");
  if(appLang==="zh"||appLang.startsWith("zh-"))return "zh-CN";
@@ -931,7 +932,7 @@ function clearVoiceLiveDebug(){try{localStorage.removeItem(VOICE_LIVE_DEBUG_KEY)
 async function copyVoiceLiveDebug(){renderVoiceLiveDebug();const el=$('voiceLiveDebugOutput');try{await navigator.clipboard.writeText(el?.value||'')}catch(e){el?.focus();el?.select()}}
 function voiceDebugParsed(p){return p?{method:p.method||null,winner:p.winner===null?null:s.names[p.winner],discarder:p.discarder===null?null:s.names[p.discarder],quads:p.quads,patterns:p.patterns}:null}
 function voiceStatus(msg,isError=false){const e=$("voiceStatus");if(!e)return;e.textContent=msg||"";e.classList.toggle("show",!!msg);e.style.color=isError?"#b3261e":""}
-// v15.6.74 — Merge only explicitly spoken fields into the current hand.
+// v15.6.75 — Merge only explicitly spoken fields into the current hand.
 // An utterance can repeat the entire hand, add a Quad, or correct the winner/payer.
 function applyVoiceScore(r){
  const oldWinner=winner,oldMethod=method,oldDiscarder=discarder;
@@ -1021,7 +1022,7 @@ function voiceResultSignature(p){
  if(!p.method&&!hasQuad&&!hasPattern)return null;
  return JSON.stringify({method:p.method||null,winner:p.method?p.winner:null,discarder:p.method==='hu'?p.discarder:null,quads:p.quads||[null,null,null,null],patterns:p.patterns||[null,null,null,null]});
 }
-// v15.6.74: accept typed Gemini commands without reparsing model-generated prose.
+// v15.6.75: accept typed Gemini commands without reparsing model-generated prose.
 function voiceMergeCommands(commands){
  if(!Array.isArray(commands)||!commands.length)return null;
  const merged={raw:'Gemini structured',method:null,winner:null,discarder:null,quads:[null,null,null,null],patterns:[null,null,null,null]};
@@ -1050,7 +1051,7 @@ function voiceVerifiedLocal(raw){
  const local=voiceParseMulti(raw),safe=local.parsed;
  return {local,safe,has:!!voiceResultSignature(safe)};
 }
-// v15.6.74 — Gemini interpretation is opt-in and never writes scores directly.
+// v15.6.75 — Gemini interpretation is opt-in and never writes scores directly.
 const VOICE_AI_FEEDBACK_KEY='mahjong_voice_ai_feedback_v1';
 function voiceAiFeedbackSave(alternatives,phrase){
  try{const a=JSON.parse(mahjongStorageRead(VOICE_AI_FEEDBACK_KEY)||'[]');a.push({alternatives:alternatives.map(x=>String(x.transcript||'').slice(0,180)),accepted:phrase.slice(0,180),at:new Date().toISOString()});mahjongStorageWrite(VOICE_AI_FEEDBACK_KEY,JSON.stringify(a.slice(-30)))}catch(e){}
@@ -1071,23 +1072,27 @@ async function voiceGeminiFallback(alternatives,sid){
   const {local,safe,has}=voiceVerifiedLocal(source);
   // Validate each AI command against a player-anchored source segment.
   const segments=voiceCommandSegments(source);
-  const grounded=(c)=>{
-   if(!c||typeof c!=='object')return false;
-   const owner=voiceNormalize(c.player);
-   return segments.some(seg=>{
-    const prefix=voiceNormalize(seg).split(' ')[0];
-    if(prefix!==owner)return false;
-    const part=parseVoiceScore(seg),i=s.names.findIndex(n=>voiceNormalize(n)===owner);
-    if(i<0)return false;
-    if(c.type==='quad')return part.quads[i]===c.count;
-    if(c.type==='combination')return part.patterns[i]===pats.findIndex(p=>voiceNormalize(p[0])===voiceNormalize(c.name));
-    if(c.type==='hu'||c.type==='zimo')return part.method===c.type&&part.winner===i&&(c.type==='zimo'||part.discarder===s.names.findIndex(n=>voiceNormalize(n)===voiceNormalize(c.discarder)));
-    return false;
-   });
+  // Each Gemini command must be independently supported by the player's own segment.
+  // Speech repair is scoped to known player/action context, never a global "ibu" = HU rule.
+  const groundingDecision=(c)=>{
+   if(!c||typeof c!=='object'||typeof c.player!=='string')return {ok:false,reason:'Invalid command'};
+   const owner=voiceNormalize(c.player),i=s.names.findIndex(n=>voiceNormalize(n)===owner);
+   if(i<0)return {ok:false,reason:'Player not in current game'};
+   const owned=segments.filter(seg=>voiceNormalize(seg).startsWith(owner+' '));
+   if(!owned.length)return {ok:false,reason:'No exact player-anchored segment'};
+   for(const seg of owned){
+    const part=parseVoiceScore(seg);
+    if(c.type==='quad'&&part.quads[i]===c.count)return {ok:true};
+    if(c.type==='combination'&&part.patterns[i]===pats.findIndex(p=>voiceNormalize(p[0])===voiceNormalize(c.name)))return {ok:true};
+    if((c.type==='hu'||c.type==='zimo')&&part.method===c.type&&part.winner===i&&
+      (c.type==='zimo'||part.discarder===s.names.findIndex(n=>voiceNormalize(n)===voiceNormalize(c.discarder))))return {ok:true};
+   }
+   return {ok:false,reason:'Action or participant not supported by player segment'};
   };
-  const accepted=commands.filter(grounded);
-  const rejected=commands.length-accepted.length;
-  voiceLiveDebugWrite('Grounding',{accepted,rejected:commands.filter(c=>!grounded(c)),source});
+  const decisions=commands.map(command=>({command,...groundingDecision(command)}));
+  const accepted=decisions.filter(x=>x.ok).map(x=>x.command);
+  const rejected=decisions.length-accepted.length;
+  voiceLiveDebugWrite('Grounding',{accepted,rejected:decisions.filter(x=>!x.ok).map(x=>({command:x.command,reason:x.reason})),segments,source});
   const verified=voiceMergeCommands(accepted);
   // Merge independently verified local results without transferring ownership.
   const chosen=verified|| (has?safe:null);
@@ -1106,7 +1111,7 @@ async function voiceGeminiFallback(alternatives,sid){
  }catch(e){if(sid===voiceSessionId){const v=voiceVerifiedLocal(alternatives[0]?.transcript||'');if(v.has){applyVoiceScore(v.safe);voiceStatus('⚠ Gemini gagal; bagian Voice yang pasti diterapkan. Periksa preview.',true)}else voiceStatus('Gemini gagal atau belum di-deploy. Tidak ada perubahan; gunakan input manual.',true)}}
 }
 function voiceSelectSafeAlternative(alternatives){const valid=alternatives.map((a,i)=>({index:i,parsed:voiceParseMulti(a.transcript).parsed,transcript:a.transcript})).filter(x=>voiceResultSignature(x.parsed)&&voiceParseMulti(x.transcript).uncertain.length===0);if(!valid.length)return {status:'none',valid:[]};const signatures=new Set(valid.map(x=>voiceResultSignature(x.parsed)));if(signatures.size>1)return {status:'ambiguous',valid};return {status:'ok',selected:valid[0],valid}}
-// v15.6.74 — Opt-in diagnostic telemetry. Database policies independently enforce admin-only access.
+// v15.6.75 — Opt-in diagnostic telemetry. Database policies independently enforce admin-only access.
 const VOICE_DIAG_QUEUE_KEY='mahjong_voice_diag_queue_v1',VOICE_DIAG_CONSENT_KEY='mahjong_voice_diag_consent_v1';
 let voiceDiagSending=false;
 function voiceDiagConsent(){return mahjongStorageRead(VOICE_DIAG_CONSENT_KEY)==='yes'}
@@ -1134,7 +1139,7 @@ async function flushVoiceDiagnosticQueue(){
  }}finally{voiceDiagSending=false}
 }
 window.addEventListener('online',()=>flushVoiceDiagnosticQueue());
-function renderVoiceDiagnostic(){const out=$('voiceDiagnosticOutput');if(!out)return;let t=`VOICE DIAGNOSTIC Mahjong Score v15.6.74\nLanguage: ${getVoiceRecognitionLang()}\nUser Agent: ${navigator.userAgent}\n\n`;voiceDiagnosticRuns.forEach((r,i)=>{t+=`${i+1}. [${r.category}] Expected: ${r.expected||'-'} | Result: ${r.status||'INFO'}\n   Raw: "${r.raw}"\n`;r.alts.forEach((a,j)=>t+=`   Alt ${j+1}: "${a.text}"${a.confidence==null?'':` (confidence ${a.confidence})`} | Parser: ${a.parsed?`${a.parsed.method||'-'} / winner=${a.parsed.winner} / discarder=${a.parsed.discarder}`:'-'} | ${a.status||'INFO'} (${a.reason||''})\n`);t+='\n'});out.value=t}
+function renderVoiceDiagnostic(){const out=$('voiceDiagnosticOutput');if(!out)return;let t=`VOICE DIAGNOSTIC Mahjong Score v15.6.75\nLanguage: ${getVoiceRecognitionLang()}\nUser Agent: ${navigator.userAgent}\n\n`;voiceDiagnosticRuns.forEach((r,i)=>{t+=`${i+1}. [${r.category}] Expected: ${r.expected||'-'} | Result: ${r.status||'INFO'}\n   Raw: "${r.raw}"\n`;r.alts.forEach((a,j)=>t+=`   Alt ${j+1}: "${a.text}"${a.confidence==null?'':` (confidence ${a.confidence})`} | Parser: ${a.parsed?`${a.parsed.method||'-'} / winner=${a.parsed.winner} / discarder=${a.parsed.discarder}`:'-'} | ${a.status||'INFO'} (${a.reason||''})\n`);t+='\n'});out.value=t}
 function runVoiceParserManualTest(){
  if(!mahjongIsAdmin)return;
  const raw=$('voiceParserManualInput')?.value?.trim()||'';
@@ -1158,7 +1163,7 @@ function runVoiceParserSelfDiagnostic(){
  for(const c of altCases){const r=voiceSelectSafeAlternative(c.alts),ok=r.status===c.status&&(!c.method||r.selected?.parsed.method===c.method);(ok?pass++:fail++);lines.push(`${ok?'PASS':'FAIL'} Alternative selection ${c.alts.map(a=>a.transcript).join(' / ')} => ${r.status}`)}
  const unchanged=winner===originalWinner&&method===originalMethod&&discarder===originalDiscarder&&s.history.length===originalHistory&&s.names.every((n,i)=>n===originalNames[i]);(unchanged?pass++:fail++);lines.push(`${unchanged?'PASS':'FAIL'} State & score history unchanged (no auto-record)`);
  for(const line of selfDiagnosticVoiceStop()){lines.push(line);if(line.startsWith("PASS"))pass++;else fail++;}
- const report=`PARSER SELF DIAGNOSTIC v15.6.74\n${pass} PASS / ${fail} FAIL / ${pass+fail} TOTAL\nLanguage: ${getVoiceRecognitionLang()}\n\n${lines.join('\n')}\n\n`;
+ const report=`PARSER SELF DIAGNOSTIC v15.6.75\n${pass} PASS / ${fail} FAIL / ${pass+fail} TOTAL\nLanguage: ${getVoiceRecognitionLang()}\n\n${lines.join('\n')}\n\n`;
  const output=$('voiceDiagnosticOutput');if(output)output.value=report+(output.value||'');$('voiceDiagnosticStatus').textContent=`Parser: ${pass} PASS, ${fail} FAIL. Tidak menggunakan mikrofon dan tidak mencatat skor.`;
  voiceDiagCloudRecord('parser_self_test',{pass,fail,total:pass+fail,results:lines});
 }
@@ -1218,7 +1223,7 @@ function freshRecognition(){
  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return null;
  quietBeforeVoice();const rec=new SR();rec.lang=getVoiceRecognitionLang();rec.interimResults=false;rec.continuous=false;rec.maxAlternatives=5;return rec;
 }
-// v15.6.74 — Permission preflight on the user's Voice tap. Browser/OS remains authoritative for remembered Allow/Deny.
+// v15.6.75 — Permission preflight on the user's Voice tap. Browser/OS remains authoritative for remembered Allow/Deny.
 async function ensureVoiceMicrophonePermission(statusFn){
  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)return true;
  try{
@@ -1246,7 +1251,7 @@ async function toggleVoiceScore(){
  try{rec.start()}catch(e){releaseRecognition(rec);voiceRecognition=null;voiceStatus('Voice tidak dapat dimulai. Tutup aplikasi lain yang memakai mikrofon lalu coba lagi.',true)}
 }
 
-// v15.6.74 — Voice Game Baru uses the same fresh cross-platform recognition lifecycle; it only fills names.
+// v15.6.75 — Voice Game Baru uses the same fresh cross-platform recognition lifecycle; it only fills names.
 function newGameVoiceStatus(msg,isError=false){const e=$("newGameVoiceStatus");if(!e)return;e.textContent=msg||"";e.classList.toggle("error",!!isError)}
 function cleanVoicePlayerName(v){return String(v||"").trim().replace(/^[,;:\-\s]+|[,;:\-\s]+$/g,"").replace(/\s+/g," ").slice(0,10)}
 function parseNewGameVoiceNames(raw){
@@ -1293,7 +1298,7 @@ function update(){
  $("preview").innerHTML=out
 }
 function record(){if(!mahjongStorageReady())return; 
- // v15.6.74: stop iOS Safari recognition synchronously on the actual tap,
+ // v15.6.75: stop iOS Safari recognition synchronously on the actual tap,
  // BEFORE validation/alert/render; invalidate late recognition callbacks.
  voiceRecordStopCount++;resetVoiceEngines();voiceStatus('');
  let c=calculation();if(c.error)return alert(c.error);
@@ -1524,7 +1529,7 @@ function pdfWrap(ctx,text,x,y,maxWidth,lineHeight,maxLines=5){
 function loadImg(src){return new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=src})}
 async function buildPatternGuidePDF(){
  const W=1240,H=1754,margin=62; const pages=[]; let c,ctx,y;
- const newPage=()=>{c=document.createElement('canvas');c.width=W;c.height=H;ctx=c.getContext('2d');ctx.fillStyle='#f7f3e8';ctx.fillRect(0,0,W,H);ctx.fillStyle='#153d2d';ctx.fillRect(0,0,W,120);ctx.fillStyle='#fff';ctx.font='700 38px system-ui';ctx.fillText('Panduan Kombinasi Poin Mahjong',margin,70);ctx.font='20px system-ui';ctx.fillText('Mahjong Score v15.6.74',margin,101);y=155;pages.push(c)};newPage();
+ const newPage=()=>{c=document.createElement('canvas');c.width=W;c.height=H;ctx=c.getContext('2d');ctx.fillStyle='#f7f3e8';ctx.fillRect(0,0,W,H);ctx.fillStyle='#153d2d';ctx.fillRect(0,0,W,120);ctx.fillStyle='#fff';ctx.font='700 38px system-ui';ctx.fillText('Panduan Kombinasi Poin Mahjong',margin,70);ctx.font='20px system-ui';ctx.fillText('Mahjong Score v15.6.75',margin,101);y=155;pages.push(c)};newPage();
  const tileCache={}; async function tileImg(key){if(!tileCache[key])tileCache[key]=await loadImg(TILE_IMAGES[key]);return tileCache[key]}
  for(let i=0;i<patterns.length;i++){
    const p=patterns[i],d=guideDetails[p[0]]||[p[2],p[3]],keys=String(d[1]||'').trim().split(/\s+/).filter(Boolean);
@@ -1549,7 +1554,7 @@ async function shareRulesGuidePDF(){
 }
 async function buildRulesGuidePDF(){
  const W=1240,H=1754,M=62,pages=[];let c,ctx,y;const cache={};async function img(k){if(!cache[k])cache[k]=await loadImg(TILE_IMAGES[k]);return cache[k]}
- const page=()=>{c=document.createElement('canvas');c.width=W;c.height=H;ctx=c.getContext('2d');ctx.fillStyle='#f7f3e8';ctx.fillRect(0,0,W,H);ctx.fillStyle='#153d2d';ctx.fillRect(0,0,W,120);ctx.fillStyle='#fff';ctx.font='700 38px system-ui';ctx.fillText('Aturan Bermain Mahjong',M,68);ctx.font='20px system-ui';ctx.fillText('Mahjong Score v15.6.74 · Panduan 4 pemain',M,101);y=155;pages.push(c)};
+ const page=()=>{c=document.createElement('canvas');c.width=W;c.height=H;ctx=c.getContext('2d');ctx.fillStyle='#f7f3e8';ctx.fillRect(0,0,W,H);ctx.fillStyle='#153d2d';ctx.fillRect(0,0,W,120);ctx.fillStyle='#fff';ctx.font='700 38px system-ui';ctx.fillText('Aturan Bermain Mahjong',M,68);ctx.font='20px system-ui';ctx.fillText('Mahjong Score v15.6.75 · Panduan 4 pemain',M,101);y=155;pages.push(c)};
  const need=h=>{if(y+h>H-65)page()};const title=t=>{need(55);ctx.fillStyle='#9b7415';ctx.font='700 28px system-ui';ctx.fillText(t,M,y+30);y+=48};const para=t=>{ctx.fillStyle='#333';ctx.font='20px system-ui';y=pdfWrap(ctx,t,M,y,W-2*M,29,8)+10};
  page();title('Cara Bermain Untuk 4 Orang');para('1. Ambil 1 tile dan buang 1 tile sampai ada pemain yang menang.  2. Cara menang adalah membuat 4 set dan 1 pair. Set dapat berupa Chow (urutan), Pong (triplet), atau Kong (quad).');para('Hu berarti menang dari tile buangan pemain lain. Zi Mo berarti tile kemenangan diambil sendiri dari tembok. Chow, Pong, dan Kong mengikuti aturan klaim yang dijelaskan di aplikasi.');
  title('Cara Pembayaran Poin');para('Hu: pemain yang tile-nya dimakan membayar 1 poin kepada pemenang. Zi Mo: pembayaran dihitung oleh program dan dibayar pemain lain. Poin kombinasi diberikan kepada setiap pemain sesuai kombinasi yang berhasil dikumpulkan.');

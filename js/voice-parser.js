@@ -80,7 +80,7 @@ function voicePatternsByPlayer(text){
 // v15.6.72: normalize *only* known speech drift in the context of active names/actions.
 function voiceRepairTranscript(raw){
  let text=voiceNormalize(raw);
- text=text.replace(/\b(gang|kang|kong|quad|kuad|kuat)(satu|dua|tiga|empat|nol|[0-4])\b/g,'$1 $2')
+ text=text.replace(/\b(gang|kang|kong|quad|kuad|kuat|quot)(satu|dua|tiga|empat|nol|[0-4])\b/g,'$1 $2')
           .replace(/\bsat mulia\b/g,'set mulia');
  for(let i=0;i<4;i++){
   const name=voiceNormalize(s.names[i]);if(!name||name.length<3)continue;
@@ -92,6 +92,8 @@ function voiceRepairTranscript(raw){
  if(s.names.some(n=>voiceNormalize(n)==='yenny')){
   text=text.replace(/\b(?:hudari|hu dari)yeni\b/g,'hu dari yenny');
   text=text.replace(/\b(dari) yeni\b/g,'$1 yenny');
+  // Only repair 'ibu' when preceded by an exact active player and followed by 'dari Yenny'.
+  for(const n of s.names){const a=voiceNormalize(n);if(a&&text.includes(a+' ibu dari yenny'))text=text.replaceAll(a+' ibu dari yenny',a+' hu dari yenny')}
  }
  return text;
 }
@@ -166,7 +168,7 @@ function parseVoiceScore(raw){
  // v15.6.54 — Quad/Gang voice parser. Each spoken player can carry an independent 0–4 value.
  // Accept common Safari/Android spellings: quad/kuad/quat and gang/kang/kong.
  let qs=[null,null,null,null];
- const quadWord='(?:quad|kuad|quat|kwad|kwat|guad|kuat|gang|kang|kong|gong|cong|kan)',quadNum='(?:nol|zero|satu|one|dua|two|tiga|three|empat|four|ling|yi|er|liang|san|si|[0-4])';
+ const quadWord='(?:quad|kuad|quat|quot|kwad|kwat|guad|kuat|gang|kang|kong|gong|cong|kan)',quadNum='(?:nol|zero|satu|one|dua|two|tiga|three|empat|four|ling|yi|er|liang|san|si|[0-4])';
  const qHits=voicePlayerHits(text);
  for(const h of qHits){
    const after=text.slice(h.pos+h.len),before=text.slice(0,h.pos);

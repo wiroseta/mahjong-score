@@ -1,3 +1,10 @@
+## v15.6.75 — Contextual Voice Grounding and Debug Placement
+- Voice Debug moved immediately below Mulai Test Voice / Hapus Hasil; dark, legible header.
+- Context-scoped Safari HU repair: `<active player> ibu dari Yeni/Yenny` only when Yenny is an active player.
+- Context-scoped Quad phonetic `quot` and anchored per-player validation.
+- Grounding diagnostics include rejection reasons and segments.
+- No SQL or Edge Function changes.
+
 ## v15.6.74 — Voice Debug & Contextual HU
 
 - Administrator Voice Diagnostic now includes a collapsible read-only **Voice Debug · Voice permainan** panel.
