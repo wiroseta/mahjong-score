@@ -1,4 +1,4 @@
-## v15.6.64 — Setup
+## v15.6.65 — Setup
 Deploy ulang dua Edge Functions: `mahjong-user-admin` dan `mahjong-voice-interpret`. Login sebagai Administrator, buka User Management → Pengaturan masing-masing akun → aktifkan Gemini Voice → Simpan. Default OFF. Pengiriman teks transkripsi/nama pemain/daftar kombinasi ke Gemini otomatis saat parser lokal gagal; audio tidak dikirim. Tidak ada perubahan SQL. Refresh/login ulang perangkat setelah perubahan jika perlu.
 
 ## v15.6.63 — Gemini Voice fallback setup

@@ -1,4 +1,9 @@
-## v15.6.64 — Per-user Settings & Automatic Gemini Voice
+## v15.6.65 — User Settings Modal & Icon Fix
+- Fixed user settings dialog being nested inside the hidden Settings overlay, preventing it from appearing when the per-user button was tapped. Dialog is now a top-level overlay.
+- Replaced “⚙ Pengaturan” with a larger accessible gear icon button.
+- No database or Edge Function changes from v15.6.64.
+
+## v15.6.65 — Per-user Settings & Automatic Gemini Voice
 - User Management: satu tombol Pengaturan per akun; dialog tersendiri untuk username, PIN, role, status, hapus, izin Gemini, Voice, feedback lokal, dan cloud diagnostic.
 - Gemini fallback berjalan tanpa dua dialog konfirmasi setelah Administrator mengaktifkan izin akun. Server Edge Function memverifikasi izin dari app_metadata. Default Gemini OFF sampai admin mengaktifkan.
 - Feedback lokal disimpan otomatis hanya jika diizinkan; tidak mengunggah feedback ke cloud. Skor tetap memerlukan Catat Hasil Tangan.
