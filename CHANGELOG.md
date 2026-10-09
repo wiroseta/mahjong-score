@@ -1,3 +1,10 @@
+## v15.6.82 — Gemini fleksibel, hanya dua engine admin
+- Administrator memilih Safari bertahap atau Gemini fleksibel; mode Gemini lama dimigrasikan pada pembacaan.
+- Gemini menerima ucapan lengkap maupun beberapa ucapan; hasil ditambahkan ke preview tanpa mencatat skor.
+- Stage hint membantu interpretasi nama + angka sebagai Quad hanya pada konteks Quad.
+- Edge Function tetap memverifikasi izin admin dan validasi pemain.
+- Memerlukan deploy ulang mahjong-user-admin dan mahjong-voice-interpret.
+
 # v15.6.81 — Administrator-Assigned Voice Modes (9 Oktober 2026)
 
 - Administrator menetapkan satu dari tiga mode Voice per akun: Safari 3 tahap, Gemini 3 tahap, Gemini sekaligus.

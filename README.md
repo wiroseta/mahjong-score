@@ -1,6 +1,6 @@
 ## Voice v15.6.81
 
-Administrator memilih Voice Mode pada Pengaturan Pengguna: Safari 3 tahap, Gemini 3 tahap, atau Gemini Sekaligus. Deploy ulang `mahjong-user-admin` dan `mahjong-voice-interpret` dari folder `supabase/functions`. Tidak ada SQL baru. Pengguna lama default Safari 3 tahap sampai Administrator menyimpan mode baru. Pengujian browser nyata tetap diperlukan.
+Administrator memilih Voice Engine: Safari 3 tahap atau Gemini fleksibel (1–3 ucapan tanpa pemilihan mode). Deploy ulang `mahjong-user-admin` dan `mahjong-voice-interpret` dari folder `supabase/functions`. Tidak ada SQL baru. Pengguna lama default Safari 3 tahap sampai Administrator menyimpan mode baru. Pengujian browser nyata tetap diperlukan.
 
 ## v15.6.78 — Quad Ownership Validation
 
