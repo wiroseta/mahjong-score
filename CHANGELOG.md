@@ -1,4 +1,4 @@
-## v15.6.72 — Structured Multi-Command Voice Architecture
+## v15.6.73 — Structured Multi-Command Voice Architecture
 
 - Parser splits at exact active player names, preventing Quad ownership leakage across commands.
 - Repairs contextual Safari transcription drift: Andikku dari Yeni, Hudariyeni, Gangsatu, Sat Mulia.
