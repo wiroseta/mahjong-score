@@ -1,3 +1,9 @@
+## v15.6.90 — Confirmed Safari Quad corrections + scheduled Gemini proposals
+- Admin Voice Debug: explicit confirmation of latest Safari transcript as Quad for a selected active player and count. Text-only, no scoring action; queued via existing Supabase diagnostic pipeline.
+- Gemini workflow checks daily at 09:00 WIB (02:00 UTC) and supports manual runs; opens PR only for parser changes, never auto-merges.
+- No database schema or Edge Function changes. Requires existing diagnostics insert permissions and GitHub secrets.
+- Manual browser testing and scheduled cloud execution remain to be verified after deployment.
+
 ## v15.6.89 — GitHub Desktop workflow safety correction (packaging revision)
 - Gemini Auto-Fix manual-only; automatic schedule and automatic merge removed.
 - Voice Parser Regression runs for every pull request targeting main; parser-only restriction applies to bot proposals.
