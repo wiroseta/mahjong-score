@@ -1,3 +1,12 @@
+## v15.6.51 — Perbaikan kritis persistensi data (9 Oktober 2026)
+
+- Memperbaiki akar masalah v15.6.50: wrapper penyimpanan memanggil `window.mahjongStorageRead/Write/Remove` yang tidak pernah didefinisikan, sehingga semua akses gagal dan permainan kembali ke awal saat reload.
+- Menggunakan `window.localStorage.getItem/setItem/removeItem` langsung dengan penanganan error; tetap menggunakan kunci `mahjong_table_v3` untuk membaca permainan lama.
+- Menolak pencatatan, Game Baru, Reset, edit nama, Ronde Baru, Undo, koreksi skor, dan penerimaan transfer jika pemeriksaan penyimpanan gagal. Data tidak boleh diam-diam ditimpa ketika gagal dibaca.
+- Memisahkan kegagalan membaca/parse data dari kondisi belum pernah menyimpan; peringatan tampil bila data tidak dapat dibaca.
+- Memperbarui cache service worker untuk mencegah HTML lama bertahan setelah pembaruan.
+- Belum diuji pada Safari iPhone fisik atau Supabase live; verifikasi pada perangkat tetap diperlukan.
+
 ## v15.6.50 — Penyimpanan defensif (9 Oktober 2026)
 
 - Menangani penolakan akses localStorage dan JSON permainan yang rusak agar inisialisasi tidak langsung berhenti.
