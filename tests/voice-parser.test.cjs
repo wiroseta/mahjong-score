@@ -11,6 +11,11 @@ const cases=[
  ['Andi Zi Mo',{method:'zimo',winner:0}],
  ['Ferry Quad satu',{quads:[null,null,1,null]}],
  ['Ari Quad satu',{quads:[null,null,null,1]}],
+ ['Hari kuat satu',{quads:[null,null,null,1]}],
+ ['Hari kong satu',{quads:[null,null,null,1]}],
+ ['Hari cong satu',{quads:[null,null,null,1]}],
+ ['Hari satu',{quads:[null,null,null,null]}],
+ ['Aliong satu',{quads:[null,null,null,null]}],
  ['Andi Set Mulia',{patterns:[0,null,null,null]}],
  ['Andi HU dari Yenny Ferry Quad satu Ari Quad satu Andi Set Mulia',{method:'hu',winner:0,discarder:1,quads:[null,null,1,1],patterns:[0,null,null,null]}],
 ];

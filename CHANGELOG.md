@@ -1,3 +1,10 @@
+## v15.6.89 — Safari Voice Quad recognition
+- Contextual Safari correction: Hari kuat/kong/cong satu -> Ari Quad 1 only if Ari is an active player and Hari is not.
+- Bare Hari satu and Aliong satu remain unrecognized (no speculative Quad ownership).
+- Login, header and About version display synchronized to v15.6.89; service worker cache bumped.
+- Voice one-button flow and prior features preserved.
+- No Supabase SQL or Edge Function changes.
+
 ## v15.6.87 — Workflow Packaging Fix
 - Ensure `.github/workflows/gemini-voice-autofix.yml` and `voice-parser-guard.yml` are included.
 - Preserve required `tests/` and `scripts/`; add upload guidance for hidden `.github` directory.

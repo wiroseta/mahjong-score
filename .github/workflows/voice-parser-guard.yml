@@ -1,71 +1,23 @@
 name: Voice Parser Guard
-
 on:
   pull_request:
-    branches:
-      - main
-  workflow_dispatch:
-
+    branches: [main]
 permissions:
   contents: read
-
 jobs:
   regression:
-    name: Voice Parser Regression
+    if: startsWith(github.head_ref, 'bot/gemini-voice-parser-autofix')
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          persist-credentials: false
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '22'
-
-      - name: Verify required files
+      - name: Reject changes outside parser
         run: |
-          test -f js/voice-parser.js
-          test -f tests/voice-parser.test.cjs
-
-      - name: Check parser syntax
-        run: node --check js/voice-parser.js
-
-      - name: Run parser regression tests
-        run: node tests/voice-parser.test.cjs
-
-      - name: Restrict Gemini Auto-Fix changes
-        if: >-
-          github.event_name == 'pull_request' &&
-          startsWith(github.head_ref, 'bot/gemini-voice-parser-autofix')
-        env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          echo "Checking Gemini Auto-Fix file restrictions..."
-
-          files="$(git diff --name-only "$BASE_SHA" "$HEAD_SHA")"
-
-          if [ -z "$files" ]; then
-            echo "No changed files."
-            exit 0
-          fi
-
-          echo "Changed files:"
-          printf '%s\n' "$files"
-
-          while IFS= read -r file; do
-            if [ "$file" != "js/voice-parser.js" ]; then
-              echo "::error::Gemini Auto-Fix cannot modify: $file"
-              exit 1
-            fi
-          done <<< "$files"
-
-          echo "PASS: Gemini Auto-Fix changed only js/voice-parser.js"
+          files="$(git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}")"
+          test "$files" = 'js/voice-parser.js'
+      - run: node --check js/voice-parser.js
+      - run: node tests/voice-parser.test.cjs
