@@ -77,3 +77,8 @@ v15.6.76 — Voice Debug dipisahkan sebagai panel keempat yang mandiri (setelah 
 - New admin-only Edge Function `mahjong-voice-review` requires deployment and GEMINI_API_KEY.
 - No automatic GitHub code modifications, rule deployment, or PR creation in this release; Gemini analysis provides suggestions only.
 - Text transcripts and technical metadata are transmitted; raw audio is not uploaded. Login UI contains diagnostic notice.
+
+## v15.6.86 — Gemini Voice Parser Auto-Fix infrastructure
+- Added GitHub Actions proposal/PR/auto-merge workflow and parser-only guard; `index.html` unchanged.
+- Added baseline parser regression and verified-correction gate. No confirmed correction means no code changes.
+- Requires one-time GitHub secrets and branch protection configuration; see AUTO_FIX_SETUP.md.
