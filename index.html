@@ -913,6 +913,33 @@ let diagnosticVoiceRecognition=null,diagnosticVoiceListening=false,voiceDiagnost
 let voiceSessionId=0,voiceWatchdog=null;
 let voicePermissionStreams=new Set(); // Own and release microphone preflight tracks, including late iOS grants.
 let voiceRecordStopCount=0;
+// v15.6.88 — Voluntary, human-confirmed Voice correction collection.
+// No microphone audio is stored; unconfirmed ASR/Gemini guesses are never training labels.
+let voiceHandUtterances=[];
+function voiceCaptureHandUtterance(alternatives){
+ const raw=String(alternatives?.[0]?.transcript||'').trim().slice(0,200);
+ if(raw && voiceHandUtterances.length<8)voiceHandUtterances.push(raw);
+}
+function voiceCorrectionAfterRecord(actual,names){
+ const phrases=voiceHandUtterances.splice(0);
+ if(!phrases.length||!voiceDiagConsent())return;
+ const input=phrases.join(' ').slice(0,400);
+ // Compare only fields actually present in the parsed ASR; missing words can
+ // represent a parser failure, so the player must explicitly approve the label.
+ const parsed=voiceParseMulti(input).parsed;
+ const mismatch=parsed.method!==actual.method||parsed.winner!==actual.winner||
+  (actual.method==='hu'&&parsed.discarder!==actual.discarder)||
+  actual.quads.some((n,i)=>parsed.quads[i]!==n && (n>0||parsed.quads[i]!=null))||
+  actual.patterns.some((n,i)=>parsed.patterns[i]!==n && (n!=null||parsed.patterns[i]!=null));
+ if(!mismatch)return;
+ const outcome=`${names[actual.winner]} ${actual.method==='hu'?'HU dari '+names[actual.discarder]:'ZI MO'}; `+
+  actual.quads.map((n,i)=>n?`${names[i]} Quad ${n}`:null).filter(Boolean).join(', ')+
+  (actual.patterns.some(n=>n!=null)?'; kombinasi: '+actual.patterns.map((n,i)=>n==null?null:`${names[i]} ${pats[n]?.[0]||''}`).filter(Boolean).join(', '):'');
+ // This is an explicit opt-in. Scoring has already been recorded independently.
+ if(!confirm(`Bantu perbaiki Voice Parser?\n\nTeks yang dikenali:\n“${input}”\n\nHasil BENAR yang Anda catat:\n${outcome}\n\nApakah ucapan Anda memang dimaksudkan menghasilkan skor tersebut? Pilih OK untuk mengirim contoh koreksi teks (tanpa audio), atau Cancel untuk tidak mengirim.`))return;
+ voiceDiagCloudRecord('voice_debug',{stage:'user_confirmed_correction',confirmed_correction:{confirmed_by_user:true,input,names:[...names],expected:{method:actual.method,winner:actual.winner,discarder:actual.method==='hu'?actual.discarder:null,quads:actual.quads,patterns:actual.patterns}}});
+}
+
 // v15.6.85 — Cross-platform one-button voice hardening for Safari/WebKit and Android/Chrome.
 function getVoiceRecognitionLang(){
  const appLang=String(document.documentElement.lang||"id").trim().toLowerCase().replace("_","-");
@@ -1148,7 +1175,7 @@ function setVoiceDiagnosticCloudConsent(yes){
 }
 function voiceDiagCloudRecord(kind,detail){
  if(!voiceDiagConsent()||!mahjongSession?.user?.id)return;
- const record={id:crypto.randomUUID(),user_id:mahjongSession.user.id,app_version:'15.6.85',language:getVoiceRecognitionLang(),user_agent:navigator.userAgent.slice(0,500),kind,details:detail,created_at:new Date().toISOString()};
+ const record={id:crypto.randomUUID(),user_id:mahjongSession.user.id,app_version:'15.6.88',language:getVoiceRecognitionLang(),user_agent:navigator.userAgent.slice(0,500),kind,details:detail,created_at:new Date().toISOString()};
  const q=voiceDiagQueue();q.push(record);voiceDiagSaveQueue(q);voiceDiagCloudStatus('Laporan diantrikan untuk dikirim.');flushVoiceDiagnosticQueue();
 }
 async function flushVoiceDiagnosticQueue(){
@@ -1162,7 +1189,7 @@ async function flushVoiceDiagnosticQueue(){
  }}finally{voiceDiagSending=false}
 }
 window.addEventListener('online',()=>flushVoiceDiagnosticQueue());
-function renderVoiceDiagnostic(){const out=$('voiceDiagnosticOutput');if(!out)return;let t=`VOICE DIAGNOSTIC Mahjong Score v15.6.85\nLanguage: ${getVoiceRecognitionLang()}\nUser Agent: ${navigator.userAgent}\n\n`;voiceDiagnosticRuns.forEach((r,i)=>{t+=`${i+1}. [${r.category}] Expected: ${r.expected||'-'} | Result: ${r.status||'INFO'}\n   Raw: "${r.raw}"\n`;r.alts.forEach((a,j)=>t+=`   Alt ${j+1}: "${a.text}"${a.confidence==null?'':` (confidence ${a.confidence})`} | Parser: ${a.parsed?`${a.parsed.method||'-'} / winner=${a.parsed.winner} / discarder=${a.parsed.discarder}`:'-'} | ${a.status||'INFO'} (${a.reason||''})\n`);t+='\n'});out.value=t}
+function renderVoiceDiagnostic(){const out=$('voiceDiagnosticOutput');if(!out)return;let t=`VOICE DIAGNOSTIC Mahjong Score v15.6.88\nLanguage: ${getVoiceRecognitionLang()}\nUser Agent: ${navigator.userAgent}\n\n`;voiceDiagnosticRuns.forEach((r,i)=>{t+=`${i+1}. [${r.category}] Expected: ${r.expected||'-'} | Result: ${r.status||'INFO'}\n   Raw: "${r.raw}"\n`;r.alts.forEach((a,j)=>t+=`   Alt ${j+1}: "${a.text}"${a.confidence==null?'':` (confidence ${a.confidence})`} | Parser: ${a.parsed?`${a.parsed.method||'-'} / winner=${a.parsed.winner} / discarder=${a.parsed.discarder}`:'-'} | ${a.status||'INFO'} (${a.reason||''})\n`);t+='\n'});out.value=t}
 function runVoiceParserManualTest(){
  if(!mahjongIsAdmin)return;
  const raw=$('voiceParserManualInput')?.value?.trim()||'';
@@ -1186,7 +1213,7 @@ function runVoiceParserSelfDiagnostic(){
  for(const c of altCases){const r=voiceSelectSafeAlternative(c.alts),ok=r.status===c.status&&(!c.method||r.selected?.parsed.method===c.method);(ok?pass++:fail++);lines.push(`${ok?'PASS':'FAIL'} Alternative selection ${c.alts.map(a=>a.transcript).join(' / ')} => ${r.status}`)}
  const unchanged=winner===originalWinner&&method===originalMethod&&discarder===originalDiscarder&&s.history.length===originalHistory&&s.names.every((n,i)=>n===originalNames[i]);(unchanged?pass++:fail++);lines.push(`${unchanged?'PASS':'FAIL'} State & score history unchanged (no auto-record)`);
  for(const line of selfDiagnosticVoiceStop()){lines.push(line);if(line.startsWith("PASS"))pass++;else fail++;}
- const report=`PARSER SELF DIAGNOSTIC v15.6.85\n${pass} PASS / ${fail} FAIL / ${pass+fail} TOTAL\nLanguage: ${getVoiceRecognitionLang()}\n\n${lines.join('\n')}\n\n`;
+ const report=`PARSER SELF DIAGNOSTIC v15.6.88\n${pass} PASS / ${fail} FAIL / ${pass+fail} TOTAL\nLanguage: ${getVoiceRecognitionLang()}\n\n${lines.join('\n')}\n\n`;
  const output=$('voiceDiagnosticOutput');if(output)output.value=report+(output.value||'');$('voiceDiagnosticStatus').textContent=`Parser: ${pass} PASS, ${fail} FAIL. Tidak menggunakan mikrofon dan tidak mencatat skor.`;
  voiceDiagCloudRecord('parser_self_test',{pass,fail,total:pass+fail,results:lines});
 }
@@ -1324,6 +1351,7 @@ async function toggleVoiceScore(){
  const sid=voiceSessionId,mode=voiceModeCurrent;voiceRecognition=rec;
  rec.onstart=()=>{if(sid!==voiceSessionId)return;voiceListening=true;$('voiceRecordButton')?.classList.add('listening');voiceStatus('🎙️ Sebut HU, Zi Mo, Quad, atau kombinasi dalam urutan apa saja…');clearVoiceWatchdog();voiceWatchdog=setTimeout(()=>{if(sid===voiceSessionId&&voiceListening)try{rec.stop()}catch(e){}},15000)};
  rec.onresult=e=>{if(sid!==voiceSessionId)return;const alternatives=[];for(let ri=e.resultIndex||0;ri<e.results.length;ri++)for(const a of Array.from(e.results[ri]||[]))alternatives.push({transcript:a.transcript});
+  voiceCaptureHandUtterance(alternatives);
   voiceLiveDebugWrite('Safari recognition',{mode,alternatives:alternatives.map(a=>a.transcript)});
   if(mode==='gemini'){void voiceGeminiAssigned(alternatives,sid,'all');return}
   const decision=voiceAutomaticSafari(alternatives);voiceLiveDebugWrite('Safari automatic decision',{reason:decision.reason,result:voiceDebugParsed(decision.result),uncertain:decision.uncertain||[]});
@@ -1438,6 +1466,7 @@ function record(){if(!mahjongStorageReady())return;
  // BEFORE validation/alert/render; invalidate late recognition callbacks.
  voiceRecordStopCount++;resetVoiceEngines();voiceStatus('');
  let c=calculation();if(c.error)return alert(c.error);
+ const confirmedVoiceHand={method,winner,discarder,quads:[...c.quads],patterns:c.playerPatterns.map(p=>p?pats.findIndex(x=>x[0]===p[0]):null)};
  let before=[...s.scores], playerPatterns=c.playerPatterns, ps=playerPatterns.map((x,i)=>x?`${s.names[i]}: ${x[0]}`:null).filter(Boolean);if(+$("extra").value)ps.push("Tambahan manual pemenang");
  let quads=c.quads;quads.forEach((q,i)=>{if(q)ps.push(`${s.names[i]} ${q} Quad`) });
  let dealerBefore=s.dealer, seatWindsBefore=[...s.seatWinds], roundWindBefore=s.roundWind;
@@ -1447,6 +1476,8 @@ function record(){if(!mahjongStorageReady())return;
  s.dealer=winner;
  s.seatWinds=windsForDealer(s.dealer);
  save();winner=null;method=null;discarder=null;document.querySelectorAll("[data-pp]").forEach(e=>e.value="");$("extra").value=0;document.querySelectorAll("[data-q]").forEach(e=>e.value=0);$("huBtn").classList.remove("on");$("ziBtn").classList.remove("on");$("discardArea").style.display="none";if($("patternToggle"))$("patternToggle").open=false;render();showScoreToast();
+ // Collect training labels only after successful score commit, and only with consent.
+ voiceCorrectionAfterRecord(confirmedVoiceHand,namesAtTime);
 }
 let scoreToastTimer=null;
 function showScoreToast(){const t=$("scoreToast");if(!t)return;clearTimeout(scoreToastTimer);t.classList.add("show");scoreToastTimer=setTimeout(()=>t.classList.remove("show"),2800)}
@@ -1542,8 +1573,8 @@ function openPatternGuide(){buildPatternGuide();$("patternGuide").classList.add(
 function closePatternGuide(){$("patternGuide").classList.remove("show")}
 function openHistoryModal(){historyPage=1;history();$("historyModal").classList.add("show")}function closeHistoryModal(){$("historyModal").classList.remove("show")}function openRecapModal(){renderAllPlayers();$("recapModal").classList.add("show")}function closeRecapModal(){$("recapModal").classList.remove("show")}
 function openNew(){for(let i=0;i<4;i++)$("n"+i).value="Pemain "+(i+1);$("start").value=0;newGameVoiceStatus("Ucapkan: “Ferry, Yenny, Ari, Andi” (東・南・西・北), atau sebutkan nomor pemain.");$("new").classList.add("show")}function closeNew(){try{stopNewGameVoice()}catch(e){console.warn("Voice cleanup:",e)}finally{$("new").classList.remove("show")}}
-function newGame(){if(!mahjongStorageReady())return; let st=parseFloat($("start").value)||0;s={names:[0,1,2,3].map(i=>($("n"+i).value.trim().slice(0,10)||"Pemain "+(i+1))),scores:[st,st,st,st],dealer:0,round:1,roundWind:0,initialEast:0,history:[],seatWinds:[0,3,2,1],seatDirection:"counterclockwise-v2"};winner=null;method=null;discarder=null;save();closeNew();render()}
-function resetCurrentGame(){if(!mahjongStorageReady())return; if(!confirm("Reset permainan? Nama pemain tetap, tetapi skor, ronde, tangan, riwayat, Quad dan kombinasi poin permainan aktif akan kembali ke awal."))return;const names=s.names.slice(0,4);s={names,scores:[0,0,0,0],dealer:0,round:1,roundWind:0,initialEast:0,history:[],seatWinds:[0,3,2,1],seatDirection:"counterclockwise-v2"};winner=null;method=null;discarder=null;save();render()}
+function newGame(){voiceHandUtterances=[];if(!mahjongStorageReady())return; let st=parseFloat($("start").value)||0;s={names:[0,1,2,3].map(i=>($("n"+i).value.trim().slice(0,10)||"Pemain "+(i+1))),scores:[st,st,st,st],dealer:0,round:1,roundWind:0,initialEast:0,history:[],seatWinds:[0,3,2,1],seatDirection:"counterclockwise-v2"};winner=null;method=null;discarder=null;save();closeNew();render()}
+function resetCurrentGame(){voiceHandUtterances=[];if(!mahjongStorageReady())return; if(!confirm("Reset permainan? Nama pemain tetap, tetapi skor, ronde, tangan, riwayat, Quad dan kombinasi poin permainan aktif akan kembali ke awal."))return;const names=s.names.slice(0,4);s={names,scores:[0,0,0,0],dealer:0,round:1,roundWind:0,initialEast:0,history:[],seatWinds:[0,3,2,1],seatDirection:"counterclockwise-v2"};winner=null;method=null;discarder=null;save();render()}
 function clampQuad(value){return Math.min(4,Math.max(0,parseInt(value,10)||0))}
 function normalizeQuadValue(el){if(!el)return;const raw=String(el.value||"").replace(/\D/g,"");if(raw===""){el.value="";return}const n=parseInt(raw,10)||0;el.value=String(clampQuad(n));if(n>4){const note=document.querySelector(".quad-limit-note");if(note){note.textContent="Maksimum 4 Quad per pemain";note.classList.add("warn");clearTimeout(window.__quadLimitTimer);window.__quadLimitTimer=setTimeout(()=>{note.textContent="0–4 per pemain";note.classList.remove("warn")},1800)}}}
 function selectQuadValue(el){if(!el)return;setTimeout(()=>{try{el.select()}catch(e){}},0)}
@@ -1666,7 +1697,7 @@ function pdfWrap(ctx,text,x,y,maxWidth,lineHeight,maxLines=5){
 function loadImg(src){return new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=src})}
 async function buildPatternGuidePDF(){
  const W=1240,H=1754,margin=62; const pages=[]; let c,ctx,y;
- const newPage=()=>{c=document.createElement('canvas');c.width=W;c.height=H;ctx=c.getContext('2d');ctx.fillStyle='#f7f3e8';ctx.fillRect(0,0,W,H);ctx.fillStyle='#153d2d';ctx.fillRect(0,0,W,120);ctx.fillStyle='#fff';ctx.font='700 38px system-ui';ctx.fillText('Panduan Kombinasi Poin Mahjong',margin,70);ctx.font='20px system-ui';ctx.fillText('Mahjong Score v15.6.85',margin,101);y=155;pages.push(c)};newPage();
+ const newPage=()=>{c=document.createElement('canvas');c.width=W;c.height=H;ctx=c.getContext('2d');ctx.fillStyle='#f7f3e8';ctx.fillRect(0,0,W,H);ctx.fillStyle='#153d2d';ctx.fillRect(0,0,W,120);ctx.fillStyle='#fff';ctx.font='700 38px system-ui';ctx.fillText('Panduan Kombinasi Poin Mahjong',margin,70);ctx.font='20px system-ui';ctx.fillText('Mahjong Score v15.6.88',margin,101);y=155;pages.push(c)};newPage();
  const tileCache={}; async function tileImg(key){if(!tileCache[key])tileCache[key]=await loadImg(TILE_IMAGES[key]);return tileCache[key]}
  for(let i=0;i<patterns.length;i++){
    const p=patterns[i],d=guideDetails[p[0]]||[p[2],p[3]],keys=String(d[1]||'').trim().split(/\s+/).filter(Boolean);
@@ -1691,7 +1722,7 @@ async function shareRulesGuidePDF(){
 }
 async function buildRulesGuidePDF(){
  const W=1240,H=1754,M=62,pages=[];let c,ctx,y;const cache={};async function img(k){if(!cache[k])cache[k]=await loadImg(TILE_IMAGES[k]);return cache[k]}
- const page=()=>{c=document.createElement('canvas');c.width=W;c.height=H;ctx=c.getContext('2d');ctx.fillStyle='#f7f3e8';ctx.fillRect(0,0,W,H);ctx.fillStyle='#153d2d';ctx.fillRect(0,0,W,120);ctx.fillStyle='#fff';ctx.font='700 38px system-ui';ctx.fillText('Aturan Bermain Mahjong',M,68);ctx.font='20px system-ui';ctx.fillText('Mahjong Score v15.6.85 · Panduan 4 pemain',M,101);y=155;pages.push(c)};
+ const page=()=>{c=document.createElement('canvas');c.width=W;c.height=H;ctx=c.getContext('2d');ctx.fillStyle='#f7f3e8';ctx.fillRect(0,0,W,H);ctx.fillStyle='#153d2d';ctx.fillRect(0,0,W,120);ctx.fillStyle='#fff';ctx.font='700 38px system-ui';ctx.fillText('Aturan Bermain Mahjong',M,68);ctx.font='20px system-ui';ctx.fillText('Mahjong Score v15.6.88 · Panduan 4 pemain',M,101);y=155;pages.push(c)};
  const need=h=>{if(y+h>H-65)page()};const title=t=>{need(55);ctx.fillStyle='#9b7415';ctx.font='700 28px system-ui';ctx.fillText(t,M,y+30);y+=48};const para=t=>{ctx.fillStyle='#333';ctx.font='20px system-ui';y=pdfWrap(ctx,t,M,y,W-2*M,29,8)+10};
  page();title('Cara Bermain Untuk 4 Orang');para('1. Ambil 1 tile dan buang 1 tile sampai ada pemain yang menang.  2. Cara menang adalah membuat 4 set dan 1 pair. Set dapat berupa Chow (urutan), Pong (triplet), atau Kong (quad).');para('Hu berarti menang dari tile buangan pemain lain. Zi Mo berarti tile kemenangan diambil sendiri dari tembok. Chow, Pong, dan Kong mengikuti aturan klaim yang dijelaskan di aplikasi.');
  title('Cara Pembayaran Poin');para('Hu: pemain yang tile-nya dimakan membayar 1 poin kepada pemenang. Zi Mo: pembayaran dihitung oleh program dan dibayar pemain lain. Poin kombinasi diberikan kepada setiap pemain sesuai kombinasi yang berhasil dikumpulkan.');
