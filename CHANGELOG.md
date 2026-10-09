@@ -1,3 +1,9 @@
+## v15.6.57 — JavaScript Structure Cleanup (2026-10-09)
+- Memindahkan `ai-diagnostic.js` dan `auth-config.js` ke folder `js/` tanpa mengubah kode kedua file.
+- Memperbarui seluruh referensi pemuatan di `index.html` dan daftar cache offline `sw.js`.
+- Memperbarui versi aplikasi, manifest, README, dan cache PWA.
+- Tidak perlu menjalankan SQL atau redeploy Supabase Edge Functions.
+
 ## v15.6.56 — JavaScript Folder Cleanup (2026-10-09)
 - Memindahkan `qrcode-local.js` ke `js/qrcode-local.js` tanpa mengubah isi kode generator QR.
 - Memperbarui semua referensi script di `index.html` dan daftar cache offline di `sw.js`.

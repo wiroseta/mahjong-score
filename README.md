@@ -45,7 +45,7 @@ This build adds admin-only AI Diagnostic in Setting. Remote targets persist in S
 2. Run `supabase_latest.sql` in Supabase SQL Editor once, only if the v15.6.31 schema is already applied. `supabase_scheme_history.sql` is an archive only; DO NOT execute the whole history file. Do not run earlier SQL again if already applied.
 3. Deploy Edge Function `mahjong-ai-diagnostic` with JWT verification enabled.
 4. Set Edge Function secrets `GEMINI_API_KEY` and `OPENAI_API_KEY` in Supabase; optionally `GEMINI_MODEL`, `OPENAI_MODEL`, `MAHJONG_AI_MONTHLY_LIMIT` (default 100). Never put keys in auth-config.js or index.html.
-5. Upload changed website files `index.html`, `ai-diagnostic.js`, `sw.js`, `manifest.webmanifest`, and updated README to GitHub Pages. Retain all other existing files.
+5. Upload changed website files `index.html`, `js/ai-diagnostic.js`, `sw.js`, `manifest.webmanifest`, and updated README to GitHub Pages. Retain all other existing files.
 6. Sign in as Admin, open Setting → AI Diagnostic, run local check, enable one test user, open the app on that user's device, wait up to 60 seconds, then verify reports. Press Analisis AI to test Gemini; temporarily disabling Gemini on the server can test OpenAI fallback.
 
 ## Limitations
@@ -361,7 +361,7 @@ Update: grid Poin Kombinasi sekarang fluid berdasarkan lebar aktual area yang te
 
 
 ## v12.9 — Supabase Production Configuration
-- Project URL dan publishable key Supabase Mahjong Score sudah dipasang di `auth-config.js`.
+- Project URL dan publishable key Supabase Mahjong Score sudah dipasang di `js/auth-config.js`.
 - Login Admin/User v12.8 dipertahankan.
 - Cache PWA dinaikkan ke v12.9.
 - Edge Function yang digunakan: `mahjong-user-admin`.
@@ -602,3 +602,7 @@ Voice parser terpisah di `js/voice-parser.js`; pengujian transkripsi manual ters
 
 ### v15.6.56 — JavaScript Folder Cleanup
 `qrcode-local.js` dipindahkan ke `js/qrcode-local.js`. Semua referensi script dan cache Service Worker diperbarui. File `js/voice-parser.js` tetap. Tidak ada perubahan logika QR atau fitur lainnya.
+
+
+### v15.6.57 — JavaScript Structure Cleanup
+`ai-diagnostic.js` dan `auth-config.js` dipindahkan dari root ke `js/`. Semua referensi di `index.html`, cache `sw.js`, dan dokumentasi diperbarui. Tidak mengubah logika autentikasi, diagnostik AI, ataupun aturan permainan.
