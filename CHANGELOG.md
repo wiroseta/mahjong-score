@@ -1,3 +1,10 @@
+## v15.6.54 — Judul Riwayat dan Rekap Score Konsisten
+
+- Menyamakan judul popup Riwayat Score dan Rekap Score dengan menu utama.
+- Menyamakan judul bagian Riwayat Score dan Rekap Score pada Guest Live Viewer.
+- Tidak mengubah ikon, struktur data, perhitungan skor, atau perilaku tombol.
+- Memperbarui penanda versi dan cache Service Worker.
+
 ## v15.6.53 — Header Menu Alignment & Undo Icon
 
 - Menyamakan tinggi tombol menu header dengan tombol Edit Nama, termasuk pada layar mobile.
