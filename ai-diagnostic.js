@@ -1,7 +1,7 @@
 /* Mahjong AI Diagnostic v15.6.46 — isolated from scoring state. */
 (()=>{'use strict';
 const $=id=>document.getElementById(id), KEY='mahjong_diag_device_id';
-let deviceId=localStorage.getItem(KEY);if(!deviceId){deviceId=crypto.randomUUID();localStorage.setItem(KEY,deviceId)}
+let deviceId=null;try{deviceId=localStorage.getItem(KEY)}catch(e){console.warn('Diagnostic device storage unavailable:',e)}if(!deviceId){deviceId=crypto.randomUUID();try{localStorage.setItem(KEY,deviceId)}catch(e){console.warn('Diagnostic ID cannot be persisted:',e)}}
 let config=null,lastSignature='',lastSend=0,active=false,issues=[],timer=null,errors=[];
 let remoteChannel=null,remoteUserId=null,remoteClient=null,remoteSubscribed=false;
 let lastRequestId=null,requestInFlight=false,requestWaiting=false;

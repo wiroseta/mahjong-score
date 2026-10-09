@@ -1,3 +1,11 @@
+## v15.6.50 — Penyimpanan defensif (9 Oktober 2026)
+
+- Menangani penolakan akses localStorage dan JSON permainan yang rusak agar inisialisasi tidak langsung berhenti.
+- Menampilkan peringatan bila skor tidak dapat disimpan; tidak menimpa data permainan yang tidak dapat dibaca.
+- AI Diagnostic tetap dapat diinisialisasi bila ID perangkat tidak bisa disimpan.
+- Tidak ada perubahan aturan skor, Supabase SQL, atau tata letak normal.
+- Uji sintaks dilakukan; Safari iOS asli dan alur autentikasi cloud belum diverifikasi.
+
 ## v15.6.50 — koreksi struktur CSS (9 Oktober 2026)
 
 - Memperbaiki blok Safari touch reliability yang sebelumnya berada di luar tag `<style>` sehingga terlihat sebagai teks mentah.
