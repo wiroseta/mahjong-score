@@ -1,3 +1,8 @@
+## v15.6.87 — Workflow Packaging Fix
+- Ensure `.github/workflows/gemini-voice-autofix.yml` and `voice-parser-guard.yml` are included.
+- Preserve required `tests/` and `scripts/`; add upload guidance for hidden `.github` directory.
+- No changes to `index.html`, `js/voice-parser.js`, scoring or Supabase.
+
 ## v15.6.83 — Safari stage retry and contextual HU
 - Remove permanent Mulai ulang tahap button; Voice retries the current stage.
 - Stage indicators can be tapped to revisit earlier stages without clearing other fields.
