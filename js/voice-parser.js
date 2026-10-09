@@ -79,12 +79,16 @@ function voicePatternsByPlayer(text){
 }
 function parseVoiceScore(raw){
  const text=voiceNormalize(raw),methodHit=voiceMethodHit(text);let mth=methodHit?.method||null;
- const allHits=voicePlayerHits(text),uniqueHits=[];for(const h of allHits)if(!uniqueHits.some(x=>x.i===h.i))uniqueHits.push(h);
+ const patternByPlayer=voicePatternsByPlayer(text);
+ // A complete player + combination is an independent command, never an inferred HU.
+ const hasPattern=patternByPlayer.some(x=>x!==null);
+ const patternSpans=voicePatternHits(text);
+ const allHits=voicePlayerHits(text).filter(h=>!patternSpans.some(p=>h.pos>=p.pos&&h.pos<p.pos+p.len)),uniqueHits=[];for(const h of allHits)if(!uniqueHits.some(x=>x.i===h.i))uniqueHits.push(h);
  // Prefer the player spoken before HU/ZI MO as winner. If Safari drops the Mahjong keyword, first spoken player remains winner.
  let win=null;if(methodHit){const before=voicePlayerHits(text.slice(0,methodHit.index));if(before.length)win=before[0].i}
  if(win===null&&uniqueHits.length)win=uniqueHits[0].i;
  // Quad-only phrases must never be misread as a change of winner.
- if(!mth&&uniqueHits.length>=2&&!/\b(?:quad|kuad|quat|kwad|kwat|guad|kuat|gang|kang|kong|gong|cong|kan)\b/.test(text))mth='hu';
+ if(!mth&&!hasPattern&&uniqueHits.length>=2&&!/\b(?:quad|kuad|quat|kwad|kwat|guad|kuat|gang|kang|kong|gong|cong|kan)\b/.test(text))mth='hu';
  let disc=null;if(mth==='hu'){
    const cue=text.match(/\b(?:dari|from|buangan|buang|yang\s+buang|yang\s+membuang|pembuang|pemberi|dibuang\s+oleh|discard(?:ed)?\s+by|gave|given\s+by)\b([\s\S]*)/);
    if(cue)disc=voiceFindPlayer(cue[1],win);
@@ -96,7 +100,6 @@ function parseVoiceScore(raw){
  let qs=[null,null,null,null];
  const quadWord='(?:quad|kuad|quat|kwad|kwat|guad|kuat|gang|kang|kong|gong|cong|kan)',quadNum='(?:nol|zero|satu|one|dua|two|tiga|three|empat|four|ling|yi|er|liang|san|si|[0-4])';
  const qHits=voicePlayerHits(text);
- const patternByPlayer=voicePatternsByPlayer(text);
  for(const h of qHits){
    const after=text.slice(h.pos+h.len),before=text.slice(0,h.pos);
    let q=after.match(new RegExp(`^\\s*(?:${quadWord}(?!\\s+murni)\\s*(${quadNum})?|(${quadNum})\\s*${quadWord})\\b`));

@@ -187,3 +187,9 @@ Laporan historis ini merupakan hasil analisis statis, **bukan** file yang diguna
 - `.live-link-detail` (class `live-link-detail`)
 
 **Tindakan dokumentasi:** `CSS_AUDIT.json` dihapus dari ZIP dan seluruh ringkasan serta rincian laporannya diarsipkan di sini. Tidak ada CSS, JavaScript, HTML, atau logika aplikasi yang diubah. Selector yang diduga tidak digunakan tidak dihapus lagi pada perubahan dokumentasi ini.
+
+## v15.6.62 — Voice parser safety (local stage)
+- Prevents the inferred HU rule from overriding an explicitly recognized player combination.
+- Excludes combination text from fuzzy player hit selection and improves conflict status wording.
+- Keeps all score changes under the existing explicit-record workflow.
+- Gemini live voice fallback, audio upload, and adaptive feedback are **not yet enabled**; require separate secure server integration, consent UI, and deployment/testing.
