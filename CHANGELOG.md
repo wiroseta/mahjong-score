@@ -1,3 +1,12 @@
+## v15.6.58 — Voice Diagnostic Improvement & Guest Viewer
+
+- Voice Diagnostic: Test Voice / Test Parser Manual / Self Diagnostic collapsible; Free Test status INFO; target nama dinamis dan tes pemenang/pembuang HU / Zi Mo.
+- Fonetik Zi Mo tetap internal, tidak menjadi target suara utama.
+- Voice Score memilih alternatif Speech Recognition yang lengkap dan konsisten; jika alternatif bertentangan, minta input manual; tidak mencatat skor otomatis.
+- Self Diagnostic mencakup pemeriksaan alternatif, serta sinonim lama.
+- Guest Live Viewer: See More / See Less dengan garis seimbang dan posisi tengah responsif.
+- Update cache PWA dan versi README/manifest. Tidak memerlukan perubahan SQL atau Edge Function.
+
 ## v15.6.57 — JavaScript Structure Cleanup (2026-10-09)
 - Memindahkan `ai-diagnostic.js` dan `auth-config.js` ke folder `js/` tanpa mengubah kode kedua file.
 - Memperbarui seluruh referensi pemuatan di `index.html` dan daftar cache offline `sw.js`.

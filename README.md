@@ -1,3 +1,7 @@
+# Mahjong Score v15.6.58 — Voice Diagnostic Improvement & Guest Viewer
+
+Versi aktif: **v15.6.58**. Voice Diagnostic memiliki Free Test, nama pemain aktif, test HU/Zi Mo terstruktur, Self Diagnostic, dan pemeriksaan alternatif Speech Recognition. Guest Live Viewer menggunakan See More / See Less dengan garis simetris. Seluruh fitur v15.6.57 dipertahankan.
+
 ## v15.6.48 — Fixed Recap Header and Column Labels
 
 - Rekap Semua Pemain: judul, header kolom Pemain / Skor / Hu / Zi Mo / Total dan tombol tutup tetap terlihat ketika daftar digulir.
