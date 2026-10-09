@@ -1,3 +1,10 @@
+## v15.6.83 — Safari stage retry and contextual HU
+- Remove permanent Mulai ulang tahap button; Voice retries the current stage.
+- Stage indicators can be tapped to revisit earlier stages without clearing other fields.
+- Dedicated Safari winner parser for HU/Huda/dari and Zi Mo; uses active player names.
+- Evaluate up to five Safari alternatives; reject ties between conflicting valid interpretations rather than requiring every alternative to match.
+- No SQL or Edge Function changes from v15.6.82.
+
 ## v15.6.82 — Gemini fleksibel, hanya dua engine admin
 - Administrator memilih Safari bertahap atau Gemini fleksibel; mode Gemini lama dimigrasikan pada pembacaan.
 - Gemini menerima ucapan lengkap maupun beberapa ucapan; hasil ditambahkan ke preview tanpa mencatat skor.
