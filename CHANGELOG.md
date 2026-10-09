@@ -26,3 +26,8 @@ v15.6.76 — Voice Debug dipisahkan sebagai panel keempat yang mandiri (setelah 
 - Existing voice score button, manual score confirmation, Gemini permissions, Supabase functions, and all previous features remain in place.
 - No SQL or Edge Function redeployment required for this release.
 - JavaScript syntax and representative parser test cases checked; live Safari/Android microphone tests pending.
+
+## v15.6.79
+- Game Baru Voice accepts four short names in 東/南/西/北 order, with or without separators, and retains numbered names.
+- Edit Nama Pemain now has its own Voice button: “Ari diganti Yenny”; duplicate names require explicit resolution and save validation.
+- Voice recognition shares the existing microphone lifecycle, with no automatic saving.
