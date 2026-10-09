@@ -77,6 +77,41 @@ function voicePatternsByPlayer(text){
  }
  return out
 }
+// v15.6.71: split commands at explicit player names, never borrow an owner from a different clause.
+function voiceCommandSegments(raw){
+ let text=voiceNormalize(raw).replace(/\b(gang|kang|kong|quad|kuad|kuat)(satu|dua|tiga|empat|nol|[0-4])\b/g,'$1 $2');
+ // A glued HU/from/name form is normalized only against actual active player names.
+ for(let i=0;i<4;i++){
+  const name=voiceNormalize(s.names[i]);if(!name||name.length<3)continue;
+  const escaped=name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  text=text.replace(new RegExp('\\b(?:hu|hoo|hue|hudari|hu dari|ku dari)\\s*'+escaped+'\\b','g'),m=> 'hu dari '+name);
+  // Safari often writes Yenny as 'yeni' after a glued 'hudari'. Apply only to this active name.
+  if(name==='yenny')text=text.replace(/\b(?:hudari|hu dari)yeni\b/g,'hu dari yenny');
+ }
+ const mentions=voicePlayerMentions(text).filter(h=>h.alias===voiceNormalize(s.names[h.i])||h.alias.startsWith('pemain '));
+ // Discarder names following "dari" are not new command boundaries.
+ const starts=mentions.filter(h=>!/(?:^|\s)(?:dari|from|oleh)\s*$/.test(text.slice(Math.max(0,h.pos-12),h.pos)));
+ const unique=starts.filter((h,i)=>!starts.some((x,j)=>j!==i&&x.pos===h.pos&&x.len>h.len));
+ if(unique.length<2)return [text];
+ return unique.map((h,i)=>text.slice(h.pos,i+1<unique.length?unique[i+1].pos:text.length).trim()).filter(Boolean);
+}
+function voiceParseMulti(raw){
+ const segments=voiceCommandSegments(raw);
+ if(segments.length===1)return {parsed:parseVoiceScore(raw),segments,uncertain:[]};
+ const result={raw,method:null,winner:null,discarder:null,quads:[null,null,null,null],patterns:[null,null,null,null]};const uncertain=[];
+ for(const segment of segments){
+  const part=parseVoiceScore(segment);const hasQuad=part.quads.some(x=>x!==null),hasPattern=part.patterns.some(x=>x!==null);
+  if(part.method&&part.winner!==null&&(part.method!=='hu'||part.discarder!==null&&part.discarder!==part.winner)){
+   if(result.method&&(result.method!==part.method||result.winner!==part.winner||result.discarder!==part.discarder))uncertain.push(segment);
+   else{result.method=part.method;result.winner=part.winner;result.discarder=part.discarder}
+  }else if(part.method||!hasQuad&&!hasPattern)uncertain.push(segment);
+  for(const key of ['quads','patterns'])for(let i=0;i<4;i++)if(part[key][i]!==null){
+   if(result[key][i]!==null&&result[key][i]!==part[key][i])uncertain.push(segment);
+   else result[key][i]=part[key][i];
+  }
+ }
+ return {parsed:result,segments,uncertain};
+}
 function parseVoiceScore(raw){
  const text=voiceNormalize(raw),methodHit=voiceMethodHit(text);let mth=methodHit?.method||null;
  const patternByPlayer=voicePatternsByPlayer(text);
@@ -107,7 +142,7 @@ function parseVoiceScore(raw){
    if(q){const n=voiceNumber(q[1]||q[2]||'satu');if(n!==null)qs[h.i]=n}
  }
  // Backward-compatible winner shorthand: a lone Quad/Gang phrase applies to winner only when no player-specific value was found.
- if(win!==null&&!qs.some(n=>n!==null)){
+ if(win!==null&&voicePlayerMentions(text).length<=1&&!qs.some(n=>n!==null)){
    const q=text.match(new RegExp(`\\b(${quadNum})\\s*${quadWord}\\b|\\b${quadWord}\\s*(${quadNum})?\\b`));
    if(q){const n=voiceNumber(q[1]||q[2]||'satu');if(n!==null)qs[win]=n}
  }

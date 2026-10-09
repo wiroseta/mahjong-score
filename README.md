@@ -1,3 +1,5 @@
+v15.6.71 — Hybrid Multi-Command Voice: per-player command segmentation, conservative partial preview, Gemini source grounding, no automatic score recording. Test on devices before production.
+
 Mahjong Score v15.6.70 — Multi-command Voice. Deploy updated supabase/functions/mahjong-voice-interpret/index.ts. No SQL changes.
 
 ## v15.6.65 — Setup

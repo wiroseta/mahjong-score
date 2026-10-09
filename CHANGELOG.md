@@ -1,3 +1,5 @@
+v15.6.71 — Hybrid Multi-Command Voice: per-player command segmentation, conservative partial preview, Gemini source grounding, no automatic score recording. Test on devices before production.
+
 ## v15.6.70 — Multi-command Voice
 - Full result signature includes HU/Zi Mo, winner, discarder, all Quad counts and patterns.
 - Gemini returns a list of canonical commands, checked against allowlists server-side.
