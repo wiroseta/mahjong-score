@@ -1,3 +1,9 @@
+## v15.6.80
+- Contextual Safari Huda → HU dari, only with unique active players.
+- Gemini grounding checks all Safari alternatives.
+- Two player + number phrases can appear as provisional Quad values in preview, with uncertainty warning; never auto-record.
+- Preserve v15.6.79 features.
+
 ## v15.6.78 — Quad Ownership Validation
 
 - Parser diagnostik Quad memakai hasil segmen berjangkar pemain, bukan fuzzy hit yang dapat mengalihkan Quad ke Ari.

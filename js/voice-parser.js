@@ -1,4 +1,4 @@
-/* Mahjong Score v15.6.78 — Voice parser module. Depends on live game state s and scoring patterns pats; does not mutate scores. */
+/* Mahjong Score v15.6.80 — Voice parser module. Depends on live game state s and scoring patterns pats; does not mutate scores. */
 function voiceNormalize(t){return String(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9\s]/g," ").replace(/\s+/g," ").trim()}
 function voicePlayerAliases(i){
  const a=[`pemain ${i+1}`,`player ${i+1}`],name=voiceNormalize(s.names[i]);if(name)a.push(name);
@@ -86,6 +86,12 @@ function voiceRepairTranscript(raw){
   const matches=s.names.map(voiceNormalize).filter(n=>n.length>=4&&voiceEditDistance(n,word)<=1);
   return matches.length===1?matches[0]:word;
  });
+ // Recover a near-name only before a bare number, never inside arbitrary text.
+ text=text.replace(/\b([a-z]{3,12})(?=\s+(?:nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])\b)/g,(word)=>{
+  if(s.names.some(n=>voiceNormalize(n)===word))return word;
+  const matches=s.names.map(voiceNormalize).filter(n=>n.length>=3&&voiceEditDistance(n,word)<=1);
+  return matches.length===1?matches[0]:word;
+ });
  // Repair a uniquely identifiable winner spelling only before an explicit HU/discard cue.
  text=text.replace(/\b([a-z]{3,12})(?=\s+(?:(?:hu|hoo|ku|ibu)\s+)?(?:dari|from)\b)/g,(word)=>{
   const matches=s.names.map(voiceNormalize).filter(n=>n.length>=4&&voiceEditDistance(n,word)<=1);
@@ -93,6 +99,10 @@ function voiceRepairTranscript(raw){
  });
  text=text.replace(/\b(gang|kang|kong|quad|kuad|kuat|quot)(satu|dua|tiga|empat|nol|[0-4])\b/g,'$1 $2')
           .replace(/\bsat mulia\b/g,'set mulia');
+ // Safari may join 'HU dari' as 'Huda'. Repair only between an exact active winner and a uniquely identifiable active discarder.
+ for(const n of s.names){const a=voiceNormalize(n);if(!a)continue;const esc=a.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  text=text.replace(new RegExp('(^|\\s)('+esc+')\\s+huda\\s+([a-z]{3,12})(?=\\s|$)','g'),(all,prefix,w,other)=>{const d=voiceResolveActiveName(other==='yeni'&&s.names.some(n=>voiceNormalize(n)==='yenny')?'yenny':other);return d!==null&&voiceNormalize(s.names[d])!==a?prefix+w+' hu dari '+voiceNormalize(s.names[d]):all});
+ }
  for(let i=0;i<4;i++){
   const name=voiceNormalize(s.names[i]);if(!name||name.length<3)continue;
   const esc=name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
@@ -137,6 +147,9 @@ function voiceAnchoredSegment(segment){
  const quad=rest.match(/^(?:quad|kuad|quat|quot|kwad|kwat|guad|kuat|gang|kang|kong|gong|cong|kan)\s+(nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])\b/);
  if(quad)result.quad=voiceNumber(quad[1]);
  const pat=voicePatternHits(rest).find(h=>h.pos===0);if(pat)result.pattern=pat.i;
+ // A bare number is only a candidate; it is never an authoritative Quad action.
+ const bare=rest.match(/^(nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])$/);
+ if(bare)result.bareQuadCandidate=voiceNumber(bare[1]);
  const method=voiceMethodHit(rest);
  if(method?.method==='zimo'){result.method='zimo'}
  if(method?.method==='hu')result.method='hu';
@@ -157,6 +170,10 @@ function voiceResolveActiveName(value){
 }
 function voiceParseMulti(raw){
  const segments=voiceCommandSegments(raw),result={raw,method:null,winner:null,discarder:null,quads:[null,null,null,null],patterns:[null,null,null,null]},uncertain=[];
+ // Two distinct player-number segments in the same utterance are candidates for dropped Quad keywords.
+ // Preserve them as uncertain; do not silently apply scores without a clear Quad cue.
+ const bareCandidates=segments.map(seg=>({seg,part:voiceAnchoredSegment(seg)})).filter(x=>x.part&&x.part.bareQuadCandidate!==undefined&&x.part.bareQuadCandidate!==null);
+ const distinctBare=new Set(bareCandidates.map(x=>x.part.owner));
  for(const segment of segments){
   const part=voiceAnchoredSegment(segment);
   if(!part){uncertain.push(segment);continue}
@@ -167,6 +184,10 @@ function voiceParseMulti(raw){
    else{result.method=part.method;result.winner=i;result.discarder=part.discarder;applied=true}
   }
   if(part.quad!==null){result.quads[i]=part.quad;applied=true}
+  else if(part.bareQuadCandidate!==undefined&&part.bareQuadCandidate!==null&&bareCandidates.length>=2&&distinctBare.size===bareCandidates.length){
+   // Show candidate Quads in preview, but keep an uncertainty warning until the scorekeeper confirms.
+   result.quads[i]=part.bareQuadCandidate;uncertain.push('Quad perlu konfirmasi: '+segment);applied=true;
+  }
   if(part.pattern!==null){result.patterns[i]=part.pattern;applied=true}
   if(!applied&&!uncertain.includes(segment))uncertain.push(segment);
  }
