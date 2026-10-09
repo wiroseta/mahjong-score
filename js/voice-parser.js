@@ -80,6 +80,11 @@ function voicePatternsByPlayer(text){
 // v15.6.72: normalize *only* known speech drift in the context of active names/actions.
 function voiceRepairTranscript(raw){
  let text=voiceNormalize(raw);
+ // Repair a uniquely identifiable winner spelling only before an explicit HU/discard cue.
+ text=text.replace(/\b([a-z]{3,12})(?=\s+(?:(?:hu|hoo|ku|ibu)\s+)?(?:dari|from)\b)/g,(word)=>{
+  const matches=s.names.map(voiceNormalize).filter(n=>n.length>=4&&voiceEditDistance(n,word)<=1);
+  return matches.length===1?matches[0]:word;
+ });
  text=text.replace(/\b(gang|kang|kong|quad|kuad|kuat|quot)(satu|dua|tiga|empat|nol|[0-4])\b/g,'$1 $2')
           .replace(/\bsat mulia\b/g,'set mulia');
  for(let i=0;i<4;i++){
@@ -117,27 +122,51 @@ function voiceCommandSegments(raw){
  for(let i=0;i<starts.length;i++)result.push(text.slice(starts[i].pos,starts[i+1]?.pos??text.length).trim());
  return result.filter(Boolean);
 }
+// Interpret only commands explicitly anchored to a current player, never fuzzy player hits.
+function voiceAnchoredSegment(segment){
+ const text=voiceRepairTranscript(segment),owner=s.names.findIndex(n=>text.startsWith(voiceNormalize(n)+' '));
+ if(owner<0)return null;
+ const name=voiceNormalize(s.names[owner]),rest=text.slice(name.length).trim();
+ const result={owner,method:null,discarder:null,quad:null,pattern:null};
+ const quad=rest.match(/^(?:quad|kuad|quat|quot|kwad|kwat|guad|kuat|gang|kang|kong|gong|cong|kan)\s+(nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])\b/);
+ if(quad)result.quad=voiceNumber(quad[1]);
+ const pat=voicePatternHits(rest).find(h=>h.pos===0);if(pat)result.pattern=pat.i;
+ const method=voiceMethodHit(rest);
+ if(method?.method==='zimo'){result.method='zimo'}
+ if(method?.method==='hu')result.method='hu';
+ // Contextual HU is accepted only for a complete 'winner [hu drift] dari discarder'
+ // with two unique active players. Do not globally equate 'dari' or 'ibu' with HU.
+ const hu=rest.match(/^(?:(?:hu|hoo|hue|huu|ku|ibu)\s+)?(?:dari|from)\s+(.+)$/);
+ if(hu){const d=voiceResolveActiveName(hu[1]);if(d!==null&&d!==owner){result.method='hu';result.discarder=d}}
+ if(result.method==='hu'&&result.discarder===null){const d=rest.match(/\b(?:dari|from)\s+(.+)$/);if(d){const i=voiceResolveActiveName(d[1]);if(i!==owner)result.discarder=i}}
+ return result;
+}
+function voiceResolveActiveName(value){
+ const input=voiceNormalize(value).split(' ')[0];if(!input)return null;
+ const exact=s.names.map(voiceNormalize).map((n,i)=>n===input?i:-1).filter(i=>i>=0);
+ if(exact.length===1)return exact[0];
+ // One-character drift is allowed only if exactly one active name matches.
+ const close=s.names.map(voiceNormalize).map((n,i)=>n.length>=4&&input.length>=3&&voiceEditDistance(n,input)<=1?i:-1).filter(i=>i>=0);
+ return close.length===1?close[0]:null;
+}
 function voiceParseMulti(raw){
  const segments=voiceCommandSegments(raw),result={raw,method:null,winner:null,discarder:null,quads:[null,null,null,null],patterns:[null,null,null,null]},uncertain=[];
  for(const segment of segments){
-  const mentions=voicePlayerMentions(segment).filter(h=>h.pos===0&&h.alias===voiceNormalize(s.names[h.i]));
-  const owner=mentions.length===1?mentions[0].i:null;
-  if(owner===null){uncertain.push(segment);continue}
-  const part=parseVoiceScore(segment);
-  // Reject fuzzy winner/quad borrowing. Only explicit leading name may own this segment.
-  const hasQuad=part.quads[owner]!==null,hasPattern=part.patterns[owner]!==null;
+  const part=voiceAnchoredSegment(segment);
+  if(!part){uncertain.push(segment);continue}
+  const i=part.owner;let applied=false;
   if(part.method){
-   if(part.winner!==owner||part.method==='hu'&&(part.discarder===null||part.discarder===owner))uncertain.push(segment);
-   else if(result.method&&(result.method!==part.method||result.winner!==owner||result.discarder!==part.discarder))uncertain.push(segment);
-   else{result.method=part.method;result.winner=owner;result.discarder=part.discarder}
-  }else if(!hasQuad&&!hasPattern)uncertain.push(segment);
-  for(const key of ['quads','patterns'])if(part[key][owner]!==null){
-   if(result[key][owner]!==null&&result[key][owner]!==part[key][owner])uncertain.push(segment);
-   else result[key][owner]=part[key][owner];
+   if(part.method==='hu'&&part.discarder===null)uncertain.push(segment);
+   else if(result.method&&(result.method!==part.method||result.winner!==i||result.discarder!==part.discarder))uncertain.push(segment);
+   else{result.method=part.method;result.winner=i;result.discarder=part.discarder;applied=true}
   }
+  if(part.quad!==null){result.quads[i]=part.quad;applied=true}
+  if(part.pattern!==null){result.patterns[i]=part.pattern;applied=true}
+  if(!applied&&!uncertain.includes(segment))uncertain.push(segment);
  }
  return {parsed:result,segments,uncertain};
 }
+
 function parseVoiceScore(raw){
  const text=voiceNormalize(raw),methodHit=voiceMethodHit(text);let mth=methodHit?.method||null;
  // Contextual Safari correction: short "ku" is HU only in a complete player + ku + dari + other-player phrase.

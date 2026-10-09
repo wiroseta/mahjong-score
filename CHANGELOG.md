@@ -1,3 +1,7 @@
+## v15.6.77 — Contextual Multi-Command Grounding
+- Exact player-anchored HU/Quad/combination recognition, unique active-name matching for Safari drift, safe Gemini/local merge.
+- No SQL or Edge Function changes.
+
 v15.6.76 — Voice Debug dipisahkan sebagai panel keempat yang mandiri (setelah Test Voice), dengan hitungan riwayat 0–5. Tidak ada perubahan parser/AI.
 
 ## v15.6.75 — Contextual Voice Grounding and Debug Placement
