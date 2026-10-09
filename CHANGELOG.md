@@ -1,3 +1,11 @@
+## v15.6.53 — Header Menu Alignment & Undo Icon
+
+- Menyamakan tinggi tombol menu header dengan tombol Edit Nama, termasuk pada layar mobile.
+- Mengganti label menu menjadi Riwayat Score dan Rekap Score; ikon lama tetap.
+- Memperbaiki ikon footer Undo yang sebelumnya terlihat seperti titik hitam: SVG sekarang memakai fill none dan stroke seperti ikon Ronde Baru, dibalik horizontal.
+- Memperbarui penanda versi aplikasi, dokumen, manifest, dan cache Service Worker.
+- Tidak mengubah aturan skor atau penyimpanan.
+
 ## v15.6.52 — Menu Navigation & Undo Icon (9 Oktober 2026)
 
 - Tombol Game Baru dipindahkan dari header ke posisi pertama menu utama; Edit Nama tetap di header.
