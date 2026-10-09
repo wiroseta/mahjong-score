@@ -653,5 +653,12 @@ Voice parser terpisah di `js/voice-parser.js`; pengujian transkripsi manual ters
 ### v15.6.57 — JavaScript Structure Cleanup
 `ai-diagnostic.js` dan `auth-config.js` dipindahkan dari root ke `js/`. Semua referensi di `index.html`, cache `sw.js`, dan dokumentasi diperbarui. Tidak mengubah logika autentikasi, diagnostik AI, ataupun aturan permainan.
 
-### v15.6.84 — Voice otomatis
+### v15.6.85 — Voice otomatis
 Satu tombol Voice untuk HU/Zi Mo, Quad, atau kombinasi dalam urutan apa saja. Administrator memilih engine Safari atau Gemini. Safari memerlukan petunjuk Quad eksplisit jika ucapan nama + angka ambigu. Hasil hanya mengisi preview dan tidak mencatat skor otomatis.
+
+### v15.6.85 — Voice Debug cloud
+1. Deploy files to GitHub Pages.
+2. Execute the active `supabase_latest.sql` once in Supabase SQL Editor (preserves earlier upgrade).
+3. Deploy Edge Function `mahjong-voice-review` and ensure `GEMINI_API_KEY` exists as a Supabase secret (same key used by other Gemini functions).
+4. Test with a scorekeeper account: perform Voice recognition, verify INSERT into `mahjong_voice_diagnostics`; SELECT from that account must return no rows; admin should see the event in Voice Diagnostic cloud reports.
+5. No direct Gemini-to-GitHub patch/PR automation is included yet. Gemini produces diagnostic recommendations only; do not merge code automatically without regression tests and review.

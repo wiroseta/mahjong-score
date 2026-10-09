@@ -63,9 +63,17 @@ v15.6.76 — Voice Debug dipisahkan sebagai panel keempat yang mandiri (setelah 
 - Edit Nama Pemain now has its own Voice button: “Ari diganti Yenny”; duplicate names require explicit resolution and save validation.
 - Voice recognition shares the existing microphone lifecycle, with no automatic saving.
 
-## v15.6.84 — Voice otomatis satu tombol
+## v15.6.85 — Voice otomatis satu tombol
 - Hapus pemilihan tahap, indikator 1/3–3/3, dan tombol Lewati tahap.
 - Safari mengenali HU/Zi Mo, Quad eksplisit, dan kombinasi dari setiap ucapan dalam urutan bebas; memeriksa hingga lima alternatif transkripsi.
 - Gemini menerima perintah campuran maupun perintah terpisah, tanpa petunjuk tahap yang membatasi interpretasi.
 - Hasil Voice melengkapi preview, tidak otomatis mencatat tangan. Quad tanpa kata perintah yang ambigu tidak diterapkan otomatis.
 - Pengaturan engine Safari/Gemini tetap hanya oleh Administrator. Tidak ada perubahan Edge Function/SQL.
+
+## v15.6.85 — Auto-upload Voice Debug for scorekeepers
+- Every authenticated administrator/scorekeeper automatically queues voice-debug text events to Supabase (including offline retry); no scorekeeper diagnostic UI.
+- Admin Voice Diagnostic can view 50 newest cloud reports and request Gemini analysis of the latest report.
+- RLS migration in the single active supabase_latest.sql permits INSERT of own events by scorekeepers; only admins can SELECT.
+- New admin-only Edge Function `mahjong-voice-review` requires deployment and GEMINI_API_KEY.
+- No automatic GitHub code modifications, rule deployment, or PR creation in this release; Gemini analysis provides suggestions only.
+- Text transcripts and technical metadata are transmitted; raw audio is not uploaded. Login UI contains diagnostic notice.
