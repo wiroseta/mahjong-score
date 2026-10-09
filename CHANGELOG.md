@@ -1,3 +1,8 @@
+## v15.6.60 — Login JavaScript Syntax Fix (2026-10-09)
+- Memperbaiki deklarasi const tidak valid di renderGuestLive yang menghentikan eksekusi seluruh blok autentikasi sehingga tombol Login tidak merespons.
+- Memperbarui cache service worker agar deployment mengambil berkas baru.
+- Tidak mengubah konfigurasi Supabase, SQL, Edge Functions, maupun logika dealer/angin.
+
 ## v15.6.59 — Dealer & Wind Synchronization Fix
 
 - Dealer is always Dong (East), including after Hu/Zi Mo and Ronde Baru.
