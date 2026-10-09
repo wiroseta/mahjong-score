@@ -33,6 +33,7 @@ Deno.serve(async (req) => {
       return json({users:data.users.map(u=>({
         id:u.id,email:u.email,username:u.user_metadata?.username || u.email?.split('@')[0] || '',
         role:validRole(u.app_metadata?.role)?u.app_metadata.role:'scorekeeper',
+        geminiVoice:u.app_metadata?.gemini_voice_enabled===true,voiceEnabled:u.app_metadata?.voice_enabled!==false,voiceFeedback:u.app_metadata?.voice_feedback_enabled!==false,cloudDiagnostic:u.app_metadata?.cloud_diagnostic_enabled===true,
         banned:!!u.banned_until && new Date(u.banned_until).getTime()>Date.now()
       }))})
     }
@@ -73,6 +74,13 @@ Deno.serve(async (req) => {
     const {data:{user:target},error:targetError}=await admin.auth.admin.getUserById(userId)
     if(targetError||!target) return json({error:'User tidak ditemukan.'},404)
 
+    if(action==='set-voice-settings'){
+      const flags=['geminiVoice','voiceEnabled','voiceFeedback','cloudDiagnostic'] as const;
+      if(flags.some(k=>typeof body[k]!=='boolean'))return json({error:'Pengaturan harus boolean.'},400)
+      const {error}=await admin.auth.admin.updateUserById(userId,{app_metadata:{...(target.app_metadata||{}),gemini_voice_enabled:body.geminiVoice,voice_enabled:body.voiceEnabled,voice_feedback_enabled:body.voiceFeedback,cloud_diagnostic_enabled:body.cloudDiagnostic}})
+      if(error)throw error
+      return json({ok:true})
+    }
     if(action==='set-username'){
       const username=String(body.username||'').trim()
       if(!username || !/^[A-Za-z0-9._-]+$/.test(username)) return json({error:'Username hanya boleh berisi huruf, angka, titik, garis bawah, atau tanda minus.'},400)

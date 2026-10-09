@@ -1,3 +1,10 @@
+## v15.6.64 — Per-user Settings & Automatic Gemini Voice
+- User Management: satu tombol Pengaturan per akun; dialog tersendiri untuk username, PIN, role, status, hapus, izin Gemini, Voice, feedback lokal, dan cloud diagnostic.
+- Gemini fallback berjalan tanpa dua dialog konfirmasi setelah Administrator mengaktifkan izin akun. Server Edge Function memverifikasi izin dari app_metadata. Default Gemini OFF sampai admin mengaktifkan.
+- Feedback lokal disimpan otomatis hanya jika diizinkan; tidak mengunggah feedback ke cloud. Skor tetap memerlukan Catat Hasil Tangan.
+- Deploy ulang Edge Functions mahjong-user-admin dan mahjong-voice-interpret. Tidak perlu SQL.
+- Belum diuji end-to-end di perangkat atau Supabase live.
+
 v15.6.63 — Gemini Voice Text Fallback (opt-in)
 - On ambiguous/unrecognized speech alternatives, asks consent before sending transcribed text, player names and combination labels to a new authenticated Supabase Edge Function. No audio is uploaded.
 - Gemini returns a constrained canonical command; server allowlist + local parser + explicit user confirmation before changing the form. Never records a hand automatically.

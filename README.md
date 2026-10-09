@@ -1,3 +1,6 @@
+## v15.6.64 — Setup
+Deploy ulang dua Edge Functions: `mahjong-user-admin` dan `mahjong-voice-interpret`. Login sebagai Administrator, buka User Management → Pengaturan masing-masing akun → aktifkan Gemini Voice → Simpan. Default OFF. Pengiriman teks transkripsi/nama pemain/daftar kombinasi ke Gemini otomatis saat parser lokal gagal; audio tidak dikirim. Tidak ada perubahan SQL. Refresh/login ulang perangkat setelah perubahan jika perlu.
+
 ## v15.6.63 — Gemini Voice fallback setup
 Deploy `supabase/functions/mahjong-voice-interpret/index.ts` as the new Supabase Edge Function `mahjong-voice-interpret` with JWT verification enabled. Use the existing `GEMINI_API_KEY` Supabase secret; optionally `GEMINI_MODEL`. The application sends only transcription alternatives and active player/pattern names, after consent, when local Voice parsing is ambiguous or fails. Gemini cannot directly change scores; the user must confirm. No SQL required. The local feedback log is not uploaded or used to train Gemini. Audio fallback and adaptive rule training are NOT implemented in this version.
 

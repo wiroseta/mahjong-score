@@ -11,6 +11,7 @@ Deno.serve(async req=>{
   const client=createClient(url,anon,{global:{headers:{Authorization:auth}}});
   const {data:{user},error}=await client.auth.getUser();
   if(error||!user||!['admin','scorekeeper'].includes(user.app_metadata?.role))return reply({error:'Forbidden'},403);
+  if(user.app_metadata?.gemini_voice_enabled!==true||user.app_metadata?.voice_enabled===false)return reply({error:'Gemini Voice disabled for this user'},403);
   const body=await req.json();
   const strings=(x:unknown,max:number)=>Array.isArray(x)&&x.length<=max&&x.every(v=>typeof v==='string'&&v.length<=180);
   if(!strings(body.alternatives,5)||!body.alternatives.length||!strings(body.players,4)||body.players.length!==4||!strings(body.patterns,100)||body.patterns.length===0)return reply({error:'Invalid input'},400);
