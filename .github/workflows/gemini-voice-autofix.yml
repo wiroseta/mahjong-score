@@ -1,7 +1,5 @@
 name: Gemini Voice Parser Auto-Fix
 on:
-  schedule:
-    - cron: '17 2 * * *'
   workflow_dispatch:
 permissions:
   contents: write
@@ -45,9 +43,3 @@ jobs:
           delete-branch: true
           title: 'fix(voice): Gemini verified parser improvement'
           body: 'Automated parser-only proposal. Baseline tests passed. Review workflow logs for confirmed training cases.'
-      - name: Enable auto-merge (only after branch protection checks)
-        if: steps.pr.outputs.pull-request-number != ''
-        env:
-          GH_TOKEN: ${{ secrets.VOICE_AUTOFIX_GH_TOKEN }}
-          PR_URL: ${{ steps.pr.outputs.pull-request-url }}
-        run: gh pr merge "$PR_URL" --auto --squash
