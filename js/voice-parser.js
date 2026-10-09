@@ -88,7 +88,7 @@ function parseVoiceScore(raw){
  let win=null;if(methodHit){const before=voicePlayerHits(text.slice(0,methodHit.index));if(before.length)win=before[0].i}
  if(win===null&&uniqueHits.length)win=uniqueHits[0].i;
  // Quad-only phrases must never be misread as a change of winner.
- if(!mth&&!hasPattern&&uniqueHits.length>=2&&!/\b(?:quad|kuad|quat|kwad|kwat|guad|kuat|gang|kang|kong|gong|cong|kan)\b/.test(text))mth='hu';
+ // Do not infer HU from two player names: an utterance may contain multiple commands.
  let disc=null;if(mth==='hu'){
    const cue=text.match(/\b(?:dari|from|buangan|buang|yang\s+buang|yang\s+membuang|pembuang|pemberi|dibuang\s+oleh|discard(?:ed)?\s+by|gave|given\s+by)\b([\s\S]*)/);
    if(cue)disc=voiceFindPlayer(cue[1],win);

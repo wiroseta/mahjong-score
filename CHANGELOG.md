@@ -1,3 +1,12 @@
+## v15.6.70 — Multi-command Voice
+- Full result signature includes HU/Zi Mo, winner, discarder, all Quad counts and patterns.
+- Gemini returns a list of canonical commands, checked against allowlists server-side.
+- Frontend merges commands atomically and rejects contradictory results.
+- No HU inference merely from multiple player names.
+- No changes to score recording, user settings, or wheel picker.
+- Deploy mahjong-voice-interpret Edge Function for new Gemini response.
+- Not yet tested live on Safari/Android or Gemini service.
+
 ## v15.6.69 — Compact Quad Wheel & ON/OFF User Switches (2026-10-09)
 - User Detail: all five account/AI/Voice checkboxes display as accessible green ON / gray OFF switches. Original input IDs, values, and saving logic unchanged.
 - Mobile Quad wheel: visible height 72 → 56 px (22.2% shorter), item height stays 24 px, centered track padding 24 → 16 px; preserve scroll snap, keyboard-free behavior, desktop controls, and 0–4 range.

@@ -1,3 +1,5 @@
+Mahjong Score v15.6.70 — Multi-command Voice. Deploy updated supabase/functions/mahjong-voice-interpret/index.ts. No SQL changes.
+
 ## v15.6.65 — Setup
 Deploy ulang dua Edge Functions: `mahjong-user-admin` dan `mahjong-voice-interpret`. Login sebagai Administrator, buka User Management → Pengaturan masing-masing akun → aktifkan Gemini Voice → Simpan. Default OFF. Pengiriman teks transkripsi/nama pemain/daftar kombinasi ke Gemini otomatis saat parser lokal gagal; audio tidak dikirim. Tidak ada perubahan SQL. Refresh/login ulang perangkat setelah perubahan jika perlu.
 
