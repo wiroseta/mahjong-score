@@ -1,3 +1,5 @@
+v15.6.61 — Header Title Alignment: title height matches Hong Zhong tile; version remains original size and appears superscript at upper-right. No functional changes.
+
 ## v15.6.60 — Login JavaScript Syntax Fix (2026-10-09)
 - Memperbaiki deklarasi const tidak valid di renderGuestLive yang menghentikan eksekusi seluruh blok autentikasi sehingga tombol Login tidak merespons.
 - Memperbarui cache service worker agar deployment mengambil berkas baru.

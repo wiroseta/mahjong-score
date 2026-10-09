@@ -1,3 +1,5 @@
+v15.6.61 — Header Title Alignment: title height matches Hong Zhong tile; version remains original size and appears superscript at upper-right. No functional changes.
+
 ## v15.6.59 — Dealer & Wind Synchronization Fix
 
 - Dealer is always Dong (East), including after Hu/Zi Mo and Ronde Baru.
