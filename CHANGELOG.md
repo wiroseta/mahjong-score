@@ -1,10 +1,8 @@
-## v15.6.73 — Structured Multi-Command Voice Architecture
+## v15.6.74 — Voice Debug & Contextual HU
 
-- Parser splits at exact active player names, preventing Quad ownership leakage across commands.
-- Repairs contextual Safari transcription drift: Andikku dari Yeni, Hudariyeni, Gangsatu, Sat Mulia.
-- Validates and previews each independent command; ambiguous HU does not suppress confirmed Quad or combination.
-- Gemini Edge Function returns typed command objects (hu/zimo/quad/combination); frontend validates typed objects without reparsing Gemini prose.
-- Gemini commands are checked against the corresponding original player-anchored speech segment; unsupported actions are not applied.
-- Preserves manual Catat Hasil Tangan, prior settings, scoring, and live sharing.
-- Requires redeploy of mahjong-voice-interpret Edge Function; no SQL changes.
-- Automated parser tests pass for representative inputs; live microphone/Gemini tests pending.
+- Administrator Voice Diagnostic now includes a collapsible read-only **Voice Debug · Voice permainan** panel.
+- Captures Safari/Android speech transcription alternatives, local parser interpretation, local decision, Gemini response/error, and per-command grounding decisions for the most recent five debug events in browser localStorage only. No audio is recorded or uploaded by this debug panel.
+- Adds a context-dependent HU correction for `Andi ku dari Yenny` / `Andi ku dari Yeni`, only when the two distinct active players can be recognized on either side of the phrase. `ku` is not a global HU alias.
+- Existing voice score button, manual score confirmation, Gemini permissions, Supabase functions, and all previous features remain in place.
+- No SQL or Edge Function redeployment required for this release.
+- JavaScript syntax and representative parser test cases checked; live Safari/Android microphone tests pending.

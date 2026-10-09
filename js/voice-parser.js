@@ -138,6 +138,15 @@ function voiceParseMulti(raw){
 }
 function parseVoiceScore(raw){
  const text=voiceNormalize(raw),methodHit=voiceMethodHit(text);let mth=methodHit?.method||null;
+ // Contextual Safari correction: short "ku" is HU only in a complete player + ku + dari + other-player phrase.
+ // Never add "ku" to global HU aliases; ordinary words must not trigger a win.
+ if(!mth){
+  const cue=text.match(/\b(?:ku|hoo|huu|hudari|kudari)\s*(?:dari\s+)?/);
+  if(cue){const before=text.slice(0,cue.index),after=text.slice(cue.index+cue[0].length);
+   const a=voicePlayerHits(before),b=voicePlayerHits(after);
+   if(a.length===1&&b.length===1&&a[0].i!==b[0].i&&(/dari/.test(cue[0])||/^(?:dari|from)\b/.test(after))){mth='hu';}
+  }
+ }
  const patternByPlayer=voicePatternsByPlayer(text);
  // A complete player + combination is an independent command, never an inferred HU.
  const hasPattern=patternByPlayer.some(x=>x!==null);
