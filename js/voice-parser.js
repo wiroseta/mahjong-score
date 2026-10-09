@@ -80,6 +80,12 @@ function voicePatternsByPlayer(text){
 // v15.6.72: normalize *only* known speech drift in the context of active names/actions.
 function voiceRepairTranscript(raw){
  let text=voiceNormalize(raw);
+ // v15.6.89: Safari id-ID often adds an initial H to the active name Ari.
+ // Only repair when Ari is an actual player, Hari is not, and a COMPLETE Quad
+ // keyword + number follows. Never infer a Quad from "Hari satu" alone.
+ if(s.names.some(n=>voiceNormalize(n)==='ari')&&!s.names.some(n=>voiceNormalize(n)==='hari')){
+  text=text.replace(/\bhari(?=\s+(?:quad|kuad|quat|quot|kwad|kwat|guad|kuat|gang|kang|kong|gong|cong|kan)\s+(?:nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])\b)/g,'ari');
+ }
  // Resolve one-character player-name drift only when directly followed by a
  // complete Quad action. Do not fuzzy-match arbitrary words or transfer ownership.
  text=text.replace(/\b([a-z]{3,12})(?=\s+(?:quad|kuad|quat|quot|kwad|kwat|guad|kuat|gang|kang|kong|gong|cong|kan)\s+(?:nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])\b)/g,(word)=>{

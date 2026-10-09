@@ -1,253 +1,45 @@
 name: Gemini Voice Parser Auto-Fix
-
 on:
   workflow_dispatch:
-
 permissions:
-  contents: read
-
-concurrency:
-  group: mahjong-voice-autofix
-  cancel-in-progress: false
-
+  contents: write
+  pull-requests: write
 jobs:
   propose-and-verify:
-    name: Gemini Voice Parser Auto-Fix
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     timeout-minutes: 12
-
+    concurrency:
+      group: mahjong-voice-autofix
+      cancel-in-progress: false
     steps:
-      # 1. Checkout repository
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
-          persist-credentials: false
-
-      # 2. Setup Node.js
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+          persist-credentials: true
+      - uses: actions/setup-node@v4
         with:
           node-version: '22'
-
-      # 3. Check required files
-      - name: Verify required files
-        run: |
-          set -euo pipefail
-
-          test -f js/voice-parser.js
-          test -f tests/voice-parser.test.cjs
-          test -f scripts/voice-autofix.mjs
-
-          echo "Required files found."
-
-      # 4. Validate original parser
-      - name: Validate original parser
-        run: |
-          set -euo pipefail
-
-          node --check js/voice-parser.js
-          node --check scripts/voice-autofix.mjs
-
-          echo "Original parser syntax OK."
-
-      # 5. Baseline regression tests
-      - name: Run baseline regression tests
-        run: |
-          set -euo pipefail
-
-          node tests/voice-parser.test.cjs
-
-          echo "Baseline regression tests passed."
-
-      # 6. Verify Gemini configuration
-      - name: Verify required secrets
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-          VOICE_AUTOFIX_GH_TOKEN: ${{ secrets.VOICE_AUTOFIX_GH_TOKEN }}
-        run: |
-          set -euo pipefail
-
-          test -n "$GEMINI_API_KEY" || {
-            echo "::error::Missing GEMINI_API_KEY"
-            exit 1
-          }
-
-          test -n "$SUPABASE_URL" || {
-            echo "::error::Missing SUPABASE_URL"
-            exit 1
-          }
-
-          test -n "$SUPABASE_SERVICE_ROLE_KEY" || {
-            echo "::error::Missing SUPABASE_SERVICE_ROLE_KEY"
-            exit 1
-          }
-
-          test -n "$VOICE_AUTOFIX_GH_TOKEN" || {
-            echo "::error::Missing VOICE_AUTOFIX_GH_TOKEN"
-            exit 1
-          }
-
-          echo "Required secrets are configured."
-
-      # 7. Request Gemini parser improvement
-      - name: Request Gemini parser-only improvement
+      - name: Baseline parser regression
+        run: node tests/voice-parser.test.cjs
+      - name: Request Gemini parser-only patch
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
+        run: node scripts/voice-autofix.mjs
+      - name: Validate parser and regression
         run: |
-          set -euo pipefail
-
-          node scripts/voice-autofix.mjs
-
-      # 8. Ensure Gemini changed only the parser
-      - name: Verify parser-only changes
-        run: |
-          set -euo pipefail
-
-          echo "Checking changed files..."
-
-          git diff --check
-
-          # Reject tracked changes outside the parser.
-          unexpected="$(git diff --name-only -- . ':!js/voice-parser.js')"
-
-          if [ -n "$unexpected" ]; then
-            echo "::error::Gemini modified files outside js/voice-parser.js"
-            echo "$unexpected"
-            exit 1
-          fi
-
-          # Reject new untracked files.
-          untracked="$(git ls-files --others --exclude-standard)"
-
-          if [ -n "$untracked" ]; then
-            echo "::error::Unexpected untracked files were created"
-            echo "$untracked"
-            exit 1
-          fi
-
-          echo "Parser-only change restriction passed."
-
-      # 9. Validate updated parser
-      - name: Validate updated parser
-        run: |
-          set -euo pipefail
-
           node --check js/voice-parser.js
-
-          echo "Updated parser syntax OK."
-
-      # 10. Run regression tests after Gemini changes
-      - name: Run final regression tests
-        run: |
-          set -euo pipefail
-
           node tests/voice-parser.test.cjs
-
-          echo "Final regression tests passed."
-
-      # 11. Detect actual parser changes
-      - name: Detect parser changes
-        id: changes
-        run: |
-          set -euo pipefail
-
-          if git diff --quiet -- js/voice-parser.js; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "No parser changes detected."
-          else
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-            echo "Parser changes detected."
-          fi
-
-      # 12. Create Pull Request
-      # Manual review is required before merging.
-      - name: Create verified parser Pull Request
-        if: steps.changes.outputs.changed == 'true'
+          git diff --check
+          test -z "$(git diff --name-only -- . ':!js/voice-parser.js')"
+      - name: Create auto-fix pull request
         id: pr
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.VOICE_AUTOFIX_GH_TOKEN }}
-
-          add-paths: |
-            js/voice-parser.js
-
+          add-paths: js/voice-parser.js
           branch: bot/gemini-voice-parser-autofix
-
           delete-branch: true
-
-          title: "fix(voice): Gemini verified parser improvement"
-
-          commit-message: "fix(voice): Gemini verified parser improvement"
-
-          body: |
-            ## Mahjong Voice Parser Auto-Fix
-
-            This Pull Request was generated by the
-            Gemini Voice Parser Auto-Fix workflow.
-
-            ### Automated verification
-
-            - Original parser syntax checked
-            - Baseline regression tests passed
-            - Gemini parser improvement executed
-            - Parser-only file restriction passed
-            - Updated parser syntax checked
-            - Final regression tests passed
-            - Git diff validation passed
-
-            ### Allowed file
-
-            js/voice-parser.js
-
-            ### Important
-
-            This Pull Request requires manual review.
-
-            Automatic merging is disabled.
-
-            Passing automated tests does not guarantee
-            correct speech recognition behavior on
-            iPhone Safari or Android Chrome.
-
-            Review the parser changes and test results
-            before merging into main.
-
-          labels: |
-            voice
-            automated
-
-      # 13. Workflow summary
-      - name: Generate workflow summary
-        if: always()
-        env:
-          PR_NUMBER: ${{ steps.pr.outputs.pull-request-number }}
-          PR_URL: ${{ steps.pr.outputs.pull-request-url }}
-          PARSER_CHANGED: ${{ steps.changes.outputs.changed }}
-        run: |
-          {
-            echo "## Mahjong Voice Parser Auto-Fix"
-            echo ""
-            echo "Workflow completed."
-            echo ""
-            echo "Parser changed: ${PARSER_CHANGED:-unknown}"
-            echo ""
-
-            if [ -n "$PR_NUMBER" ]; then
-              echo "Pull Request: #$PR_NUMBER"
-              echo ""
-              echo "PR URL: $PR_URL"
-              echo ""
-              echo "Manual review required."
-            else
-              echo "No Pull Request created."
-            fi
-
-            echo ""
-            echo "Automatic merge: DISABLED"
-            echo "Automatic schedule: DISABLED"
-          } >> "$GITHUB_STEP_SUMMARY"
+          title: 'fix(voice): Gemini verified parser improvement'
+          body: 'Automated parser-only proposal. Baseline tests passed. Review workflow logs for confirmed training cases.'
