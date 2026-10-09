@@ -1,3 +1,14 @@
+# v15.6.81 — Administrator-Assigned Voice Modes (9 Oktober 2026)
+
+- Administrator menetapkan satu dari tiga mode Voice per akun: Safari 3 tahap, Gemini 3 tahap, Gemini sekaligus.
+- Pengguna tidak dapat memilih engine; mode disimpan dalam app_metadata Supabase dan ditegakkan ulang oleh Edge Function Gemini.
+- Safari tahap 1 pemenang HU/Zi Mo, tahap 2 nama + jumlah Quad (tanpa perlu menyebut Quad), tahap 3 kombinasi. Tahap 2/3 dapat dilewati.
+- Gemini mode bertahap menafsirkan hanya perintah tahap aktif; mode sekaligus menafsirkan seluruh ucapan. Model menerima alternatif transkripsi dan daftar nama/kombinasi.
+- Voice tetap hanya mengisi preview; tombol Catat Hasil Tangan tetap manual.
+- Mode lama tanpa metadata baru default Safari bertahap. Pengaturan lama Gemini Voice digantikan pilihan mode.
+- Perlu deploy ulang dua Edge Function: mahjong-user-admin dan mahjong-voice-interpret; tanpa perubahan SQL.
+- Pemeriksaan sintaks JS dan struktur ZIP dilakukan; uji mikrofon Safari/Android dan Supabase aktual masih diperlukan.
+
 ## v15.6.80
 - Contextual Safari Huda → HU dari, only with unique active players.
 - Gemini grounding checks all Safari alternatives.

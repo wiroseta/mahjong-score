@@ -33,7 +33,7 @@ Deno.serve(async (req) => {
       return json({users:data.users.map(u=>({
         id:u.id,email:u.email,username:u.user_metadata?.username || u.email?.split('@')[0] || '',
         role:validRole(u.app_metadata?.role)?u.app_metadata.role:'scorekeeper',
-        geminiVoice:u.app_metadata?.gemini_voice_enabled===true,voiceEnabled:u.app_metadata?.voice_enabled!==false,voiceFeedback:u.app_metadata?.voice_feedback_enabled!==false,cloudDiagnostic:u.app_metadata?.cloud_diagnostic_enabled===true,
+        geminiVoice:u.app_metadata?.gemini_voice_enabled===true,voiceMode:['gemini_staged','gemini_all'].includes(u.app_metadata?.voice_mode)?u.app_metadata.voice_mode:'safari_staged',voiceEnabled:u.app_metadata?.voice_enabled!==false,voiceFeedback:u.app_metadata?.voice_feedback_enabled!==false,cloudDiagnostic:u.app_metadata?.cloud_diagnostic_enabled===true,
         banned:!!u.banned_until && new Date(u.banned_until).getTime()>Date.now()
       }))})
     }
@@ -76,8 +76,9 @@ Deno.serve(async (req) => {
 
     if(action==='set-voice-settings'){
       const flags=['geminiVoice','voiceEnabled','voiceFeedback','cloudDiagnostic'] as const;
+      if(!['safari_staged','gemini_staged','gemini_all'].includes(body.voiceMode)||body.geminiVoice!==(body.voiceMode!=='safari_staged'))return json({error:'Mode Voice tidak valid.'},400);
       if(flags.some(k=>typeof body[k]!=='boolean'))return json({error:'Pengaturan harus boolean.'},400)
-      const {error}=await admin.auth.admin.updateUserById(userId,{app_metadata:{...(target.app_metadata||{}),gemini_voice_enabled:body.geminiVoice,voice_enabled:body.voiceEnabled,voice_feedback_enabled:body.voiceFeedback,cloud_diagnostic_enabled:body.cloudDiagnostic}})
+      const {error}=await admin.auth.admin.updateUserById(userId,{app_metadata:{...(target.app_metadata||{}),gemini_voice_enabled:body.geminiVoice,voice_mode:body.voiceMode,voice_enabled:body.voiceEnabled,voice_feedback_enabled:body.voiceFeedback,cloud_diagnostic_enabled:body.cloudDiagnostic}})
       if(error)throw error
       return json({ok:true})
     }
