@@ -1,3 +1,17 @@
+## v15.6.69 — Compact Quad Wheel & ON/OFF User Switches (2026-10-09)
+- User Detail: all five account/AI/Voice checkboxes display as accessible green ON / gray OFF switches. Original input IDs, values, and saving logic unchanged.
+- Mobile Quad wheel: visible height 72 → 56 px (22.2% shorter), item height stays 24 px, centered track padding 24 → 16 px; preserve scroll snap, keyboard-free behavior, desktop controls, and 0–4 range.
+- Updated app version and PWA cache. No SQL or Edge Function changes.
+- Static checks only; requires device testing on iPhone Safari and Android.
+
+## v15.6.68 — Larger User Settings Icon
+- User Management: replace small font gear with crisp 34px SVG gear in existing 52px button.
+- No change to account actions, Gemini, Voice, scoring, or Supabase functions.
+
+## v15.6.68 — Hong Zhong App Icons
+- Updated icon-192.png and icon-512.png to depict the red 中 on a white Mahjong tile, matching the Hong Zhong symbol used in the app header.
+- Updated version and service-worker cache name. No gameplay, Voice, Gemini or user management changes.
+
 ## v15.6.65 — User Settings Modal & Icon Fix
 - Fixed user settings dialog being nested inside the hidden Settings overlay, preventing it from appearing when the per-user button was tapped. Dialog is now a top-level overlay.
 - Replaced “⚙ Pengaturan” with a larger accessible gear icon button.
@@ -213,3 +227,6 @@ Laporan historis ini merupakan hasil analisis statis, **bukan** file yang diguna
 - Excludes combination text from fuzzy player hit selection and improves conflict status wording.
 - Keeps all score changes under the existing explicit-record workflow.
 - Gemini live voice fallback, audio upload, and adaptive feedback are **not yet enabled**; require separate secure server integration, consent UI, and deployment/testing.
+
+
+v15.6.68 — App icons icon-192/icon-512 use the Hong Zhong header emoji from the user-provided screenshot as the visual source. No gameplay changes.
