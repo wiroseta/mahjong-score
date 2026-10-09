@@ -598,3 +598,7 @@ Riwayat Permainan memiliki header tetap (judul, navigasi nomor halaman, dan tutu
 
 ### v15.6.55 — Modular Voice Parser
 Voice parser terpisah di `js/voice-parser.js`; pengujian transkripsi manual tersedia untuk admin pada Voice Diagnostic. Sinonim bahasa Indonesia untuk ambil sendiri / ambil buangan ditambahkan. Perubahan parser perlu pembaruan cache Service Worker.
+
+
+### v15.6.56 — JavaScript Folder Cleanup
+`qrcode-local.js` dipindahkan ke `js/qrcode-local.js`. Semua referensi script dan cache Service Worker diperbarui. File `js/voice-parser.js` tetap. Tidak ada perubahan logika QR atau fitur lainnya.

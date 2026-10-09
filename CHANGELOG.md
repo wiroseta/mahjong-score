@@ -1,3 +1,9 @@
+## v15.6.56 — JavaScript Folder Cleanup (2026-10-09)
+- Memindahkan `qrcode-local.js` ke `js/qrcode-local.js` tanpa mengubah isi kode generator QR.
+- Memperbarui semua referensi script di `index.html` dan daftar cache offline di `sw.js`.
+- Memperbarui versi aplikasi dan cache PWA; memastikan QR Live Sharing dan Transfer Score tetap menggunakan API yang sama.
+- Tidak mengubah logika skor, Voice Parser, Supabase, ataupun penyimpanan permainan.
+
 ## v15.6.55 — Modular Voice Parser (2026-10-09)
 - Memisahkan fungsi parser Voice dan daftar sinonim ke `js/voice-parser.js` tanpa mengubah mesin mikrofon, UI skor, atau pencatatan skor.
 - Menambah frasa Bahasa Indonesia untuk ZI MO dan HU, termasuk “ambil sendiri” dan “ambil buangan”.
