@@ -1,3 +1,9 @@
+Mahjong Score 4P PWA v15.6.72 — Structured Multi-Command Voice.
+
+Deploy changed GitHub files: index.html, js/voice-parser.js, sw.js.
+Redeploy Supabase Edge Function: supabase/functions/mahjong-voice-interpret/index.ts.
+No SQL migration required.
+
 v15.6.71 — Hybrid Multi-Command Voice: per-player command segmentation, conservative partial preview, Gemini source grounding, no automatic score recording. Test on devices before production.
 
 Mahjong Score v15.6.70 — Multi-command Voice. Deploy updated supabase/functions/mahjong-voice-interpret/index.ts. No SQL changes.
