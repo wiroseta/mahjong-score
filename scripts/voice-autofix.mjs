@@ -17,6 +17,10 @@ const samples=reports.flatMap(r=>{
  return [{id:r.id,input:c.input,names:c.names,expected:c.expected}];
 });
 if(!samples.length){console.log('No human-confirmed corrections. Safe no-op.');process.exit(0)}
+// Deduplicate repeated cloud reports, and avoid proposing a patch for cases already passing.
+const unique=[...new Map(samples.map(x=>[JSON.stringify([x.input,x.names,x.expected]),x])).values()];
+samples.length=0;samples.push(...unique);
+
 fs.writeFileSync('tests/voice-runtime-confirmed.json',JSON.stringify(samples.map(({input,names,expected})=>({input,names,expected})),null,2));
 const code=fs.readFileSync(parserPath,'utf8');
 const model=process.env.GEMINI_MODEL||'gemini-2.5-flash-lite';

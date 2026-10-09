@@ -1,10 +1,10 @@
-# Upload v15.6.90 through GitHub Desktop
+# Mahjong Score v15.6.91 — GitHub Desktop
 
-1. Extract this ZIP; copy its **contents** (not the enclosing folder) into your local `mahjong-score` repository. Do not delete `.git` or any existing files first.
-2. In GitHub Desktop: Fetch origin, switch to `main`, Pull origin, then create a new branch `update-v15.6.90` **from the updated main**. Do this before copying files if possible.
-3. Review Changes, uncheck `.DS_Store` files, commit `Update Mahjong Score v15.6.90 Quad Auto-Fix`, Publish branch, Create Pull Request into `main`.
-4. Wait for `Voice Parser Regression` to pass, inspect Files changed, then merge manually.
-5. Confirm GitHub Pages displays v15.6.90. In Administrator > Voice Diagnostic > Voice Debug, test Safari voice and choose `Konfirmasi Koreksi Quad`; confirm only after reviewing player and amount. This sends text only, does not change score.
-6. Gemini Auto-Fix scheduled daily 09:00 WIB; check Actions logs and PRs. Requires configured SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, GEMINI_API_KEY, VOICE_AUTOFIX_GH_TOKEN. GitHub Actions schedules may be delayed. Automatic merge remains disabled.
+1. In GitHub Desktop, Fetch origin and switch to **main**, then Pull origin.
+2. Create a new branch from main named `update-v15.6.91`.
+3. Click **Show in Finder** and copy ALL contents of this ZIP into the repository root (not a nested folder). Replace matching files. Do not copy .DS_Store.
+4. Review Changes; commit `Update Mahjong Score to v15.6.91`.
+5. Publish branch, create a Pull Request targeting main, wait for Voice Parser Regression green, then merge.
+6. Wait for Pages deployment; test Free Voice correction with admin and confirm Supabase queue status.
 
-No SQL or Edge Function deployment is included. Existing v15.6.89 features remain unchanged except documented changes.
+No new SQL/Edge Function is included. Existing voice diagnostic table, grants and GitHub Actions secrets must be configured as in v15.6.90. No automatic merge.

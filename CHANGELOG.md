@@ -1,3 +1,9 @@
+## v15.6.91 — Administrator confirmed voice corrections
+- Voice Diagnostic now supports explicit correction confirmation for latest Free/Test Voice or Safari game recognition transcript, including Quad count, Zi Mo winner and HU winner/discarder.
+- Confirmed examples use the existing voice_debug confirmed_correction schema and offline queue, consumed by the existing Gemini proposal workflow. No score changes; no auto-merge.
+- Existing v15.6.90 features preserved.
+- Static JavaScript syntax and voice parser regression tests passed; device/browser integration remains untested.
+
 ## v15.6.90 — Confirmed Safari Quad corrections + scheduled Gemini proposals
 - Admin Voice Debug: explicit confirmation of latest Safari transcript as Quad for a selected active player and count. Text-only, no scoring action; queued via existing Supabase diagnostic pipeline.
 - Gemini workflow checks daily at 09:00 WIB (02:00 UTC) and supports manual runs; opens PR only for parser changes, never auto-merges.
