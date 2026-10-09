@@ -1,3 +1,10 @@
+## v15.6.59 — Dealer & Wind Synchronization Fix
+
+- Dealer is always Dong (East), including after Hu/Zi Mo and Ronde Baru.
+- Correct counterclockwise seat-wind mapping; preserve physical player indices.
+- Repair inconsistent persisted dealer/wind states without changing dealer, and normalize imported games.
+- Undo restores the historical dealer and seat winds. Live Viewer uses the corrected snapshot.
+
 ## v15.6.58 — Voice Diagnostic Improvement & Guest Viewer
 
 - Voice Diagnostic: Test Voice / Test Parser Manual / Self Diagnostic collapsible; Free Test status INFO; target nama dinamis dan tes pemenang/pembuang HU / Zi Mo.

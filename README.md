@@ -1,3 +1,10 @@
+## v15.6.59 — Dealer & Wind Synchronization Fix
+
+- Dealer is always Dong (East), including after Hu/Zi Mo and Ronde Baru.
+- Correct counterclockwise seat-wind mapping; preserve physical player indices.
+- Repair inconsistent persisted dealer/wind states without changing dealer, and normalize imported games.
+- Undo restores the historical dealer and seat winds. Live Viewer uses the corrected snapshot.
+
 # Mahjong Score v15.6.58 — Voice Diagnostic Improvement & Guest Viewer
 
 Versi aktif: **v15.6.58**. Voice Diagnostic memiliki Free Test, nama pemain aktif, test HU/Zi Mo terstruktur, Self Diagnostic, dan pemeriksaan alternatif Speech Recognition. Guest Live Viewer menggunakan See More / See Less dengan garis simetris. Seluruh fitur v15.6.57 dipertahankan.
