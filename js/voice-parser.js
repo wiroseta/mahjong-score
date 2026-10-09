@@ -1,4 +1,4 @@
-/* Mahjong Score v15.6.55 — Voice parser module. Depends on live game state s and scoring patterns pats; does not mutate scores. */
+/* Mahjong Score v15.6.78 — Voice parser module. Depends on live game state s and scoring patterns pats; does not mutate scores. */
 function voiceNormalize(t){return String(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9\s]/g," ").replace(/\s+/g," ").trim()}
 function voicePlayerAliases(i){
  const a=[`pemain ${i+1}`,`player ${i+1}`],name=voiceNormalize(s.names[i]);if(name)a.push(name);
@@ -80,6 +80,12 @@ function voicePatternsByPlayer(text){
 // v15.6.72: normalize *only* known speech drift in the context of active names/actions.
 function voiceRepairTranscript(raw){
  let text=voiceNormalize(raw);
+ // Resolve one-character player-name drift only when directly followed by a
+ // complete Quad action. Do not fuzzy-match arbitrary words or transfer ownership.
+ text=text.replace(/\b([a-z]{3,12})(?=\s+(?:quad|kuad|quat|quot|kwad|kwat|guad|kuat|gang|kang|kong|gong|cong|kan)\s+(?:nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])\b)/g,(word)=>{
+  const matches=s.names.map(voiceNormalize).filter(n=>n.length>=4&&voiceEditDistance(n,word)<=1);
+  return matches.length===1?matches[0]:word;
+ });
  // Repair a uniquely identifiable winner spelling only before an explicit HU/discard cue.
  text=text.replace(/\b([a-z]{3,12})(?=\s+(?:(?:hu|hoo|ku|ibu)\s+)?(?:dari|from)\b)/g,(word)=>{
   const matches=s.names.map(voiceNormalize).filter(n=>n.length>=4&&voiceEditDistance(n,word)<=1);
@@ -194,20 +200,18 @@ function parseVoiceScore(raw){
    if(disc===null&&methodHit)disc=voiceFindPlayer(text.slice(methodHit.index+methodHit.length),win);
    if(disc===null){const other=uniqueHits.find(h=>h.i!==win);if(other)disc=other.i}
  }
- // v15.6.54 — Quad/Gang voice parser. Each spoken player can carry an independent 0–4 value.
- // Accept common Safari/Android spellings: quad/kuad/quat and gang/kang/kong.
- let qs=[null,null,null,null];
- const quadWord='(?:quad|kuad|quat|quot|kwad|kwat|guad|kuat|gang|kang|kong|gong|cong|kan)',quadNum='(?:nol|zero|satu|one|dua|two|tiga|three|empat|four|ling|yi|er|liang|san|si|[0-4])';
- const qHits=voicePlayerHits(text);
- for(const h of qHits){
-   const after=text.slice(h.pos+h.len),before=text.slice(0,h.pos);
-   let q=after.match(new RegExp(`^\\s*(?:${quadWord}(?!\\s+murni)\\s*(${quadNum})?|(${quadNum})\\s*${quadWord})\\b`));
-   if(q){const n=voiceNumber(q[1]||q[2]||'satu');if(n!==null)qs[h.i]=n}
- }
- // Backward-compatible winner shorthand: a lone Quad/Gang phrase applies to winner only when no player-specific value was found.
- if(win!==null&&voicePlayerMentions(text).length<=1&&!qs.some(n=>n!==null)){
-   const q=text.match(new RegExp(`\\b(${quadNum})\\s*${quadWord}\\b|\\b${quadWord}\\s*(${quadNum})?\\b`));
-   if(q){const n=voiceNumber(q[1]||q[2]||'satu');if(n!==null)qs[win]=n}
+ // v15.6.78: Quad ownership comes exclusively from exact, player-anchored
+ // command segments. Fuzzy name hits must never assign a Quad to a different seat.
+ const qs=[null,null,null,null];
+ const anchored=voiceParseMulti(raw);
+ for(let i=0;i<4;i++)if(anchored.parsed.quads[i]!==null)qs[i]=anchored.parsed.quads[i];
+ // Preserve legacy winner-only shorthand only when the utterance contains a
+ // single player and a standalone Quad phrase (never cross-player transfer).
+ if(!qs.some(n=>n!==null)&&win!==null&&voicePlayerMentions(text).length===1){
+  const quadWord='(?:quad|kuad|quat|quot|kwad|kwat|guad|kuat|gang|kang|kong|gong|cong|kan)';
+  const quadNum='(?:nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])';
+  const q=text.match(new RegExp(`\\b${quadWord}\\s+(${quadNum})\\b`));
+  if(q)qs[win]=voiceNumber(q[1]);
  }
  return {raw,text,winner:win,method:mth,discarder:disc,quads:qs,patterns:patternByPlayer}
 }

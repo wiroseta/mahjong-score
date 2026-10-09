@@ -1,3 +1,10 @@
+## v15.6.78 — Quad Ownership Validation
+
+- Parser diagnostik Quad memakai hasil segmen berjangkar pemain, bukan fuzzy hit yang dapat mengalihkan Quad ke Ari.
+- Ejaan Fery dipetakan ke Ferry hanya dalam konteks perintah Quad lengkap dan unik.
+- Grounding Gemini menolak pemilik Quad yang salah dan mencatat konflik yang sudah terselesaikan secara terpisah dari konflik belum pasti.
+- Seluruh fitur v15.6.77 dipertahankan.
+
 ## v15.6.77 — Contextual Multi-Command Grounding
 - Exact player-anchored HU/Quad/combination recognition, unique active-name matching for Safari drift, safe Gemini/local merge.
 - No SQL or Edge Function changes.
