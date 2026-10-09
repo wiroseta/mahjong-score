@@ -1,28 +1,76 @@
 name: Voice Parser Guard
+
 on:
   pull_request:
-    branches: [main]
+    branches:
+      - main
   workflow_dispatch:
+
 permissions:
   contents: read
+
 jobs:
   regression:
-if: github.event_name == 'workflow_dispatch' || startsWith(github.head_ref, 'bot/gemini-voice-parser-autofix')
+    name: Voice Parser Regression
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      startsWith(github.head_ref, 'bot/gemini-voice-parser-autofix')
     runs-on: ubuntu-latest
+
+    timeout-minutes: 10
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Reject changes outside parser
+
+      - name: Reject changes outside voice-parser.js
         if: github.event_name == 'pull_request'
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        shell: bash
         run: |
+          set -euo pipefail
+
           files="$(git diff --name-only "$BASE_SHA" "$HEAD_SHA")"
-          test "$files" = "js/voice-parser.js"
-      - run: node --check js/voice-parser.js
-      - run: node tests/voice-parser.test.cjs
+
+          echo "Changed files:"
+          echo "$files"
+
+          if [ "$files" != "js/voice-parser.js" ]; then
+            echo "::error::Only js/voice-parser.js may be modified."
+            exit 1
+          fi
+
+          echo "PASS: Only voice-parser.js was modified."
+
+      - name: Check JavaScript syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check js/voice-parser.js
+          echo "PASS: JavaScript syntax is valid."
+
+      - name: Run voice parser regression tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          node tests/voice-parser.test.cjs
+          echo "PASS: Voice parser regression tests completed."
+
+      - name: Final verification
+        shell: bash
+        run: |
+          echo "=================================="
+          echo " Mahjong Voice Parser Guard"
+          echo "=================================="
+          echo "JavaScript syntax: PASS"
+          echo "Regression tests: PASS"
+          echo "Workflow completed successfully."
