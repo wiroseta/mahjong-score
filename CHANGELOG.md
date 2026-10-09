@@ -1,3 +1,11 @@
+v15.6.63 — Gemini Voice Text Fallback (opt-in)
+- On ambiguous/unrecognized speech alternatives, asks consent before sending transcribed text, player names and combination labels to a new authenticated Supabase Edge Function. No audio is uploaded.
+- Gemini returns a constrained canonical command; server allowlist + local parser + explicit user confirmation before changing the form. Never records a hand automatically.
+- Accepted corrections retained locally (last 30) as feedback examples; no automatic model training or global alias changes.
+- Offline/no Gemini deployment: manual scoring remains available.
+- Requires deployment of mahjong-voice-interpret Edge Function and existing GEMINI_API_KEY secret. No SQL migration.
+- Not tested on physical devices or deployed to Supabase.
+
 v15.6.61 — Header Title Alignment: title height matches Hong Zhong tile; version remains original size and appears superscript at upper-right. No functional changes.
 
 ## v15.6.60 — Login JavaScript Syntax Fix (2026-10-09)
