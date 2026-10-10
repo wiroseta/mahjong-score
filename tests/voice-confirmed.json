@@ -1,1 +1,13 @@
-[]
+[
+  {
+    "input": "Yeni kong satu",
+    "names": ["Ari", "Yenny", "Ferry", "Andi"],
+    "expected": {
+      "quads": [null, 1, null, null],
+      "method": null,
+      "winner": null,
+      "patterns": [null, null, null, null],
+      "discarder": null
+    }
+  }
+]
