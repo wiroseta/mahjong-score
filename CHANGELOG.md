@@ -1,4 +1,8 @@
-## v15.6.99 — Voice mode inside Diagnostic and manual points switch
+## v15.7.0 — Manual Points Switch Inside Setting Button
+- Tombol Tambahan Poin Manual kini satu area tombol penuh yang konsisten dengan tombol Setting lainnya. Hanya switch ON/OFF di dalam sisi kanan yang interaktif; teks dan area kosong tidak dapat ditekan.
+- Seluruh fungsi dan fitur v15.6.99 dipertahankan.
+
+## v15.7.0 — Voice mode inside Diagnostic and manual points switch
 - Moved authoritative Voice Parser mode control into Voice Diagnostic section 5; Stable mode keeps only section 5 accessible to administrators, with voice tests and Auto-Fix disabled.
 - Replaced Settings manual points checkbox row with a non-clickable standard button and adjacent accessible ON/OFF switch.
 - Preserved Supabase-backed mode updates, settings navigation, parser logic, and previous features.
