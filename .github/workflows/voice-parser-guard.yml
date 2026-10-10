@@ -1,5 +1,10 @@
 name: Voice Parser Guard
+
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'js/voice-parser.js'
   pull_request:
     branches: [main]
   workflow_dispatch:
