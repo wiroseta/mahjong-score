@@ -371,7 +371,8 @@ IMPORTANT:
 - Never infer a Quad from a combination name.
 - Never change application version numbers.
 - Do not add eval, network access, imports or side effects.
-- If uncertain, return an empty patch.
+- If uncertain or no safe fix is possible, return {"old":"","new":"","rationale":"reason"}.
+- Always return an object with string keys old, new, and rationale.
 
 Return ONLY JSON:
 
@@ -418,26 +419,51 @@ if (!ai.ok) {
 }
 
 const data = await ai.json();
+const candidate = data.candidates?.[0];
+const finishReason = candidate?.finishReason || 'UNKNOWN';
+const answer = candidate?.content?.parts
+  ?.filter(part => typeof part.text === 'string')
+  .map(part => part.text)
+  .join('').trim() || '';
 
-const answer =
-  data.candidates?.[0]?.content?.parts
-    ?.map(part => part.text || '')
-    .join('') || '';
+// Do not log Gemini text: diagnostics and parser source may be included.
+// A missing/empty proposal must never cause an unsafe parser edit.
+if (!answer) {
+  console.log(`Gemini returned no patch (finishReason=${finishReason}). Safe no-op.`);
+  process.exit(0);
+}
 
 let patch;
-
 try {
   patch = JSON.parse(answer);
 } catch {
-  throw Error('Gemini response not JSON');
+  // Non-JSON output is not a verified proposal. Preserve the current parser.
+  console.log(`Gemini response was not JSON (finishReason=${finishReason}). Safe no-op.`);
+  process.exit(0);
 }
 
 if (
-  !patch ||
+  patch === null ||
+  typeof patch !== 'object' ||
+  Array.isArray(patch)
+) {
+  console.log(`Gemini returned no patch object (finishReason=${finishReason}). Safe no-op.`);
+  process.exit(0);
+}
+
+// Some models use {} or {rationale: ...} to decline a patch.
+// Treat this as no proposal, but never silently accept a partial edit.
+const hasOld = Object.hasOwn(patch, 'old');
+const hasNew = Object.hasOwn(patch, 'new');
+if (!hasOld && !hasNew) {
+  console.log(`Gemini declined to propose a patch (finishReason=${finishReason}). Safe no-op.`);
+  process.exit(0);
+}
+if (
   typeof patch.old !== 'string' ||
   typeof patch.new !== 'string'
 ) {
-  throw Error('Invalid Gemini patch format');
+  throw Error(`Invalid Gemini patch format (finishReason=${finishReason}); no parser changes made`);
 }
 
 if (!patch.old || !patch.new) {

@@ -1,3 +1,14 @@
+## v15.6.94 — Gemini Auto-Fix workflow cleanup (2026-10-10)
+- Removed obsolete Pull Request trigger and bot PR-only restriction from Voice Parser Guard; retained push-to-main, manual trigger, syntax checks and regression tests.
+- Kept required dot-prefixed `.github/`, `.gitignore`, `.nojekyll` names unchanged.
+- Preserved Gemini safe no-op response handling and all existing parser and application functionality.
+- Updated visible app version and PWA cache identifier; no Supabase schema or Edge Function changes.
+- The separate Supabase GitHub dispatch HTTP 403 issue is not resolved by this workflow cleanup.
+
+## Maintenance — 10 Oktober 2026 (tetap v15.6.93)
+- Gemini Voice Auto-Fix: instruksi format JSON konsisten; respons kosong, bukan JSON, atau tanpa usulan perubahan ditangani sebagai safe no-op. Patch parsial/bertipe salah tetap ditolak. Diagnostik finishReason tanpa membocorkan respons Gemini.
+- Tidak mengubah parser, UI, versi aplikasi, atau pengaturan GitHub/Supabase. HTTP 403 dispatch Supabase perlu pemeriksaan terpisah.
+
 ## v15.6.93 — Administrator Voice Auto-Update Mode (2026-10-10)
 
 - Added Administrator Setting to switch Gemini Voice Parser Auto-Update between Development and Stable.
