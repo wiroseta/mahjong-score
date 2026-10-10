@@ -1,3 +1,11 @@
+## v15.7.1 — Settings, User Management & Voice Visibility (2026-10-11)
+- Tambahan Poin Manual: label normal seperti menu lain; switch kanan menampilkan ON/OFF, hanya switch interaktif.
+- User Management: baris gelap modern, tanpa switch pada daftar; ikon gear diperkecil 2px.
+- Navigasi Setting → User Management langsung tampil; X User Management kembali ke Setting.
+- Voice Recognition OFF: tombol Voice permainan, Game Baru, dan Edit Nama disembunyikan, tanpa pesan peringatan; Feedback lokal otomatis dipaksa OFF dan disabled di Pengaturan Pengguna.
+- Header modal Setting dan submenunya menggunakan latar solid agar isi tidak menembus saat scroll.
+- Tidak ada perubahan SQL, Edge Functions, workflow, atau voice parser.
+
 ## v15.7.0 — Manual Points Switch Inside Setting Button
 - Tombol Tambahan Poin Manual kini satu area tombol penuh yang konsisten dengan tombol Setting lainnya. Hanya switch ON/OFF di dalam sisi kanan yang interaktif; teks dan area kosong tidak dapat ditekan.
 - Seluruh fungsi dan fitur v15.6.99 dipertahankan.
