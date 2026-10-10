@@ -48,8 +48,7 @@ jobs:
           node --check js/voice-parser.js
           node tests/voice-parser.test.cjs
           git diff --check
-          test -z "$(git diff --name-only -- . ':!js/voice-parser.js')"
-
+          test -z "$(git status --porcelain --untracked-files=all -- . ':!js/voice-parser.js')"
       - name: Commit verified parser directly to main
         run: |
           if git diff --quiet -- js/voice-parser.js; then
