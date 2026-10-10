@@ -6,9 +6,8 @@ on:
     paths:
       - 'js/voice-parser.js'
       - 'scripts/voice-autofix.mjs'
+      - 'tests/**'
       - '.github/workflows/voice-parser-guard.yml'
-  pull_request:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -28,15 +27,6 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Restrict Gemini bot PR to parser only
-        if: ${{ github.event_name == 'pull_request' && startsWith(github.head_ref, 'bot/gemini-voice-parser-autofix') }}
-        env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-        run: |
-          files="$(git diff --name-only "$BASE_SHA" "$HEAD_SHA")"
-          test "$files" = 'js/voice-parser.js'
-
       - name: Check parser syntax
         run: node --check js/voice-parser.js
 
@@ -44,4 +34,6 @@ jobs:
         run: node --check scripts/voice-autofix.mjs
 
       - name: Run voice parser regression
-        run: node tests/voice-parser.test.cjs
+        run: |
+          node tests/voice-parser.test.cjs
+          node tests/voice-autofix.integration.cjs

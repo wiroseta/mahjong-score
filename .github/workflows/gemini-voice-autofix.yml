@@ -42,6 +42,7 @@ jobs:
           node --check js/voice-parser.js
           node --check scripts/voice-autofix.mjs
           node tests/voice-parser.test.cjs
+          node tests/voice-autofix.integration.cjs
 
       - name: Request Gemini parser improvement
         env:
@@ -55,6 +56,7 @@ jobs:
         run: |
           node --check js/voice-parser.js
           node tests/voice-parser.test.cjs
+          node tests/voice-autofix.integration.cjs
           git diff --check
 
           # Tidak boleh ada file lain yang berubah.

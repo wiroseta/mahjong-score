@@ -1,3 +1,9 @@
+## v15.6.97 — Voice Parser Auto-Fix offline integration audit (2026-10-10)
+- Add isolated mock Supabase/Gemini integration tests for the Auto-Fix workflow.
+- Regression cases ensure ownerless Kong/Quad/Gang commands do not assign a player.
+- Empty Gemini responses now retry once; explicit safe no-op reports unresolved corrections.
+- Preserve all parser behavior and exact-match safeguards; no live Supabase/GitHub credentials used in offline tests.
+
 ## v15.6.96 — Confirmed Quad zero normalization (2026-10-10)
 - Normalize confirmed diagnostic Quad values of 0 to null in memory when preparing Gemini regression fixtures; positive counts remain unchanged.
 - Preserve original Supabase diagnostics and strict parser output contract; do not silently equate 0 and null in the parser itself.

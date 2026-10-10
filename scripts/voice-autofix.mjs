@@ -453,8 +453,9 @@ If unable to guarantee an exact unique match and all cases, return an empty patc
 
   // Never log generated code or diagnostic input.
   if (!answer) {
-    console.log(`Gemini returned no patch (finishReason=${finishReason}). Safe no-op.`);
-    process.exit(0);
+    lastProblem = `empty Gemini response (finishReason=${finishReason})`;
+    console.log(`Proposal ${attempt}/${MAX_ATTEMPTS} rejected: ${lastProblem}`);
+    continue;
   }
 
   try {
@@ -472,7 +473,7 @@ If unable to guarantee an exact unique match and all cases, return an empty patc
     continue;
   }
   if (!patch.old || !patch.new) {
-    console.log('Gemini declined to propose a safe patch. No parser changes.');
+    console.log(`Gemini returned a safe no-op; ${pending.length} confirmed correction(s) remain unresolved. Parser unchanged.`);
     process.exit(0);
   }
   if (patch.old.length > 4000 || patch.new.length > 6000) {
