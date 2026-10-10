@@ -1,3 +1,12 @@
+## v15.6.93 — Administrator Voice Auto-Update Mode (2026-10-10)
+
+- Added Administrator Setting to switch Gemini Voice Parser Auto-Update between Development and Stable.
+- Added authenticated `mahjong-voice-auto-mode` Edge Function to read/update and verify the GitHub Actions variable.
+- Manual trigger checks the same GitHub mode as the scheduled workflow, failing closed on lookup errors.
+- Stable mode hides Voice Diagnostic but keeps ordinary voice scoring available.
+- Preserved Gemini parser fix from commit `217739f` and all existing gameplay features.
+- Updated application version references, PWA manifest, and service worker cache.
+
 ## v15.6.92 — Verified correction-triggered Gemini Auto-Fix
 - After confirmed correction is saved to Supabase, request authenticated server-side dispatch.
 - Edge Function validates correction ownership and contents, checks Mode Pengembangan, and dispatches GitHub Actions without browser secrets.

@@ -33,10 +33,15 @@ Deno.serve(async(req)=>{
   // Only recently saved records can trigger a run, limiting historical replays.
   const age=Date.now()-Date.parse(report.created_at);
   if(!Number.isFinite(age)||age< -60000||age>24*60*60*1000)return reply({error:'Correction too old'},422);
-  // Fail closed if not explicitly in development mode.
-  if(Deno.env.get('MAHJONG_VOICE_AUTO_MODE')!=='development')return reply({status:'stable_no_dispatch'});
+  // Fail closed against the same authoritative GitHub variable as scheduled jobs.
   const token=Deno.env.get('GITHUB_AUTOFIX_TOKEN');
   if(!token)return reply({error:'GitHub token not configured'},503);
+  const modeResponse=await fetch('https://api.github.com/repos/wiroseta/mahjong-score/actions/variables/MAHJONG_VOICE_AUTO_MODE',{
+   headers:{Authorization:`Bearer ${token}`,Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'},signal:AbortSignal.timeout(15000)
+  });
+  if(!modeResponse.ok)return reply({error:'Unable to verify Auto-Fix mode'},503);
+  const modeData=await modeResponse.json();
+  if(modeData.value!=='development')return reply({status:'stable_no_dispatch'});
   // Atomic uniqueness gate: one dispatch request per correction ID.
   const {error:ledgerError}=await db.from('mahjong_voice_autofix_dispatches')
    .insert({report_id:report.id,requested_by:user.id});
