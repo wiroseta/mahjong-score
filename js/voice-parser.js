@@ -155,7 +155,7 @@ function voiceAnchoredSegment(segment){
  if(owner<0)return null;
  const name=voiceNormalize(s.names[owner]),rest=text.slice(name.length).trim();
  const result={owner,method:null,discarder:null,quad:null,pattern:null};
- const quad=rest.match(/^(?:quad|kuad|quat|quot|kwad|kwat|guad|kuat|gang|kang|kong|gong|cong|kan)\s+(nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])\b/);
+ const quad=rest.match(/^(?:si)?(?:quad|kuad|quat|quot|kwad|kwat|guad|kuat|gang|kang|kong|gong|cong|kan)\s+(nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])\b/);
  if(quad)result.quad=voiceNumber(quad[1]);
  const pat=voicePatternHits(rest).find(h=>h.pos===0);if(pat)result.pattern=pat.i;
  // A bare number is only a candidate; it is never an authoritative Quad action.
