@@ -736,6 +736,31 @@ body.guest-live-mode .guest-live-actions .guest-fullscreen-button[style*="displa
 
 @media(max-width:600px){body.guest-live-mode #guestLiveView{padding:calc(6px + env(safe-area-inset-top)) 6px calc(12px + env(safe-area-inset-bottom))!important;}body.guest-live-mode .guest-live-head{gap:5px;}}
 </style>
+<style id="settings-fixed-dark-glass-v15-7-2">
+/* Fixed appearance independent of iOS/Android/desktop light/dark system preference. */
+#settings,#rulesGuide,#userManagement,#userDetail,#aboutProgram,#aiDiagnostic,#voiceDiagnostic,#rolePicker{color-scheme:dark!important;--ink:#f5f6f2;--line:rgba(255,255,255,.22);--cream:rgba(29,39,35,.9)}
+#settings .modal,#rulesGuide .modal,#userManagement .modal,#userDetail .modal,#aboutProgram .modal,#aiDiagnostic .modal,#voiceDiagnostic .modal,#rolePicker .modal{background:rgba(28,38,34,.88)!important;color:#f6f6f3!important;border:1px solid rgba(255,255,255,.32)!important;backdrop-filter:blur(24px) saturate(125%)!important;-webkit-backdrop-filter:blur(24px) saturate(125%)!important}
+#settings .data-modal-head,#userManagement .data-modal-head,#userDetail .data-modal-head,#aboutProgram .data-modal-head,#aiDiagnostic .data-modal-head,#voiceDiagnostic .data-modal-head,#rolePicker .data-modal-head,#rulesGuide .rules-head{background:rgba(47,59,53,.52)!important;color:#f6f6f3!important;backdrop-filter:blur(22px) saturate(130%)!important;-webkit-backdrop-filter:blur(22px) saturate(130%)!important;border-color:rgba(255,255,255,.19)!important}
+#settings .data-modal-head h2,#userManagement .data-modal-head h2,#userDetail .data-modal-head h2,#aboutProgram .data-modal-head h2,#aiDiagnostic .data-modal-head h2,#voiceDiagnostic .data-modal-head h2,#rolePicker .data-modal-head h2,#rulesGuide .rules-head h2{color:#fff!important}
+#settings .muted,#userManagement .muted,#userDetail .muted,#aboutProgram .muted,#aiDiagnostic .muted,#voiceDiagnostic .muted,#rolePicker .muted,#rulesGuide .muted{color:#c9d0cb!important}
+#settings .btn.light{background:rgba(92,101,96,.40)!important;color:#f7f7f4!important;border:1px solid rgba(255,255,255,.36)!important;box-shadow:none!important;backdrop-filter:blur(12px)!important;-webkit-backdrop-filter:blur(12px)!important}
+#settings .manual-points-setting{display:flex!important;align-items:center!important;gap:8px!important;min-width:0!important}
+#settings .manual-points-title{font-size:inherit!important;font-weight:inherit!important;line-height:1.2!important;white-space:nowrap!important;min-width:0!important;letter-spacing:-.025em!important}
+#settings .manual-points-switch{flex:0 0 76px!important;margin-left:auto!important}
+#settings .modal-x,#userManagement .modal-x,#userDetail .modal-x,#aboutProgram .modal-x,#aiDiagnostic .modal-x,#voiceDiagnostic .modal-x,#rolePicker .modal-x,#rulesGuide .rules-x{background:rgba(111,122,115,.36)!important;color:#fff!important;border:1px solid rgba(255,255,255,.32)!important}
+/* Rules: retain existing text, tile illustrations, structure, spacing and responsive layout. Only palette/materials change. */
+#rulesGuide .rules-modal{background:rgba(27,37,33,.92)!important;color:#f4f6f3!important}
+#rulesGuide .rules-section{background:rgba(56,68,62,.50)!important;color:#f5f6f3!important;border-color:rgba(255,255,255,.28)!important;box-shadow:0 5px 18px rgba(0,0,0,.13)!important}
+#rulesGuide .rules-section h3{color:#f1c66c!important}
+#rulesGuide .rules-section h4,#rulesGuide .rules-payment-card b{color:#83e1af!important}
+#rulesGuide .rules-term{color:#7ee4a8!important}
+#rulesGuide .rules-set,#rulesGuide .rules-visual,#rulesGuide .rules-payment-card{background:rgba(117,130,120,.19)!important;color:#f6f6f4!important;border-color:rgba(255,255,255,.23)!important}
+#rulesGuide .rules-callout{background:rgba(44,103,70,.25)!important;border-color:rgba(101,198,135,.72)!important}
+#rulesGuide .rules-caption{color:#cbd0cc!important}
+#rulesGuide .rules-arrow{color:#e9d7a3!important}
+#rulesGuide .mjtile{color:#25221d}
+@media(max-width:390px){#settings .manual-points-title{font-size:clamp(11px,3.1vw,14px)!important;letter-spacing:-.04em!important}#settings .manual-points-setting{padding-left:8px!important;padding-right:8px!important}}
+</style>
 </head>
 <script src="./js/qrcode-local.js"></script>
 <body class="auth-pending"><div id="authGate" class="auth-gate"><form class="auth-card" onsubmit="loginMahjong(event)"><h2>🀄 Mahjong Score <span class="app-version">v15.7.1</span></h2><div class="muted">Masuk untuk menggunakan aplikasi.</div><label class="label" for="loginUsername">Username</label><input id="loginUsername" autocomplete="username" autocapitalize="none" required><label class="label" for="loginPassword">PIN 4 digit</label><input id="loginPassword" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="current-password" placeholder="••••" required><button class="btn gold" type="submit" style="width:100%">Login</button><p class="muted" style="font-size:11px;line-height:1.4">Penggunaan Voice mengirim transkripsi teks dan hasil diagnostik secara otomatis ke Supabase untuk peningkatan akurasi. Hanya Administrator dapat membaca laporan; audio mentah tidak dikirim.</p><div id="authMessage" class="auth-msg" aria-live="polite"></div></form></div><div class="app">

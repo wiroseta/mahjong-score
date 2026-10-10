@@ -1,3 +1,9 @@
+## v15.7.2 — Fixed Dark Glass Settings & Rules (2026-10-11)
+- Kunci tampilan gelap seluruh modal Setting dan submenu agar tidak berubah mengikuti Light/Dark Mode iPhone, Android, atau desktop.
+- Header transparan dengan blur; tombol Setting dan teks tetap kontras.
+- Tambahan Poin Manual satu baris dengan ukuran teks selaras dan switch ON/OFF tetap hanya area interaktif.
+- Aturan Bermain Mahjong: hanya warna/material jendela, panel dan teks yang disesuaikan; isi, gambar, susunan dan logika tidak diubah.
+
 ## v15.7.1 — Settings, User Management & Voice Visibility (2026-10-11)
 - Tambahan Poin Manual: label normal seperti menu lain; switch kanan menampilkan ON/OFF, hanya switch interaktif.
 - User Management: baris gelap modern, tanpa switch pada daftar; ikon gear diperkecil 2px.
