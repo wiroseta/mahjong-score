@@ -1,3 +1,10 @@
+## v15.6.95 — Gemini Auto-Fix verified patch retry (2026-10-10)
+- Strengthened Gemini prompt to require an exact, unique source substring.
+- Added one bounded retry for malformed, unmatched, or failing Gemini proposals, with diagnostic reason but no source/voice-data logging.
+- Preserved exact-once replacement, function preservation, prohibited-capability checks, syntax and confirmed-case checks, and GitHub regression tests before commit.
+- Rejected bare Kong/Quad commands that attempt to assign a player without naming one.
+- No Supabase schema, Edge Function, or GitHub Actions changes required for this release.
+
 ## v15.6.94 — Gemini Auto-Fix workflow cleanup (2026-10-10)
 - Removed obsolete Pull Request trigger and bot PR-only restriction from Voice Parser Guard; retained push-to-main, manual trigger, syntax checks and regression tests.
 - Kept required dot-prefixed `.github/`, `.gitignore`, `.nojekyll` names unchanged.

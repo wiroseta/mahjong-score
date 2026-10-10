@@ -199,6 +199,13 @@ function validCorrection(c) {
     return false;
   }
 
+  // A bare Quad/Kong command cannot identify its owner. Never learn a
+  // player assignment from a command that only names the action/count.
+  const bareQuad = /^(?:(?:kong|quad|gang|kan|kang)\s*)+(?:(?:satu|dua|tiga|empat|one|two|three|four|[1-4])\s*)?$/i.test(c.input.trim());
+  if (bareQuad && c.expected.quads.some(value => value !== null && value > 0)) {
+    return false;
+  }
+
   return validExpected(c.expected);
 }
 
@@ -368,16 +375,20 @@ IMPORTANT:
 - Preserve all function names and return structures.
 - Preserve HU, Zi Mo, Quad, Kong, Gang and scoring combinations.
 - Preserve player ownership and seat assignments.
+- A Quad/Kong command without a player name must not assign any player.
 - Never infer a Quad from a combination name.
 - Never change application version numbers.
 - Do not add eval, network access, imports or side effects.
+- The old field MUST be copied verbatim from Source code below, including
+  whitespace, quotes and line breaks. Do not reconstruct or paraphrase it.
+- Select a small, unique code block: old must occur EXACTLY ONCE in Source code.
+- The new field must replace only that block, without changing other behavior.
 - If uncertain or no safe fix is possible, return {"old":"","new":"","rationale":"reason"}.
 - Always return an object with string keys old, new, and rationale.
 
 Return ONLY JSON:
-
 {
-  "old": "exact substring of source",
+  "old": "exact unique substring copied verbatim from source",
   "new": "replacement substring",
   "rationale": "short explanation"
 }
@@ -389,104 +400,118 @@ Human-confirmed failing cases:
 ${JSON.stringify(pending.slice(0, 12))}
 `;
 
-const ai = await fetch(
-  `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
-  {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-goog-api-key': process.env.GEMINI_API_KEY
-    },
-    body: JSON.stringify({
-      contents: [
-        {
-          role: 'user',
-          parts: [{ text: prompt }]
-        }
-      ],
-      generationConfig: {
-        temperature: 0,
-        maxOutputTokens: 3000,
-        responseMimeType: 'application/json'
-      }
-    }),
-    signal: AbortSignal.timeout(90000)
-  }
-);
-
-if (!ai.ok) {
-  throw Error(`Gemini HTTP ${ai.status}`);
-}
-
-const data = await ai.json();
-const candidate = data.candidates?.[0];
-const finishReason = candidate?.finishReason || 'UNKNOWN';
-const answer = candidate?.content?.parts
-  ?.filter(part => typeof part.text === 'string')
-  .map(part => part.text)
-  .join('').trim() || '';
-
-// Do not log Gemini text: diagnostics and parser source may be included.
-// A missing/empty proposal must never cause an unsafe parser edit.
-if (!answer) {
-  console.log(`Gemini returned no patch (finishReason=${finishReason}). Safe no-op.`);
-  process.exit(0);
-}
-
+// A proposal is untrusted until the exact source match and regression checks
+// succeed. Give Gemini one targeted retry when its first patch is unusable.
+const MAX_ATTEMPTS = 2;
+let updated;
 let patch;
-try {
-  patch = JSON.parse(answer);
-} catch {
-  // Non-JSON output is not a verified proposal. Preserve the current parser.
-  console.log(`Gemini response was not JSON (finishReason=${finishReason}). Safe no-op.`);
-  process.exit(0);
+let lastProblem = 'unknown';
+
+for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+  const feedback = attempt === 1 ? '' : `
+Your previous proposal was rejected: ${lastProblem}.
+Return a different, minimal patch. Copy old verbatim from Source code.
+If unable to guarantee an exact unique match and all cases, return an empty patch.
+`;
+  const ai = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-goog-api-key': process.env.GEMINI_API_KEY
+      },
+      body: JSON.stringify({
+        contents: [{ role: 'user', parts: [{ text: prompt + feedback }] }],
+        generationConfig: {
+          temperature: 0,
+          maxOutputTokens: 3000,
+          responseMimeType: 'application/json'
+        }
+      }),
+      signal: AbortSignal.timeout(90000)
+    }
+  );
+
+  if (!ai.ok) throw Error(`Gemini HTTP ${ai.status}`);
+
+  const data = await ai.json();
+  const candidate = data.candidates?.[0];
+  const finishReason = candidate?.finishReason || 'UNKNOWN';
+  const answer = candidate?.content?.parts
+    ?.filter(part => typeof part.text === 'string')
+    .map(part => part.text).join('').trim() || '';
+
+  // Never log generated code or diagnostic input.
+  if (!answer) {
+    console.log(`Gemini returned no patch (finishReason=${finishReason}). Safe no-op.`);
+    process.exit(0);
+  }
+
+  try {
+    patch = JSON.parse(answer);
+  } catch {
+    lastProblem = `non-JSON response (finishReason=${finishReason})`;
+    console.log(`Proposal ${attempt}/${MAX_ATTEMPTS} rejected: ${lastProblem}`);
+    continue;
+  }
+
+  if (!patch || typeof patch !== 'object' || Array.isArray(patch) ||
+      typeof patch.old !== 'string' || typeof patch.new !== 'string') {
+    lastProblem = 'invalid patch format (old/new must be strings)';
+    console.log(`Proposal ${attempt}/${MAX_ATTEMPTS} rejected: ${lastProblem}`);
+    continue;
+  }
+  if (!patch.old || !patch.new) {
+    console.log('Gemini declined to propose a safe patch. No parser changes.');
+    process.exit(0);
+  }
+  if (patch.old.length > 4000 || patch.new.length > 6000) {
+    lastProblem = 'patch exceeds size limit';
+    console.log(`Proposal ${attempt}/${MAX_ATTEMPTS} rejected: ${lastProblem}`);
+    continue;
+  }
+
+  const occurrences = source.split(patch.old).length - 1;
+  if (occurrences !== 1) {
+    lastProblem = `old substring occurs ${occurrences} times (required exactly 1)`;
+    console.log(`Proposal ${attempt}/${MAX_ATTEMPTS} rejected: ${lastProblem}`);
+    continue;
+  }
+
+  const candidateSource = source.replace(patch.old, patch.new);
+  if (candidateSource === source) {
+    console.log('No parser changes required. Safe no-op.');
+    process.exit(0);
+  }
+
+  // Syntax and confirmed-case checks run before accepting the proposal.
+  try {
+    new vm.Script(candidateSource, { filename: parserPath });
+    const failed = pending.find(correction =>
+      !matchesExpected(
+        parseWithSource(candidateSource, correction.input, correction.names),
+        correction.expected
+      )
+    );
+    if (failed) {
+      lastProblem = `proposal does not satisfy confirmed case ${failed.id}`;
+      console.log(`Proposal ${attempt}/${MAX_ATTEMPTS} rejected: ${lastProblem}`);
+      continue;
+    }
+  } catch (error) {
+    lastProblem = `candidate syntax/runtime check failed: ${error.name}`;
+    console.log(`Proposal ${attempt}/${MAX_ATTEMPTS} rejected: ${lastProblem}`);
+    continue;
+  }
+
+  updated = candidateSource;
+  console.log(`Gemini proposal ${attempt}/${MAX_ATTEMPTS} passed exact-match and confirmed-case checks.`);
+  break;
 }
 
-if (
-  patch === null ||
-  typeof patch !== 'object' ||
-  Array.isArray(patch)
-) {
-  console.log(`Gemini returned no patch object (finishReason=${finishReason}). Safe no-op.`);
-  process.exit(0);
-}
-
-// Some models use {} or {rationale: ...} to decline a patch.
-// Treat this as no proposal, but never silently accept a partial edit.
-const hasOld = Object.hasOwn(patch, 'old');
-const hasNew = Object.hasOwn(patch, 'new');
-if (!hasOld && !hasNew) {
-  console.log(`Gemini declined to propose a patch (finishReason=${finishReason}). Safe no-op.`);
-  process.exit(0);
-}
-if (
-  typeof patch.old !== 'string' ||
-  typeof patch.new !== 'string'
-) {
-  throw Error(`Invalid Gemini patch format (finishReason=${finishReason}); no parser changes made`);
-}
-
-if (!patch.old || !patch.new) {
-  console.log('Gemini did not propose a safe patch.');
-  process.exit(0);
-}
-
-if (
-  patch.old.length > 4000 ||
-  patch.new.length > 6000
-) {
-  throw Error('Patch too large');
-}
-
-if (source.split(patch.old).length !== 2) {
-  throw Error('Patch must match exactly once');
-}
-
-const updated = source.replace(patch.old, patch.new);
-
-if (updated === source) {
-  console.log('No parser changes required.');
-  process.exit(0);
+if (!updated) {
+  throw Error(`No verified Gemini proposal after ${MAX_ATTEMPTS} attempts: ${lastProblem}. Parser unchanged.`);
 }
 
 /**
