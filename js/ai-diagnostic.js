@@ -139,7 +139,7 @@ window.openAiDiagnostic=async()=>{
  // Own-device refresh must not block the admin dialog or overwrite its loading status.
  void refresh();
 };
-window.closeAiDiagnostic=()=>{diagnosticOpenSequence++;$('aiDiagnostic').classList.remove('show')};
+window.closeAiDiagnostic=()=>{diagnosticOpenSequence++;$('aiDiagnostic').classList.remove('show');if(typeof returnToSettings==='function')returnToSettings()};
 window.aiDiagRunNow=()=>run(true);
 window.aiDiagToggle=async(enabled)=>{if(!admin())return;const id=$('aiDiagTarget').value;if(!id)return;try{const {error}=await client().from('mahjong_ai_diagnostic_targets').upsert({user_id:id,enabled,updated_by:uid()},{onConflict:'user_id'});if(error)throw error;status('Remote Diagnostic '+(enabled?'aktif':'nonaktif')+' untuk pengguna terpilih.');await loadTargets();await refresh()}catch(e){status('Gagal: '+safe(e.message))}};
 window.aiDiagToggleAll=async(enabled)=>{if(!admin()||!confirm((enabled?'Aktifkan':'Nonaktifkan')+' monitoring untuk seluruh pengguna?'))return;try{const users=await adminApi('list');for(const u of users.users||[]){const {error}=await client().from('mahjong_ai_diagnostic_targets').upsert({user_id:u.id,enabled,updated_by:uid()},{onConflict:'user_id'});if(error)throw error}status('Pengaturan seluruh pengguna disimpan.');await loadTargets();await refresh()}catch(e){status('Gagal: '+safe(e.message))}};

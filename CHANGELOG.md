@@ -1,3 +1,8 @@
+## v15.6.98 — Settings & Voice Diagnostic navigation
+- Setting closes with ×; submenu close returns to Setting.
+- Gemini Auto-Update details grouped under collapsible Voice Diagnostic section, with one server-backed mode control retained in Setting for Stable-mode recovery.
+- Removed obsolete Quad correction button and handler.
+
 ## v15.6.97 — Voice Parser Auto-Fix offline integration audit (2026-10-10)
 - Add isolated mock Supabase/Gemini integration tests for the Auto-Fix workflow.
 - Regression cases ensure ownerless Kong/Quad/Gang commands do not assign a player.
