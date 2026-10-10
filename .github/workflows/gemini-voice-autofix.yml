@@ -20,8 +20,8 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 12
 
-    # Hanya berjalan dalam Mode Pengembangan.
-    # Mode Stabil atau variabel kosong akan menghentikan job.
+    # Mode Stabil menghentikan Auto-Fix.
+    # Jika variabel tidak tersedia, job juga tidak berjalan.
     if: vars.MAHJONG_VOICE_AUTO_MODE == 'development'
 
     steps:
@@ -57,7 +57,7 @@ jobs:
           node tests/voice-parser.test.cjs
           git diff --check
 
-          # Hanya voice-parser.js yang boleh berubah.
+          # Tidak boleh ada file lain yang berubah.
           test -z "$(git status --porcelain --untracked-files=all -- . ':!js/voice-parser.js')"
 
       - name: Commit verified parser directly to main
@@ -81,7 +81,7 @@ jobs:
           git add js/voice-parser.js
           git commit -m "fix(voice): Gemini verified parser improvement"
 
-          # Tidak menggunakan force push.
+          # Tanpa force push.
           git push origin HEAD:main
 
       - name: Summary
