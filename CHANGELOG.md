@@ -1,4 +1,8 @@
-## v15.7.2 — Fixed Dark Glass Settings & Rules (2026-10-11)
+## v15.7.2 — Fixed Dark Glass Settings, Compact Header & Auto-Fix Safety (2026-10-11)
+- Perbaiki header Setting agar ringkas dan tetap di dalam jendela, dengan satu area scroll dan batas tinggi layar.
+- Samakan penanda versi aplikasi, About, diagnostik, manifest dan cache PWA ke v15.7.2.
+- Cegah koreksi Gemini yang belum lolos verifikasi masuk ke fixture regresi sementara; pengujian awal dan akhir tetap konsisten.
+- Tambahkan pengujian integrasi agar proposal gagal/no-op tidak meninggalkan fixture.
 - Kunci tampilan gelap seluruh modal Setting dan submenu agar tidak berubah mengikuti Light/Dark Mode iPhone, Android, atau desktop.
 - Header transparan dengan blur; tombol Setting dan teks tetap kontras.
 - Tambahan Poin Manual satu baris dengan ukuran teks selaras dan switch ON/OFF tetap hanya area interaktif.

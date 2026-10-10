@@ -13,7 +13,6 @@ import crypto from 'node:crypto';
 import vm from 'node:vm';
 
 const parserPath = 'js/voice-parser.js';
-const fixturePath = 'tests/voice-runtime-confirmed.json';
 
 const required = [
   'SUPABASE_URL',
@@ -349,22 +348,10 @@ if (!pending.length) {
 }
 
 /**
- * Write temporary regression fixtures.
- *
- * This file is excluded by .gitignore.
+ * Pending corrections stay in memory. Never write unverified Gemini cases
+ * into a regression fixture: a rejected proposal must not poison the final
+ * baseline check (observed in the 06:00 WIB scheduled run).
  */
-fs.writeFileSync(
-  fixturePath,
-  JSON.stringify(
-    pending.map(({ input, names, expected }) => ({
-      input,
-      names,
-      expected
-    })),
-    null,
-    2
-  )
-);
 
 /**
  * Request one minimal parser replacement from Gemini.

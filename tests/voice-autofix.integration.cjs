@@ -58,6 +58,7 @@ try {
    });
    assert.equal(result.status,expectedStatus,`${scenario}: ${result.stdout}\n${result.stderr}`);
    assert.ok((result.stdout+result.stderr).includes(needle),`${scenario}: missing ${needle}`);
+   assert.equal(fs.existsSync(path.join(temp,'tests/voice-runtime-confirmed.json')),false,`${scenario}: unverified runtime fixture leaked`);
    if(scenario==='valid') {
      assert.notEqual(fs.readFileSync(path.join(temp,'js/voice-parser.js'),'utf8'),original,'valid proposal not written');
      // This isolated fixture deliberately adds only the confirmed command; baseline regression must remain intact.
