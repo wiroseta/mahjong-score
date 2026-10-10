@@ -103,10 +103,3 @@ jobs:
           # Tanpa force push.
           git push origin HEAD:main
 
-      - name: Summary
-        if: always()
-        run: |
-          echo "## Mahjong Voice Parser Auto-Update" >> "$GITHUB_STEP_SUMMARY"
-          echo "Branch: main" >> "$GITHUB_STEP_SUMMARY"
-          echo "Target: js/voice-parser.js" >> "$GITHUB_STEP_SUMMARY"
-          echo "Application version: unchanged" >> "$GITHUB_STEP_SUMMARY"
