@@ -149,6 +149,30 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 .voice-diag-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 @media(max-width:390px){.voice-diag-actions .btn{font-size:12px;padding:9px 4px}}
 
+
+/* Voice Diagnostic: one scroll container, grouped actions and readable technical output. */
+#voiceDiagnostic .voice-diag-modal{width:min(640px,calc(100% - 20px));max-width:640px;box-sizing:border-box;overflow-y:auto;overscroll-behavior:contain;max-height:calc(100dvh - 28px);padding:16px}
+#voiceDiagnostic .voice-diag-header{position:sticky;top:-16px;z-index:3;background:var(--panel,#252d29);padding:12px 0;margin-top:-12px;border-bottom:1px solid var(--line)}
+#voiceDiagnostic .voice-diag-header h2{font-size:clamp(19px,4vw,24px);line-height:1.2;margin:0}
+#voiceDiagnostic .voice-diag-header .modal-x{position:static;flex-shrink:0}
+#voiceDiagnostic .voice-diag-sections{padding-bottom:10px}
+#voiceDiagnostic .voice-diag-panel{overflow:visible;margin-top:12px}
+#voiceDiagnostic .voice-diag-panel>summary{font-size:15px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+#voiceDiagnostic .voice-diag-panel>summary::after{float:none;flex-shrink:0}
+#voiceDiagnostic .voice-diag-panel-body{min-width:0;padding:4px 12px 14px}
+#voiceDiagnostic .voice-diag-intro{font-size:12px;line-height:1.5;opacity:.85;margin:0 0 12px}
+#voiceDiagnostic .voice-diag-panel select,#voiceDiagnostic .voice-diag-panel input:not([type=checkbox]){box-sizing:border-box;max-width:100%;min-height:42px}
+#voiceDiagnostic .voice-diag-panel .btn{min-height:42px;white-space:normal;overflow-wrap:anywhere}
+#voiceDiagnostic #voiceCorrectionPanel{margin:0;padding:0;border:0}
+#voiceDiagnostic .voice-diag-sub{margin-top:12px;border-top:1px solid var(--line);padding-top:10px;min-width:0}
+#voiceDiagnostic .voice-diag-sub>summary{cursor:pointer;font-weight:700;font-size:13px;padding:7px 0}
+#voiceDiagnostic .voice-diag-code,#voiceDiagnostic #voiceLiveDebugOutput{display:block;box-sizing:border-box;width:100%;max-width:100%;min-height:150px;margin-top:8px;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff;color:#202420;font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;resize:vertical}
+#voiceDiagnostic .voice-diag-report{font-size:12px;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:10px;max-height:none}
+#voiceDiagnostic .voice-diag-autofix{padding:12px;border:1px solid var(--line);border-radius:12px;margin-bottom:12px}
+#voiceDiagnostic .voice-diag-autofix button{width:100%}
+#voiceDiagnostic #voiceAutoFixManualStatus{font-size:12px;line-height:1.5;margin-top:8px;overflow-wrap:anywhere}
+@media(max-width:600px){#voiceDiagnostic .voice-diag-modal{width:calc(100% - 12px);max-height:calc(100dvh - 12px);padding:12px}#voiceDiagnostic .voice-diag-header{top:-12px;margin-top:-8px}#voiceDiagnostic .voice-diag-actions{grid-template-columns:1fr 1fr}#voiceDiagnostic .voice-diag-panel-body{padding:4px 10px 12px}}
+
 /* v15.6.85 — single action per user, independent settings modal */
 #userManagement .user-row{display:flex;justify-content:space-between;align-items:center}
 #userManagement .user-row .btn{font-size:12px;min-height:38px;white-space:nowrap}
@@ -753,15 +777,21 @@ body.guest-live-mode .guest-live-actions .guest-fullscreen-button[style*="displa
 
 <div class="overlay" id="aboutProgram"><div class="modal" style="max-width:620px"><div class="data-modal-head"><div><h2>ℹ️ About This Program</h2><div class="muted">Informasi aplikasi dan ketentuan penggunaan.</div></div><button class="modal-x" onclick="closeAboutProgram()" aria-label="Tutup">×</button></div><div style="margin-top:14px;line-height:1.55"><h3 style="margin:0">Mahjong Score 4P</h3><div><b>Version:</b> v15.6.92</div><div><b>Author / Developer:</b> Ariawan</div><div><b>Copyright:</b> © 2026 Ariawan. All Rights Reserved.</div><div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)"><b>Proprietary Software — Legal Terms</b><p>This software, including its source code, user interface, visual design, game logic, documentation, and related assets, is proprietary and protected by applicable copyright and intellectual-property laws.</p><p>No part of this program may be copied, reproduced, modified, adapted, translated, reverse engineered, redistributed, published, sold, sublicensed, commercially exploited, or used to create derivative software or services without prior written permission from the copyright owner.</p><p>Access to or use of this application does not transfer ownership or any intellectual-property rights to the user. All rights not expressly granted are reserved by the copyright owner.</p><p><b>Disclaimer:</b> This software is provided “as is” and “as available,” without warranties of any kind to the maximum extent permitted by law. The author is not liable for loss of data, loss of profits, interruption of play, or other direct or indirect damages arising from use of or inability to use the software, except where liability cannot legally be excluded.</p><p style="margin-bottom:0"><b>Permission:</b> Any copying, distribution, modification, commercial use, or other use beyond ordinary authorized operation requires prior written permission from Ariawan.</p></div></div><button type="button" class="btn gold" style="width:100%;margin-top:16px" onclick="closeAboutProgram()">Selesai</button></div></div>
 <div class="overlay" id="aiDiagnostic"><div class="modal" style="max-width:600px"><div class="data-modal-head"><div><h2>🤖 AI Diagnostic</h2><div class="muted">Admin · Gemini utama, OpenAI fallback. Tidak mengubah permainan.</div></div><button class="modal-x" onclick="closeAiDiagnostic()" aria-label="Tutup">×</button></div><div style="display:grid;gap:8px;margin-top:12px"><button class="btn gold" onclick="aiDiagRunNow()">🔍 Periksa Perangkat Ini</button><button class="btn light" onclick="aiDiagSimulation()">🎲 Simulasi Aritmetika (Terisolasi)</button><label class="label" for="aiDiagTarget">Target Remote Diagnostic</label><select id="aiDiagTarget" style="min-height:42px"></select><button class="btn gold" id="aiDiagRequestButton" onclick="aiDiagRequestTarget()">🔍 Periksa Target Sekarang</button><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><button class="btn gold" onclick="aiDiagToggle(true)">Aktifkan Target</button><button class="btn light" onclick="aiDiagToggle(false)">Matikan Target</button><button class="btn light" onclick="aiDiagToggleAll(true)">Aktifkan Semua</button><button class="btn light" onclick="aiDiagToggleAll(false)">Matikan Semua</button></div><div id="aiDiagStatus" class="muted" aria-live="polite">Belum diperiksa.</div><h3 style="margin:8px 0 0">Laporan Terbaru</h3><div id="aiDiagReports" style="max-height:240px;overflow:auto;background:#fff8;border-radius:10px;padding:8px"></div></div></div></div>
-<div class="overlay" id="voiceDiagnostic"><div class="modal" style="max-width:560px"><div class="data-modal-head"><div><h2>🎙️ Voice Diagnostic</h2><div class="muted">Pengujian tanpa mencatat skor permainan.</div></div><button class="modal-x" onclick="closeVoiceDiagnostic()" aria-label="Tutup">×</button></div>
-<details id="voiceDiagVoicePanel" open class="voice-diag-panel"><summary>🎙️ Test Voice</summary><div class="voice-diag-panel-body">
+<div class="overlay" id="voiceDiagnostic"><div class="modal voice-diag-modal">
+<div class="data-modal-head voice-diag-header"><div><h2>🎙️ Voice Diagnostic</h2><div class="muted">Pengujian &amp; perbaikan · tanpa mengubah skor</div></div><button class="modal-x" onclick="closeVoiceDiagnostic()" aria-label="Tutup">×</button></div>
+<div class="voice-diag-sections">
+<details id="voiceDiagVoicePanel" open class="voice-diag-panel"><summary>🎙️ 1. Test Voice</summary><div class="voice-diag-panel-body">
+<p class="voice-diag-intro">Uji suara dan periksa alternatif transkripsi Safari. Free Test menghasilkan INFO, bukan koreksi.</p>
 <label class="label" for="voiceDiagnosticCategory">Jenis Test</label><select id="voiceDiagnosticCategory" onchange="updateVoiceDiagnosticTarget()"><option value="free">Bebas (Free Test)</option><option value="zimo">Zi Mo</option><option value="hu">HU</option><option value="quad">Quad / Gang / Kong</option><option value="points">Angka / Poin</option><option value="players">Nama Pemain</option><option value="combo">Kombinasi Poin</option></select>
 
 <div id="voiceDiagStructured" hidden><label class="label" for="voiceDiagWinner">Pemenang</label><select id="voiceDiagWinner" onchange="updateVoiceDiagnosticTarget()"></select><div id="voiceDiagDiscarderWrap"><label class="label" for="voiceDiagDiscarder">Pembuang (HU)</label><select id="voiceDiagDiscarder" onchange="updateVoiceDiagnosticTarget()"></select></div></div>
 <div id="voiceDiagTargetWrap"><label class="label" for="voiceDiagnosticExpected">Target Ucapan</label><select id="voiceDiagnosticExpected" onchange="updateVoiceDiagnosticTarget()"></select></div>
 <div id="voiceDiagnosticTarget" class="voice-diag-hint" aria-live="polite"></div>
-<div id="voiceCorrectionPanel" style="margin:12px 0;padding:12px;border:1px solid var(--line);border-radius:12px">
-<div style="font-weight:700;margin-bottom:8px">✓ Konfirmasi Koreksi Voice (tanpa mengubah skor)</div>
+<div class="voice-diag-actions"><button id="voiceDiagnosticButton" type="button" class="btn gold" onclick="toggleVoiceDiagnostic()">🎙️ Mulai Test Voice</button><button type="button" class="btn light" onclick="clearVoiceDiagnostic()">Hapus Hasil</button></div>
+
+</div><div id="voiceDiagnosticStatus" class="voice-status show" style="margin-top:10px" aria-live="polite">Belum ada percobaan.</div><details class="voice-diag-sub"><summary>Hasil lengkap &amp; alternatif transkripsi</summary><textarea id="voiceDiagnosticOutput" readonly class="voice-diag-code"></textarea><button type="button" class="btn gold" style="width:100%;margin-top:10px" onclick="copyVoiceDiagnostic()">Salin Hasil Diagnostic</button></details></div></details>
+<details id="voiceDiagCorrectionSection" class="voice-diag-panel"><summary>✅ 2. Konfirmasi Koreksi</summary><div class="voice-diag-panel-body"><p class="voice-diag-intro">Pilih transkripsi Safari dari pengujian terbaru dan tentukan maksud sebenarnya. Konfirmasi ini tidak mencatat skor.</p><div id="voiceCorrectionPanel">
+
 <div class="muted" style="font-size:12px;margin-bottom:8px">Setelah tes suara, pilih transkripsi yang benar-benar didengar Safari, lalu tetapkan maksud ucapan Anda. Jangan mengonfirmasi jika transkripsi berasal dari ucapan berbeda.</div>
 <label class="label" for="voiceCorrectionSource">Sumber transkripsi</label><select id="voiceCorrectionSource" onchange="voiceCorrectionRefresh()"><option value="diagnostic">Test Voice terbaru</option><option value="game">Voice permainan terbaru</option></select>
 <label class="label" for="voiceCorrectionTranscript">Alternatif transkripsi</label><select id="voiceCorrectionTranscript"></select>
@@ -771,13 +801,14 @@ body.guest-live-mode .guest-live-actions .guest-fullscreen-button[style*="displa
 <div id="voiceCorrectionDiscardWrap" hidden><label class="label" for="voiceCorrectionDiscard">Pembuang (HU)</label><select id="voiceCorrectionDiscard"></select></div>
 <button type="button" class="btn gold" style="width:100%;margin-top:12px" onclick="voiceCorrectionConfirm()">✓ Konfirmasi &amp; Kirim Koreksi</button>
 <div id="voiceCorrectionStatus" class="muted" style="font-size:12px;margin-top:8px" aria-live="polite">Belum ada transkripsi yang dipilih.</div></div>
-<div class="voice-diag-actions"><button id="voiceDiagnosticButton" type="button" class="btn gold" onclick="toggleVoiceDiagnostic()">🎙️ Mulai Test Voice</button><button type="button" class="btn light" onclick="clearVoiceDiagnostic()">Hapus Hasil</button></div>
-
 </div></details>
-<details id="voiceLiveDebugPanel" class="voice-diag-panel"><summary>🔎 Voice Debug · Permainan <span id="voiceLiveDebugCount">(0/5)</span></summary><div class="voice-diag-panel-body"><div class="muted" style="font-size:12px;margin:2px 0 10px">Riwayat dari tombol Voice permainan utama saja (bukan Test Voice). Read-only, tersimpan lokal tanpa audio, tidak mengubah skor.</div><textarea id="voiceLiveDebugOutput" readonly style="width:100%;min-height:175px;padding:9px;border:1px solid var(--line);border-radius:8px;font:12px/1.45 ui-monospace,monospace;background:#fff;color:#202420"></textarea><div class="voice-diag-actions"><button type="button" class="btn light" onclick="copyVoiceLiveDebug()">Salin Debug</button><button type="button" class="btn light" onclick="clearVoiceLiveDebug()">Hapus Debug</button><button type="button" class="btn gold" onclick="confirmLatestSafariQuadCorrection()">✓ Konfirmasi Koreksi Quad</button></div></div></details>
+<details id="voiceDiagDebugSection" class="voice-diag-panel"><summary>🔎 3. Debug &amp; Pengujian Parser</summary><div class="voice-diag-panel-body"><p class="voice-diag-intro">Riwayat Voice permainan, pengujian teks, dan pemeriksaan regresi offline.</p><details id="voiceLiveDebugPanel" class="voice-diag-panel"><summary>🔎 Voice Debug · Permainan <span id="voiceLiveDebugCount">(0/5)</span></summary><div class="voice-diag-panel-body"><div class="muted" style="font-size:12px;margin:2px 0 10px">Riwayat dari tombol Voice permainan utama saja (bukan Test Voice). Read-only, tersimpan lokal tanpa audio, tidak mengubah skor.</div><textarea id="voiceLiveDebugOutput" readonly style="width:100%;min-height:175px;padding:9px;border:1px solid var(--line);border-radius:8px;font:12px/1.45 ui-monospace,monospace;background:#fff;color:#202420"></textarea><div class="voice-diag-actions"><button type="button" class="btn light" onclick="copyVoiceLiveDebug()">Salin Debug</button><button type="button" class="btn light" onclick="clearVoiceLiveDebug()">Hapus Debug</button></div></div></details>
 <details class="voice-diag-panel"><summary>📝 Test Parser Manual</summary><div class="voice-diag-panel-body"><label class="label" for="voiceParserManualInput">Kalimat bebas (tanpa mikrofon)</label><textarea id="voiceParserManualInput" placeholder="Contoh: Pemain 1 ambil buangan Pemain 2" style="width:100%;min-height:70px;padding:10px;border:1px solid var(--line);border-radius:10px"></textarea><button type="button" class="btn light" style="width:100%;margin-top:6px" onclick="runVoiceParserManualTest()">🔍 Test Teks &amp; Lihat Hasil</button><div id="voiceParserManualResult" class="voice-status show" style="white-space:pre-wrap;margin-top:6px" aria-live="polite">Masukkan transkripsi untuk pengujian.</div></div></details>
 <details class="voice-diag-panel"><summary>✓ Self Diagnostic Parser (Offline)</summary><div class="voice-diag-panel-body"><div class="muted" style="font-size:12px;margin-bottom:8px">Menguji sinonim internal dan aturan parser tanpa mikrofon.</div><button type="button" class="btn light" style="width:100%" onclick="runVoiceParserSelfDiagnostic()">Jalankan Self Diagnostic</button></div></details>
-<div class="muted" style="font-size:12px;margin-top:12px">Voice Debug dan Voice Diagnostic dikirim otomatis oleh akun Administrator dan Scorekeeper. Hanya Administrator dapat membaca laporan. Tidak ada audio mentah yang dikirim.</div><input id="voiceDiagnosticCloudConsent" type="checkbox" hidden disabled checked><button type="button" class="btn light" style="width:100%;margin-top:12px" onclick="loadAdminVoiceReports()">☁ Lihat Laporan Semua Pengguna</button><button type="button" class="btn light" style="width:100%;margin-top:6px" onclick="analyzeLatestVoiceReport()">🤖 Analisis Laporan Terbaru dengan Gemini</button><div id="adminVoiceReports" style="max-height:280px;overflow:auto;white-space:pre-wrap;font-size:12px;margin-top:8px"></div><div id="voiceDiagnosticCloudStatus" class="muted" style="font-size:12px;margin-top:5px" aria-live="polite">Cloud reporting belum diaktifkan.</div><div id="voiceDiagnosticStatus" class="voice-status show" style="margin-top:10px">Belum ada percobaan.</div><textarea id="voiceDiagnosticOutput" readonly style="width:100%;min-height:175px;margin-top:10px;padding:10px;border:1px solid var(--line);border-radius:10px;font:12px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;background:white;color:#1f211e"></textarea><button type="button" class="btn gold" style="width:100%;margin-top:10px" onclick="copyVoiceDiagnostic()">Salin Hasil Diagnostic</button></div></div><div class="overlay" id="rulesGuide"><div class="modal rules-modal">
+<details class="voice-diag-sub"><summary>Koreksi Quad lama (opsional)</summary><button type="button" class="btn gold" onclick="confirmLatestSafariQuadCorrection()">✓ Konfirmasi Koreksi Quad</button></details></div></details>
+<details id="voiceDiagAiSection" class="voice-diag-panel"><summary>🤖 4. AI Diagnostic &amp; Auto-Fix</summary><div class="voice-diag-panel-body"><p class="voice-diag-intro">Periksa laporan Cloud, analisis Gemini, dan minta perbaikan parser. Perbaikan hanya dijalankan jika server dalam Mode Pengembangan dan tersedia koreksi yang dikonfirmasi.</p>
+<div class="voice-diag-autofix"><button type="button" id="voiceAutoFixManualButton" class="btn gold" onclick="requestVoiceAutoFixManual()">✨ Minta Gemini Perbaiki Voice Parser</button><div id="voiceAutoFixManualStatus" class="muted" role="status" aria-live="polite">Belum diminta. Hanya koreksi terkonfirmasi milik akun ini dalam 24 jam terakhir yang memenuhi syarat.</div></div>
+<div class="muted" style="font-size:12px;margin-top:12px">Laporan teks dikirim otomatis oleh Administrator dan Scorekeeper; hanya Administrator dapat membaca laporan. Audio mentah tidak dikirim.</div><input id="voiceDiagnosticCloudConsent" type="checkbox" hidden disabled checked><button type="button" class="btn light" style="width:100%;margin-top:12px" onclick="loadAdminVoiceReports()">☁ Lihat Laporan Semua Pengguna</button><button type="button" class="btn light" style="width:100%;margin-top:6px" onclick="analyzeLatestVoiceReport()">🤖 Analisis Laporan Terbaru dengan Gemini</button><div id="adminVoiceReports" class="voice-diag-report"></div><div id="voiceDiagnosticCloudStatus" class="muted" style="font-size:12px;margin-top:5px" aria-live="polite">Cloud reporting belum diaktifkan.</div></div></details></div></div></div><div class="overlay" id="rulesGuide"><div class="modal rules-modal">
  <div class="rules-head"><button type="button" class="rules-share" onclick="shareRulesGuidePDF()" aria-label="Bagikan PDF Aturan" title="Bagikan PDF">⇧</button><div class="rules-title"><h2>📖 Aturan Bermain Mahjong</h2><div class="muted">Panduan ringkas untuk 4 pemain</div></div><button type="button" class="rules-x" onclick="closeRulesGuide()" aria-label="Tutup">×</button></div>
  <div class="rules-body">
   <section class="rules-section"><h3>Cara Bermain Untuk 4 Orang</h3>
@@ -991,7 +1022,7 @@ function confirmLatestSafariQuadCorrection(){
  const expected={method:null,winner:null,discarder:null,quads,patterns:[null,null,null,null]};
  if(!confirm('KONFIRMASI MANUSIA\n\nSafari: “'+input+'”\nMaksud ucapan: '+names[idx]+' Quad '+amount+'\n\nKirim koreksi teks ke Supabase untuk Gemini Auto-Fix? Tidak ada skor yang diubah.'))return;
  voiceDiagCloudRecord('voice_debug',{stage:'user_confirmed_correction',confirmed_correction:{confirmed_by_user:true,input,names,expected}});
- voiceDiagCloudStatus('Koreksi Quad dikirim/diantrekan. Gemini akan memeriksa pada jadwal berikutnya; PR tetap perlu persetujuan.');
+ voiceDiagCloudStatus('Koreksi Quad dikirim/diantrekan. Auto-Fix akan diminta jika server dalam Mode Pengembangan.');
 }
 // v15.6.92: explicit administrator-labelled text correction for diagnostic or game voice.
 // No guessed intent is ever sent as training data; user confirms a specific transcript.
@@ -1030,8 +1061,39 @@ function voiceCorrectionConfirm(){
  }
  if(!confirm(`KONFIRMASI KOREKSI TEKS\n\nSafari mendengar: “${input}”\nMaksud ucapan Anda: ${intent}\n\nApakah benar? Kirim teks ini sebagai contoh terkonfirmasi untuk Gemini Auto-Fix? Tidak ada skor yang diubah.`))return;
  voiceDiagCloudRecord('voice_debug',{stage:'user_confirmed_correction',source:$('voiceCorrectionSource').value,confirmed_correction:{confirmed_by_user:true,input,names,expected}});
- $('voiceCorrectionStatus').textContent='Koreksi dikirim atau diantrekan. Periksa status pengiriman di bawah; Pull Request tetap memerlukan persetujuan.';
+ $('voiceCorrectionStatus').textContent='Koreksi dikirim atau diantrekan. Periksa status pengiriman di bawah; Auto-Fix hanya berjalan jika server mengizinkan.';
 }
+
+// Administrator-initiated dispatch uses the existing server-side safety gate.
+// No GitHub token or privileged credentials are exposed to the browser.
+let voiceAutoFixManualBusy=false;
+async function requestVoiceAutoFixManual(){
+ const button=$('voiceAutoFixManualButton'),status=$('voiceAutoFixManualStatus');
+ if(!button||!status||voiceAutoFixManualBusy)return;
+ if(!mahjongIsAdmin||mahjongRole!=='admin'||!mahjongSession?.user?.id){status.textContent='Hanya Administrator yang dapat meminta perbaikan.';return}
+ if(!mahjongSupabase||!navigator.onLine){status.textContent='Koneksi Supabase diperlukan untuk meminta perbaikan.';return}
+ if(!confirm('Minta Gemini memperbaiki Voice Parser berdasarkan koreksi yang sudah Anda konfirmasi? Mode Stabil akan menolak permintaan. Tidak ada perubahan skor.'))return;
+ voiceAutoFixManualBusy=true;button.disabled=true;status.textContent='Memeriksa koreksi terkonfirmasi terbaru…';
+ try{
+  await flushVoiceDiagnosticQueue();
+  const since=new Date(Date.now()-24*60*60*1000).toISOString();
+  const {data,error}=await mahjongSupabase.from('mahjong_voice_diagnostics')
+   .select('id,kind,details,created_at').eq('user_id',mahjongSession.user.id)
+   .eq('kind','voice_debug').gte('created_at',since).order('created_at',{ascending:false}).limit(100);
+  if(error)throw new Error('Tidak dapat membaca laporan: '+error.message);
+  const report=(data||[]).find(x=>x.details?.stage==='user_confirmed_correction'&&x.details?.confirmed_correction?.confirmed_by_user===true);
+  if(!report){status.textContent='Tidak ada koreksi terkonfirmasi milik akun ini dalam 24 jam terakhir. Konfirmasikan koreksi pada bagian 2 terlebih dahulu.';return}
+  status.textContent='Mengirim permintaan ke server…';
+  const {data:result,error:invokeError}=await mahjongSupabase.functions.invoke('mahjong-voice-autofix-trigger',{body:{report_id:report.id}});
+  if(invokeError)throw new Error('Pemicu server gagal: '+invokeError.message);
+  if(result?.status==='dispatched')status.textContent='Permintaan diterima GitHub Actions. Periksa Actions untuk hasil tes dan commit; belum berarti parser sudah diperbaiki.';
+  else if(result?.status==='already_requested')status.textContent='Koreksi ini sudah pernah meminta Auto-Fix. Tidak ada proses kedua yang dibuat.';
+  else if(result?.status==='stable_no_dispatch')status.textContent='Mode Stabil aktif di server. Auto-Fix tidak dijalankan.';
+  else status.textContent='Server merespons: '+String(result?.error||result?.status||'status tidak diketahui');
+ }catch(e){status.textContent='Gagal: '+(e?.message||String(e))}
+ finally{voiceAutoFixManualBusy=false;button.disabled=false}
+}
+
 function renderVoiceLiveDebug(){const entries=voiceLiveDebugRead();const el=$('voiceLiveDebugOutput');if(el)el.value=entries.map((x,i)=>`${i+1}. ${JSON.stringify(x,null,2)}`).join('\n\n')||'Belum ada pengujian Voice permainan.';const count=$('voiceLiveDebugCount');if(count)count.textContent=`(${entries.length}/5)`}
 function clearVoiceLiveDebug(){try{localStorage.removeItem(VOICE_LIVE_DEBUG_KEY)}catch(e){}renderVoiceLiveDebug()}
 async function copyVoiceLiveDebug(){renderVoiceLiveDebug();const el=$('voiceLiveDebugOutput');try{await navigator.clipboard.writeText(el?.value||'')}catch(e){el?.focus();el?.select()}}
