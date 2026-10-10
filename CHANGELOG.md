@@ -1,3 +1,8 @@
+## v15.6.99 — Voice mode inside Diagnostic and manual points switch
+- Moved authoritative Voice Parser mode control into Voice Diagnostic section 5; Stable mode keeps only section 5 accessible to administrators, with voice tests and Auto-Fix disabled.
+- Replaced Settings manual points checkbox row with a non-clickable standard button and adjacent accessible ON/OFF switch.
+- Preserved Supabase-backed mode updates, settings navigation, parser logic, and previous features.
+
 ## v15.6.98 — Settings & Voice Diagnostic navigation
 - Setting closes with ×; submenu close returns to Setting.
 - Gemini Auto-Update details grouped under collapsible Voice Diagnostic section, with one server-backed mode control retained in Setting for Stable-mode recovery.
