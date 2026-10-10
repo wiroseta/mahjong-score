@@ -27,3 +27,13 @@ DROP POLICY IF EXISTS voice_diagnostic_admin_select ON public.mahjong_voice_diag
 CREATE POLICY voice_diagnostic_admin_select ON public.mahjong_voice_diagnostics
  FOR SELECT TO authenticated USING ((SELECT auth.jwt())->'app_metadata'->>'role' = 'admin');
 -- No UPDATE or DELETE privileges for scorekeepers.
+
+-- v15.6.92: idempotent, server-only GitHub dispatch ledger.
+-- Edge Function writes using service_role; never expose this table to clients.
+CREATE TABLE IF NOT EXISTS public.mahjong_voice_autofix_dispatches (
+ report_id uuid PRIMARY KEY REFERENCES public.mahjong_voice_diagnostics(id) ON DELETE CASCADE,
+ requested_by uuid NOT NULL,
+ requested_at timestamptz NOT NULL DEFAULT now()
+);
+ALTER TABLE public.mahjong_voice_autofix_dispatches ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON public.mahjong_voice_autofix_dispatches FROM anon, authenticated;

@@ -1,3 +1,9 @@
+## v15.6.92 — Verified correction-triggered Gemini Auto-Fix
+- After confirmed correction is saved to Supabase, request authenticated server-side dispatch.
+- Edge Function validates correction ownership and contents, checks Mode Pengembangan, and dispatches GitHub Actions without browser secrets.
+- SQL ledger prevents repeat dispatch per correction; scheduled 06.00 WIB Auto-Fix remains.
+- Requires Edge Function deployment and GitHub token Supabase secret; until configured, daily workflow remains available.
+
 ## v15.6.91 — Administrator confirmed voice corrections
 - Voice Diagnostic now supports explicit correction confirmation for latest Free/Test Voice or Safari game recognition transcript, including Quad count, Zi Mo winner and HU winner/discarder.
 - Confirmed examples use the existing voice_debug confirmed_correction schema and offline queue, consumed by the existing Gemini proposal workflow. No score changes; no auto-merge.
