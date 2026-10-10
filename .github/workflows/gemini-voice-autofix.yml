@@ -2,8 +2,9 @@ name: Gemini Voice Parser Auto-Fix
 
 on:
   workflow_dispatch:
-#  schedule:
-#    - cron: '0 23 * * *'
+
+# Jadwal otomatis tetap NONAKTIF.
+# Akan diaktifkan setelah Mode Pengembangan siap.
 
 permissions:
   contents: write
@@ -15,24 +16,26 @@ concurrency:
 jobs:
   update-parser:
     name: Gemini Voice Parser Auto-Update
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
 
     steps:
       - name: Checkout main
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: main
           persist-credentials: true
+          fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '22'
 
       - name: Verify baseline
         run: |
           node --check js/voice-parser.js
+          node --check scripts/voice-autofix.mjs
           node tests/voice-parser.test.cjs
 
       - name: Request Gemini parser improvement
@@ -48,7 +51,10 @@ jobs:
           node --check js/voice-parser.js
           node tests/voice-parser.test.cjs
           git diff --check
+
+          # Tidak boleh ada file lain yang berubah.
           test -z "$(git status --porcelain --untracked-files=all -- . ':!js/voice-parser.js')"
+
       - name: Commit verified parser directly to main
         run: |
           if git diff --quiet -- js/voice-parser.js; then
@@ -56,11 +62,21 @@ jobs:
             exit 0
           fi
 
+          # Pastikan main belum berubah sejak checkout.
+          git fetch origin main
+
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/main)" ]; then
+            echo "::error::Main changed during Auto-Fix. Aborting safely."
+            exit 1
+          fi
+
           git config user.name "Mahjong Voice Auto-Fix"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           git add js/voice-parser.js
           git commit -m "fix(voice): Gemini verified parser improvement"
+
+          # Tanpa force push.
           git push origin HEAD:main
 
       - name: Summary
