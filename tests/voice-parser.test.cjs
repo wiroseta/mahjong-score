@@ -9,6 +9,7 @@ const cases=[
  ['Andi HU dari Yenny',{method:'hu',winner:0,discarder:1}],
  ['Andi Huda Yeni',{method:'hu',winner:0,discarder:1}],
  ['Andi Zi Mo',{method:'zimo',winner:0}],
+ ['Yeni cemok',{quads:[null,null,null,null]}],
  ['Ferry Quad satu',{quads:[null,null,1,null]}],
  ['Ari Quad satu',{quads:[null,null,null,1]}],
  ['Hari kuat satu',{quads:[null,null,null,1]}],

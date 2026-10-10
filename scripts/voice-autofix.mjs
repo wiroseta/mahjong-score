@@ -221,11 +221,20 @@ for (const report of reports) {
     continue;
   }
 
+  // Supabase diagnostic UI historically records untouched Quad slots as 0.
+  // The parser contract uses null for untouched slots. Normalize the
+  // confirmed expectation in memory only; never modify the stored report.
+  // Positive counts remain unchanged and are still checked strictly.
+  const expected = {
+    ...correction.expected,
+    quads: correction.expected.quads.map(value => value === 0 ? null : value)
+  };
+
   collected.push({
     id: report.id,
     input: correction.input,
     names: correction.names,
-    expected: correction.expected
+    expected
   });
 }
 

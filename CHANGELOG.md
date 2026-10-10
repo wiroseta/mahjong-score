@@ -1,3 +1,9 @@
+## v15.6.96 — Confirmed Quad zero normalization (2026-10-10)
+- Normalize confirmed diagnostic Quad values of 0 to null in memory when preparing Gemini regression fixtures; positive counts remain unchanged.
+- Preserve original Supabase diagnostics and strict parser output contract; do not silently equate 0 and null in the parser itself.
+- Add a regression check that “Yeni cemok” does not fabricate a Kong; Zi Mo correction remains pending for Gemini to solve.
+- Preserve exact-match patch safety, retries, existing gameplay and UI. Cloud Gemini run not yet verified.
+
 ## v15.6.95 — Gemini Auto-Fix verified patch retry (2026-10-10)
 - Strengthened Gemini prompt to require an exact, unique source substring.
 - Added one bounded retry for malformed, unmatched, or failing Gemini proposals, with diagnostic reason but no source/voice-data logging.
