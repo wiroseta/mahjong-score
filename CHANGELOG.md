@@ -1,3 +1,11 @@
+## v15.7.10 — Safari “kongs” Quad recognition correction (11 Oktober 2026)
+
+- Audit of confirmed correction `Yeni kongs dua` identified missing `kongs` recognition in the parser's tightly scoped Quad vocabulary; the saved expected count is now 2.
+- Recognize `kongs` only in existing player-anchored Quad parsing and transcript-repair contexts; preserve the prohibition on assigning bare Kong commands to a player.
+- Add four verified Yenny/Quad speech cases and a bare `Kongs dua` safety regression; 23 parser cases and 7 isolated Auto-Fix integration scenarios pass locally.
+- Keep existing Gemini Auto-Fix workflow, latest Supabase Edge Function, application version v15.7.10, and other gameplay/UI unchanged.
+- Live Gemini/Supabase workflow and mobile-device tests remain pending.
+
 ## v15.7.10 — Gemini Auto-Fix structured validation feedback (11 Oktober 2026)
 
 - Provide Gemini with confirmed expected values, actual parser results, and field-level differences for each pending correction.

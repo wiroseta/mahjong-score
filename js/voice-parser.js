@@ -83,7 +83,7 @@ function voiceRepairTranscript(raw){
  // Safari id-ID: "Yenny" may be transcribed as "Yeni".
  // Repair only before a complete Quad command and only when unambiguous.
  if(s.names.some(n=>voiceNormalize(n)==='yenny')&&!s.names.some(n=>voiceNormalize(n)==='yeni')){
-  text=text.replace(/\byeni(?=\s+(?:quad|kuad|quat|quot|kwad|kwat|guad|kuat|gang|kang|kong|gong|cong|kan)\s+(?:nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])\b)/g,'yenny');
+  text=text.replace(/\byeni(?=\s+(?:quad|kuad|quat|quot|kwad|kwat|guad|kuat|gang|kang|kongs|kong|gong|cong|kan)\s+(?:nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])\b)/g,'yenny');
  }
  // Safari id-ID may transcribe Yenny as Yeni before an explicit Zi Mo cue.
  // Restrict this correction to an unambiguous active Yenny and a recognized cue;
@@ -95,11 +95,11 @@ function voiceRepairTranscript(raw){
  // Only repair when Ari is an actual player, Hari is not, and a COMPLETE Quad
  // keyword + number follows. Never infer a Quad from "Hari satu" alone.
  if(s.names.some(n=>voiceNormalize(n)==='ari')&&!s.names.some(n=>voiceNormalize(n)==='hari')){
-  text=text.replace(/\bhari(?=\s+(?:quad|kuad|quat|quot|kwad|kwat|guad|kuat|gang|kang|kong|gong|cong|kan)\s+(?:nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])\b)/g,'ari');
+  text=text.replace(/\bhari(?=\s+(?:quad|kuad|quat|quot|kwad|kwat|guad|kuat|gang|kang|kongs|kong|gong|cong|kan)\s+(?:nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])\b)/g,'ari');
  }
  // Resolve one-character player-name drift only when directly followed by a
  // complete Quad action. Do not fuzzy-match arbitrary words or transfer ownership.
- text=text.replace(/\b([a-z]{3,12})(?=\s+(?:quad|kuad|quat|quot|kwad|kwat|guad|kuat|gang|kang|kong|gong|cong|kan)\s+(?:nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])\b)/g,(word)=>{
+ text=text.replace(/\b([a-z]{3,12})(?=\s+(?:quad|kuad|quat|quot|kwad|kwat|guad|kuat|gang|kang|kongs|kong|gong|cong|kan)\s+(?:nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])\b)/g,(word)=>{
   const matches=s.names.map(voiceNormalize).filter(n=>n.length>=4&&voiceEditDistance(n,word)<=1);
   return matches.length===1?matches[0]:word;
  });
@@ -161,7 +161,7 @@ function voiceAnchoredSegment(segment){
  if(owner<0)return null;
  const name=voiceNormalize(s.names[owner]),rest=text.slice(name.length).trim();
  const result={owner,method:null,discarder:null,quad:null,pattern:null};
- const quad=rest.match(/^(?:si)?(?:quad|kuad|quat|quot|kwad|kwat|guad|kuat|gang|kang|kong|gong|cong|kan)\s+(nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])\b/);
+ const quad=rest.match(/^(?:si)?(?:quad|kuad|quat|quot|kwad|kwat|guad|kuat|gang|kang|kongs|kong|gong|cong|kan)\s+(nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])\b/);
  if(quad)result.quad=voiceNumber(quad[1]);
  const pat=voicePatternHits(rest).find(h=>h.pos===0);if(pat)result.pattern=pat.i;
  // A bare number is only a candidate; it is never an authoritative Quad action.
@@ -246,7 +246,7 @@ function parseVoiceScore(raw){
  // Preserve legacy winner-only shorthand only when the utterance contains a
  // single player and a standalone Quad phrase (never cross-player transfer).
  if(!qs.some(n=>n!==null)&&win!==null&&voicePlayerMentions(text).length===1){
-  const quadWord='(?:quad|kuad|quat|quot|kwad|kwat|guad|kuat|gang|kang|kong|gong|cong|kan)';
+  const quadWord='(?:quad|kuad|quat|quot|kwad|kwat|guad|kuat|gang|kang|kongs|kong|gong|cong|kan)';
   const quadNum='(?:nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])';
   const q=text.match(new RegExp(`\\b${quadWord}\\s+(${quadNum})\\b`));
   if(q)qs[win]=voiceNumber(q[1]);

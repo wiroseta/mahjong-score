@@ -22,6 +22,11 @@ const cases=[
  ['Hari cong satu',{quads:[null,null,null,1]}],
  ['Hari satu',{quads:[null,null,null,null]}],
  ['Aliong satu',{quads:[null,null,null,null]}],
+ ['Yeni kong satu',{quads:[null,1,null,null]}],
+ ['Yeni kongs dua',{quads:[null,2,null,null]}],
+ ['Yeni kong tiga',{quads:[null,3,null,null]}],
+ ['Yeni kong empat',{quads:[null,4,null,null]}],
+ ['Kongs dua',{quads:[null,null,null,null]}],
  ['Andi Set Mulia',{patterns:[0,null,null,null]}],
  ['Andi HU dari Yenny Ferry Quad satu Ari Quad satu Andi Set Mulia',{method:'hu',winner:0,discarder:1,quads:[null,null,1,1],patterns:[0,null,null,null]}],
 ];
