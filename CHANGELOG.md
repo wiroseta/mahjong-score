@@ -1,3 +1,11 @@
+## v15.7.10 — Cross-device Voice Recognition permission refresh (11 Oktober 2026)
+
+- Reconcile the server-authoritative Voice Recognition claim from Supabase Auth with the active session and JWT on Scorekeeper devices.
+- When the permission changes, update Voice button visibility immediately and refresh the session token so subsequent auth callbacks and voice-start checks do not reuse stale metadata.
+- Recheck permissions at startup and after sign-in/token refresh, as well as existing 15-second polling and foreground/focus checks.
+- Preserve v15.7.9 immediate User Management switch saving and the verified iPhone Voice Diagnostic and Quad layouts.
+- Cross-device behavior still requires live two-device verification before declaring PASS.
+
 ## v15.7.9 — User Management Voice switch immediate save (11 Oktober 2026)
 
 - Voice Recognition switch in User Management now saves immediately to Supabase without requiring the separate Simpan Pengaturan button.
