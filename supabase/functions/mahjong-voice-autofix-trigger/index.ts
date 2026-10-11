@@ -58,7 +58,15 @@ Deno.serve(async(req)=>{
   if(!dispatch||dispatch.status!==204){
    // Allow retry if dispatch was rejected; a network timeout may have actually dispatched.
    await db.from('mahjong_voice_autofix_dispatches').delete().eq('report_id',report.id);
-   console.error('GitHub dispatch failed:',dispatch?.status||'network');
+   // Log GitHub's public error classification without exposing credentials or headers.
+   let githubError='no response';
+   if(dispatch){
+    try{
+     const payload=await dispatch.json();
+     githubError=typeof payload?.message==='string'?payload.message.slice(0,300):'no message';
+    }catch{githubError='unreadable response'}
+   }
+   console.error('GitHub dispatch failed:',dispatch?.status||'network',githubError);
    return reply({error:'GitHub dispatch failed'},502);
   }
   return reply({status:'dispatched'});

@@ -214,6 +214,8 @@ function validCorrection(c) {
     return false;
   }
 
+  if (!validExpected(c.expected)) return false;
+
   // A bare Quad/Kong command cannot identify its owner. Never learn a
   // player assignment from a command that only names the action/count.
   const bareQuad = /^(?:(?:kong|quad|gang|kan|kang)\s*)+(?:(?:satu|dua|tiga|empat|one|two|three|four|[1-4])\s*)?$/i.test(c.input.trim());
@@ -375,6 +377,7 @@ if (!pending.length) {
 const model =
   process.env.GEMINI_MODEL || 'gemini-2.5-flash-lite';
 
+const sourceLines = source.split("\n");
 const prompt = `
 You are proposing ONE minimal JavaScript text replacement
 for a Mahjong Score voice parser.
@@ -391,22 +394,21 @@ IMPORTANT:
 - Never infer a Quad from a combination name.
 - Never change application version numbers.
 - Do not add eval, network access, imports or side effects.
-- The old field MUST be copied verbatim from Source code below, including
-  whitespace, quotes and line breaks. Do not reconstruct or paraphrase it.
-- Select a small, unique code block: old must occur EXACTLY ONCE in Source code.
-- The new field must replace only that block, without changing other behavior.
+- PREFER line-based edits: specify startLine and endLine (1-based, inclusive)
+  using the numbered source below, and new containing the replacement lines.
+  The application extracts the old block from its own source, so you do NOT
+  need to copy the old text. Choose a small contiguous range (max 35 lines).
+- Alternatively return old and new as exact string replacements; old MUST
+  occur exactly once, including whitespace. Do not reconstruct old.
+- Change only the selected block, without changing other behavior.
 - If uncertain or no safe fix is possible, return {"old":"","new":"","rationale":"reason"}.
-- Always return an object with string keys old, new, and rationale.
+- Return either {"startLine":number,"endLine":number,"new":string,"rationale":string}
+  OR {"old":string,"new":string,"rationale":string}.
 
-Return ONLY JSON:
-{
-  "old": "exact unique substring copied verbatim from source",
-  "new": "replacement substring",
-  "rationale": "short explanation"
-}
+Return ONLY JSON with one of the two formats described above.
 
-Source code:
-${source}
+Numbered source code (numbers are NOT part of the code):
+${sourceLines.map((line, index) => `${index + 1}: ${line}`).join('\n')}
 
 Human-confirmed failing cases:
 ${JSON.stringify(pending.slice(0, 12))}
@@ -418,11 +420,13 @@ const MAX_ATTEMPTS = 2;
 let updated;
 let patch;
 let lastProblem = 'unknown';
+let previousProposal = null;
 
 for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
   const feedback = attempt === 1 ? '' : `
 Your previous proposal was rejected: ${lastProblem}.
-Return a different, minimal patch. Copy old verbatim from Source code.
+Previous proposal (untrusted, for correction only): ${JSON.stringify(previousProposal).slice(0, 8000)}
+Prefer startLine/endLine with numbered source. Return a different, minimal patch.
 If unable to guarantee an exact unique match and all cases, return an empty patch.
 `;
   const ai = await fetch(
@@ -437,7 +441,7 @@ If unable to guarantee an exact unique match and all cases, return an empty patc
         contents: [{ role: 'user', parts: [{ text: prompt + feedback }] }],
         generationConfig: {
           temperature: 0,
-          maxOutputTokens: 3000,
+          maxOutputTokens: 4500,
           responseMimeType: 'application/json'
         }
       }),
@@ -469,16 +473,34 @@ If unable to guarantee an exact unique match and all cases, return an empty patc
     continue;
   }
 
+  previousProposal = patch;
+  const linePatch = Number.isInteger(patch?.startLine) && Number.isInteger(patch?.endLine);
   if (!patch || typeof patch !== 'object' || Array.isArray(patch) ||
-      typeof patch.old !== 'string' || typeof patch.new !== 'string') {
-    lastProblem = 'invalid patch format (old/new must be strings)';
+      typeof patch.new !== 'string' || (!linePatch && typeof patch.old !== 'string')) {
+    lastProblem = 'invalid patch format (line range/new or old/new required)';
     console.log(`Proposal ${attempt}/${MAX_ATTEMPTS} rejected: ${lastProblem}`);
     continue;
   }
-  if (!patch.old || !patch.new) {
+  if ((!linePatch && !patch.old) || !patch.new) {
     console.log(`Gemini returned a safe no-op; ${pending.length} confirmed correction(s) remain unresolved. Parser unchanged.`);
     reportOutcome('UNRESOLVED', 'Gemini returned no verified patch; parser unchanged.', pending.length);
     process.exit(0);
+  }
+  if (linePatch) {
+    if (patch.startLine < 1 || patch.endLine < patch.startLine ||
+        patch.endLine > sourceLines.length || patch.endLine - patch.startLine + 1 > 35) {
+      lastProblem = 'invalid or oversized source line range';
+      console.log(`Proposal ${attempt}/${MAX_ATTEMPTS} rejected: ${lastProblem}`);
+      continue;
+    }
+    // Derive the original block locally; never trust an AI-provided old string.
+    patch.old = sourceLines.slice(patch.startLine - 1, patch.endLine).join('\n');
+    // A range that ends at a newline must preserve the line boundary.
+    const isLastLine = patch.endLine === sourceLines.length;
+    if (!isLastLine) {
+      patch.old += '\n';
+      if (!patch.new.endsWith('\n')) patch.new += '\n';
+    }
   }
   if (patch.old.length > 4000 || patch.new.length > 6000) {
     lastProblem = 'patch exceeds size limit';

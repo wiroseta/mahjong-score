@@ -1,3 +1,11 @@
+## v15.7.10 — Gemini Auto-Fix line-anchored proposal reliability (11 Oktober 2026)
+
+- Gemini may propose a bounded numbered source-line replacement; original text is extracted locally rather than copied approximately by AI.
+- Preserve exact-string proposals for backward compatibility; rejected first proposal is included as retry feedback.
+- Keep fail-closed syntax/confirmed-correction/regression checks and no-op on unresolved corrections; application version remains v15.7.10.
+- Synchronize repository Edge Function `mahjong-voice-autofix-trigger/index.ts` with the latest deployed diagnostic version, including safe GitHub dispatch error classification. No Edge Function redeploy required if cloud code already matches.
+- Offline tests extended to seven integration scenarios, including line-anchored fix and retry. Live Gemini outcome still requires verification.
+
 ## v15.7.10 — Cross-device Voice Recognition permission refresh (11 Oktober 2026)
 
 - Reconcile the server-authoritative Voice Recognition claim from Supabase Auth with the active session and JWT on Scorekeeper devices.

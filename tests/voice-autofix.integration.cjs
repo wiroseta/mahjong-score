@@ -16,6 +16,7 @@ const report = {
   }}
 };
 const mock = `
+const fs=require("node:fs");
 const report = ${JSON.stringify(report)};
 let count=0;
 global.fetch = async (url, options) => {
@@ -25,7 +26,16 @@ global.fetch = async (url, options) => {
     count++;
     const mode=process.env.MOCK_SCENARIO;
     let answer;
-    if (mode==='valid') {
+    if (mode==='line-valid' || mode==='line-retry') {
+      const parser=fs.readFileSync('js/voice-parser.js','utf8');
+      const lines=parser.split('\\n');
+      const startLine=lines.findIndex(line=>line.includes('function voiceParseMulti(raw){'))+1;
+      const originalLine=lines[startLine-1];
+      const replacement=originalLine+'\\n if (raw.toLowerCase().trim() === "yenny pisang aja") return {parsed:{raw,method:"zimo",winner:3,discarder:null,quads:[null,null,null,null],patterns:[null,null,null,null]},segments:[],uncertain:[]};';
+      answer=mode==='line-retry' && count===1
+        ? JSON.stringify({old:'nonexistent code',new:'some code',rationale:'deliberate bad first attempt'})
+        : JSON.stringify({startLine,endLine:startLine,new:replacement,rationale:'line-anchored integration test'});
+    } else if (mode==='valid') {
       const old='function voiceParseMulti(raw){';
       const replacement=old+'\\n if (raw.toLowerCase().trim() === \"yenny pisang aja\") return {parsed:{raw,method:\"zimo\",winner:3,discarder:null,quads:[null,null,null,null],patterns:[null,null,null,null]},segments:[],uncertain:[]};';
       answer=JSON.stringify({old,new:replacement,rationale:'isolated integration test only'});
@@ -54,7 +64,9 @@ try {
    ['invalid',0,'old substring occurs 0 times'],
    ['rejected',0,'proposal does not satisfy confirmed case'],
    ['noop',0,'Voice Auto-Fix status: UNRESOLVED'],
-   ['valid',0,'Verified parser proposal']
+   ['valid',0,'Verified parser proposal'],
+   ['line-valid',0,'Verified parser proposal'],
+   ['line-retry',0,'Verified parser proposal']
  ]) {
    const outputFile=path.join(temp,'github-output.txt');
    const summaryFile=path.join(temp,'github-summary.md');
@@ -66,12 +78,12 @@ try {
    assert.equal(result.status,expectedStatus,`${scenario}: ${result.stdout}\n${result.stderr}`);
    assert.ok((result.stdout+result.stderr).includes(needle),`${scenario}: missing ${needle}`);
    if(['empty','invalid','rejected','noop','valid'].includes(scenario)){
-     const outcome=scenario==='valid'?'VERIFIED_PATCH':'UNRESOLVED';
+     const outcome=['valid','line-valid','line-retry'].includes(scenario)?'VERIFIED_PATCH':'UNRESOLVED';
      assert.match(fs.readFileSync(outputFile,'utf8'),new RegExp('voice_status='+outcome+'\\b'),scenario+': incorrect workflow output');
      assert.ok(fs.readFileSync(summaryFile,'utf8').includes('Voice correction outcome: '+outcome),scenario+': missing summary');
    }
    assert.equal(fs.existsSync(path.join(temp,'tests/voice-runtime-confirmed.json')),false,`${scenario}: unverified runtime fixture leaked`);
-   if(scenario==='valid') {
+   if(['valid','line-valid','line-retry'].includes(scenario)) {
      assert.notEqual(fs.readFileSync(path.join(temp,'js/voice-parser.js'),'utf8'),original,'valid proposal not written');
      // This isolated fixture deliberately adds only the confirmed command; baseline regression must remain intact.
      fs.copyFileSync(path.join(root,'tests/voice-parser.test.cjs'),path.join(temp,'tests/voice-parser.test.cjs'));
@@ -80,5 +92,5 @@ try {
      fs.writeFileSync(path.join(temp,'js/voice-parser.js'),original);
    } else assert.equal(fs.readFileSync(path.join(temp,'js/voice-parser.js'),'utf8'),original,`${scenario}: parser unexpectedly changed`);
  }
- console.log('PASS: 5 isolated Supabase/Gemini integration scenarios (including verified patch and baseline regression)');
+ console.log('PASS: 7 isolated Supabase/Gemini integration scenarios (including verified patch and baseline regression)');
 } finally {fs.rmSync(temp,{recursive:true,force:true});}
