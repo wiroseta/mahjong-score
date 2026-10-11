@@ -27,6 +27,8 @@ const cases=[
  ['Hari satu',{quads:[null,null,null,null]}],
  ['Aliong satu',{quads:[null,null,null,null]}],
  ['Yeni kong satu',{quads:[null,1,null,null]}],
+ ['Yeni cong satu',{quads:[null,1,null,null]}],
+ ['Yeni com satu',{quads:[null,1,null,null]}],
  ['Yeni kongs dua',{quads:[null,2,null,null]}],
  ['Yeni kong tiga',{quads:[null,3,null,null]}],
  ['Yeni kong empat',{quads:[null,4,null,null]}],
@@ -35,6 +37,11 @@ const cases=[
  ['Andi HU dari Yenny Ferry Quad satu Ari Quad satu Andi Set Mulia',{method:'hu',winner:0,discarder:1,quads:[null,null,1,1],patterns:[0,null,null,null]}],
 ];
 for(const [input,expected] of cases){const result=parse(input);for(const [k,v] of Object.entries(expected))assert.deepEqual(result[k],v,`${input}: ${k}`)}
+assert.deepEqual(parse('Yeni kong satu',['Yenny','Ari','Herman','Stefi']).quads,[1,null,null,null],'Safari kong with Yenny first');
+assert.deepEqual(parse('Yeni cong satu',['Yenny','Ari','Herman','Stefi']).quads,[1,null,null,null],'Safari cong with Yenny first');
+assert.deepEqual(parse('Yeni com satu',['Yenny','Ari','Herman','Stefi']).quads,[1,null,null,null],'Safari com with Yenny first');
+assert.deepEqual(parse('Yeni satu',['Yenny','Ari','Herman','Stefi']).quads,[null,null,null,null],'bare number must not become quad');
+assert.deepEqual(parse('Yeni 01',['Yenny','Ari','Herman','Stefi']).quads,[null,null,null,null],'ambiguous transcript must not become quad');
 assert.deepEqual(parse('Yeni singkong dua',['Yenny','Ari','Herman','Stefi']).quads,[2,null,null,null],'confirmed correction 856e65c1: Yenny Quad 2');
 // Additional verified cases may be committed by maintainers. Never automatically turn Gemini guesses into expected results.
 for(const path of ['tests/voice-confirmed.json','tests/voice-runtime-confirmed.json'])if(fs.existsSync(path))for(const c of JSON.parse(fs.readFileSync(path,'utf8'))){const r=parse(c.input,c.names);for(const [k,v] of Object.entries(c.expected))assert.deepEqual(r[k],v,`${c.input}: ${k}`)}
