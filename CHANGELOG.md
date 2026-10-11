@@ -1,3 +1,9 @@
+## v15.7.8 — Voice Recognition permission synchronization (11 Oktober 2026)
+- Apply Voice ON/OFF immediately when Administrator saves their own user settings, without logout/login.
+- Poll server-authoritative Supabase Auth user metadata every 15 seconds and refresh on tab focus/visibility for other active devices.
+- Stop active Voice recognition when permission becomes OFF; keep voice buttons hidden before login.
+- Preserve iPhone Voice Diagnostic v15.7.7 layout. iPhone and live Supabase verification pending.
+
 ## v15.7.7 — iPhone Voice Diagnostic content-fit and version identification (11 Oktober 2026)
 - Fix iPhone Safari Voice Diagnostic filling nearly the entire screen when all panels are collapsed. Use a centered content-sized grid card with a maximum viewport height and one scroll container.
 - Keep all five panels, sticky close header, Dark Glass styling, and expanded-panel scrolling. Remove obsolete Voice Diagnostic geometry rules rather than stacking new overrides.
