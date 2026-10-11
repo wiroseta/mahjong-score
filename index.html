@@ -225,16 +225,15 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 #voiceRecordButton[hidden],.new-game-voice[hidden]{display:none!important}
 #userDetailFeedback:disabled{cursor:not-allowed;opacity:.6}
 
-/* v15.7.6: Voice Diagnostic uses ONE native scrolling surface: the modal.
-   Avoid a zero-height nested flex scroller (Safari can produce giant blank gaps).
-   All five details sections remain in normal document flow. */
+/* v15.7.6: Voice Diagnostic fits its content and scrolls only when needed.
+   Do not force viewport height: short diagnostic panels must not leave a giant blank area. */
 #voiceDiagnostic.overlay{
   box-sizing:border-box; padding:12px!important; align-items:center;
   overflow:hidden; height:100dvh; max-height:100dvh;
 }
 #voiceDiagnostic>.voice-diag-modal{
   box-sizing:border-box!important; width:min(640px,100%)!important;
-  max-width:100%!important; height:calc(100dvh - 24px)!important;
+  max-width:100%!important; height:auto!important;
   max-height:calc(100dvh - 24px)!important; min-height:0!important;
   display:block!important; overflow-x:hidden!important; overflow-y:auto!important;
   overscroll-behavior-y:contain; -webkit-overflow-scrolling:touch;
@@ -291,7 +290,11 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 }
 @media(max-width:390px){
   #voiceDiagnostic.overlay,#aboutProgram.overlay{padding:8px!important}
-  #voiceDiagnostic>.voice-diag-modal,#aboutProgram>.modal{
+  #voiceDiagnostic>.voice-diag-modal{
+    height:auto!important; max-height:calc(100dvh - 16px)!important;
+    padding-left:11px!important; padding-right:11px!important;
+  }
+  #aboutProgram>.modal{
     height:calc(100dvh - 16px)!important; max-height:calc(100dvh - 16px)!important;
     padding-left:11px!important; padding-right:11px!important;
   }

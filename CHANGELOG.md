@@ -1,3 +1,9 @@
+## v15.7.6 — Voice Diagnostic content-fit modal correction (11 Oktober 2026)
+- Voice Diagnostic modal now uses intrinsic height (`height: auto`) with a viewport `max-height`; short panels no longer stretch to the full screen and leave a large empty area.
+- Long diagnostic content still scrolls within the modal; the sticky header and existing Dark Glass layout are preserved.
+- Narrow-screen rule respects intrinsic height; About modal behavior remains unchanged.
+- Local parser/integration regression tests run; device scroll verification remains pending.
+
 ## v15.7.6 — Voice Diagnostic native scroll & version consistency (2026-10-11)
 - Replaced zero-height nested flex scrolling in Voice Diagnostic with one native modal scroll container and sticky header. Five diagnostic sections retain natural document flow; fixes giant blank vertical gap seen on mobile.
 - Synchronized visible application version, About, diagnostics, generated guides, diagnostic report metadata, PWA manifest and service-worker cache to v15.7.6.
