@@ -50,9 +50,9 @@ try {
  fs.copyFileSync(path.join(root,'scripts/voice-autofix.mjs'),path.join(temp,'scripts/voice-autofix.mjs'));
  fs.writeFileSync(path.join(temp,'mock.cjs'),mock);
  for (const [scenario,expectedStatus,needle] of [
-   ['empty',1,'empty Gemini response'],
-   ['invalid',1,'old substring occurs 0 times'],
-   ['rejected',1,'proposal does not satisfy confirmed case'],
+   ['empty',0,'empty Gemini response'],
+   ['invalid',0,'old substring occurs 0 times'],
+   ['rejected',0,'proposal does not satisfy confirmed case'],
    ['noop',0,'Voice Auto-Fix status: UNRESOLVED'],
    ['valid',0,'Verified parser proposal']
  ]) {
@@ -65,8 +65,8 @@ try {
    });
    assert.equal(result.status,expectedStatus,`${scenario}: ${result.stdout}\n${result.stderr}`);
    assert.ok((result.stdout+result.stderr).includes(needle),`${scenario}: missing ${needle}`);
-   if(['noop','valid'].includes(scenario)){
-     const outcome=scenario==='noop'?'UNRESOLVED':'VERIFIED_PATCH';
+   if(['empty','invalid','rejected','noop','valid'].includes(scenario)){
+     const outcome=scenario==='valid'?'VERIFIED_PATCH':'UNRESOLVED';
      assert.match(fs.readFileSync(outputFile,'utf8'),new RegExp('voice_status='+outcome+'\\b'),scenario+': incorrect workflow output');
      assert.ok(fs.readFileSync(summaryFile,'utf8').includes('Voice correction outcome: '+outcome),scenario+': missing summary');
    }

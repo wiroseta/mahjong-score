@@ -525,7 +525,8 @@ If unable to guarantee an exact unique match and all cases, return an empty patc
 }
 
 if (!updated) {
-  throw Error(`No verified Gemini proposal after ${MAX_ATTEMPTS} attempts: ${lastProblem}. Parser unchanged.`);
+  reportOutcome('UNRESOLVED', `No verified Gemini proposal after ${MAX_ATTEMPTS} attempts (${lastProblem}); parser unchanged.`, pending.length);
+  process.exit(0);
 }
 
 /**

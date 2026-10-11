@@ -64,9 +64,32 @@ jobs:
           test -z "$(git status --porcelain --untracked-files=all -- . ':!js/voice-parser.js')"
 
       - name: Commit verified parser directly to main
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           if git diff --quiet -- js/voice-parser.js; then
             echo "No parser changes. Nothing to commit."
+            exit 0
+          fi
+
+          # Recheck mode immediately before commit. The initial job-level check
+          # cannot stop a run if the administrator switches to Stable mid-run.
+          # Fail closed if the GitHub variable cannot be read.
+          MODE=$(node -e '
+            (async () => {
+              const url = `https://api.github.com/repos/${process.env.GITHUB_REPOSITORY}/actions/variables/MAHJONG_VOICE_AUTO_MODE`;
+              const response = await fetch(url, {headers: {
+                Authorization: `Bearer ${process.env.GH_TOKEN}`,
+                Accept: "application/vnd.github+json",
+                "X-GitHub-Api-Version": "2022-11-28"
+              }, signal: AbortSignal.timeout(15000)});
+              if (!response.ok) throw Error(`Cannot verify Auto-Update mode (HTTP ${response.status})`);
+              const variable = await response.json();
+              process.stdout.write(variable.value || "");
+            })().catch(e => { console.error(e.message); process.exit(1); });
+          ')
+          if [ "$MODE" != "development" ]; then
+            echo "Auto-Update mode is no longer Development. Parser commit skipped."
             exit 0
           fi
 
