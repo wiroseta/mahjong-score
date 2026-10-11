@@ -1,3 +1,9 @@
+## v15.7.13 — Modal layout and Settings typography (11 Oktober 2026)
+- Aturan Bermain: scrollbar dipindah ke area konten agar header mengisi lebar modal termasuk sudut kanan.
+- About This Program: header tidak terpotong; tinggi jendela mengikuti konten dengan batas tinggi dan scroll saat diperlukan. Seluruh teks legal dipertahankan.
+- Setting: tipografi Tambahan Poin Manual disamakan dengan tombol lain tanpa mengubah perilaku switch.
+- Versi dan identitas cache PWA diperbarui; aturan skor dan Gemini Auto-Fix tidak diubah.
+
 ## v15.7.12 — Edge-to-edge dark-glass modal headers
 - Align Setting and settings submenu header backgrounds to modal top corners and side edges, matching Aturan Bermain Mahjong.
 - Preserve modal contents, controls, scrolling, scoring and Voice Auto-Fix.
