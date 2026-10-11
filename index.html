@@ -104,7 +104,7 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 
 /* v15.6.85 — User Management / Live Sharing controls; isolated styles */
 #userManagement .modal{overflow-y:auto!important;min-height:0}
-#userManagementList{flex:0 1 auto!important;min-height:0}
+/* User list scrolls with the parent modal; see consolidated list rule below. */
 .admin-live-panel{margin-top:10px;border-top:1px solid rgba(60,75,62,.22);padding-top:8px;flex:0 0 auto}
 .admin-live-toggle{display:block;width:100%;text-align:left;border:0;background:transparent;color:inherit;font:inherit;font-weight:700;padding:10px 4px;cursor:pointer}
 .admin-live-rows{display:grid;gap:6px;margin:6px 0}
@@ -113,7 +113,7 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 .admin-live-row .admin-live-meta strong{display:block;font-size:14px}
 .admin-live-row button{flex-shrink:0;min-height:38px}
 .admin-live-stop-all{width:100%;margin-top:8px;color:#a33030!important}
-@media(max-width:600px){#userManagement .modal{max-height:calc(100dvh - 20px)!important}#userManagementList{max-height:36dvh!important;overflow:auto!important}.admin-live-row button{font-size:12px;padding:7px}}
+@media(max-width:600px){#userManagement .modal{max-height:calc(100dvh - 20px)!important}.admin-live-row button{font-size:12px;padding:7px}}
 /* v15.6.85 — compact user rows and independent collapsible user list. */
 #userManagement .admin-users-panel{margin-top:10px;border-top:1px solid rgba(60,75,62,.22);padding-top:8px}
 #userManagement .admin-users-toggle{display:block;width:100%;padding:10px 4px;text-align:left;border:0;background:transparent;color:inherit;font:inherit;font-weight:700;cursor:pointer}
@@ -151,11 +151,11 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 
 
 /* Voice Diagnostic: one scroll container, grouped actions and readable technical output. */
-#voiceDiagnostic .voice-diag-modal{width:min(640px,calc(100% - 20px));max-width:640px;box-sizing:border-box;overflow-y:auto;overscroll-behavior:contain;max-height:calc(100dvh - 28px);padding:16px}
-#voiceDiagnostic .voice-diag-header{position:sticky;top:-16px;z-index:3;background:var(--panel,#252d29);padding:12px 0;margin-top:-12px;border-bottom:1px solid var(--line)}
+#voiceDiagnostic .voice-diag-modal{width:min(640px,calc(100% - 20px));max-width:640px;box-sizing:border-box;max-height:calc(100dvh - 28px);padding:16px}
+#voiceDiagnostic .voice-diag-header{position:relative;z-index:3;background:var(--panel,#252d29);padding:12px 0;margin-top:-12px;border-bottom:1px solid var(--line)}
 #voiceDiagnostic .voice-diag-header h2{font-size:clamp(19px,4vw,24px);line-height:1.2;margin:0}
 #voiceDiagnostic .voice-diag-header .modal-x{position:static;flex-shrink:0}
-#voiceDiagnostic .voice-diag-sections{padding-bottom:10px}
+#voiceDiagnostic .voice-diag-sections{min-height:0}
 #voiceDiagnostic .voice-diag-panel{overflow:visible;margin-top:12px}
 #voiceDiagnostic .voice-diag-panel>summary{font-size:15px;display:flex;justify-content:space-between;align-items:center;gap:8px}
 #voiceDiagnostic .voice-diag-panel>summary::after{float:none;flex-shrink:0}
@@ -182,7 +182,7 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 .manual-points-switch input:checked+.manual-points-slider:after{transform:translateX(22px)}
 .manual-points-switch input:focus-visible+.manual-points-slider{outline:3px solid #b58939;outline-offset:3px}
 #voiceDiagnostic #voiceAutoFixManualStatus{font-size:12px;line-height:1.5;margin-top:8px;overflow-wrap:anywhere}
-@media(max-width:600px){#voiceDiagnostic .voice-diag-modal{width:calc(100% - 12px);max-height:calc(100dvh - 12px);padding:12px}#voiceDiagnostic .voice-diag-header{top:-12px;margin-top:-8px}#voiceDiagnostic .voice-diag-actions{grid-template-columns:1fr 1fr}#voiceDiagnostic .voice-diag-panel-body{padding:4px 10px 12px}}
+@media(max-width:600px){#voiceDiagnostic .voice-diag-modal{width:calc(100% - 12px);max-height:calc(100dvh - 12px);padding:12px}#voiceDiagnostic .voice-diag-header{margin-top:0}#voiceDiagnostic .voice-diag-actions{grid-template-columns:1fr 1fr}#voiceDiagnostic .voice-diag-panel-body{padding:4px 10px 12px}}
 
 /* v15.6.85 — single action per user, independent settings modal */
 #userManagement .user-row{display:flex;justify-content:space-between;align-items:center}
@@ -225,6 +225,11 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 #voiceRecordButton[hidden],.new-game-voice[hidden]{display:none!important}
 #userDetailFeedback:disabled{cursor:not-allowed;opacity:.6}
 
+/* v15.7.6: Voice Diagnostic alone owns its vertical flex scroll area.
+   Its details panels must not shrink the scrolling viewport to their intrinsic height. */
+#voiceDiagnostic .voice-diag-modal{display:flex!important;flex-direction:column!important;min-height:0!important}
+#voiceDiagnostic .voice-diag-header{flex:0 0 auto!important;min-height:0!important}
+#voiceDiagnostic .voice-diag-sections{display:block!important;flex:1 1 0%!important;height:0!important;min-height:0!important;max-height:none!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 /* v15.7.5: contained, viewport-safe modal layout; scroll content, not the header. */
 :is(#voiceDiagnostic,#aboutProgram).overlay{
   box-sizing:border-box; padding:12px!important; align-items:center;
@@ -250,9 +255,9 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 }
 :is(#voiceDiagnostic,#aboutProgram) .data-modal-head .modal-x{flex:0 0 38px!important}
 #voiceDiagnostic .voice-diag-sections,#aboutProgram .about-scroll-body{
-  height:0!important; min-height:0!important; flex:1 1 0%!important; overflow-y:auto!important;
+  min-height:0!important; flex:1 1 auto!important; overflow-y:auto!important;
   overflow-x:hidden!important; overscroll-behavior:contain;
-  -webkit-overflow-scrolling:touch; padding-bottom:20px!important;
+  -webkit-overflow-scrolling:touch; padding-bottom:calc(28px + env(safe-area-inset-bottom, 0px))!important;
 }
 #aboutProgram .about-scroll-body{margin-top:0!important;padding-top:14px!important}
 @media(max-width:390px){:is(#voiceDiagnostic,#aboutProgram).overlay{padding:8px!important}
@@ -549,7 +554,7 @@ h1{letter-spacing:-.02em}.muted{opacity:.68}
  .top-actions{padding-top:0;flex:0 0 auto!important}.action-menu{top:calc(48px + env(safe-area-inset-top,0px))!important}
  #userManagement{padding:8px!important;align-items:center!important}#userManagement .modal{width:calc(100vw - 16px)!important;max-height:calc(100dvh - 18px)!important;overflow-x:hidden!important;overflow-y:auto!important;display:block!important;padding:10px!important;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain}
  
- #userManagementList{overflow:visible!important;min-height:0!important;max-height:none!important;flex:none!important;padding-right:1px!important}.user-management-list{gap:5px!important;margin-top:6px!important}
+ #userManagementList{min-height:0!important;padding-right:1px!important}.user-management-list{gap:5px!important;margin-top:6px!important}
  .user-row{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:4px!important;min-width:0!important;min-height:48px!important;padding:6px!important;overflow:hidden!important}.user-info{flex:1 1 auto!important;min-width:0!important}.user-row b{display:block!important;font-size:14px!important;line-height:1.05!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}.user-row small{font-size:9px!important;line-height:1.05!important;white-space:nowrap!important}
  .user-actions{display:flex!important;align-items:center!important;gap:3px!important;flex:0 0 auto!important;min-width:0!important}.user-active-btn,.user-pin-btn{min-width:0!important;min-height:32px!important;height:32px!important;padding:3px 6px!important;border-radius:8px!important;font-size:8.5px!important;white-space:nowrap!important}.user-delete-btn{width:32px!important;height:32px!important;min-width:32px!important;border-radius:8px!important;font-size:20px!important}
  #newUsername,#newPassword{font-size:12px!important;min-height:38px!important;height:38px!important;padding:6px!important}#userManagement .btn.gold{min-height:38px!important;padding:7px 10px!important;font-size:12px!important;margin-top:6px!important}#userManagementMessage{margin-top:2px!important;margin-bottom:0!important;min-height:14px!important;font-size:10px!important}
@@ -582,7 +587,7 @@ body.auth-pending .app,body.auth-pending .bottom{visibility:hidden}
 @media(max-width:600px){.quad-control{display:grid;grid-template-columns:1fr;grid-template-rows:20px 28px 20px;gap:1px;justify-items:stretch;align-items:center}.quad-control .quad-step{display:flex!important;width:100%!important;height:20px!important;min-width:0!important;min-height:20px!important;padding:0!important;font-size:16px!important;line-height:1!important;border-radius:6px!important}.quad-control .quad-step:first-child{grid-row:3}.quad-control input.quad-value{grid-row:2;min-width:0!important;width:100%!important;height:28px!important;min-height:28px!important;padding:1px 3px!important;font-size:15px!important;line-height:22px!important;border-radius:6px!important}.quad-control .quad-step:last-child{grid-row:1}}
 /* v15.6.85 — mobile Quad wheel: no text/number input is interactive, so iPhone/Android keyboard never opens. */
 .quad-wheel{display:none}
-@media(max-width:600px){.quad-control>.quad-step,.quad-control>input.quad-value{display:none!important}.quad-control{display:block!important}.quad-wheel{display:block;position:relative;height:56px;overflow-y:auto;overflow-x:hidden;border:1px solid var(--line);border-radius:8px;background:rgba(255,255,255,.94);scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;scrollbar-width:none;user-select:none;-webkit-user-select:none}.quad-wheel::-webkit-scrollbar{display:none}.quad-wheel-track{display:flex;flex-direction:column;align-items:stretch;padding:16px 0;pointer-events:auto}.quad-wheel-item{height:24px;min-height:24px;line-height:24px;text-align:center;font-size:12px;opacity:.38;font-weight:700;scroll-snap-align:center;scroll-snap-stop:always;cursor:pointer}.quad-wheel-item.active{font-size:20px;opacity:1;font-weight:900}.quad-wheel:after{content:"";position:absolute;display:block;left:5px;right:5px;top:16px;height:24px;border-top:1px solid rgba(74,70,59,.18);border-bottom:1px solid rgba(74,70,59,.18);pointer-events:none}}
+@media(max-width:600px){.quad-control>.quad-step,.quad-control>input.quad-value{display:none!important}.quad-control{display:block!important}.quad-wheel{display:block;position:relative;height:56px;overflow-y:auto;overflow-x:hidden;border:1px solid var(--line);border-radius:8px;background:rgba(255,255,255,.94);scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;scrollbar-width:none;user-select:none;-webkit-user-select:none}.quad-wheel::-webkit-scrollbar{display:none}.quad-wheel-track{display:flex;flex-direction:column;align-items:stretch;padding:16px 0;pointer-events:auto}.quad-wheel-item{height:24px;min-height:24px;line-height:24px;text-align:center;font-size:12px;opacity:.38;font-weight:700;scroll-snap-align:center;scroll-snap-stop:always;cursor:pointer}.quad-wheel-item.active{font-size:20px;opacity:1;font-weight:900}.quad-wheel-guide{position:absolute;left:6px;right:6px;top:16px;height:24px;border-top:1px solid rgba(74,70,59,.18);border-bottom:1px solid rgba(74,70,59,.18);pointer-events:none;z-index:2}.quad-control{position:relative}}
 
 /* v15.4.7 — History modal: avoid double divider below header; keep separators between entries. */
 #history .entry:first-child{border-top:0!important}
@@ -1042,7 +1047,7 @@ function huDiscardOrder(){if(winner===null)return [];return quadSeatOrder().filt
 function renderDiscard(){const box=$("discardButtons");if(!box)return;box.innerHTML=huDiscardOrder().map(i=>`<button class="${discarder===i?'on':''}" onclick="discarder=${i};renderDiscard();renderWinnerStatus();update()">${s.names[i]}</button>`).join("")}
 function getPlayerPatterns(){let a=[null,null,null,null];document.querySelectorAll("[data-pp]").forEach(e=>{if(e.value!=="")a[+e.dataset.pp]=pats[+e.value]});return a}
 function hand(){return getPlayerPatterns().reduce((a,p)=>a+(p?p[1]:0),0)+(parseFloat($("extra").value)||0)}
-function quadWheelMarkup(attr,index,value,label){const v=clampQuad(value);return `<div class="quad-control" data-quad-value="${v}"><button type="button" class="quad-step" onclick="stepQuad(this,-1)" aria-label="Kurangi Quad ${label}">−</button><input type="text" inputmode="numeric" pattern="[0-9]*" class="quadInput quad-value" ${attr}="${index}" value="${v}" min="0" max="4" step="1" onfocus="selectQuadValue(this)" onclick="selectQuadValue(this)" oninput="normalizeQuadValue(this);syncQuadControl(this);${attr==='data-eq'?'updateEditPreview()':'update()'}"><button type="button" class="quad-step" onclick="stepQuad(this,1)" aria-label="Tambah Quad ${label}">+</button><div class="quad-wheel" ${attr}="${index}" data-value="${v}" role="spinbutton" tabindex="0" aria-label="Quad ${label}" aria-valuemin="0" aria-valuemax="4" aria-valuenow="${v}"><div class="quad-wheel-track"></div></div></div>`}
+function quadWheelMarkup(attr,index,value,label){const v=clampQuad(value);return `<div class="quad-control" data-quad-value="${v}"><button type="button" class="quad-step" onclick="stepQuad(this,-1)" aria-label="Kurangi Quad ${label}">−</button><input type="text" inputmode="numeric" pattern="[0-9]*" class="quadInput quad-value" ${attr}="${index}" value="${v}" min="0" max="4" step="1" onfocus="selectQuadValue(this)" onclick="selectQuadValue(this)" oninput="normalizeQuadValue(this);syncQuadControl(this);${attr==='data-eq'?'updateEditPreview()':'update()'}"><button type="button" class="quad-step" onclick="stepQuad(this,1)" aria-label="Tambah Quad ${label}">+</button><div class="quad-wheel" ${attr}="${index}" data-value="${v}" role="spinbutton" tabindex="0" aria-label="Quad ${label}" aria-valuemin="0" aria-valuemax="4" aria-valuenow="${v}"><div class="quad-wheel-track"></div></div><div class="quad-wheel-guide" aria-hidden="true"></div></div>`}
 function paintQuadWheel(w,scrollToValue=true){if(!w)return;const v=clampQuad(w.dataset.value);w.dataset.value=v;w.setAttribute('aria-valuenow',v);const t=w.querySelector('.quad-wheel-track');if(t){t.innerHTML=[0,1,2,3,4].map(n=>`<div class="quad-wheel-item ${n===v?'active':''}" data-wheel-value="${n}">${n}</div>`).join('');if(scrollToValue&&matchMedia('(max-width:600px)').matches)requestAnimationFrame(()=>{const item=t.querySelector(`[data-wheel-value="${v}"]`);if(item)w.scrollTop=item.offsetTop-(w.clientHeight-item.offsetHeight)/2})}const c=w.closest('.quad-control');if(c){c.dataset.quadValue=v;const inp=c.querySelector('input.quad-value');if(inp)inp.value=v}}
 function setQuadWheelValue(w,v,fromScroll=false){v=clampQuad(v);if(clampQuad(w.dataset.value)===v&&!fromScroll)return;w.dataset.value=v;paintQuadWheel(w,!fromScroll);const attr=w.hasAttribute('data-eq')?'data-eq':'data-q',idx=+w.getAttribute(attr),c=w.closest('.quad-control'),inp=c&&c.querySelector(`input[${attr}="${idx}"]`);if(inp)inp.value=v;if(attr==='data-eq')updateEditPreview();else update()}
 function syncQuadControl(el){const c=el&&el.closest('.quad-control'),w=c&&c.querySelector('.quad-wheel');if(w){w.dataset.value=clampQuad(el.value);paintQuadWheel(w)}}

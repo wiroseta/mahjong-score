@@ -85,6 +85,12 @@ function voiceRepairTranscript(raw){
  if(s.names.some(n=>voiceNormalize(n)==='yenny')&&!s.names.some(n=>voiceNormalize(n)==='yeni')){
   text=text.replace(/\byeni(?=\s+(?:quad|kuad|quat|quot|kwad|kwat|guad|kuat|gang|kang|kong|gong|cong|kan)\s+(?:nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])\b)/g,'yenny');
  }
+ // Safari id-ID may transcribe Yenny as Yeni before an explicit Zi Mo cue.
+ // Restrict this correction to an unambiguous active Yenny and a recognized cue;
+ // never rewrite arbitrary player names or infer a win from a bare name.
+ if(s.names.some(n=>voiceNormalize(n)==='yenny')&&!s.names.some(n=>voiceNormalize(n)==='yeni')){
+  text=text.replace(/\byeni(?=\s+(?:cemok|cemuk|jemuk|gemuk|zi\s+mo|zhi\s+mo|zimo|ambil\s+sendiri)\b)/g,'yenny');
+ }
  // v15.6.89: Safari id-ID often adds an initial H to the active name Ari.
  // Only repair when Ari is an actual player, Hari is not, and a COMPLETE Quad
  // keyword + number follows. Never infer a Quad from "Hari satu" alone.

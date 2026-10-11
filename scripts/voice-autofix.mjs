@@ -14,6 +14,22 @@ import vm from 'node:vm';
 
 const parserPath = 'js/voice-parser.js';
 
+// Report outcome separately from process exit status. An unresolved correction
+// is not a technical failure, and must never be reported as a successful fix.
+function reportOutcome(status, message, count = 0) {
+  const line = `Voice Auto-Fix status: ${status}; ${message}`;
+  console.log(line);
+  if (process.env.GITHUB_STEP_SUMMARY) {
+    fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,
+      `\n### Voice correction outcome: ${status}\n\n${message}\n\nPending corrections: ${count}\n`);
+  }
+  if (process.env.GITHUB_OUTPUT) {
+    fs.appendFileSync(process.env.GITHUB_OUTPUT,
+      `voice_status=${status}\nvoice_pending=${count}\n`);
+  }
+}
+
+
 const required = [
   'SUPABASE_URL',
   'SUPABASE_SERVICE_ROLE_KEY',
@@ -254,7 +270,7 @@ const unique = [
 ];
 
 if (!unique.length) {
-  console.log('No valid human-confirmed corrections. Safe no-op.');
+  reportOutcome('NO_CHANGE', 'No valid human-confirmed corrections.', 0);
   process.exit(0);
 }
 
@@ -343,7 +359,7 @@ for (const correction of unique) {
 }
 
 if (!pending.length) {
-  console.log('All valid corrections already pass. Safe no-op.');
+  reportOutcome('NO_CHANGE', 'All valid corrections already pass.', 0);
   process.exit(0);
 }
 
@@ -461,6 +477,7 @@ If unable to guarantee an exact unique match and all cases, return an empty patc
   }
   if (!patch.old || !patch.new) {
     console.log(`Gemini returned a safe no-op; ${pending.length} confirmed correction(s) remain unresolved. Parser unchanged.`);
+    reportOutcome('UNRESOLVED', 'Gemini returned no verified patch; parser unchanged.', pending.length);
     process.exit(0);
   }
   if (patch.old.length > 4000 || patch.new.length > 6000) {
@@ -478,7 +495,7 @@ If unable to guarantee an exact unique match and all cases, return an empty patc
 
   const candidateSource = source.replace(patch.old, patch.new);
   if (candidateSource === source) {
-    console.log('No parser changes required. Safe no-op.');
+    reportOutcome('UNRESOLVED', 'Proposal produced no parser changes; pending corrections remain.', pending.length);
     process.exit(0);
   }
 
@@ -574,3 +591,4 @@ console.log(
   `Verified parser proposal, sha256=${hash}; ` +
   `${pending.length} failing confirmed cases fixed`
 );
+reportOutcome('VERIFIED_PATCH', `Verified parser proposal sha256=${hash}; awaiting workflow regression and commit checks.`, pending.length);

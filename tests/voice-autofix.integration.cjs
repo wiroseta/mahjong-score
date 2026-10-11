@@ -9,7 +9,7 @@ const original = fs.readFileSync(path.join(root, 'js/voice-parser.js'), 'utf8');
 const report = {
   id: 'mock-confirmed-001', kind: 'voice_debug',
   details: { confirmed_correction: {
-    confirmed_by_user: true, input: 'Yeni cemok',
+    confirmed_by_user: true, input: 'Yenny pisang aja',
     names: ['stefi','alan','herman','yenny'],
     expected: { quads:[0,0,0,0], method:'zimo', winner:3,
       patterns:[null,null,null,null], discarder:null }
@@ -27,8 +27,11 @@ global.fetch = async (url, options) => {
     let answer;
     if (mode==='valid') {
       const old='function voiceParseMulti(raw){';
-      const replacement=old+'\\n if (raw.toLowerCase().trim() === \"yeni cemok\") return {parsed:{raw,method:\"zimo\",winner:3,discarder:null,quads:[null,null,null,null],patterns:[null,null,null,null]},segments:[],uncertain:[]};';
+      const replacement=old+'\\n if (raw.toLowerCase().trim() === \"yenny pisang aja\") return {parsed:{raw,method:\"zimo\",winner:3,discarder:null,quads:[null,null,null,null],patterns:[null,null,null,null]},segments:[],uncertain:[]};';
       answer=JSON.stringify({old,new:replacement,rationale:'isolated integration test only'});
+    } else if (mode==='rejected') {
+      const old='function voiceParseMulti(raw){';
+      answer=JSON.stringify({old,new:old+'\\n // mock proposal does not fix confirmed command',rationale:'test rejected proposal'});
     } else if (mode==='empty') answer='';
     else if(mode==='invalid') answer=JSON.stringify({old:'text that does not exist',new:'replacement',rationale:'mock'});
     else answer=JSON.stringify({old:'',new:'',rationale:'safe no-op'});
@@ -49,15 +52,24 @@ try {
  for (const [scenario,expectedStatus,needle] of [
    ['empty',1,'empty Gemini response'],
    ['invalid',1,'old substring occurs 0 times'],
-   ['noop',0,'confirmed correction(s) remain unresolved'],
+   ['rejected',1,'proposal does not satisfy confirmed case'],
+   ['noop',0,'Voice Auto-Fix status: UNRESOLVED'],
    ['valid',0,'Verified parser proposal']
  ]) {
+   const outputFile=path.join(temp,'github-output.txt');
+   const summaryFile=path.join(temp,'github-summary.md');
+   fs.writeFileSync(outputFile,'');fs.writeFileSync(summaryFile,'');
    const result=spawnSync(process.execPath,['--require',path.join(temp,'mock.cjs'),'scripts/voice-autofix.mjs'],{
      cwd:temp,encoding:'utf8',timeout:20000,
-     env:{...process.env,MOCK_SCENARIO:scenario,SUPABASE_URL:'https://mock.invalid',SUPABASE_SERVICE_ROLE_KEY:'offline',GEMINI_API_KEY:'offline'}
+     env:{...process.env,MOCK_SCENARIO:scenario,SUPABASE_URL:'https://mock.invalid',SUPABASE_SERVICE_ROLE_KEY:'offline',GEMINI_API_KEY:'offline',GITHUB_OUTPUT:outputFile,GITHUB_STEP_SUMMARY:summaryFile}
    });
    assert.equal(result.status,expectedStatus,`${scenario}: ${result.stdout}\n${result.stderr}`);
    assert.ok((result.stdout+result.stderr).includes(needle),`${scenario}: missing ${needle}`);
+   if(['noop','valid'].includes(scenario)){
+     const outcome=scenario==='noop'?'UNRESOLVED':'VERIFIED_PATCH';
+     assert.match(fs.readFileSync(outputFile,'utf8'),new RegExp('voice_status='+outcome+'\\b'),scenario+': incorrect workflow output');
+     assert.ok(fs.readFileSync(summaryFile,'utf8').includes('Voice correction outcome: '+outcome),scenario+': missing summary');
+   }
    assert.equal(fs.existsSync(path.join(temp,'tests/voice-runtime-confirmed.json')),false,`${scenario}: unverified runtime fixture leaked`);
    if(scenario==='valid') {
      assert.notEqual(fs.readFileSync(path.join(temp,'js/voice-parser.js'),'utf8'),original,'valid proposal not written');
@@ -68,5 +80,5 @@ try {
      fs.writeFileSync(path.join(temp,'js/voice-parser.js'),original);
    } else assert.equal(fs.readFileSync(path.join(temp,'js/voice-parser.js'),'utf8'),original,`${scenario}: parser unexpectedly changed`);
  }
- console.log('PASS: 4 isolated Supabase/Gemini integration scenarios (including verified patch and baseline regression)');
+ console.log('PASS: 5 isolated Supabase/Gemini integration scenarios (including verified patch and baseline regression)');
 } finally {fs.rmSync(temp,{recursive:true,force:true});}

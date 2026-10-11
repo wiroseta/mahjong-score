@@ -1,3 +1,42 @@
+## v15.7.6 candidate — Voice Diagnostic flex scroll sizing (not deployed)
+- Fix the Voice Diagnostic scroll viewport collapsing to a narrow strip: make the content pane flex:1 1 0% with zero base height, while keeping the header non-shrinking.
+- Scope changes to Voice Diagnostic; User Management and Mahjong rules remain untouched.
+- Device/browser verification remains pending.
+
+## v15.7.6 — Voice Diagnostic scroll candidate (11 Oktober 2026)
+- Menyatukan scroll Voice Diagnostic di area konten, bukan modal; header tetap di atas.
+- Menghilangkan tinggi nol paksa pada area scroll, mempertahankan min-height:0 dan menambah ruang bawah safe-area untuk Safari iPhone.
+- Tidak mengubah User Management, Voice Parser, aturan skor, atau fitur lain.
+- Pengujian pada perangkat asli masih diperlukan.
+
+## v15.7.6 candidate — User Management CSS consolidation (not deployed)
+- Remove obsolete conflicting mobile list-scroll declarations; retain scrolling on the User Management modal and the existing expanded-list presentation.
+- No changes to scoring, authentication, or Voice Parser.
+
+## v15.7.6 Candidate — Voice integration fixture maintenance (2026-10-11)
+- Replace obsolete simulated unresolved command `Yeni cemok` with synthetic `Yenny pisang aja` in isolated Gemini integration tests. `Yeni cemok` is now a supported parser regression case.
+- No changes to Mahjong scoring rules or production Voice Parser in this step.
+- Production Gemini/Supabase and device testing remain pending.
+
+## v15.7.6 candidate — GitHub outcome regression verification (11 October 2026)
+- Extend isolated Gemini Auto-Fix integration tests to verify GitHub Actions output and summary for UNRESOLVED and VERIFIED_PATCH.
+- No changes to parser, score calculations, or application version marker.
+- Production Supabase/Gemini and device behavior still require validation.
+
+## v15.7.6 candidate — Explicit Gemini Auto-Fix outcome reporting (belum deploy)
+- Catat status NO_CHANGE, UNRESOLVED, atau VERIFIED_PATCH dalam GitHub Actions summary/output; koreksi belum selesai tidak dilaporkan sebagai perbaikan berhasil.
+- UNRESOLVED tetap safe no-op tanpa perubahan parser atau commit; VERIFIED_PATCH masih memerlukan validasi dan push.
+- Tambah pemeriksaan regresi status UNRESOLVED pada simulasi; tidak mengubah versi runtime atau skor.
+
+## v15.7.6 candidate — Gemini rejected-proposal regression verification (belum deploy)
+- Tambah skenario integrasi untuk proposal Gemini yang sintaksnya valid tetapi tidak memperbaiki koreksi terkonfirmasi; wajib ditolak tanpa mengubah parser atau membuat fixture runtime.
+- Tidak ada perubahan pada aturan skor, versi runtime aplikasi, atau konfigurasi Supabase.
+
+## v15.7.6 candidate — Quad guide overlay audit (belum deploy)
+- Pindahkan garis indikator wheel Quad dari pseudo-element di dalam scroll container menjadi elemen overlay saudara di luar area scroll.
+- Pertahankan Voice startup visibility fix dari kandidat sebelumnya.
+- Pengujian parser dan simulasi Auto-Fix PASS; integrasi Supabase/Gemini produksi serta uji visual perangkat belum diverifikasi.
+
 ## v15.7.6 — Voice button startup visibility and Quad wheel indicator (local candidate)
 - Voice buttons start hidden until account session permissions are resolved, avoiding a brief visible button on refresh before Voice OFF is applied.
 - Quad wheel selection guide uses a fixed absolute overlay rather than a sticky scrolling pseudo-element to reduce line alignment artifacts on mobile.

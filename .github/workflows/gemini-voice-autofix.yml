@@ -45,6 +45,7 @@ jobs:
           node tests/voice-autofix.integration.cjs
 
       - name: Request Gemini parser improvement
+        id: voice_autofix
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
@@ -93,3 +94,6 @@ jobs:
           echo "Branch: main" >> "$GITHUB_STEP_SUMMARY"
           echo "Target: js/voice-parser.js" >> "$GITHUB_STEP_SUMMARY"
           echo "Application version: unchanged" >> "$GITHUB_STEP_SUMMARY"
+          echo "Auto-Fix proposal outcome: ${{ steps.voice_autofix.outputs.voice_status || 'NOT_REPORTED' }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "Confirmed cases pending at evaluation: ${{ steps.voice_autofix.outputs.voice_pending || 'unknown' }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "A verified proposal is not a committed fix until validation and push succeed." >> "$GITHUB_STEP_SUMMARY"
