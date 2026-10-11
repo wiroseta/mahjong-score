@@ -25,6 +25,13 @@ global.fetch = async (url, options) => {
   if (String(url).includes('generativelanguage.googleapis.com')) {
     count++;
     const mode=process.env.MOCK_SCENARIO;
+    if(mode==='rejected' && count===2) {
+      const prompt=JSON.parse(options.body).contents[0].parts[0].text;
+      if(!prompt.includes('Failed validation (human-confirmed expected vs candidate parser actual)') ||
+         !prompt.includes('"differences"') || !prompt.includes('"method"') ||
+         !prompt.includes('"actual"') || !prompt.includes('"expected"'))
+        throw Error('Retry lacks structured candidate-vs-expected feedback');
+    }
     let answer;
     if (mode==='line-valid' || mode==='line-retry') {
       const parser=fs.readFileSync('js/voice-parser.js','utf8');
@@ -92,5 +99,5 @@ try {
      fs.writeFileSync(path.join(temp,'js/voice-parser.js'),original);
    } else assert.equal(fs.readFileSync(path.join(temp,'js/voice-parser.js'),'utf8'),original,`${scenario}: parser unexpectedly changed`);
  }
- console.log('PASS: 7 isolated Supabase/Gemini integration scenarios (including verified patch and baseline regression)');
+ console.log('PASS: 7 isolated Supabase/Gemini integration scenarios (including retry difference feedback and baseline regression)');
 } finally {fs.rmSync(temp,{recursive:true,force:true});}

@@ -1,3 +1,12 @@
+## v15.7.10 — Gemini Auto-Fix structured validation feedback (11 Oktober 2026)
+
+- Provide Gemini with confirmed expected values, actual parser results, and field-level differences for each pending correction.
+- When a candidate fails confirmed-case validation, include that candidate’s actual-vs-expected differences in the second attempt so Gemini can target the failing behavior.
+- Keep the two-attempt limit, safe no-op on unresolved corrections, strict parser-only changes, and existing regression gates.
+- Preserve the latest diagnostic Supabase Edge Function source in the ZIP; no redeploy needed if the deployed code is unchanged.
+- Offline syntax, 18 parser baseline cases, and 7 integration scenarios pass. Live Gemini remediation remains unverified.
+- Application version remains v15.7.10.
+
 ## v15.7.10 — Gemini Auto-Fix line-anchored proposal reliability (11 Oktober 2026)
 
 - Gemini may propose a bounded numbered source-line replacement; original text is extracted locally rather than copied approximately by AI.

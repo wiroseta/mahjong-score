@@ -333,6 +333,39 @@ function matchesExpected(actual, expected) {
 }
 
 /**
+ * Describe a failed confirmed case to Gemini without logging the spoken
+ * sentence or exposing any private diagnostic data in GitHub Actions logs.
+ * Only the explicit, human-confirmed expected fields are compared.
+ */
+function correctionDifference(code, correction) {
+  try {
+    const actual = parseWithSource(code, correction.input, correction.names);
+    const differences = {};
+    for (const [field, expected] of Object.entries(correction.expected)) {
+      if (JSON.stringify(actual[field]) !== JSON.stringify(expected)) {
+        differences[field] = {
+          expected,
+          actual: actual[field] === undefined ? null : actual[field]
+        };
+      }
+    }
+    return {
+      id: correction.id,
+      input: correction.input,
+      names: correction.names,
+      expected: correction.expected,
+      actual: Object.fromEntries(Object.keys(correction.expected).map(key =>
+        [key, actual[key] === undefined ? null : actual[key]])),
+      differences
+    };
+  } catch (error) {
+    return {id: correction.id, input: correction.input,
+      names: correction.names, expected: correction.expected,
+      runtimeError: error instanceof Error ? error.name : 'UnknownError'};
+  }
+}
+
+/**
  * Keep only corrections that the existing parser fails.
  */
 const pending = [];
@@ -410,8 +443,8 @@ Return ONLY JSON with one of the two formats described above.
 Numbered source code (numbers are NOT part of the code):
 ${sourceLines.map((line, index) => `${index + 1}: ${line}`).join('\n')}
 
-Human-confirmed failing cases:
-${JSON.stringify(pending.slice(0, 12))}
+Human-confirmed failing cases, including actual parser output and field-level differences:
+${JSON.stringify(pending.slice(0, 12).map(correction => correctionDifference(source, correction)))}
 `;
 
 // A proposal is untrusted until the exact source match and regression checks
@@ -421,11 +454,14 @@ let updated;
 let patch;
 let lastProblem = 'unknown';
 let previousProposal = null;
+let failedCaseFeedback = null;
 
 for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
   const feedback = attempt === 1 ? '' : `
 Your previous proposal was rejected: ${lastProblem}.
 Previous proposal (untrusted, for correction only): ${JSON.stringify(previousProposal).slice(0, 8000)}
+Failed validation (human-confirmed expected vs candidate parser actual): ${JSON.stringify(failedCaseFeedback).slice(0, 6000)}
+Correct the DIFFERING FIELDS in the failed case, not merely the source match.
 Prefer startLine/endLine with numbered source. Return a different, minimal patch.
 If unable to guarantee an exact unique match and all cases, return an empty patch.
 `;
@@ -531,6 +567,7 @@ If unable to guarantee an exact unique match and all cases, return an empty patc
       )
     );
     if (failed) {
+      failedCaseFeedback = correctionDifference(candidateSource, failed);
       lastProblem = `proposal does not satisfy confirmed case ${failed.id}`;
       console.log(`Proposal ${attempt}/${MAX_ATTEMPTS} rejected: ${lastProblem}`);
       continue;
