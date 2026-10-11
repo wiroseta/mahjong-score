@@ -1,3 +1,11 @@
+## v15.7.9 — User Management Voice switch immediate save (11 Oktober 2026)
+
+- Voice Recognition switch in User Management now saves immediately to Supabase without requiring the separate Simpan Pengaturan button.
+- When editing the logged-in account, apply Voice button visibility immediately after successful save; stop active recording on OFF.
+- Prevent a pre-existing permission refresh request from overwriting the just-saved local permission.
+- Restore switch state and show an error if server save fails; retain all other user settings and v15.7.7 iPhone diagnostic layout.
+- Update displayed version, manifest, diagnostic version and service worker cache to v15.7.9.
+
 ## v15.7.8 — Voice Recognition permission synchronization (11 Oktober 2026)
 - Apply Voice ON/OFF immediately when Administrator saves their own user settings, without logout/login.
 - Poll server-authoritative Supabase Auth user metadata every 15 seconds and refresh on tab focus/visibility for other active devices.
