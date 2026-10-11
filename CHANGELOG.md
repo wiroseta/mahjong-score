@@ -1,3 +1,9 @@
+## v15.7.11 — Voice Diagnostic Quad/Kombinasi visibility (11 Oktober 2026)
+
+- Show parsed Quad and Kombinasi values, recognized action status, and resolved player names for each Free Voice Test alternative.
+- Preserve existing parser logic, scoring rules, and Gemini Auto-Fix workflows.
+- Update displayed app version and PWA cache identifier to v15.7.11.
+
 ## v15.7.10 — Safari “singkong” Quad recognition correction (11 Oktober 2026)
 
 - Accept Safari Indonesian speech drift `Yeni singkong dua` as Yenny Quad 2 only with a valid active player anchor and explicit count.

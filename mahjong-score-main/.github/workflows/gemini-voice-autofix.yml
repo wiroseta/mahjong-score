@@ -1,0 +1,122 @@
+name: Gemini Voice Parser Auto-Fix
+
+on:
+  workflow_dispatch:
+
+  # 23.00 UTC = 06.00 WIB hari berikutnya.
+  schedule:
+    - cron: '0 23 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mahjong-voice-autofix-main
+  cancel-in-progress: false
+
+jobs:
+  update-parser:
+    name: Gemini Voice Parser Auto-Update
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+
+    # Mode Stabil menghentikan Auto-Fix.
+    # Jika variabel tidak tersedia, job juga tidak berjalan.
+    if: vars.MAHJONG_VOICE_AUTO_MODE == 'development'
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v5
+        with:
+          ref: main
+          persist-credentials: true
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - name: Verify baseline
+        run: |
+          node --check js/voice-parser.js
+          node --check scripts/voice-autofix.mjs
+          node tests/voice-parser.test.cjs
+          node tests/voice-autofix.integration.cjs
+
+      - name: Request Gemini parser improvement
+        id: voice_autofix
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
+        run: node scripts/voice-autofix.mjs
+
+      - name: Validate parser and regression
+        run: |
+          node --check js/voice-parser.js
+          node tests/voice-parser.test.cjs
+          node tests/voice-autofix.integration.cjs
+          git diff --check
+
+          # Tidak boleh ada file lain yang berubah.
+          test -z "$(git status --porcelain --untracked-files=all -- . ':!js/voice-parser.js')"
+
+      - name: Commit verified parser directly to main
+        env:
+          GH_TOKEN: ${{ secrets.VOICE_AUTOFIX_GH_TOKEN }}
+        run: |
+          if git diff --quiet -- js/voice-parser.js; then
+            echo "No parser changes. Nothing to commit."
+            exit 0
+          fi
+
+          # Recheck mode immediately before commit. The initial job-level check
+          # cannot stop a run if the administrator switches to Stable mid-run.
+          # Fail closed if the GitHub variable cannot be read.
+          MODE=$(node -e '
+            (async () => {
+              const url = `https://api.github.com/repos/${process.env.GITHUB_REPOSITORY}/actions/variables/MAHJONG_VOICE_AUTO_MODE`;
+              const response = await fetch(url, {headers: {
+                Authorization: `Bearer ${process.env.GH_TOKEN}`,
+                Accept: "application/vnd.github+json",
+                "X-GitHub-Api-Version": "2022-11-28"
+              }, signal: AbortSignal.timeout(15000)});
+              if (!response.ok) throw Error(`Cannot verify Auto-Update mode (HTTP ${response.status})`);
+              const variable = await response.json();
+              process.stdout.write(variable.value || "");
+            })().catch(e => { console.error(e.message); process.exit(1); });
+          ')
+          if [ "$MODE" != "development" ]; then
+            echo "Auto-Update mode is no longer Development. Parser commit skipped."
+            exit 0
+          fi
+
+          # Pastikan main belum berubah sejak checkout.
+          git fetch origin main
+
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/main)" ]; then
+            echo "::error::Main changed during Auto-Fix. Aborting safely."
+            exit 1
+          fi
+
+          git config user.name "Mahjong Voice Auto-Fix"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add js/voice-parser.js
+          git commit -m "fix(voice): Gemini verified parser improvement"
+
+          # Tanpa force push.
+          git push origin HEAD:main
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "## Mahjong Voice Parser Auto-Update" >> "$GITHUB_STEP_SUMMARY"
+          echo "Branch: main" >> "$GITHUB_STEP_SUMMARY"
+          echo "Target: js/voice-parser.js" >> "$GITHUB_STEP_SUMMARY"
+          echo "Application version: unchanged" >> "$GITHUB_STEP_SUMMARY"
+          echo "Auto-Fix proposal outcome: ${{ steps.voice_autofix.outputs.voice_status || 'NOT_REPORTED' }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "Confirmed cases pending at evaluation: ${{ steps.voice_autofix.outputs.voice_pending || 'unknown' }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "A verified proposal is not a committed fix until validation and push succeed." >> "$GITHUB_STEP_SUMMARY"
