@@ -1,3 +1,9 @@
+## v15.7.10 — Safari “singkong” Quad recognition correction (11 Oktober 2026)
+
+- Accept Safari Indonesian speech drift `Yeni singkong dua` as Yenny Quad 2 only with a valid active player anchor and explicit count.
+- Extend tightly scoped Yenny/Hari name repairs and Quad keyword matching; preserve bare `Singkong dua` as non-action.
+- Add regression tests for player-anchored and unanchored cases; preserve application version and existing Supabase Edge Function and Gemini workflows.
+
 ## v15.7.10 — Safari “kongs” Quad recognition correction (11 Oktober 2026)
 
 - Audit of confirmed correction `Yeni kongs dua` identified missing `kongs` recognition in the parser's tightly scoped Quad vocabulary; the saved expected count is now 2.

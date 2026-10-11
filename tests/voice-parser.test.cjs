@@ -15,6 +15,10 @@ const cases=[
  ['Quad dua',{method:null,winner:null,quads:[null,null,null,null]}],
  ['Gang satu',{method:null,winner:null,quads:[null,null,null,null]}],
  ['Singkong dua',{method:null,winner:null,quads:[null,null,null,null]}],
+ ['Yeni singkong dua',{method:null,winner:null,quads:[null,2,null,null]}],
+ ['Yenny singkong dua',{method:null,winner:null,quads:[null,2,null,null]}],
+ ['Hari singkong dua',{method:null,winner:null,quads:[null,null,null,2]}],
+ ['Singkong dua Yenny',{method:null,winner:null,quads:[null,null,null,null]}],
  ['Ferry Quad satu',{quads:[null,null,1,null]}],
  ['Ari Quad satu',{quads:[null,null,null,1]}],
  ['Hari kuat satu',{quads:[null,null,null,1]}],
@@ -31,6 +35,7 @@ const cases=[
  ['Andi HU dari Yenny Ferry Quad satu Ari Quad satu Andi Set Mulia',{method:'hu',winner:0,discarder:1,quads:[null,null,1,1],patterns:[0,null,null,null]}],
 ];
 for(const [input,expected] of cases){const result=parse(input);for(const [k,v] of Object.entries(expected))assert.deepEqual(result[k],v,`${input}: ${k}`)}
+assert.deepEqual(parse('Yeni singkong dua',['Yenny','Ari','Herman','Stefi']).quads,[2,null,null,null],'confirmed correction 856e65c1: Yenny Quad 2');
 // Additional verified cases may be committed by maintainers. Never automatically turn Gemini guesses into expected results.
 for(const path of ['tests/voice-confirmed.json','tests/voice-runtime-confirmed.json'])if(fs.existsSync(path))for(const c of JSON.parse(fs.readFileSync(path,'utf8'))){const r=parse(c.input,c.names);for(const [k,v] of Object.entries(c.expected))assert.deepEqual(r[k],v,`${c.input}: ${k}`)}
 console.log(`PASS: ${cases.length} baseline cases + confirmed fixtures`);
