@@ -1,8 +1,13 @@
-## v15.7.11 — Voice Diagnostic Quad/Kombinasi visibility (11 Oktober 2026)
+## v15.7.12 — Edge-to-edge dark-glass modal headers
+- Align Setting and settings submenu header backgrounds to modal top corners and side edges, matching Aturan Bermain Mahjong.
+- Preserve modal contents, controls, scrolling, scoring and Voice Auto-Fix.
+- Refresh PWA cache identifier and app version.
+
+## v15.7.12 — Voice Diagnostic Quad/Kombinasi visibility (11 Oktober 2026)
 
 - Show parsed Quad and Kombinasi values, recognized action status, and resolved player names for each Free Voice Test alternative.
 - Preserve existing parser logic, scoring rules, and Gemini Auto-Fix workflows.
-- Update displayed app version and PWA cache identifier to v15.7.11.
+- Update displayed app version and PWA cache identifier to v15.7.12.
 
 ## v15.7.10 — Safari “singkong” Quad recognition correction (11 Oktober 2026)
 
