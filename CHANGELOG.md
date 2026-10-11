@@ -1,3 +1,7 @@
+## v15.7.3 — Modal Header Containment Fix
+- Unified Settings and User Management modal header layout; removed old negative top offset for User Management on mobile.
+- Kept header and close button within modal scroll container and safe-area bounds. No changes to user management behavior or rules content.
+
 ## v15.7.2 — Fixed Dark Glass Settings, Compact Header & Auto-Fix Safety (2026-10-11)
 - Perbaiki header Setting agar ringkas dan tetap di dalam jendela, dengan satu area scroll dan batas tinggi layar.
 - Samakan penanda versi aplikasi, About, diagnostik, manifest dan cache PWA ke v15.7.2.
