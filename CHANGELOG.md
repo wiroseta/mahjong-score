@@ -1,3 +1,9 @@
+## v15.7.7 — iPhone Voice Diagnostic content-fit and version identification (11 Oktober 2026)
+- Fix iPhone Safari Voice Diagnostic filling nearly the entire screen when all panels are collapsed. Use a centered content-sized grid card with a maximum viewport height and one scroll container.
+- Keep all five panels, sticky close header, Dark Glass styling, and expanded-panel scrolling. Remove obsolete Voice Diagnostic geometry rules rather than stacking new overrides.
+- Update displayed version, About, diagnostic metadata, manifest and service-worker cache key to v15.7.7 for unambiguous device testing.
+- Preserve User Management, Quad overlay, Voice Recognition initial hiding, and Gemini safety updates from v15.7.6. Device and live-service verification remain pending.
+
 ## v15.7.6 — Voice Diagnostic content-fit modal correction (11 Oktober 2026)
 - Voice Diagnostic modal now uses intrinsic height (`height: auto`) with a viewport `max-height`; short panels no longer stretch to the full screen and leave a large empty area.
 - Long diagnostic content still scrolls within the modal; the sticky header and existing Dark Glass layout are preserved.
