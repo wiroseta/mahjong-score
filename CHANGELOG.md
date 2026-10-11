@@ -1,3 +1,8 @@
+## v15.7.6 — Voice Diagnostic native scroll & version consistency (2026-10-11)
+- Replaced zero-height nested flex scrolling in Voice Diagnostic with one native modal scroll container and sticky header. Five diagnostic sections retain natural document flow; fixes giant blank vertical gap seen on mobile.
+- Synchronized visible application version, About, diagnostics, generated guides, diagnostic report metadata, PWA manifest and service-worker cache to v15.7.6.
+- Preserved User Management, Mahjong scoring, Voice Parser and Gemini Auto-Fix behavior. Device verification still required.
+
 ## v15.7.6 candidate — Voice Diagnostic flex scroll sizing (not deployed)
 - Fix the Voice Diagnostic scroll viewport collapsing to a narrow strip: make the content pane flex:1 1 0% with zero base height, while keeping the header non-shrinking.
 - Scope changes to Voice Diagnostic; User Management and Mahjong rules remain untouched.
