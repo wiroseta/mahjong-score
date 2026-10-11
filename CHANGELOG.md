@@ -1,3 +1,8 @@
+## v15.7.6 — Voice button startup visibility and Quad wheel indicator (local candidate)
+- Voice buttons start hidden until account session permissions are resolved, avoiding a brief visible button on refresh before Voice OFF is applied.
+- Quad wheel selection guide uses a fixed absolute overlay rather than a sticky scrolling pseudo-element to reduce line alignment artifacts on mobile.
+- Verified existing Gemini Auto-Fix safe no-op handling and isolated regression tests; live Gemini/Supabase and mobile rendering still require verification.
+
 ## v15.7.3 — Modal Header Containment Fix
 - Unified Settings and User Management modal header layout; removed old negative top offset for User Management on mobile.
 - Kept header and close button within modal scroll container and safe-area bounds. No changes to user management behavior or rules content.
