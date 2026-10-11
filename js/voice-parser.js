@@ -127,12 +127,13 @@ function voiceRepairTranscript(raw){
   text=text.replace(new RegExp('\\b'+esc+'(?:hu|hoo|ku|kku)(?=\\s+dari\\b)','g'),name+' hu');
   text=text.replace(new RegExp('\\b(?:hudari|hu\\s*dari)'+esc+'\\b','g'),'hu dari '+name);
  }
- if(s.names.some(n=>voiceNormalize(n)==='yenny')){
-  text=text.replace(/\b(?:hudari|hu dari)yeni\b/g,'hu dari yenny');
-  text=text.replace(/\b(dari) yeni\b/g,'$1 yenny');
-  // Only repair 'ibu' when preceded by an exact active player and followed by 'dari Yenny'.
-  for(const n of s.names){const a=voiceNormalize(n);if(a&&text.includes(a+' ibu dari yenny'))text=text.replaceAll(a+' ibu dari yenny',a+' hu dari yenny')}
- }
+  if(s.names.some(n=>voiceNormalize(n)==='yenny')){
+   text=text.replace(/\b(?:hudari|hu dari)\s*yeni\b/g,'hu dari yenny');
+   text=text.replace(/\b(?:hudari|hu dari)\s*heni\b/g,'hu dari yenny');
+   text=text.replace(/\bheni\s+dari\s+alan\b/g,'yenny hu dari alan');
+   text=text.replace(/\b(dari)\s+yeni\b/g,'$1 yenny');
+   for(const n of s.names){const a=voiceNormalize(n);if(a&&text.includes(a+' ibu dari yenny'))text=text.replaceAll(a+' ibu dari yenny',a+' hu dari yenny')}
+  }
  return text;
 }
 function voiceCommandSegments(raw){
