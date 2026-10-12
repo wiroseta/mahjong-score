@@ -1,39 +1,71 @@
--- Mahjong Score v15.6.85: run this active SQL in Supabase SQL Editor.
--- Voice debug is write-only for scorekeepers; only admins can SELECT.
--- Preserves previous schema upgrades.
--- Mahjong Score v15.6.40 — Upgrade ONLY (run once in Supabase SQL Editor)
--- Adds admin-issued remote diagnostic requests to the existing RLS-protected target row.
--- Requires the existing v15.6.38 schema and Realtime publication.
-ALTER TABLE public.mahjong_ai_diagnostic_targets
- ADD COLUMN IF NOT EXISTS request_id uuid,
- ADD COLUMN IF NOT EXISTS request_at timestamptz;
--- Existing RLS: only admin may UPDATE targets, users may SELECT only their own row.
--- Existing report insert RLS: target user may insert only when monitoring enabled.
-
--- Add a new allowed event kind without changing existing diagnostic records.
-ALTER TABLE public.mahjong_voice_diagnostics DROP CONSTRAINT IF EXISTS mahjong_voice_diagnostics_kind_check;
-ALTER TABLE public.mahjong_voice_diagnostics ADD CONSTRAINT mahjong_voice_diagnostics_kind_check
- CHECK (kind IN ('speech_test','speech_error','parser_self_test','voice_debug'));
-ALTER TABLE public.mahjong_voice_diagnostics ENABLE ROW LEVEL SECURITY;
-REVOKE ALL ON public.mahjong_voice_diagnostics FROM anon;
-REVOKE ALL ON public.mahjong_voice_diagnostics FROM authenticated;
-GRANT INSERT, SELECT ON public.mahjong_voice_diagnostics TO authenticated;
-DROP POLICY IF EXISTS voice_diagnostic_admin_insert ON public.mahjong_voice_diagnostics;
-DROP POLICY IF EXISTS voice_diagnostic_scorekeeper_insert ON public.mahjong_voice_diagnostics;
-CREATE POLICY voice_diagnostic_scorekeeper_insert ON public.mahjong_voice_diagnostics
- FOR INSERT TO authenticated WITH CHECK (user_id = (SELECT auth.uid())
- AND (SELECT auth.jwt())->'app_metadata'->>'role' IN ('admin','scorekeeper'));
-DROP POLICY IF EXISTS voice_diagnostic_admin_select ON public.mahjong_voice_diagnostics;
-CREATE POLICY voice_diagnostic_admin_select ON public.mahjong_voice_diagnostics
- FOR SELECT TO authenticated USING ((SELECT auth.jwt())->'app_metadata'->>'role' = 'admin');
--- No UPDATE or DELETE privileges for scorekeepers.
-
--- v15.6.92: idempotent, server-only GitHub dispatch ledger.
--- Edge Function writes using service_role; never expose this table to clients.
-CREATE TABLE IF NOT EXISTS public.mahjong_voice_autofix_dispatches (
- report_id uuid PRIMARY KEY REFERENCES public.mahjong_voice_diagnostics(id) ON DELETE CASCADE,
- requested_by uuid NOT NULL,
- requested_at timestamptz NOT NULL DEFAULT now()
+-- Mahjong Score v15.7.14 — ADDITIVE CLOUD SYNC FOUNDATION (NOT ACTIVATED)
+-- Run ONLY after reviewing against production schema. No existing game rows are modified.
+-- Server-side RPCs are intentionally NOT published in this migration: no application
+-- writer is allowed until atomic revision, transfer and offline conflict rules are tested.
+BEGIN;
+CREATE TABLE IF NOT EXISTS public.mahjong_device_sessions (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  device_id uuid NOT NULL,
+  session_generation bigint NOT NULL DEFAULT 1 CHECK (session_generation > 0),
+  is_active boolean NOT NULL DEFAULT false,
+  last_seen_at timestamptz NOT NULL DEFAULT now(),
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now(),
+  UNIQUE(user_id,device_id)
 );
-ALTER TABLE public.mahjong_voice_autofix_dispatches ENABLE ROW LEVEL SECURITY;
-REVOKE ALL ON public.mahjong_voice_autofix_dispatches FROM anon, authenticated;
+CREATE UNIQUE INDEX IF NOT EXISTS mahjong_one_active_device_per_user
+  ON public.mahjong_device_sessions(user_id) WHERE is_active;
+CREATE INDEX IF NOT EXISTS mahjong_device_sessions_user_idx
+  ON public.mahjong_device_sessions(user_id,updated_at DESC);
+
+CREATE TABLE IF NOT EXISTS public.mahjong_game_states (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  owner_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE RESTRICT,
+  game_data jsonb NOT NULL CHECK (jsonb_typeof(game_data)='object'),
+  revision bigint NOT NULL DEFAULT 0 CHECK (revision>=0),
+  writer_session_id uuid REFERENCES public.mahjong_device_sessions(id) ON DELETE SET NULL,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS mahjong_game_states_owner_idx
+  ON public.mahjong_game_states(owner_id,updated_at DESC);
+
+CREATE TABLE IF NOT EXISTS public.mahjong_sync_conflicts (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  game_id uuid NOT NULL REFERENCES public.mahjong_game_states(id) ON DELETE RESTRICT,
+  user_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE RESTRICT,
+  device_id uuid NOT NULL,
+  base_revision bigint NOT NULL CHECK (base_revision>=0),
+  proposed_game_data jsonb NOT NULL CHECK (jsonb_typeof(proposed_game_data)='object'),
+  reason text NOT NULL,
+  resolved_at timestamptz,
+  resolved_by uuid REFERENCES auth.users(id) ON DELETE SET NULL,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS mahjong_sync_conflicts_open_idx
+  ON public.mahjong_sync_conflicts(game_id,created_at DESC) WHERE resolved_at IS NULL;
+
+CREATE TABLE IF NOT EXISTS public.mahjong_session_audit (
+  id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  actor_id uuid REFERENCES auth.users(id) ON DELETE SET NULL,
+  subject_id uuid REFERENCES auth.users(id) ON DELETE SET NULL,
+  device_id uuid,
+  event_type text NOT NULL,
+  details jsonb NOT NULL DEFAULT '{}'::jsonb,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS mahjong_session_audit_subject_idx
+  ON public.mahjong_session_audit(subject_id,created_at DESC);
+
+ALTER TABLE public.mahjong_device_sessions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.mahjong_game_states ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.mahjong_sync_conflicts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.mahjong_session_audit ENABLE ROW LEVEL SECURITY;
+-- Fail closed: no browser table access until reviewed server RPCs are deployed.
+REVOKE ALL ON public.mahjong_device_sessions FROM PUBLIC,anon,authenticated;
+REVOKE ALL ON public.mahjong_game_states FROM PUBLIC,anon,authenticated;
+REVOKE ALL ON public.mahjong_sync_conflicts FROM PUBLIC,anon,authenticated;
+REVOKE ALL ON public.mahjong_session_audit FROM PUBLIC,anon,authenticated;
+REVOKE ALL ON SEQUENCE public.mahjong_session_audit_id_seq FROM PUBLIC,anon,authenticated;
+COMMIT;

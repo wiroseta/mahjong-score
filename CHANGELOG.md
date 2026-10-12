@@ -1,3 +1,9 @@
+## v15.7.14 — Fondasi sinkronisasi (belum diaktifkan)
+- Menambahkan rancangan migrasi aditif empat tabel cloud dengan RLS dan akses browser ditutup secara default.
+- SQL aktif hanya memuat migrasi baru; SQL aktif sebelumnya diarsipkan pada berkas riwayat.
+- Tidak mengubah HTML, JavaScript, Edge Functions, Live Sharing, maupun data permainan.
+- Implementasi sesi perangkat dan pemulihan cloud belum diaktifkan sampai RPC atomik dan uji Supabase selesai.
+
 ## v15.7.13 — Modal layout and Settings typography (11 Oktober 2026)
 - Aturan Bermain: scrollbar dipindah ke area konten agar header mengisi lebar modal termasuk sudut kanan.
 - About This Program: header tidak terpotong; tinggi jendela mengikuti konten dengan batas tinggi dan scroll saat diperlukan. Seluruh teks legal dipertahankan.
