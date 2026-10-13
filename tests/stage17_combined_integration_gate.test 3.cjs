@@ -1,0 +1,18 @@
+const {test}=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs'); const path=require('node:path');
+const root=path.resolve(__dirname,'..'); const read=n=>fs.readFileSync(path.join(root,n),'utf8');
+const candidate=read('supabase_sync_stage14_transfer_candidate_DO_NOT_DEPLOY.sql');
+const review=read('STAGE17_COMBINED_FIVE_RPC_INTEGRATION_REVIEW_ONLY.sql');
+const preflight=read('STAGE17_COMBINED_PREFLIGHT_READONLY.sql');
+const active=read('supabase_latest.sql');
+const rpc=['open','commit','open_reader','read','lease_status'];
+test('combined review has explicit blocking sentinel',()=>assert.match(review,/DO \$\$ BEGIN RAISE EXCEPTION 'UNSAFE DRAFT/));
+test('combined candidate preserves five RPC definitions',()=>rpc.forEach(x=>assert.match(review,new RegExp('CREATE OR REPLACE FUNCTION public\\.mahjong_sync_'+x+'\\\('))));
+test('combined candidate preserves strict validator',()=>assert.match(review,/CREATE OR REPLACE FUNCTION public\.mahjong_sync_valid_game/));
+test('combined candidate has transaction end but cannot bypass sentinel',()=>{assert.match(candidate,/COMMIT;\s*$/);assert.ok(review.indexOf('UNSAFE DRAFT')<review.indexOf('BEGIN;'));});
+test('catalog preflight only uses SELECT',()=>{assert.doesNotMatch(preflight,/\b(?:INSERT|UPDATE|DELETE|ALTER|CREATE|DROP|TRUNCATE|GRANT|REVOKE|DO|CALL)\s+(?:TABLE|FUNCTION|ON|FROM|INTO|public\.)/i);assert.match(preflight,/pg_proc/);});
+test('active foundation excludes five uninstalled RPCs',()=>rpc.forEach(x=>assert.doesNotMatch(active,new RegExp('CREATE OR REPLACE FUNCTION public\\.mahjong_sync_'+x+'\\\('))));
+test('candidate requires real auth session validation',()=>assert.match(candidate,/FROM auth\.sessions WHERE id=v_auth_session/));
+test('candidate binds writer token to generation and revision',()=>{assert.match(candidate,/p_base_revision/);assert.match(candidate,/session_generation/);assert.match(candidate,/session_token_hash/);});
+test('candidate checks writer auth again after locking',()=>assert.match(candidate,/post.lock|after lock|revalidat|auth\.sessions/mi));

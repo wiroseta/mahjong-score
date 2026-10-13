@@ -1,0 +1,9 @@
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const sql=fs.readFileSync(require('node:path').join(__dirname,'../supabase_sync_rpc_draft.sql'),'utf8');
+const peek=sql.split('CREATE OR REPLACE FUNCTION public.mahjong_sync_peek()')[1]?.split('END; $$;')[0];
+test('peek RPC exists and requires authenticated caller',()=>{assert.ok(peek);assert.match(peek,/auth\.uid\(\)/);assert.match(peek,/auth\.sessions/);});
+test('peek refuses banned, deleted, or older scorekeeper login',()=>{assert.match(peek,/banned_until/);assert.match(peek,/deleted_at/);assert.match(peek,/Newer login session exists/);});
+test('peek returns revision without any data mutation',()=>{assert.match(peek,/v_game\.revision/);assert.doesNotMatch(peek,/\b(?:INSERT|UPDATE|DELETE)\b/i);});
+test('peek callable by authenticated only',()=>{assert.match(sql,/REVOKE ALL ON FUNCTION public\.mahjong_sync_peek\(\) FROM PUBLIC,anon,authenticated/);assert.match(sql,/GRANT EXECUTE ON FUNCTION public\.mahjong_sync_peek\(\) TO authenticated/);});
