@@ -1,0 +1,13 @@
+'use strict';
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+const sql=fs.readFileSync(path.join(__dirname,'../supabase_sync_rpc_draft.sql'),'utf8');
+const start=sql.indexOf('CREATE OR REPLACE FUNCTION public.mahjong_sync_commit(');
+const end=sql.indexOf('CREATE OR REPLACE FUNCTION public.mahjong_sync_open_reader(',start);
+assert.ok(start>=0 && end>start);
+const commit=sql.slice(start,end);
+test('commit serializes owner before locking current game',()=>{const owner=commit.indexOf('FROM auth.users WHERE id=v_uid');const game=commit.indexOf('FROM public.mahjong_game_states');assert.ok(owner>=0 && game>owner);assert.match(commit.slice(owner,game),/FOR UPDATE/);assert.match(commit.slice(game),/FOR UPDATE/)});
+test('commit validates writer lease and revision before changing game data',()=>{const lease=commit.indexOf('v_game.writer_session_id IS DISTINCT FROM v_session.id');const rev=commit.indexOf('v_game.revision<>p_base_revision');const write=commit.indexOf('UPDATE public.mahjong_game_states');assert.ok(lease>=0 && rev>lease && write>rev)});
+test('commit rejects stale revisions and records conflicts without overwriting score',()=>{assert.match(commit,/v_reason:='revision-conflict'/);const conflict=commit.indexOf('INSERT INTO public.mahjong_sync_conflicts');const reject=commit.indexOf("RETURN jsonb_build_object('ok',false,'reason',v_reason");const write=commit.indexOf('UPDATE public.mahjong_game_states');assert.ok(conflict>=0 && reject>conflict && write>reject)});

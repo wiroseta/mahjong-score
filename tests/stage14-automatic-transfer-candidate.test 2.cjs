@@ -1,0 +1,14 @@
+'use strict';
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const sql = fs.readFileSync(path.join(__dirname,'..','supabase_sync_stage14_transfer_candidate_DO_NOT_DEPLOY.sql'),'utf8');
+const open = sql.split('CREATE OR REPLACE FUNCTION public.mahjong_sync_open(')[1].split('CREATE OR REPLACE FUNCTION public.mahjong_sync_commit(')[0];
+const commit = sql.split('CREATE OR REPLACE FUNCTION public.mahjong_sync_commit(')[1].split('CREATE OR REPLACE FUNCTION public.mahjong_sync_open_reader(')[0];
+test('Stage14 candidate is blocked from production execution',()=>assert.match(sql,/RAISE EXCEPTION 'UNSAFE DRAFT/));
+test('Stage14 newer session may pass without historical device lock',()=>{assert.doesNotMatch(open,/\'reason\',\'device-locked\'/);assert.doesNotMatch(open,/\'reason\',\'device-bound-to-other-device\'/);});
+test('Stage14 preflight precedes writer revocation',()=>{assert.ok(open.indexOf('cloud-revision-changed')<open.indexOf('UPDATE public.mahjong_device_sessions SET is_writer=false'));assert.ok(open.indexOf('local-cloud-mismatch')<open.indexOf('UPDATE public.mahjong_device_sessions SET is_writer=false'));});
+test('Stage14 old writer token revoked and session generation rotated',()=>{assert.match(open,/session_token_hash=NULL/);assert.match(open,/session_generation=public.mahjong_device_sessions.session_generation\+1/);});
+test('Stage14 commit validates session token generation and cloud revision',()=>{assert.doesNotMatch(commit,/\'reason\',\'device-bound-to-other-device\'/);assert.match(commit,/auth_session_id IS DISTINCT FROM v_auth_session/);assert.match(commit,/session_generation<>p_generation/);assert.match(commit,/revision-conflict/);});
+test('Stage14 candidate rejects older auth login even after newer session expires',()=>assert.match(open,/A newer login previously took ownership/));

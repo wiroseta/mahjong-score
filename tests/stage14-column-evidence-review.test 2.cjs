@@ -1,0 +1,12 @@
+'use strict';
+const test=require('node:test');const assert=require('node:assert/strict');
+const {reviewColumns}=require('../tools/stage14-review-columns.cjs');
+const base={mahjong_device_sessions:['auth_session_id','auth_session_created_at','ever_writer','session_generation','session_token_hash'],mahjong_game_states:['is_current','revision','writer_session_id']};
+const rows=Object.entries(base).flatMap(([table_name,cols])=>cols.map(column_name=>({table_name,column_name,installed:true,data_type:'text',column_default:null})));
+test('complete inventory passes presence-only gate',()=>assert.equal(reviewColumns(rows).ok,true));
+test('missing evidence fails closed',()=>assert.equal(reviewColumns([]).ok,false));
+test('duplicate column evidence fails',()=>assert.equal(reviewColumns([...rows,rows[0]]).ok,false));
+test('missing installed column fails',()=>{const x=structuredClone(rows);x[0].installed=false;assert.equal(reviewColumns(x).ok,false)});
+test('unknown installed state fails',()=>{const x=structuredClone(rows);delete x[0].installed;assert.equal(reviewColumns(x).ok,false)});
+test('unknown data type fails',()=>{const x=structuredClone(rows);x[0].data_type=null;assert.equal(reviewColumns(x).ok,false)});
+test('non-array evidence fails',()=>assert.equal(reviewColumns({}).ok,false));
