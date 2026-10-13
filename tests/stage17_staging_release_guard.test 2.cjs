@@ -1,0 +1,11 @@
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+const root=path.resolve(__dirname,'..');
+const read=(p)=>fs.readFileSync(path.join(root,p),'utf8');
+test('staging handoff explicitly prohibits production migration',()=>{const s=read('STAGE17_STAGING_SETUP_HANDOFF.md');assert.match(s,/PREPARATION ONLY/);assert.match(s,/Cloud Sync OFF/);assert.match(s,/Never remove that guard in production/)});
+test('transfer candidate still aborts before any migration',()=>{const s=read('supabase_sync_stage14_transfer_candidate_DO_NOT_DEPLOY.sql');assert.match(s.slice(0,1000),/DO \$\$ BEGIN RAISE EXCEPTION 'UNSAFE DRAFT/);assert.ok(s.indexOf('RAISE EXCEPTION')<s.indexOf('ALTER TABLE'))});
+test('combined integration candidate still aborts',()=>{const s=read('STAGE17_COMBINED_FIVE_RPC_INTEGRATION_REVIEW_ONLY.sql');assert.match(s.slice(0,1000),/RAISE EXCEPTION 'UNSAFE DRAFT/)});
+test('protocol requires all 12 acceptance scenarios',()=>{const s=read('STAGE17_REAL_AUTH_TWO_DEVICE_TEST_PROTOCOL.md');for(let i=1;i<=12;i++)assert.match(s,new RegExp('A'+String(i).padStart(2,'0')));assert.match(s,/0\/12 executed/)});
+test('staging handoff forbids copying secrets or live data',()=>{const s=read('STAGE17_STAGING_SETUP_HANDOFF.md');assert.match(s,/Do not copy production credentials/);assert.match(s,/Never send API keys/)});
