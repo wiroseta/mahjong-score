@@ -2300,7 +2300,13 @@ function applyMahjongSession(session){
  if(!session){closeMenus();const m=document.getElementById('userManagement');if(m)m.classList.remove('show')}
 }
 async function loginMahjong(ev){ev.preventDefault();setAuthMessage('');const u=document.getElementById('loginUsername').value;const pin=document.getElementById('loginPassword').value;const email=usernameEmail(u);if(email===AUTH_DOMAIN)return setAuthMessage('Username tidak valid.');if(!/^\d{4}$/.test(pin))return setAuthMessage('PIN harus tepat 4 digit.');const {error}=await mahjongSupabase.auth.signInWithPassword({email,password:'mj'+pin});if(error)setAuthMessage('Username atau PIN salah.')}
-async function logoutMahjong(){if(mahjongSupabase)await mahjongSupabase.auth.signOut()}
+async function logoutMahjong(){
+ // Explicit local scope: logging out this browser must not revoke refresh tokens
+ // belonging to other browsers. Server-side device revocation is separate.
+ if(!mahjongSupabase)return;
+ const {error}=await mahjongSupabase.auth.signOut({scope:'local'});
+ if(error)setAuthMessage('Logout gagal. Silakan coba lagi.');
+}
 function resetNewUserForm(){const u=document.getElementById('newUsername'),p=document.getElementById('newPassword'),r=document.getElementById('newUserRole'),m=document.getElementById('userManagementMessage');if(u)u.value='';if(p)p.value='';if(r)r.value='scorekeeper';if(m){m.textContent='';m.style.color=''}}
 function toggleAdminUsersPanel(){const el=document.getElementById("userManagementList"),btn=document.getElementById("adminUsersToggle");const open=el.hidden;el.hidden=!open;btn.setAttribute("aria-expanded",String(open));btn.firstChild.textContent=open?"▾ Daftar Pengguna (":"▸ Daftar Pengguna ("}
 function openUserManagement(){if(!mahjongIsAdmin)return;closeSettings();document.getElementById("userManagementList").hidden=true;document.getElementById("adminUsersToggle").setAttribute("aria-expanded","false");document.getElementById("adminUsersToggle").firstChild.textContent="▸ Daftar Pengguna (";resetNewUserForm();document.getElementById('userManagement').classList.add('show');loadMahjongUsers();adminLiveRefresh();adminLiveStartPolling()}
