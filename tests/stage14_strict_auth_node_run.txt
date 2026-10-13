@@ -1,0 +1,3295 @@
+TAP version 13
+# Subtest: PostgreSQL preflight opens an explicit read-only transaction
+ok 1 - PostgreSQL preflight opens an explicit read-only transaction
+  ---
+  duration_ms: 1.134636
+  type: 'test'
+  ...
+# Subtest: PostgreSQL preflight never sends migrations or writes
+ok 2 - PostgreSQL preflight never sends migrations or writes
+  ---
+  duration_ms: 1.733883
+  type: 'test'
+  ...
+# Subtest: PostgreSQL preflight validates database identifier and fails closed on connection errors
+ok 3 - PostgreSQL preflight validates database identifier and fails closed on connection errors
+  ---
+  duration_ms: 0.15058
+  type: 'test'
+  ...
+# Subtest: Score edit rolls back complete state on save failure
+ok 4 - Score edit rolls back complete state on save failure
+  ---
+  duration_ms: 4.745849
+  type: 'test'
+  ...
+# Subtest: Score edit persists new result on save success
+ok 5 - Score edit persists new result on save success
+  ---
+  duration_ms: 0.866859
+  type: 'test'
+  ...
+# Subtest: Quad deletion rolls back complete state on save failure
+ok 6 - Quad deletion rolls back complete state on save failure
+  ---
+  duration_ms: 1.361613
+  type: 'test'
+  ...
+# Subtest: Quad deletion persists on save success
+ok 7 - Quad deletion persists on save success
+  ---
+  duration_ms: 2.711165
+  type: 'test'
+  ...
+# Subtest: old score edit rebases newer before
+ok 8 - old score edit rebases newer before
+  ---
+  duration_ms: 2.975679
+  type: 'test'
+  ...
+# Subtest: old score edit save failure rolls back rebasing
+ok 9 - old score edit save failure rolls back rebasing
+  ---
+  duration_ms: 1.742374
+  type: 'test'
+  ...
+# Subtest: old quad deletion rebases newer before
+ok 10 - old quad deletion rebases newer before
+  ---
+  duration_ms: 1.290433
+  type: 'test'
+  ...
+# Subtest: old quad deletion save failure rolls back rebasing
+ok 11 - old quad deletion save failure rolls back rebasing
+  ---
+  duration_ms: 2.292906
+  type: 'test'
+  ...
+# Subtest: legacy missing newer before blocks score edit
+ok 12 - legacy missing newer before blocks score edit
+  ---
+  duration_ms: 0.961735
+  type: 'test'
+  ...
+# Subtest: legacy missing newer before blocks quad deletion
+ok 13 - legacy missing newer before blocks quad deletion
+  ---
+  duration_ms: 0.909032
+  type: 'test'
+  ...
+# Subtest: Stage14 preflight examines all four sync foundation tables
+ok 14 - Stage14 preflight examines all four sync foundation tables
+  ---
+  duration_ms: 0.898036
+  type: 'test'
+  ...
+# Subtest: Stage14 preflight checks direct DML privileges for both API roles
+ok 15 - Stage14 preflight checks direct DML privileges for both API roles
+  ---
+  duration_ms: 0.159071
+  type: 'test'
+  ...
+# Subtest: Stage14 preflight audits policies, indexes and RPC execute grants without mutations
+ok 16 - Stage14 preflight audits policies, indexes and RPC execute grants without mutations
+  ---
+  duration_ms: 0.544587
+  type: 'test'
+  ...
+# Subtest: Stage14 preflight explicitly reports missing foundation tables rather than silently omitting them
+ok 17 - Stage14 preflight explicitly reports missing foundation tables rather than silently omitting them
+  ---
+  duration_ms: 0.14861
+  type: 'test'
+  ...
+# Subtest: empty evidence is blocked
+ok 18 - empty evidence is blocked
+  ---
+  duration_ms: 1.057781
+  type: 'test'
+  ...
+# Subtest: complete restrictive table evidence passes provisional access checks
+ok 19 - complete restrictive table evidence passes provisional access checks
+  ---
+  duration_ms: 0.230472
+  type: 'test'
+  ...
+# Subtest: missing table evidence blocks
+ok 20 - missing table evidence blocks
+  ---
+  duration_ms: 0.11386
+  type: 'test'
+  ...
+# Subtest: direct authenticated update blocks
+ok 21 - direct authenticated update blocks
+  ---
+  duration_ms: 0.297757
+  type: 'test'
+  ...
+# Subtest: direct anon insert blocks
+ok 22 - direct anon insert blocks
+  ---
+  duration_ms: 0.150098
+  type: 'test'
+  ...
+# Subtest: disabled RLS blocks
+ok 23 - disabled RLS blocks
+  ---
+  duration_ms: 1.328289
+  type: 'test'
+  ...
+# Subtest: unknown privilege blocks
+ok 24 - unknown privilege blocks
+  ---
+  duration_ms: 0.358297
+  type: 'test'
+  ...
+# Subtest: duplicate conflicting evidence blocks
+ok 25 - duplicate conflicting evidence blocks
+  ---
+  duration_ms: 0.252256
+  type: 'test'
+  ...
+# Subtest: Stage14 candidate is blocked from production execution
+ok 26 - Stage14 candidate is blocked from production execution
+  ---
+  duration_ms: 6.096213
+  type: 'test'
+  ...
+# Subtest: Stage14 newer session may pass without historical device lock
+ok 27 - Stage14 newer session may pass without historical device lock
+  ---
+  duration_ms: 0.270739
+  type: 'test'
+  ...
+# Subtest: Stage14 preflight precedes writer revocation
+ok 28 - Stage14 preflight precedes writer revocation
+  ---
+  duration_ms: 0.344773
+  type: 'test'
+  ...
+# Subtest: Stage14 old writer token revoked and session generation rotated
+ok 29 - Stage14 old writer token revoked and session generation rotated
+  ---
+  duration_ms: 0.21278
+  type: 'test'
+  ...
+# Subtest: Stage14 commit validates session token generation and cloud revision
+ok 30 - Stage14 commit validates session token generation and cloud revision
+  ---
+  duration_ms: 1.737753
+  type: 'test'
+  ...
+# Subtest: Stage14 candidate rejects older auth login even after newer session expires
+ok 31 - Stage14 candidate rejects older auth login even after newer session expires
+  ---
+  duration_ms: 0.264884
+  type: 'test'
+  ...
+# Subtest: complete inventory passes presence-only gate
+ok 32 - complete inventory passes presence-only gate
+  ---
+  duration_ms: 0.85461
+  type: 'test'
+  ...
+# Subtest: missing evidence fails closed
+ok 33 - missing evidence fails closed
+  ---
+  duration_ms: 0.751132
+  type: 'test'
+  ...
+# Subtest: duplicate column evidence fails
+ok 34 - duplicate column evidence fails
+  ---
+  duration_ms: 0.440732
+  type: 'test'
+  ...
+# Subtest: missing installed column fails
+ok 35 - missing installed column fails
+  ---
+  duration_ms: 0.383038
+  type: 'test'
+  ...
+# Subtest: unknown installed state fails
+ok 36 - unknown installed state fails
+  ---
+  duration_ms: 0.347854
+  type: 'test'
+  ...
+# Subtest: unknown data type fails
+ok 37 - unknown data type fails
+  ---
+  duration_ms: 0.246135
+  type: 'test'
+  ...
+# Subtest: non-array evidence fails
+ok 38 - non-array evidence fails
+  ---
+  duration_ms: 0.253507
+  type: 'test'
+  ...
+# Subtest: stage14 type gate accepts exact expected types
+ok 39 - stage14 type gate accepts exact expected types
+  ---
+  duration_ms: 1.379112
+  type: 'test'
+  ...
+# Subtest: stage14 type gate rejects missing evidence
+ok 40 - stage14 type gate rejects missing evidence
+  ---
+  duration_ms: 0.231612
+  type: 'test'
+  ...
+# Subtest: stage14 type gate rejects duplicate evidence
+ok 41 - stage14 type gate rejects duplicate evidence
+  ---
+  duration_ms: 0.121038
+  type: 'test'
+  ...
+# Subtest: stage14 type gate rejects missing installed flag
+ok 42 - stage14 type gate rejects missing installed flag
+  ---
+  duration_ms: 0.163501
+  type: 'test'
+  ...
+# Subtest: stage14 type gate rejects incompatible uuid type
+ok 43 - stage14 type gate rejects incompatible uuid type
+  ---
+  duration_ms: 0.43887
+  type: 'test'
+  ...
+# Subtest: stage14 type gate rejects invalid input
+ok 44 - stage14 type gate rejects invalid input
+  ---
+  duration_ms: 0.093802
+  type: 'test'
+  ...
+# Subtest: Stage14 SQL candidate retains non-deployable first-statement gate
+ok 45 - Stage14 SQL candidate retains non-deployable first-statement gate
+  ---
+  duration_ms: 1.069949
+  type: 'test'
+  ...
+# Subtest: Stage14 writer takeover validates cloud preflight before revoking previous writer
+ok 46 - Stage14 writer takeover validates cloud preflight before revoking previous writer
+  ---
+  duration_ms: 0.221156
+  type: 'test'
+  ...
+# Subtest: Stage14 commit never stores rejected revoked-writer payload in conflict ledger
+ok 47 - Stage14 commit never stores rejected revoked-writer payload in conflict ledger
+  ---
+  duration_ms: 0.236098
+  type: 'test'
+  ...
+# Subtest: Stage14 read-only enrollment cannot downgrade active writer, and reader access rechecks permission
+ok 48 - Stage14 read-only enrollment cannot downgrade active writer, and reader access rechecks permission
+  ---
+  duration_ms: 0.610313
+  type: 'test'
+  ...
+# Subtest: stage14 defaults accept candidate metadata
+ok 49 - stage14 defaults accept candidate metadata
+  ---
+  duration_ms: 1.293764
+  type: 'test'
+  ...
+# Subtest: stage14 defaults reject absent row
+ok 50 - stage14 defaults reject absent row
+  ---
+  duration_ms: 0.197928
+  type: 'test'
+  ...
+# Subtest: stage14 defaults reject duplicate row
+ok 51 - stage14 defaults reject duplicate row
+  ---
+  duration_ms: 0.115805
+  type: 'test'
+  ...
+# Subtest: stage14 defaults reject nullable boolean
+ok 52 - stage14 defaults reject nullable boolean
+  ---
+  duration_ms: 0.243055
+  type: 'test'
+  ...
+# Subtest: stage14 defaults reject true default
+ok 53 - stage14 defaults reject true default
+  ---
+  duration_ms: 0.150136
+  type: 'test'
+  ...
+# Subtest: stage14 defaults reject null default
+ok 54 - stage14 defaults reject null default
+  ---
+  duration_ms: 0.106604
+  type: 'test'
+  ...
+# Subtest: stage14 defaults reject untrusted expression
+ok 55 - stage14 defaults reject untrusted expression
+  ---
+  duration_ms: 1.350609
+  type: 'test'
+  ...
+# Subtest: stage14 defaults reject malformed evidence
+ok 56 - stage14 defaults reject malformed evidence
+  ---
+  duration_ms: 0.140287
+  type: 'test'
+  ...
+# Subtest: bundle missing all evidence fails closed
+ok 57 - bundle missing all evidence fails closed
+  ---
+  duration_ms: 2.763708
+  type: 'test'
+  ...
+# Subtest: bundle null fails closed
+ok 58 - bundle null fails closed
+  ---
+  duration_ms: 0.255053
+  type: 'test'
+  ...
+# Subtest: bundle reports four independent gates
+ok 59 - bundle reports four independent gates
+  ---
+  duration_ms: 1.59139
+  type: 'test'
+  ...
+# Subtest: bundle missing defaults fails even if other sections provided
+ok 60 - bundle missing defaults fails even if other sections provided
+  ---
+  duration_ms: 1.089796
+  type: 'test'
+  ...
+# Subtest: bundle malformed section cannot pass
+ok 61 - bundle malformed section cannot pass
+  ---
+  duration_ms: 1.669027
+  type: 'test'
+  ...
+# Subtest: bundle does not claim runtime validation
+ok 62 - bundle does not claim runtime validation
+  ---
+  duration_ms: 0.37424
+  type: 'test'
+  ...
+# Subtest: Stage14 existing is_current default explicitly set false
+ok 63 - Stage14 existing is_current default explicitly set false
+  ---
+  duration_ms: 1.490649
+  type: 'test'
+  ...
+# Subtest: Stage14 default alignment does not update historical game rows
+ok 64 - Stage14 default alignment does not update historical game rows
+  ---
+  duration_ms: 0.900263
+  type: 'test'
+  ...
+# Subtest: Stage14 candidate retains fail-closed guard ahead of default migration
+ok 65 - Stage14 candidate retains fail-closed guard ahead of default migration
+  ---
+  duration_ms: 0.479214
+  type: 'test'
+  ...
+# Subtest: Stage14 history rejects missing, null and non-array JSON
+ok 66 - Stage14 history rejects missing, null and non-array JSON
+  ---
+  duration_ms: 1.125889
+  type: 'test'
+  ...
+# Subtest: Stage14 history array length checked only after type guard
+ok 67 - Stage14 history array length checked only after type guard
+  ---
+  duration_ms: 0.208062
+  type: 'test'
+  ...
+# Subtest: Stage14 candidate remains blocked before DDL
+ok 68 - Stage14 candidate remains blocked before DDL
+  ---
+  duration_ms: 0.160162
+  type: 'test'
+  ...
+# Subtest: mismatch response does not return cloud game snapshot
+ok 69 - mismatch response does not return cloud game snapshot
+  ---
+  duration_ms: 1.463061
+  type: 'test'
+  ...
+# Subtest: deployment guard remains intact
+ok 70 - deployment guard remains intact
+  ---
+  duration_ms: 0.771469
+  type: 'test'
+  ...
+# Subtest: Stage14 production boundary remains fail closed
+ok 71 - Stage14 production boundary remains fail closed
+  ---
+  duration_ms: 1.411367
+  type: 'test'
+  ...
+# Subtest: Stage14 draft requires schema columns absent from production metadata export
+ok 72 - Stage14 draft requires schema columns absent from production metadata export
+  ---
+  duration_ms: 0.164281
+  type: 'test'
+  ...
+# Subtest: Stage14 draft does not silently replace existing current-game default
+ok 73 - Stage14 draft does not silently replace existing current-game default
+  ---
+  duration_ms: 0.274912
+  type: 'test'
+  ...
+# Subtest: Stage14 single-device writer takeover is intentionally blocked, not automatic
+ok 74 - Stage14 single-device writer takeover is intentionally blocked, not automatic
+  ---
+  duration_ms: 0.265967
+  type: 'test'
+  ...
+# Subtest: Stage14 commit validates token and auth-session binding
+ok 75 - Stage14 commit validates token and auth-session binding
+  ---
+  duration_ms: 0.234809
+  type: 'test'
+  ...
+# Subtest: revoked writer attempts never persist proposed snapshots
+ok 76 - revoked writer attempts never persist proposed snapshots
+  ---
+  duration_ms: 1.063985
+  type: 'test'
+  ...
+# Subtest: rejected writer still receives explicit revocation reason
+ok 77 - rejected writer still receives explicit revocation reason
+  ---
+  duration_ms: 0.217216
+  type: 'test'
+  ...
+# Subtest: revision-conflict retains authorized conflict ledger
+ok 78 - revision-conflict retains authorized conflict ledger
+  ---
+  duration_ms: 0.151321
+  type: 'test'
+  ...
+# Subtest: revoked writer cannot update canonical game data
+ok 79 - revoked writer cannot update canonical game data
+  ---
+  duration_ms: 0.159468
+  type: 'test'
+  ...
+# Subtest: commit remains bound to auth session
+ok 80 - commit remains bound to auth session
+  ---
+  duration_ms: 1.801167
+  type: 'test'
+  ...
+# Subtest: candidate remains blocked from deployment
+ok 81 - candidate remains blocked from deployment
+  ---
+  duration_ms: 0.148529
+  type: 'test'
+  ...
+# Subtest: rpc evidence accepts complete candidate metadata
+ok 82 - rpc evidence accepts complete candidate metadata
+  ---
+  duration_ms: 0.985363
+  type: 'test'
+  ...
+# Subtest: rpc evidence fails closed without rows
+ok 83 - rpc evidence fails closed without rows
+  ---
+  duration_ms: 0.202348
+  type: 'test'
+  ...
+# Subtest: rpc evidence rejects missing function
+ok 84 - rpc evidence rejects missing function
+  ---
+  duration_ms: 0.119846
+  type: 'test'
+  ...
+# Subtest: rpc evidence rejects duplicate function
+ok 85 - rpc evidence rejects duplicate function
+  ---
+  duration_ms: 0.121073
+  type: 'test'
+  ...
+# Subtest: rpc evidence rejects anonymous execution
+ok 86 - rpc evidence rejects anonymous execution
+  ---
+  duration_ms: 0.171613
+  type: 'test'
+  ...
+# Subtest: rpc evidence rejects PUBLIC execution
+ok 87 - rpc evidence rejects PUBLIC execution
+  ---
+  duration_ms: 0.091518
+  type: 'test'
+  ...
+# Subtest: rpc evidence rejects missing secure search path
+ok 88 - rpc evidence rejects missing secure search path
+  ---
+  duration_ms: 1.469134
+  type: 'test'
+  ...
+# Subtest: rpc evidence rejects unconfirmed security definer
+ok 89 - rpc evidence rejects unconfirmed security definer
+  ---
+  duration_ms: 0.168099
+  type: 'test'
+  ...
+# Subtest: signature inventory accepts unique complete candidate
+ok 90 - signature inventory accepts unique complete candidate
+  ---
+  duration_ms: 1.070142
+  type: 'test'
+  ...
+# Subtest: signature inventory fails closed on missing input
+ok 91 - signature inventory fails closed on missing input
+  ---
+  duration_ms: 0.232514
+  type: 'test'
+  ...
+# Subtest: signature inventory rejects missing RPC
+ok 92 - signature inventory rejects missing RPC
+  ---
+  duration_ms: 0.124707
+  type: 'test'
+  ...
+# Subtest: signature inventory rejects overloaded RPC
+ok 93 - signature inventory rejects overloaded RPC
+  ---
+  duration_ms: 0.179523
+  type: 'test'
+  ...
+# Subtest: signature inventory rejects cross-schema shadow
+ok 94 - signature inventory rejects cross-schema shadow
+  ---
+  duration_ms: 0.110381
+  type: 'test'
+  ...
+# Subtest: signature inventory rejects procedure kind
+ok 95 - signature inventory rejects procedure kind
+  ---
+  duration_ms: 1.207361
+  type: 'test'
+  ...
+# Subtest: signature inventory rejects absent identity arguments
+ok 96 - signature inventory rejects absent identity arguments
+  ---
+  duration_ms: 0.287033
+  type: 'test'
+  ...
+# Subtest: signature inventory rejects unsafe search path
+ok 97 - signature inventory rejects unsafe search path
+  ---
+  duration_ms: 0.110202
+  type: 'test'
+  ...
+# Subtest: signature inventory rejects invoker rights
+ok 98 - signature inventory rejects invoker rights
+  ---
+  duration_ms: 0.293031
+  type: 'test'
+  ...
+# Subtest: RPC inventory query is SELECT-only
+ok 99 - RPC inventory query is SELECT-only
+  ---
+  duration_ms: 1.219497
+  type: 'test'
+  ...
+# Subtest: RPC inventory includes all five target functions
+ok 100 - RPC inventory includes all five target functions
+  ---
+  duration_ms: 0.176104
+  type: 'test'
+  ...
+# Subtest: RPC inventory includes cross-schema shadow functions
+ok 101 - RPC inventory includes cross-schema shadow functions
+  ---
+  duration_ms: 0.174352
+  type: 'test'
+  ...
+# Subtest: RPC inventory reads pg_proc function identity and definer
+ok 102 - RPC inventory reads pg_proc function identity and definer
+  ---
+  duration_ms: 0.145001
+  type: 'test'
+  ...
+# Subtest: RPC inventory conservatively checks configured search_path
+ok 103 - RPC inventory conservatively checks configured search_path
+  ---
+  duration_ms: 0.22511
+  type: 'test'
+  ...
+# Subtest: Stage14 read-only preflight exposes both missing transfer columns
+ok 104 - Stage14 read-only preflight exposes both missing transfer columns
+  ---
+  duration_ms: 1.294348
+  type: 'test'
+  ...
+# Subtest: Stage14 preflight reports existing is_current default for alignment
+ok 105 - Stage14 preflight reports existing is_current default for alignment
+  ---
+  duration_ms: 0.175914
+  type: 'test'
+  ...
+# Subtest: Stage14 schema inventory retains absent columns through left join
+ok 106 - Stage14 schema inventory retains absent columns through left join
+  ---
+  duration_ms: 0.317311
+  type: 'test'
+  ...
+# Subtest: strict gate uses authenticated role and rollback
+ok 107 - strict gate uses authenticated role and rollback
+  ---
+  duration_ms: 1.325242
+  type: 'test'
+  ...
+# Subtest: strict open requires 28000
+ok 108 - strict open requires 28000
+  ---
+  duration_ms: 0.223386
+  type: 'test'
+  ...
+# Subtest: strict commit requires 28000
+ok 109 - strict commit requires 28000
+  ---
+  duration_ms: 0.097913
+  type: 'test'
+  ...
+# Subtest: strict open_reader requires 28000
+ok 110 - strict open_reader requires 28000
+  ---
+  duration_ms: 0.237899
+  type: 'test'
+  ...
+# Subtest: strict read requires 28000
+ok 111 - strict read requires 28000
+  ---
+  duration_ms: 1.430765
+  type: 'test'
+  ...
+# Subtest: strict lease_status requires 28000
+ok 112 - strict lease_status requires 28000
+  ---
+  duration_ms: 0.104601
+  type: 'test'
+  ...
+# Subtest: strict gate does not treat ok:false as success
+ok 113 - strict gate does not treat ok:false as success
+  ---
+  duration_ms: 0.583306
+  type: 'test'
+  ...
+# Subtest: supabase_sync_stage14_transfer_candidate_DO_NOT_DEPLOY.sql: all six RPC auth checks fail closed for NULL created_at
+ok 114 - supabase_sync_stage14_transfer_candidate_DO_NOT_DEPLOY.sql: all six RPC auth checks fail closed for NULL created_at
+  ---
+  duration_ms: 1.293796
+  type: 'test'
+  ...
+# Subtest: supabase_sync_rpc_draft.sql: all six RPC auth checks fail closed for NULL created_at
+ok 115 - supabase_sync_rpc_draft.sql: all six RPC auth checks fail closed for NULL created_at
+  ---
+  duration_ms: 0.341108
+  type: 'test'
+  ...
+# Subtest: open rejects whitespace-only device ID before transport
+ok 116 - open rejects whitespace-only device ID before transport
+  ---
+  duration_ms: 1.417308
+  type: 'test'
+  ...
+# Subtest: read and openReader reject whitespace-only device ID
+ok 117 - read and openReader reject whitespace-only device ID
+  ---
+  duration_ms: 0.278358
+  type: 'test'
+  ...
+# Subtest: open rejects whitespace-only expected cloud game ID
+ok 118 - open rejects whitespace-only expected cloud game ID
+  ---
+  duration_ms: 0.225525
+  type: 'test'
+  ...
+# Subtest: commit rejects whitespace-only game, device and token credentials
+ok 119 - commit rejects whitespace-only game, device and token credentials
+  ---
+  duration_ms: 0.232019
+  type: 'test'
+  ...
+# Subtest: leaseStatus rejects whitespace-only device ID
+ok 120 - leaseStatus rejects whitespace-only device ID
+  ---
+  duration_ms: 0.182018
+  type: 'test'
+  ...
+# Subtest: adapter rejects unpaired Unicode, NUL and malformed object keys before network
+ok 121 - adapter rejects unpaired Unicode, NUL and malformed object keys before network
+  ---
+  duration_ms: 2.442804
+  type: 'test'
+  ...
+# Subtest: adapter rejects silent JSON coercions, sparse arrays and non-JSON values
+ok 122 - adapter rejects silent JSON coercions, sparse arrays and non-JSON values
+  ---
+  duration_ms: 1.162663
+  type: 'test'
+  ...
+# Subtest: adapter accepts valid supplementary Unicode and ordinary nested history
+ok 123 - adapter accepts valid supplementary Unicode and ordinary nested history
+  ---
+  duration_ms: 0.956205
+  type: 'test'
+  ...
+# Subtest: matching existing cloud game is accepted without writing storage
+ok 124 - matching existing cloud game is accepted without writing storage
+  ---
+  duration_ms: 2.578759
+  type: 'test'
+  ...
+# Subtest: different existing game is never overwritten by cloud adoption
+ok 125 - different existing game is never overwritten by cloud adoption
+  ---
+  duration_ms: 1.477995
+  type: 'test'
+  ...
+# Subtest: cloud takeover republishes live score when disk snapshot matches but memory is stale
+ok 126 - cloud takeover republishes live score when disk snapshot matches but memory is stale
+  ---
+  duration_ms: 0.895522
+  type: 'test'
+  ...
+# Subtest: cloud takeover persists and republishes differing snapshot
+ok 127 - cloud takeover persists and republishes differing snapshot
+  ---
+  duration_ms: 0.228422
+  type: 'test'
+  ...
+# Subtest: disabled bridge cannot access server or write application
+ok 128 - disabled bridge cannot access server or write application
+  ---
+  duration_ms: 1.817206
+  type: 'test'
+  ...
+# Subtest: cloud adoption must be confirmed before reporting activation success
+ok 129 - cloud adoption must be confirmed before reporting activation success
+  ---
+  duration_ms: 0.66655
+  type: 'test'
+  ...
+# Subtest: signout invalidates pending cloud activation
+ok 130 - signout invalidates pending cloud activation
+  ---
+  duration_ms: 0.249914
+  type: 'test'
+  ...
+# Subtest: logout suppresses late sync success from previous account
+ok 131 - logout suppresses late sync success from previous account
+  ---
+  duration_ms: 0.73365
+  type: 'test'
+  ...
+# Subtest: logout suppresses late sync rejection from previous account
+ok 132 - logout suppresses late sync rejection from previous account
+  ---
+  duration_ms: 0.47907
+  type: 'test'
+  ...
+# Subtest: new login for same user invalidates previous writer lease
+ok 133 - new login for same user invalidates previous writer lease
+  ---
+  duration_ms: 0.24156
+  type: 'test'
+  ...
+# Subtest: missing auth session id cannot reuse a writer lease
+ok 134 - missing auth session id cannot reuse a writer lease
+  ---
+  duration_ms: 0.201863
+  type: 'test'
+  ...
+# Subtest: JWT session identity changes invalidate earlier writer lease
+ok 135 - JWT session identity changes invalidate earlier writer lease
+  ---
+  duration_ms: 0.700688
+  type: 'test'
+  ...
+# Subtest: local score saved during activation prevents stale cloud adoption
+ok 136 - local score saved during activation prevents stale cloud adoption
+  ---
+  duration_ms: 0.490698
+  type: 'test'
+  ...
+# Subtest: local score changed during activation blocks cloud adoption and retains local state
+ok 137 - local score changed during activation blocks cloud adoption and retains local state
+  ---
+  duration_ms: 0.705957
+  type: 'test'
+  ...
+# Subtest: score recorded during activation is durably queued before takeover is blocked
+ok 138 - score recorded during activation is durably queued before takeover is blocked
+  ---
+  duration_ms: 0.315093
+  type: 'test'
+  ...
+# Subtest: synchronous engine push failure becomes a controlled sync error
+ok 139 - synchronous engine push failure becomes a controlled sync error
+  ---
+  duration_ms: 1.382523
+  type: 'test'
+  ...
+# Subtest: asynchronous adoption is invalidated when user logs out
+ok 140 - asynchronous adoption is invalidated when user logs out
+  ---
+  duration_ms: 0.253396
+  type: 'test'
+  ...
+# Subtest: repeated auth notification cannot report ready before cloud adoption completes
+ok 141 - repeated auth notification cannot report ready before cloud adoption completes
+  ---
+  duration_ms: 0.197337
+  type: 'test'
+  ...
+# Subtest: read-only cloud session never invokes score commit
+ok 142 - read-only cloud session never invokes score commit
+  ---
+  duration_ms: 0.221179
+  type: 'test'
+  ...
+# Subtest: server writer revocation disables future sends and readiness
+ok 143 - server writer revocation disables future sends and readiness
+  ---
+  duration_ms: 0.30724
+  type: 'test'
+  ...
+# Subtest: unhandled queue failure disables writer lease until reactivation
+ok 144 - unhandled queue failure disables writer lease until reactivation
+  ---
+  duration_ms: 0.286292
+  type: 'test'
+  ...
+# Subtest: logout before deferred push does not enqueue or contact old session
+ok 145 - logout before deferred push does not enqueue or contact old session
+  ---
+  duration_ms: 0.212782
+  type: 'test'
+  ...
+# Subtest: activation refuses a writer lease when engine reports conflict
+ok 146 - activation refuses a writer lease when engine reports conflict
+  ---
+  duration_ms: 0.232511
+  type: 'test'
+  ...
+# Subtest: unpadded base64url JWT session identity works with strict Safari-style atob
+ok 147 - unpadded base64url JWT session identity works with strict Safari-style atob
+  ---
+  duration_ms: 0.239872
+  type: 'test'
+  ...
+# Subtest: deferred cloud send captures the exact saved score before later mutation
+ok 148 - deferred cloud send captures the exact saved score before later mutation
+  ---
+  duration_ms: 0.784271
+  type: 'test'
+  ...
+# Subtest: device identity storage failure clears tentative auth and returns controlled error
+ok 149 - device identity storage failure clears tentative auth and returns controlled error
+  ---
+  duration_ms: 0.167953
+  type: 'test'
+  ...
+# Subtest: adapter initialization failure never retains phantom account lease
+ok 150 - adapter initialization failure never retains phantom account lease
+  ---
+  duration_ms: 0.169243
+  type: 'test'
+  ...
+# Subtest: conflicting explicit session and JWT session identifiers fail closed
+ok 151 - conflicting explicit session and JWT session identifiers fail closed
+  ---
+  duration_ms: 0.307271
+  type: 'test'
+  ...
+# Subtest: expired JWT cannot activate a cloud writer lease
+ok 152 - expired JWT cannot activate a cloud writer lease
+  ---
+  duration_ms: 0.17994
+  type: 'test'
+  ...
+# Subtest: failed activation clears account and auth session identity before retry
+ok 153 - failed activation clears account and auth session identity before retry
+  ---
+  duration_ms: 0.230922
+  type: 'test'
+  ...
+# Subtest: repeated auth notification cannot revive a revoked engine writer lease
+ok 154 - repeated auth notification cannot revive a revoked engine writer lease
+  ---
+  duration_ms: 0.224012
+  type: 'test'
+  ...
+# Subtest: lease monitor starts after activation, avoids overlapping checks and stops on logout
+ok 155 - lease monitor starts after activation, avoids overlapping checks and stops on logout
+  ---
+  duration_ms: 16.042298
+  type: 'test'
+  ...
+# Subtest: lease monitor never schedules for disabled sync
+ok 156 - lease monitor never schedules for disabled sync
+  ---
+  duration_ms: 1.829454
+  type: 'test'
+  ...
+# Subtest: late lease rejection from previous login cannot revoke replacement writer
+ok 157 - late lease rejection from previous login cannot revoke replacement writer
+  ---
+  duration_ms: 3.148195
+  type: 'test'
+  ...
+# Subtest: successful lease check with revoked writer permission fails closed
+ok 158 - successful lease check with revoked writer permission fails closed
+  ---
+  duration_ms: 0.443366
+  type: 'test'
+  ...
+# Subtest: rejected direct lease check revokes writer status without throwing
+ok 159 - rejected direct lease check revokes writer status without throwing
+  ---
+  duration_ms: 0.217183
+  type: 'test'
+  ...
+# Subtest: structured lease network failure revokes bridge writer permission
+ok 160 - structured lease network failure revokes bridge writer permission
+  ---
+  duration_ms: 0.16388
+  type: 'test'
+  ...
+# Subtest: network failure after durable enqueue withdraws write permission and preserves queue
+ok 161 - network failure after durable enqueue withdraws write permission and preserves queue
+  ---
+  duration_ms: 0.978286
+  type: 'test'
+  ...
+# Subtest: JWT subject disagrees with signed-in user prevents cloud activation
+ok 162 - JWT subject disagrees with signed-in user prevents cloud activation
+  ---
+  duration_ms: 0.232983
+  type: 'test'
+  ...
+# Subtest: JWT expiry is invalid prevents cloud activation
+ok 163 - JWT expiry is invalid prevents cloud activation
+  ---
+  duration_ms: 0.069176
+  type: 'test'
+  ...
+# Subtest: missing commit acknowledgement withdraws writer permission
+ok 164 - missing commit acknowledgement withdraws writer permission
+  ---
+  duration_ms: 0.732555
+  type: 'test'
+  ...
+# Subtest: bounded flush cannot report success while edits remain pending
+ok 165 - bounded flush cannot report success while edits remain pending
+  ---
+  duration_ms: 5.643444
+  type: 'test'
+  ...
+# Subtest: bridge preserves valid writer on non-authoritative lease-check-busy
+ok 166 - bridge preserves valid writer on non-authoritative lease-check-busy
+  ---
+  duration_ms: 1.879875
+  type: 'test'
+  ...
+# Subtest: bridge preserves valid writer on non-authoritative lease-superseded
+ok 167 - bridge preserves valid writer on non-authoritative lease-superseded
+  ---
+  duration_ms: 0.232344
+  type: 'test'
+  ...
+# Subtest: server permits NULL only for adopting existing cloud game
+ok 168 - server permits NULL only for adopting existing cloud game
+  ---
+  duration_ms: 1.953444
+  type: 'test'
+  ...
+# Subtest: transport sends null for a new device with no local game
+ok 169 - transport sends null for a new device with no local game
+  ---
+  duration_ms: 0.491353
+  type: 'test'
+  ...
+# Subtest: transport rejects arrays as initial games
+ok 170 - transport rejects arrays as initial games
+  ---
+  duration_ms: 0.695646
+  type: 'test'
+  ...
+# Subtest: commit rejects generation zero without RPC call
+ok 171 - commit rejects generation zero without RPC call
+  ---
+  duration_ms: 1.938727
+  type: 'test'
+  ...
+# Subtest: commit rejects negative generation without RPC call
+ok 172 - commit rejects negative generation without RPC call
+  ---
+  duration_ms: 0.371229
+  type: 'test'
+  ...
+# Subtest: commit rejects negative base revision without RPC call
+ok 173 - commit rejects negative base revision without RPC call
+  ---
+  duration_ms: 0.224265
+  type: 'test'
+  ...
+# Subtest: persists a stable device ID across repeated sessions
+ok 174 - persists a stable device ID across repeated sessions
+  ---
+  duration_ms: 1.084399
+  type: 'test'
+  ...
+# Subtest: does not overwrite invalid existing identifier
+ok 175 - does not overwrite invalid existing identifier
+  ---
+  duration_ms: 0.397546
+  type: 'test'
+  ...
+# Subtest: fails closed when storage cannot persist
+ok 176 - fails closed when storage cannot persist
+  ---
+  duration_ms: 0.15457
+  type: 'test'
+  ...
+# Subtest: requires secure random UUID
+ok 177 - requires secure random UUID
+  ---
+  duration_ms: 0.163652
+  type: 'test'
+  ...
+# Subtest: fails closed on unreadable storage
+ok 178 - fails closed on unreadable storage
+  ---
+  duration_ms: 0.145625
+  type: 'test'
+  ...
+# Subtest: rejects invalid or non-finite scores and invalid history
+ok 179 - rejects invalid or non-finite scores and invalid history
+  ---
+  duration_ms: 2.243048
+  type: 'test'
+  ...
+# Subtest: activation backs up existing local game before accepting cloud
+ok 180 - activation backs up existing local game before accepting cloud
+  ---
+  duration_ms: 1.990596
+  type: 'test'
+  ...
+# Subtest: offline network failure persists score queue, later flush commits
+ok 181 - offline network failure persists score queue, later flush commits
+  ---
+  duration_ms: 3.316162
+  type: 'test'
+  ...
+# Subtest: conflicting write never overwrites local data or silently clears queue
+ok 182 - conflicting write never overwrites local data or silently clears queue
+  ---
+  duration_ms: 0.555634
+  type: 'test'
+  ...
+# Subtest: read-only session cannot write or enqueue new data
+ok 183 - read-only session cannot write or enqueue new data
+  ---
+  duration_ms: 0.371555
+  type: 'test'
+  ...
+# Subtest: backup and pending keys are scoped by account and device
+ok 184 - backup and pending keys are scoped by account and device
+  ---
+  duration_ms: 0.264794
+  type: 'test'
+  ...
+# Subtest: simultaneous flushes do not issue duplicate revision writes
+ok 185 - simultaneous flushes do not issue duplicate revision writes
+  ---
+  duration_ms: 0.42997
+  type: 'test'
+  ...
+# Subtest: edits queued during network commit survive successful response
+ok 186 - edits queued during network commit survive successful response
+  ---
+  duration_ms: 0.715572
+  type: 'test'
+  ...
+# Subtest: new activation refuses to mask offline changes awaiting reconciliation
+ok 187 - new activation refuses to mask offline changes awaiting reconciliation
+  ---
+  duration_ms: 0.785931
+  type: 'test'
+  ...
+# Subtest: flush retains newly enqueued entries even if queue length changes
+ok 188 - flush retains newly enqueued entries even if queue length changes
+  ---
+  duration_ms: 1.227026
+  type: 'test'
+  ...
+# Subtest: commit carries generation from server lease
+ok 189 - commit carries generation from server lease
+  ---
+  duration_ms: 0.566056
+  type: 'test'
+  ...
+# Subtest: activation rejects missing generation from RPC
+ok 190 - activation rejects missing generation from RPC
+  ---
+  duration_ms: 0.220917
+  type: 'test'
+  ...
+# Subtest: activation refuses cloud snapshot if local edits arrive while RPC is pending
+ok 191 - activation refuses cloud snapshot if local edits arrive while RPC is pending
+  ---
+  duration_ms: 0.297329
+  type: 'test'
+  ...
+# Subtest: activation refuses to silently replace distinct local score with cloud
+ok 192 - activation refuses to silently replace distinct local score with cloud
+  ---
+  duration_ms: 1.053995
+  type: 'test'
+  ...
+# Subtest: activation refuses writer lease without server-issued token
+ok 193 - activation refuses writer lease without server-issued token
+  ---
+  duration_ms: 0.630283
+  type: 'test'
+  ...
+# Subtest: revision zero cannot silently overwrite a different local game
+ok 194 - revision zero cannot silently overwrite a different local game
+  ---
+  duration_ms: 0.990314
+  type: 'test'
+  ...
+# Subtest: revision conflict freezes all further writes until explicit reconciliation
+ok 195 - revision conflict freezes all further writes until explicit reconciliation
+  ---
+  duration_ms: 1.497456
+  type: 'test'
+  ...
+# Subtest: writer revocation freezes subsequent writes and retains all queued changes
+ok 196 - writer revocation freezes subsequent writes and retains all queued changes
+  ---
+  duration_ms: 0.88402
+  type: 'test'
+  ...
+# Subtest: parallel activations cannot create competing server leases
+ok 197 - parallel activations cannot create competing server leases
+  ---
+  duration_ms: 0.50298
+  type: 'test'
+  ...
+# Subtest: a queued edit cannot be sent during activation before lease is accepted
+ok 198 - a queued edit cannot be sent during activation before lease is accepted
+  ---
+  duration_ms: 0.382262
+  type: 'test'
+  ...
+# Subtest: new activation cannot overlap a network commit
+ok 199 - new activation cannot overlap a network commit
+  ---
+  duration_ms: 0.356083
+  type: 'test'
+  ...
+# Subtest: Supabase permission denial freezes writes and preserves queued score
+ok 200 - Supabase permission denial freezes writes and preserves queued score
+  ---
+  duration_ms: 1.272149
+  type: 'test'
+  ...
+# Subtest: temporary Supabase transport errors remain retryable
+ok 201 - temporary Supabase transport errors remain retryable
+  ---
+  duration_ms: 0.689194
+  type: 'test'
+  ...
+# Subtest: corrupt persistent queue blocks activation without contacting server
+ok 202 - corrupt persistent queue blocks activation without contacting server
+  ---
+  duration_ms: 0.259467
+  type: 'test'
+  ...
+# Subtest: queue with wrong JSON type is never overwritten
+ok 203 - queue with wrong JSON type is never overwritten
+  ---
+  duration_ms: 0.230993
+  type: 'test'
+  ...
+# Subtest: failed reactivation invalidates previous writer lease before another score can be sent
+ok 204 - failed reactivation invalidates previous writer lease before another score can be sent
+  ---
+  duration_ms: 0.696381
+  type: 'test'
+  ...
+# Subtest: conflicting reactivation cannot reuse earlier writer token
+ok 205 - conflicting reactivation cannot reuse earlier writer token
+  ---
+  duration_ms: 0.506805
+  type: 'test'
+  ...
+# Subtest: server response authorization-rejected freezes subsequent commits
+ok 206 - server response authorization-rejected freezes subsequent commits
+  ---
+  duration_ms: 1.15034
+  type: 'test'
+  ...
+# Subtest: server response session-revoked freezes subsequent commits
+ok 207 - server response session-revoked freezes subsequent commits
+  ---
+  duration_ms: 0.365936
+  type: 'test'
+  ...
+# Subtest: server response account-inactive freezes subsequent commits
+ok 208 - server response account-inactive freezes subsequent commits
+  ---
+  duration_ms: 0.2762
+  type: 'test'
+  ...
+# Subtest: recovery export preserves offline scores and excludes session secrets
+ok 209 - recovery export preserves offline scores and excludes session secrets
+  ---
+  duration_ms: 2.532997
+  type: 'test'
+  ...
+# Subtest: recovery export fails closed when backup entries are corrupted
+ok 210 - recovery export fails closed when backup entries are corrupted
+  ---
+  duration_ms: 0.320452
+  type: 'test'
+  ...
+# Subtest: unexpected successful revision freezes writes rather than retrying an ambiguous commit
+ok 211 - unexpected successful revision freezes writes rather than retrying an ambiguous commit
+  ---
+  duration_ms: 0.673403
+  type: 'test'
+  ...
+# Subtest: flush refuses malformed queued snapshots before network write
+ok 212 - flush refuses malformed queued snapshots before network write
+  ---
+  duration_ms: 0.348674
+  type: 'test'
+  ...
+# Subtest: flush refuses duplicate pending IDs to prevent dropping unsent edits
+ok 213 - flush refuses duplicate pending IDs to prevent dropping unsent edits
+  ---
+  duration_ms: 2.881634
+  type: 'test'
+  ...
+# Subtest: acknowledged RPC with local queue cleanup failure must never retry network commit
+ok 214 - acknowledged RPC with local queue cleanup failure must never retry network commit
+  ---
+  duration_ms: 0.698102
+  type: 'test'
+  ...
+# Subtest: activation rejects ambiguous write permission and never grants a writer
+ok 215 - activation rejects ambiguous write permission and never grants a writer
+  ---
+  duration_ms: 0.785207
+  type: 'test'
+  ...
+# Subtest: activation rejects a writer token attached to read-only lease
+ok 216 - activation rejects a writer token attached to read-only lease
+  ---
+  duration_ms: 0.320841
+  type: 'test'
+  ...
+# Subtest: concurrent score edits queued during network commit are drained
+ok 217 - concurrent score edits queued during network commit are drained
+  ---
+  duration_ms: 26.567655
+  type: 'test'
+  ...
+# Subtest: new device without a local game can adopt complete cloud game
+ok 218 - new device without a local game can adopt complete cloud game
+  ---
+  duration_ms: 1.065655
+  type: 'test'
+  ...
+# Subtest: new device without local game does not invent an empty game when cloud is absent
+ok 219 - new device without local game does not invent an empty game when cloud is absent
+  ---
+  duration_ms: 0.255608
+  type: 'test'
+  ...
+# Subtest: cloud preflight mismatch is a terminal conflict and does not retry takeover
+ok 220 - cloud preflight mismatch is a terminal conflict and does not retry takeover
+  ---
+  duration_ms: 0.43311
+  type: 'test'
+  ...
+# Subtest: cloud revision change during takeover is a terminal conflict
+ok 221 - cloud revision change during takeover is a terminal conflict
+  ---
+  duration_ms: 0.219431
+  type: 'test'
+  ...
+# Subtest: client rejects fractional and unsafe scores before any network write
+ok 222 - client rejects fractional and unsafe scores before any network write
+  ---
+  duration_ms: 2.475979
+  type: 'test'
+  ...
+# Subtest: read-only push preserves pre-existing recovery queue without adding a new edit
+ok 223 - read-only push preserves pre-existing recovery queue without adding a new edit
+  ---
+  duration_ms: 1.069259
+  type: 'test'
+  ...
+# Subtest: Supabase jsonb key reordering does not create a false game conflict
+ok 224 - Supabase jsonb key reordering does not create a false game conflict
+  ---
+  duration_ms: 0.456449
+  type: 'test'
+  ...
+# Subtest: structural comparison still detects score and array order changes
+ok 225 - structural comparison still detects score and array order changes
+  ---
+  duration_ms: 0.202217
+  type: 'test'
+  ...
+# Subtest: round count must be a bounded safe integer, matching server SQL
+ok 226 - round count must be a bounded safe integer, matching server SQL
+  ---
+  duration_ms: 0.522958
+  type: 'test'
+  ...
+# Subtest: lease polling transport failure revokes local writer without losing pending data
+ok 227 - lease polling transport failure revokes local writer without losing pending data
+  ---
+  duration_ms: 0.677475
+  type: 'test'
+  ...
+# Subtest: late lease rejection from an earlier activation cannot revoke a replacement writer
+ok 228 - late lease rejection from an earlier activation cannot revoke a replacement writer
+  ---
+  duration_ms: 0.487387
+  type: 'test'
+  ...
+# Subtest: late lease network error from an earlier activation cannot revoke a replacement writer
+ok 229 - late lease network error from an earlier activation cannot revoke a replacement writer
+  ---
+  duration_ms: 0.790988
+  type: 'test'
+  ...
+# Subtest: lease poll refuses a newer cloud revision without discarding local recovery data
+ok 230 - lease poll refuses a newer cloud revision without discarding local recovery data
+  ---
+  duration_ms: 0.553362
+  type: 'test'
+  ...
+# Subtest: new-device takeover preserves differing local game in recovery backup
+ok 231 - new-device takeover preserves differing local game in recovery backup
+  ---
+  duration_ms: 0.496234
+  type: 'test'
+  ...
+# Subtest: first game bootstraps only when peek confirms cloud is absent
+ok 232 - first game bootstraps only when peek confirms cloud is absent
+  ---
+  duration_ms: 1.389172
+  type: 'test'
+  ...
+# Subtest: foundation has single-active-device index incompatible with multi-device reader leases
+ok 233 - foundation has single-active-device index incompatible with multi-device reader leases
+  ---
+  duration_ms: 2.779034
+  type: 'test'
+  ...
+# Subtest: draft depends on lease columns absent from foundation migration
+ok 234 - draft depends on lease columns absent from foundation migration
+  ---
+  duration_ms: 0.519552
+  type: 'test'
+  ...
+# Subtest: read-only preflight must be extended to detect blocking unique index and required partial index
+ok 235 - read-only preflight must be extended to detect blocking unique index and required partial index
+  ---
+  duration_ms: 0.278286
+  type: 'test'
+  ...
+# PASS: sync foundation schema fail-closed, original app untouched
+# Subtest: tests/sync-foundation.test.cjs
+ok 34 - tests/sync-foundation.test.cjs
+  ---
+  duration_ms: 46.304034
+  type: 'test'
+  ...
+# Subtest: fixture matches actual application default state
+ok 237 - fixture matches actual application default state
+  ---
+  duration_ms: 5.413833
+  type: 'test'
+  ...
+# Subtest: reject invalid wind assignments without changing caller state
+ok 238 - reject invalid wind assignments without changing caller state
+  ---
+  duration_ms: 0.858794
+  type: 'test'
+  ...
+# Subtest: reject malformed history and round wind
+ok 239 - reject malformed history and round wind
+  ---
+  duration_ms: 0.236626
+  type: 'test'
+  ...
+# Subtest: reject UTF-8 oversized history even when JavaScript UTF-16 length is under limit
+ok 240 - reject UTF-8 oversized history even when JavaScript UTF-16 length is under limit
+  ---
+  duration_ms: 61.734933
+  type: 'test'
+  ...
+# Subtest: preserve realistic Hu, Zi Mo, Quad, patterns, and historical seat metadata in a cloud snapshot
+ok 241 - preserve realistic Hu, Zi Mo, Quad, patterns, and historical seat metadata in a cloud snapshot
+  ---
+  duration_ms: 0.931218
+  type: 'test'
+  ...
+# Subtest: reject malformed history entries while preserving original source data
+ok 242 - reject malformed history entries while preserving original source data
+  ---
+  duration_ms: 0.476716
+  type: 'test'
+  ...
+# Subtest: realistic multi-round score snapshot survives JSON serialization without losing Mahjong history
+ok 243 - realistic multi-round score snapshot survives JSON serialization without losing Mahjong history
+  ---
+  duration_ms: 0.872389
+  type: 'test'
+  ...
+# Subtest: full recorded hand payload retains actual application history fields through cloud validation
+ok 244 - full recorded hand payload retains actual application history fields through cloud validation
+  ---
+  duration_ms: 0.777263
+  type: 'test'
+  ...
+# Subtest: reject corrupt scoring vectors and quad counts inside recorded hands
+ok 245 - reject corrupt scoring vectors and quad counts inside recorded hands
+  ---
+  duration_ms: 0.743358
+  type: 'test'
+  ...
+# Subtest: complete recorded-hand recovery preserves optional combination and quad metadata
+ok 246 - complete recorded-hand recovery preserves optional combination and quad metadata
+  ---
+  duration_ms: 0.913222
+  type: 'test'
+  ...
+# Subtest: reject non-finite nested history metadata rather than silently replacing it with null
+ok 247 - reject non-finite nested history metadata rather than silently replacing it with null
+  ---
+  duration_ms: 0.504636
+  type: 'test'
+  ...
+# Subtest: reject silently discarded nested history metadata and preserve source
+ok 248 - reject silently discarded nested history metadata and preserve source
+  ---
+  duration_ms: 0.582106
+  type: 'test'
+  ...
+# Subtest: reject corrupt historical wind snapshot without modifying original game
+ok 249 - reject corrupt historical wind snapshot without modifying original game
+  ---
+  duration_ms: 0.304539
+  type: 'test'
+  ...
+# Subtest: reject historical player names exceeding the server-side 100-character limit
+ok 250 - reject historical player names exceeding the server-side 100-character limit
+  ---
+  duration_ms: 0.150404
+  type: 'test'
+  ...
+# Subtest: reject malformed player-specific combinations without losing the source history
+ok 251 - reject malformed player-specific combinations without losing the source history
+  ---
+  duration_ms: 0.322723
+  type: 'test'
+  ...
+# Subtest: reject Unicode NUL and unpaired surrogates in historical metadata keys and values
+ok 252 - reject Unicode NUL and unpaired surrogates in historical metadata keys and values
+  ---
+  duration_ms: 0.568333
+  type: 'test'
+  ...
+# Subtest: accept valid supplementary Unicode characters in historical metadata
+ok 253 - accept valid supplementary Unicode characters in historical metadata
+  ---
+  duration_ms: 0.546288
+  type: 'test'
+  ...
+# Subtest: reject non-JSON legacy objects rather than silently erasing history
+ok 254 - reject non-JSON legacy objects rather than silently erasing history
+  ---
+  duration_ms: 0.504161
+  type: 'test'
+  ...
+# Subtest: optional history player indexes accept null, but never invalid values
+ok 255 - optional history player indexes accept null, but never invalid values
+  ---
+  duration_ms: 7.590109
+  type: 'test'
+  ...
+# Subtest: history unknown fields survive JSON roundtrip while malformed known vectors are rejected
+ok 256 - history unknown fields survive JSON roundtrip while malformed known vectors are rejected
+  ---
+  duration_ms: 1.331197
+  type: 'test'
+  ...
+# Subtest: reject history metadata that JSON would silently transform
+ok 257 - reject history metadata that JSON would silently transform
+  ---
+  duration_ms: 0.622235
+  type: 'test'
+  ...
+# Subtest: reject sparse history metadata arrays and non-index array properties before JSON snapshot
+ok 258 - reject sparse history metadata arrays and non-index array properties before JSON snapshot
+  ---
+  duration_ms: 1.771407
+  type: 'test'
+  ...
+# Subtest: reject malformed Unicode before Supabase jsonb conversion while retaining valid emoji
+ok 259 - reject malformed Unicode before Supabase jsonb conversion while retaining valid emoji
+  ---
+  duration_ms: 0.865716
+  type: 'test'
+  ...
+# Subtest: reject unpaired Unicode surrogates in nested history object keys
+ok 260 - reject unpaired Unicode surrogates in nested history object keys
+  ---
+  duration_ms: 0.447287
+  type: 'test'
+  ...
+# Subtest: Unicode name limits count code points like PostgreSQL length, not UTF-16 units
+ok 261 - Unicode name limits count code points like PostgreSQL length, not UTF-16 units
+  ---
+  duration_ms: 1.012769
+  type: 'test'
+  ...
+# Subtest: reject PostgreSQL-incompatible Unicode NUL in values and object keys
+ok 262 - reject PostgreSQL-incompatible Unicode NUL in values and object keys
+  ---
+  duration_ms: 0.556269
+  type: 'test'
+  ...
+# Subtest: structural comparison preserves JSON keys named __proto__
+ok 263 - structural comparison preserves JSON keys named __proto__
+  ---
+  duration_ms: 1.227336
+  type: 'test'
+  ...
+# Subtest: PostgreSQL jsonb spacing cannot push near-limit compact JSON over 2MB
+ok 264 - PostgreSQL jsonb spacing cannot push near-limit compact JSON over 2MB
+  ---
+  duration_ms: 848.64939
+  type: 'test'
+  ...
+# Subtest: historical round wind matches actual saved hand format and rejects invalid winds
+ok 265 - historical round wind matches actual saved hand format and rejects invalid winds
+  ---
+  duration_ms: 1.201655
+  type: 'test'
+  ...
+# Subtest: rejects game root transformed to JSON null by toJSON before RPC
+ok 266 - rejects game root transformed to JSON null by toJSON before RPC
+  ---
+  duration_ms: 1.543422
+  type: 'test'
+  ...
+# Subtest: rejects game root transformed to JSON array by toJSON before RPC
+ok 267 - rejects game root transformed to JSON array by toJSON before RPC
+  ---
+  duration_ms: 0.276939
+  type: 'test'
+  ...
+# Subtest: accepts ordinary JSON object root and preserves payload
+ok 268 - accepts ordinary JSON object root and preserves payload
+  ---
+  duration_ms: 1.469635
+  type: 'test'
+  ...
+# Subtest: server revocation disables writer without clearing backups
+ok 269 - server revocation disables writer without clearing backups
+  ---
+  duration_ms: 2.443513
+  type: 'test'
+  ...
+# Subtest: writer lease downgraded to reader is never automatically restored
+ok 270 - writer lease downgraded to reader is never automatically restored
+  ---
+  duration_ms: 1.085752
+  type: 'test'
+  ...
+# Subtest: network interruption does not silently revoke or renew writer
+ok 271 - network interruption does not silently revoke or renew writer
+  ---
+  duration_ms: 0.47643
+  type: 'test'
+  ...
+# Subtest: lease probe cannot revoke writer during an in-flight commit
+ok 272 - lease probe cannot revoke writer during an in-flight commit
+  ---
+  duration_ms: 4.840032
+  type: 'test'
+  ...
+# Subtest: lease probe started before commit cannot invalidate acknowledged revision
+ok 273 - lease probe started before commit cannot invalidate acknowledged revision
+  ---
+  duration_ms: 1.239553
+  type: 'test'
+  ...
+# Subtest: older revoked lease response cannot override newer valid lease response
+ok 274 - older revoked lease response cannot override newer valid lease response
+  ---
+  duration_ms: 3.582216
+  type: 'test'
+  ...
+# Subtest: older lease network error cannot override newer valid lease response
+ok 275 - older lease network error cannot override newer valid lease response
+  ---
+  duration_ms: 1.731538
+  type: 'test'
+  ...
+# Subtest: sync modules loaded before main auth code
+ok 276 - sync modules loaded before main auth code
+  ---
+  duration_ms: 1.997344
+  type: 'test'
+  ...
+# Subtest: sync remains fail-closed and cloud adoption requires safe local persistence
+ok 277 - sync remains fail-closed and cloud adoption requires safe local persistence
+  ---
+  duration_ms: 1.496917
+  type: 'test'
+  ...
+# Subtest: existing save writes locally before any optional cloud send
+ok 278 - existing save writes locally before any optional cloud send
+  ---
+  duration_ms: 0.486459
+  type: 'test'
+  ...
+# Subtest: logout resets bridge and cannot leave stale active session
+ok 279 - logout resets bridge and cannot leave stale active session
+  ---
+  duration_ms: 0.342444
+  type: 'test'
+  ...
+# Subtest: cloud-enabled mode refuses local score persistence without an active writer lease
+ok 280 - cloud-enabled mode refuses local score persistence without an active writer lease
+  ---
+  duration_ms: 0.665395
+  type: 'test'
+  ...
+# Subtest: a vanished cloud game never silently bootstraps a new game after preflight
+ok 281 - a vanished cloud game never silently bootstraps a new game after preflight
+  ---
+  duration_ms: 1.386456
+  type: 'test'
+  ...
+# Subtest: supabase_sync_rpc_draft.sql: reject ambiguous auth sessions with null creation timestamps
+ok 282 - supabase_sync_rpc_draft.sql: reject ambiguous auth sessions with null creation timestamps
+  ---
+  duration_ms: 1.445488
+  type: 'test'
+  ...
+# Subtest: supabase_sync_stage14_transfer_candidate_DO_NOT_DEPLOY.sql: reject ambiguous auth sessions with null creation timestamps
+ok 283 - supabase_sync_stage14_transfer_candidate_DO_NOT_DEPLOY.sql: reject ambiguous auth sessions with null creation timestamps
+  ---
+  duration_ms: 0.36374
+  type: 'test'
+  ...
+# Subtest: supabase_sync_rpc_draft.sql: all historical session comparisons fail closed for missing session UUID
+ok 284 - supabase_sync_rpc_draft.sql: all historical session comparisons fail closed for missing session UUID
+  ---
+  duration_ms: 1.272222
+  type: 'test'
+  ...
+# Subtest: supabase_sync_stage14_transfer_candidate_DO_NOT_DEPLOY.sql: all historical session comparisons fail closed for missing session UUID
+ok 285 - supabase_sync_stage14_transfer_candidate_DO_NOT_DEPLOY.sql: all historical session comparisons fail closed for missing session UUID
+  ---
+  duration_ms: 0.418989
+  type: 'test'
+  ...
+# Subtest: peek RPC exists and requires authenticated caller
+ok 286 - peek RPC exists and requires authenticated caller
+  ---
+  duration_ms: 1.180536
+  type: 'test'
+  ...
+# Subtest: peek refuses banned, deleted, or older scorekeeper login
+ok 287 - peek refuses banned, deleted, or older scorekeeper login
+  ---
+  duration_ms: 0.151524
+  type: 'test'
+  ...
+# Subtest: peek returns revision without any data mutation
+ok 288 - peek returns revision without any data mutation
+  ---
+  duration_ms: 0.265161
+  type: 'test'
+  ...
+# Subtest: peek callable by authenticated only
+ok 289 - peek callable by authenticated only
+  ---
+  duration_ms: 0.151608
+  type: 'test'
+  ...
+# Subtest: draft fails closed before beginning any schema transaction
+ok 290 - draft fails closed before beginning any schema transaction
+  ---
+  duration_ms: 2.383923
+  type: 'test'
+  ...
+# Subtest: six RPC entrypoints are present exactly once
+ok 291 - six RPC entrypoints are present exactly once
+  ---
+  duration_ms: 0.642947
+  type: 'test'
+  ...
+# Subtest: all RPC entrypoints explicitly constrain search_path
+ok 292 - all RPC entrypoints explicitly constrain search_path
+  ---
+  duration_ms: 0.42456
+  type: 'test'
+  ...
+# Subtest: all six RPCs explicitly revoke anonymous and public execution
+ok 293 - all six RPCs explicitly revoke anonymous and public execution
+  ---
+  duration_ms: 0.779138
+  type: 'test'
+  ...
+# Subtest: writer open and commit serialize on locked account row
+ok 294 - writer open and commit serialize on locked account row
+  ---
+  duration_ms: 0.319509
+  type: 'test'
+  ...
+# Subtest: read-only preflight checks blocking single-device index without modifying schema
+ok 295 - read-only preflight checks blocking single-device index without modifying schema
+  ---
+  duration_ms: 1.545575
+  type: 'test'
+  ...
+# Subtest: preflight checks required current-game uniqueness and session lookup indexes
+ok 296 - preflight checks required current-game uniqueness and session lookup indexes
+  ---
+  duration_ms: 0.311708
+  type: 'test'
+  ...
+# Subtest: preflight returns index results with existing table column function and RPC diagnostics
+ok 297 - preflight returns index results with existing table column function and RPC diagnostics
+  ---
+  duration_ms: 0.349408
+  type: 'test'
+  ...
+# Subtest: preflight is read-only and never runs DDL or writes
+ok 298 - preflight is read-only and never runs DDL or writes
+  ---
+  duration_ms: 1.438424
+  type: 'test'
+  ...
+# Subtest: preflight checks all four tables, RLS, privileges, and required columns
+ok 299 - preflight checks all four tables, RLS, privileges, and required columns
+  ---
+  duration_ms: 0.206183
+  type: 'test'
+  ...
+# Subtest: preflight rejects wrong game in RPC response even if server erroneously accepts takeover
+ok 300 - preflight rejects wrong game in RPC response even if server erroneously accepts takeover
+  ---
+  duration_ms: 2.281676
+  type: 'test'
+  ...
+# Subtest: preflight rejects wrong revision in RPC response even if server erroneously accepts takeover
+ok 301 - preflight rejects wrong revision in RPC response even if server erroneously accepts takeover
+  ---
+  duration_ms: 0.208003
+  type: 'test'
+  ...
+# Subtest: push drains edits arriving during two successive network commits
+ok 302 - push drains edits arriving during two successive network commits
+  ---
+  duration_ms: 6.357573
+  type: 'test'
+  ...
+# Subtest: read RPC is restricted to the exact active auth session and device
+ok 303 - read RPC is restricted to the exact active auth session and device
+  ---
+  duration_ms: 1.560041
+  type: 'test'
+  ...
+# Subtest: read RPC rejects inactive and superseded scorekeeper accounts
+ok 304 - read RPC rejects inactive and superseded scorekeeper accounts
+  ---
+  duration_ms: 0.350232
+  type: 'test'
+  ...
+# Subtest: read RPC never grants a writer lease or mutates cloud state
+ok 305 - read RPC never grants a writer lease or mutates cloud state
+  ---
+  duration_ms: 0.392675
+  type: 'test'
+  ...
+# Subtest: cloud read only reports writer capability for a token-backed writer lease
+ok 306 - cloud read only reports writer capability for a token-backed writer lease
+  ---
+  duration_ms: 1.234252
+  type: 'test'
+  ...
+# Subtest: cloud read requires current active nonrevoked auth-bound lease
+ok 307 - cloud read requires current active nonrevoked auth-bound lease
+  ---
+  duration_ms: 0.200759
+  type: 'test'
+  ...
+# Subtest: reader enrollment cannot grant writer rights or writer token
+ok 308 - reader enrollment cannot grant writer rights or writer token
+  ---
+  duration_ms: 1.475392
+  type: 'test'
+  ...
+# Subtest: reader enrollment is restricted to admin or enabled multi-device accounts
+ok 309 - reader enrollment is restricted to admin or enabled multi-device accounts
+  ---
+  duration_ms: 0.306453
+  type: 'test'
+  ...
+# Subtest: adapter uses separate reader RPC, never writer takeover
+ok 310 - adapter uses separate reader RPC, never writer takeover
+  ---
+  duration_ms: 1.590406
+  type: 'test'
+  ...
+# Subtest: read rejects existing reader lease when multi-device permission is revoked
+ok 311 - read rejects existing reader lease when multi-device permission is revoked
+  ---
+  duration_ms: 1.598843
+  type: 'test'
+  ...
+# Subtest: writer remains eligible for read after multi-device permission is disabled
+ok 312 - writer remains eligible for read after multi-device permission is disabled
+  ---
+  duration_ms: 0.279483
+  type: 'test'
+  ...
+# Subtest: peek enforces JWT-bound active session and account status
+ok 313 - peek enforces JWT-bound active session and account status
+  ---
+  duration_ms: 1.381507
+  type: 'test'
+  ...
+# Subtest: peek only selects game state and never writes/revokes leases
+ok 314 - peek only selects game state and never writes/revokes leases
+  ---
+  duration_ms: 0.456575
+  type: 'test'
+  ...
+# Subtest: peek limits RPC execution to authenticated users
+ok 315 - peek limits RPC execution to authenticated users
+  ---
+  duration_ms: 0.322618
+  type: 'test'
+  ...
+# Subtest: adapter exposes read-only peek without writer token
+ok 316 - adapter exposes read-only peek without writer token
+  ---
+  duration_ms: 1.231487
+  type: 'test'
+  ...
+# Subtest: single-device scorekeeper old login cannot peek active game
+ok 317 - single-device scorekeeper old login cannot peek active game
+  ---
+  duration_ms: 0.198908
+  type: 'test'
+  ...
+# Subtest: real recorded hand fields in app are preserved by sync validation
+ok 318 - real recorded hand fields in app are preserved by sync validation
+  ---
+  duration_ms: 9.542349
+  type: 'test'
+  ...
+# Subtest: record restores score and full history if durable save or sync enqueue fails
+ok 319 - record restores score and full history if durable save or sync enqueue fails
+  ---
+  duration_ms: 2.263465
+  type: 'test'
+  ...
+# Subtest: mahjong_sync_open: restricted SECURITY DEFINER and authenticated-only EXECUTE
+ok 320 - mahjong_sync_open: restricted SECURITY DEFINER and authenticated-only EXECUTE
+  ---
+  duration_ms: 1.517611
+  type: 'test'
+  ...
+# Subtest: mahjong_sync_commit: restricted SECURITY DEFINER and authenticated-only EXECUTE
+ok 321 - mahjong_sync_commit: restricted SECURITY DEFINER and authenticated-only EXECUTE
+  ---
+  duration_ms: 0.28132
+  type: 'test'
+  ...
+# Subtest: mahjong_sync_open_reader: restricted SECURITY DEFINER and authenticated-only EXECUTE
+ok 322 - mahjong_sync_open_reader: restricted SECURITY DEFINER and authenticated-only EXECUTE
+  ---
+  duration_ms: 0.352602
+  type: 'test'
+  ...
+# Subtest: mahjong_sync_peek: restricted SECURITY DEFINER and authenticated-only EXECUTE
+ok 323 - mahjong_sync_peek: restricted SECURITY DEFINER and authenticated-only EXECUTE
+  ---
+  duration_ms: 0.267331
+  type: 'test'
+  ...
+# Subtest: mahjong_sync_read: restricted SECURITY DEFINER and authenticated-only EXECUTE
+ok 324 - mahjong_sync_read: restricted SECURITY DEFINER and authenticated-only EXECUTE
+  ---
+  duration_ms: 0.192751
+  type: 'test'
+  ...
+# Subtest: mahjong_sync_lease_status: restricted SECURITY DEFINER and authenticated-only EXECUTE
+ok 325 - mahjong_sync_lease_status: restricted SECURITY DEFINER and authenticated-only EXECUTE
+  ---
+  duration_ms: 0.155877
+  type: 'test'
+  ...
+# Subtest: draft stays blocked from production execution
+ok 326 - draft stays blocked from production execution
+  ---
+  duration_ms: 0.376352
+  type: 'test'
+  ...
+# Subtest: all six RPC entrypoints are explicitly authenticated-only, not anon or PUBLIC
+ok 327 - all six RPC entrypoints are explicitly authenticated-only, not anon or PUBLIC
+  ---
+  duration_ms: 1.977329
+  type: 'test'
+  ...
+# Subtest: all six RPCs bind identity to verified Supabase Auth session
+ok 328 - all six RPCs bind identity to verified Supabase Auth session
+  ---
+  duration_ms: 0.390589
+  type: 'test'
+  ...
+# Subtest: all six RPCs pin SECURITY DEFINER search path
+ok 329 - all six RPCs pin SECURITY DEFINER search path
+  ---
+  duration_ms: 0.236732
+  type: 'test'
+  ...
+# Subtest: RPC draft and schema alignment never auto-promote legacy games
+ok 330 - RPC draft and schema alignment never auto-promote legacy games
+  ---
+  duration_ms: 4.147191
+  type: 'test'
+  ...
+# Subtest: new cloud game is explicitly current at first bootstrap
+ok 331 - new cloud game is explicitly current at first bootstrap
+  ---
+  duration_ms: 1.106434
+  type: 'test'
+  ...
+# Subtest: current game bootstrap remains protected by preflight and fail-closed guard
+ok 332 - current game bootstrap remains protected by preflight and fail-closed guard
+  ---
+  duration_ms: 2.143886
+  type: 'test'
+  ...
+# Subtest: six-RPC draft does not create redundant current-game unique index
+ok 333 - six-RPC draft does not create redundant current-game unique index
+  ---
+  duration_ms: 1.138296
+  type: 'test'
+  ...
+# Subtest: open RPC explicitly denies NULL account roles
+ok 334 - open RPC explicitly denies NULL account roles
+  ---
+  duration_ms: 0.243813
+  type: 'test'
+  ...
+# Subtest: draft and review remain fail-closed against accidental deployment
+ok 335 - draft and review remain fail-closed against accidental deployment
+  ---
+  duration_ms: 0.252215
+  type: 'test'
+  ...
+# Subtest: server RPC has explicit account lock and revision lock
+ok 336 - server RPC has explicit account lock and revision lock
+  ---
+  duration_ms: 0.81929
+  type: 'test'
+  ...
+# Subtest: server RPC does not overwrite cloud on rejected commit
+ok 337 - server RPC does not overwrite cloud on rejected commit
+  ---
+  duration_ms: 0.205088
+  type: 'test'
+  ...
+# Subtest: server functions are auth-bound and no service role credentials in browser
+ok 338 - server functions are auth-bound and no service role credentials in browser
+  ---
+  duration_ms: 0.393682
+  type: 'test'
+  ...
+# Subtest: cloud adoption is guarded by expected revision before writer revocation
+ok 339 - cloud adoption is guarded by expected revision before writer revocation
+  ---
+  duration_ms: 0.202042
+  type: 'test'
+  ...
+# Subtest: supplied preflight game identity is checked for both local and cloud adoption before revoking writer
+ok 340 - supplied preflight game identity is checked for both local and cloud adoption before revoking writer
+  ---
+  duration_ms: 0.149506
+  type: 'test'
+  ...
+# Subtest: open rejects NaN score before RPC rather than silently converting it to null
+ok 341 - open rejects NaN score before RPC rather than silently converting it to null
+  ---
+  duration_ms: 3.849933
+  type: 'test'
+  ...
+# Subtest: commit rejects nested Infinity in history before RPC
+ok 342 - commit rejects nested Infinity in history before RPC
+  ---
+  duration_ms: 0.377654
+  type: 'test'
+  ...
+# Subtest: finite negative and fractional numbers retain JSON values in snapshot
+ok 343 - finite negative and fractional numbers retain JSON values in snapshot
+  ---
+  duration_ms: 1.115036
+  type: 'test'
+  ...
+# Subtest: open rejects oversized ASCII game before network RPC
+ok 344 - open rejects oversized ASCII game before network RPC
+  ---
+  duration_ms: 40.021678
+  type: 'test'
+  ...
+# Subtest: commit rejects oversized multibyte UTF-8 game before network RPC
+ok 345 - commit rejects oversized multibyte UTF-8 game before network RPC
+  ---
+  duration_ms: 12.043014
+  type: 'test'
+  ...
+# Subtest: open accepts a small game and passes the snapshot to RPC
+ok 346 - open accepts a small game and passes the snapshot to RPC
+  ---
+  duration_ms: 0.296506
+  type: 'test'
+  ...
+# Subtest: open checks cloud identity and revision before returning local mismatch snapshot
+ok 347 - open checks cloud identity and revision before returning local mismatch snapshot
+  ---
+  duration_ms: 1.784664
+  type: 'test'
+  ...
+# Subtest: stale revision response contains metadata but no cloud game snapshot
+ok 348 - stale revision response contains metadata but no cloud game snapshot
+  ---
+  duration_ms: 0.400334
+  type: 'test'
+  ...
+# Subtest: all preflight rejection checks remain before writer lease revocation
+ok 349 - all preflight rejection checks remain before writer lease revocation
+  ---
+  duration_ms: 0.185876
+  type: 'test'
+  ...
+# Subtest: open rejects a revision without cloud game ID before invoking RPC
+ok 350 - open rejects a revision without cloud game ID before invoking RPC
+  ---
+  duration_ms: 1.246135
+  type: 'test'
+  ...
+# Subtest: open rejects a cloud game ID without revision before invoking RPC
+ok 351 - open rejects a cloud game ID without revision before invoking RPC
+  ---
+  duration_ms: 0.178948
+  type: 'test'
+  ...
+# Subtest: open passes matching cloud preflight ID and revision unchanged
+ok 352 - open passes matching cloud preflight ID and revision unchanged
+  ---
+  duration_ms: 0.377302
+  type: 'test'
+  ...
+# Subtest: rejects RPC object missing ok flag instead of treating it as a valid result
+ok 353 - rejects RPC object missing ok flag instead of treating it as a valid result
+  ---
+  duration_ms: 1.517702
+  type: 'test'
+  ...
+# Subtest: rejects RPC ok flag encoded as string instead of boolean
+ok 354 - rejects RPC ok flag encoded as string instead of boolean
+  ---
+  duration_ms: 0.695198
+  type: 'test'
+  ...
+# Subtest: preserves explicit RPC rejection with boolean ok false
+ok 355 - preserves explicit RPC rejection with boolean ok false
+  ---
+  duration_ms: 0.403491
+  type: 'test'
+  ...
+# Subtest: review candidate is fail-closed before any schema mutation
+ok 356 - review candidate is fail-closed before any schema mutation
+  ---
+  duration_ms: 0.915697
+  type: 'test'
+  ...
+# Subtest: incompatible review open signature cannot be mistaken for deployable adapter contract
+ok 357 - incompatible review open signature cannot be mistaken for deployable adapter contract
+  ---
+  duration_ms: 0.278584
+  type: 'test'
+  ...
+# Subtest: review lacks draft preflight and high-water guards and must remain blocked
+ok 358 - review lacks draft preflight and high-water guards and must remain blocked
+  ---
+  duration_ms: 0.16922
+  type: 'test'
+  ...
+# Subtest: review RPC open explicitly rejects NULL role
+ok 359 - review RPC open explicitly rejects NULL role
+  ---
+  duration_ms: 1.419505
+  type: 'test'
+  ...
+# Subtest: review RPC does not recreate duplicate current-game index
+ok 360 - review RPC does not recreate duplicate current-game index
+  ---
+  duration_ms: 0.487264
+  type: 'test'
+  ...
+# Subtest: review RPC remains authenticated-only and uses session-bound lease
+ok 361 - review RPC remains authenticated-only and uses session-bound lease
+  ---
+  duration_ms: 0.216807
+  type: 'test'
+  ...
+# Subtest: draft RPC remains explicitly fail-closed for production
+ok 362 - draft RPC remains explicitly fail-closed for production
+  ---
+  duration_ms: 1.067801
+  type: 'test'
+  ...
+# Subtest: writer commit binds JWT Auth session, device, generation and token hash
+ok 363 - writer commit binds JWT Auth session, device, generation and token hash
+  ---
+  duration_ms: 0.439834
+  type: 'test'
+  ...
+# Subtest: RPC definer functions pin search_path and restrict anonymous execution
+ok 364 - RPC definer functions pin search_path and restrict anonymous execution
+  ---
+  duration_ms: 0.623119
+  type: 'test'
+  ...
+# Subtest: all six client RPC names and SQL function parameter names agree
+ok 365 - all six client RPC names and SQL function parameter names agree
+  ---
+  duration_ms: 2.807758
+  type: 'test'
+  ...
+# Subtest: all six RPC signatures grant execute only to authenticated in draft
+ok 366 - all six RPC signatures grant execute only to authenticated in draft
+  ---
+  duration_ms: 0.340907
+  type: 'test'
+  ...
+# Subtest: unverified four-parameter RPC draft remains fail-closed before SQL transaction
+ok 367 - unverified four-parameter RPC draft remains fail-closed before SQL transaction
+  ---
+  duration_ms: 0.483001
+  type: 'test'
+  ...
+# Subtest: writer takeover checks cloud preflight before revoking old writer
+ok 368 - writer takeover checks cloud preflight before revoking old writer
+  ---
+  duration_ms: 2.014642
+  type: 'test'
+  ...
+# Subtest: commit serializes on account and game before accepting writer lease
+ok 369 - commit serializes on account and game before accepting writer lease
+  ---
+  duration_ms: 0.63103
+  type: 'test'
+  ...
+# Subtest: successful local save refreshes saved-state marker after durable cloud enqueue
+ok 370 - successful local save refreshes saved-state marker after durable cloud enqueue
+  ---
+  duration_ms: 1.189856
+  type: 'test'
+  ...
+# Subtest: failed local save or queue failure cannot refresh saved-state marker
+ok 371 - failed local save or queue failure cannot refresh saved-state marker
+  ---
+  duration_ms: 0.282277
+  type: 'test'
+  ...
+# Subtest: alignment candidate remains unconditionally blocked before any DDL
+ok 372 - alignment candidate remains unconditionally blocked before any DDL
+  ---
+  duration_ms: 1.037996
+  type: 'test'
+  ...
+# Subtest: candidate adds required writer and Auth binding columns without clearing existing sessions
+ok 373 - candidate adds required writer and Auth binding columns without clearing existing sessions
+  ---
+  duration_ms: 0.693149
+  type: 'test'
+  ...
+# Subtest: candidate prevents accidental current-game promotion and checks duplicates before index
+ok 374 - candidate prevents accidental current-game promotion and checks duplicates before index
+  ---
+  duration_ms: 0.429734
+  type: 'test'
+  ...
+# Subtest: historical multi-game owners are not rejected merely for having archives
+ok 375 - historical multi-game owners are not rejected merely for having archives
+  ---
+  duration_ms: 1.152814
+  type: 'test'
+  ...
+# Subtest: current flag exists before current-only duplicate check and is not auto-promoted
+ok 376 - current flag exists before current-only duplicate check and is not auto-promoted
+  ---
+  duration_ms: 0.262994
+  type: 'test'
+  ...
+# Subtest: archive-friendly candidate remains blocked and non-destructive
+ok 377 - archive-friendly candidate remains blocked and non-destructive
+  ---
+  duration_ms: 0.339296
+  type: 'test'
+  ...
+# Subtest: candidate retains unconditional fail-closed guard before DDL
+ok 378 - candidate retains unconditional fail-closed guard before DDL
+  ---
+  duration_ms: 1.729948
+  type: 'test'
+  ...
+# Subtest: all six sync columns have catalog type assertions after alignment DDL
+ok 379 - all six sync columns have catalog type assertions after alignment DDL
+  ---
+  duration_ms: 0.542456
+  type: 'test'
+  ...
+# Subtest: critical boolean columns must be non-null, optional lease metadata may be null
+ok 380 - critical boolean columns must be non-null, optional lease metadata may be null
+  ---
+  duration_ms: 0.155828
+  type: 'test'
+  ...
+# Subtest: current-game index audit checks index namespace independently from table namespace
+ok 381 - current-game index audit checks index namespace independently from table namespace
+  ---
+  duration_ms: 2.115579
+  type: 'test'
+  ...
+# Subtest: current-game index audit still requires unique valid ready owner-key partial index
+ok 382 - current-game index audit still requires unique valid ready owner-key partial index
+  ---
+  duration_ms: 0.218038
+  type: 'test'
+  ...
+# Subtest: schema candidate retains unconditional non-deploy guard
+ok 383 - schema candidate retains unconditional non-deploy guard
+  ---
+  duration_ms: 0.726408
+  type: 'test'
+  ...
+# Subtest: index name reuse cannot bypass unique index definition verification
+ok 384 - index name reuse cannot bypass unique index definition verification
+  ---
+  duration_ms: 1.138381
+  type: 'test'
+  ...
+# Subtest: current game index predicate is checked, not just its name
+ok 385 - current game index predicate is checked, not just its name
+  ---
+  duration_ms: 0.250908
+  type: 'test'
+  ...
+# Subtest: index definition check remains inside guarded atomic migration
+ok 386 - index definition check remains inside guarded atomic migration
+  ---
+  duration_ms: 0.176449
+  type: 'test'
+  ...
+# Subtest: both guarded index checks validate btree access method
+ok 387 - both guarded index checks validate btree access method
+  ---
+  duration_ms: 1.164466
+  type: 'test'
+  ...
+# Subtest: both guarded index checks reject expression and INCLUDE indexes
+ok 388 - both guarded index checks reject expression and INCLUDE indexes
+  ---
+  duration_ms: 0.216409
+  type: 'test'
+  ...
+# Subtest: unconditional non-deploy guard remains first SQL statement
+ok 389 - unconditional non-deploy guard remains first SQL statement
+  ---
+  duration_ms: 0.362991
+  type: 'test'
+  ...
+# Subtest: legacy index drop is preceded by strict catalog shape verification
+ok 390 - legacy index drop is preceded by strict catalog shape verification
+  ---
+  duration_ms: 0.998706
+  type: 'test'
+  ...
+# Subtest: legacy index must be unique and scoped to active user sessions
+ok 391 - legacy index must be unique and scoped to active user sessions
+  ---
+  duration_ms: 0.272888
+  type: 'test'
+  ...
+# Subtest: legacy index drop protection remains fail-closed and atomic
+ok 392 - legacy index drop protection remains fail-closed and atomic
+  ---
+  duration_ms: 0.124566
+  type: 'test'
+  ...
+# Subtest: deployment intentionally blocked until real integration verification
+ok 393 - deployment intentionally blocked until real integration verification
+  ---
+  duration_ms: 1.235184
+  type: 'test'
+  ...
+# Subtest: open and commit require valid matching Supabase Auth session
+ok 394 - open and commit require valid matching Supabase Auth session
+  ---
+  duration_ms: 0.249241
+  type: 'test'
+  ...
+# Subtest: both endpoints reject banned or deleted accounts
+ok 395 - both endpoints reject banned or deleted accounts
+  ---
+  duration_ms: 3.172601
+  type: 'test'
+  ...
+# Subtest: write requires device token, generation and auth session binding
+ok 396 - write requires device token, generation and auth session binding
+  ---
+  duration_ms: 0.165798
+  type: 'test'
+  ...
+# Subtest: conflicting updates preserve cloud state and record conflict
+ok 397 - conflicting updates preserve cloud state and record conflict
+  ---
+  duration_ms: 0.406885
+  type: 'test'
+  ...
+# Subtest: takeover rotates token and increments generation
+ok 398 - takeover rotates token and increments generation
+  ---
+  duration_ms: 0.133444
+  type: 'test'
+  ...
+# Subtest: old and new sessions serialized via user row lock
+ok 399 - old and new sessions serialized via user row lock
+  ---
+  duration_ms: 0.090972
+  type: 'test'
+  ...
+# Subtest: all six public RPC endpoints are search-path hardened and explicitly restricted
+ok 400 - all six public RPC endpoints are search-path hardened and explicitly restricted
+  ---
+  duration_ms: 0.876316
+  type: 'test'
+  ...
+# Subtest: older auth sessions cannot reclaim lease after newer auth session expires
+ok 401 - older auth sessions cannot reclaim lease after newer auth session expires
+  ---
+  duration_ms: 0.313814
+  type: 'test'
+  ...
+# Subtest: peek rejects displaced older auth sessions even after newer login expires
+ok 402 - peek rejects displaced older auth sessions even after newer login expires
+  ---
+  duration_ms: 0.624897
+  type: 'test'
+  ...
+# Subtest: reader enrollment updates auth-session high-water timestamp on reused device IDs
+ok 403 - reader enrollment updates auth-session high-water timestamp on reused device IDs
+  ---
+  duration_ms: 0.230342
+  type: 'test'
+  ...
+# Subtest: reader enrollment cannot overwrite newer Auth-session high-water mark with older session
+ok 404 - reader enrollment cannot overwrite newer Auth-session high-water mark with older session
+  ---
+  duration_ms: 0.139558
+  type: 'test'
+  ...
+# Subtest: read and lease status reject displaced older login using persistent session high-water mark
+ok 405 - read and lease status reject displaced older login using persistent session high-water mark
+  ---
+  duration_ms: 0.135253
+  type: 'test'
+  ...
+# Subtest: commit rejects displaced older login after newer auth session expires
+ok 406 - commit rejects displaced older login after newer auth session expires
+  ---
+  duration_ms: 0.098378
+  type: 'test'
+  ...
+# Subtest: writer open cannot downgrade newer recorded login on reused device in multi-device mode
+ok 407 - writer open cannot downgrade newer recorded login on reused device in multi-device mode
+  ---
+  duration_ms: 0.078187
+  type: 'test'
+  ...
+# Subtest: reader enrollment cannot revoke an existing writer lease using its device ID
+ok 408 - reader enrollment cannot revoke an existing writer lease using its device ID
+  ---
+  duration_ms: 0.143428
+  type: 'test'
+  ...
+# Subtest: open rejects negative preflight revisions before writer revocation
+ok 409 - open rejects negative preflight revisions before writer revocation
+  ---
+  duration_ms: 0.073156
+  type: 'test'
+  ...
+# Subtest: existing cloud game requires explicit revision preflight before writer takeover
+ok 410 - existing cloud game requires explicit revision preflight before writer takeover
+  ---
+  duration_ms: 0.155915
+  type: 'test'
+  ...
+# Subtest: supabase_sync_rpc_draft.sql: session ordering is deterministic when timestamps tie
+ok 411 - supabase_sync_rpc_draft.sql: session ordering is deterministic when timestamps tie
+  ---
+  duration_ms: 1.122216
+  type: 'test'
+  ...
+# Subtest: supabase_sync_readonly_draft.sql: session ordering is deterministic when timestamps tie
+ok 412 - supabase_sync_readonly_draft.sql: session ordering is deterministic when timestamps tie
+  ---
+  duration_ms: 0.415684
+  type: 'test'
+  ...
+# Subtest: open rejects a missing user role explicitly
+ok 413 - open rejects a missing user role explicitly
+  ---
+  duration_ms: 0.21442
+  type: 'test'
+  ...
+# Subtest: open rejects symbol-keyed snapshot before network
+ok 414 - open rejects symbol-keyed snapshot before network
+  ---
+  duration_ms: 1.463833
+  type: 'test'
+  ...
+# Subtest: commit rejects getter without invoking it
+ok 415 - commit rejects getter without invoking it
+  ---
+  duration_ms: 0.276361
+  type: 'test'
+  ...
+# Subtest: open rejects hidden own property instead of silently dropping it
+ok 416 - open rejects hidden own property instead of silently dropping it
+  ---
+  duration_ms: 0.194401
+  type: 'test'
+  ...
+# Subtest: open preserves ordinary JSON object payload
+ok 417 - open preserves ordinary JSON object payload
+  ---
+  duration_ms: 0.471613
+  type: 'test'
+  ...
+# Subtest: staged server validator checks the recorded-hand fields checked by JS
+ok 418 - staged server validator checks the recorded-hand fields checked by JS
+  ---
+  duration_ms: 1.066787
+  type: 'test'
+  ...
+# Subtest: SQL rejects duplicate historical seat winds
+ok 419 - SQL rejects duplicate historical seat winds
+  ---
+  duration_ms: 0.299434
+  type: 'test'
+  ...
+# Subtest: SQL historical player names have same 100-character ceiling as current names
+ok 420 - SQL historical player names have same 100-character ceiling as current names
+  ---
+  duration_ms: 0.240547
+  type: 'test'
+  ...
+# Subtest: SQL validator rejects missing and JSON-null required fields explicitly
+ok 421 - SQL validator rejects missing and JSON-null required fields explicitly
+  ---
+  duration_ms: 0.910461
+  type: 'test'
+  ...
+# Subtest: SQL validator rejects top-level SQL NULL and JSON null
+ok 422 - SQL validator rejects top-level SQL NULL and JSON null
+  ---
+  duration_ms: 0.559045
+  type: 'test'
+  ...
+# Subtest: SQL validator stays nondeployable while integration is pending
+ok 423 - SQL validator stays nondeployable while integration is pending
+  ---
+  duration_ms: 0.114978
+  type: 'test'
+  ...
+# Subtest: cloud score validator rejects fractional scores
+ok 424 - cloud score validator rejects fractional scores
+  ---
+  duration_ms: 1.557352
+  type: 'test'
+  ...
+# Subtest: cloud score validator bounds integer magnitude
+ok 425 - cloud score validator bounds integer magnitude
+  ---
+  duration_ms: 0.237634
+  type: 'test'
+  ...
+# Subtest: SQL draft remains fail-closed for production
+ok 426 - SQL draft remains fail-closed for production
+  ---
+  duration_ms: 0.127502
+  type: 'test'
+  ...
+# Subtest: server checks optional roundWind is a wind integer
+ok 427 - server checks optional roundWind is a wind integer
+  ---
+  duration_ms: 0.838466
+  type: 'test'
+  ...
+# Subtest: server checks optional seatWinds contains four distinct wind integers
+ok 428 - server checks optional seatWinds contains four distinct wind integers
+  ---
+  duration_ms: 0.31996
+  type: 'test'
+  ...
+# Subtest: SQL remains blocked from production
+ok 429 - SQL remains blocked from production
+  ---
+  duration_ms: 0.13644
+  type: 'test'
+  ...
+# Subtest: admin unlock draft cannot be deployed accidentally
+ok 430 - admin unlock draft cannot be deployed accidentally
+  ---
+  duration_ms: 1.124594
+  type: 'test'
+  ...
+# Subtest: admin unlock draft checks actor, target and stale binding before mutation
+ok 431 - admin unlock draft checks actor, target and stale binding before mutation
+  ---
+  duration_ms: 0.319673
+  type: 'test'
+  ...
+# Subtest: admin unlock draft preserves game rows and records recovery audit
+ok 432 - admin unlock draft preserves game rows and records recovery audit
+  ---
+  duration_ms: 0.635856
+  type: 'test'
+  ...
+# Subtest: commit enforces device binding after multi-device permission is revoked
+ok 433 - commit enforces device binding after multi-device permission is revoked
+  ---
+  duration_ms: 1.024965
+  type: 'test'
+  ...
+# Subtest: commit holds owner lock before game lock and guarded update
+ok 434 - commit holds owner lock before game lock and guarded update
+  ---
+  duration_ms: 1.309227
+  type: 'test'
+  ...
+# Subtest: commit verifies exact writer token generation and auth session before write
+ok 435 - commit verifies exact writer token generation and auth session before write
+  ---
+  duration_ms: 0.313729
+  type: 'test'
+  ...
+# Subtest: revision mismatch returns before game update and increments revision on success
+ok 436 - revision mismatch returns before game update and increments revision on success
+  ---
+  duration_ms: 0.664103
+  type: 'test'
+  ...
+# Subtest: unsafe RPC guard precedes transaction and any grant
+ok 437 - unsafe RPC guard precedes transaction and any grant
+  ---
+  duration_ms: 1.730164
+  type: 'test'
+  ...
+# Subtest: unsafe RPC guard is unconditional top-level exception
+ok 438 - unsafe RPC guard is unconditional top-level exception
+  ---
+  duration_ms: 1.068342
+  type: 'test'
+  ...
+# Subtest: admin unlock draft contains no executable grant
+ok 439 - admin unlock draft contains no executable grant
+  ---
+  duration_ms: 0.22051
+  type: 'test'
+  ...
+# Subtest: integration gate cannot be claimed from static Node tests
+ok 440 - integration gate cannot be claimed from static Node tests
+  ---
+  duration_ms: 0.185457
+  type: 'test'
+  ...
+# Subtest: beta rejects another writer device under owner lock before lease revocation
+ok 441 - beta rejects another writer device under owner lock before lease revocation
+  ---
+  duration_ms: 1.35659
+  type: 'test'
+  ...
+# Subtest: production deployment and browser cloud sync remain disabled
+ok 442 - production deployment and browser cloud sync remain disabled
+  ---
+  duration_ms: 2.35702
+  type: 'test'
+  ...
+# Subtest: single device beta must not block same device after logout and fresh login
+ok 443 - single device beta must not block same device after logout and fresh login
+  ---
+  duration_ms: 1.288823
+  type: 'test'
+  ...
+# Subtest: draft and obsolete review both refuse execution before transaction or DDL
+ok 444 - draft and obsolete review both refuse execution before transaction or DDL
+  ---
+  duration_ms: 2.084774
+  type: 'test'
+  ...
+# Subtest: review open contract is incompatible with protected four-argument draft
+ok 445 - review open contract is incompatible with protected four-argument draft
+  ---
+  duration_ms: 0.163884
+  type: 'test'
+  ...
+# Subtest: draft retains high-water auth session and expected cloud identity checks
+ok 446 - draft retains high-water auth session and expected cloud identity checks
+  ---
+  duration_ms: 0.275211
+  type: 'test'
+  ...
+# Subtest: Stage 13 preflight denies missing environment and never connects
+ok 447 - Stage 13 preflight denies missing environment and never connects
+  ---
+  duration_ms: 1.281612
+  type: 'test'
+  ...
+# Subtest: Stage 13 preflight accepts explicit disposable local target
+ok 448 - Stage 13 preflight accepts explicit disposable local target
+  ---
+  duration_ms: 1.16612
+  type: 'test'
+  ...
+# Subtest: Stage 13 preflight blocks production-marked target
+ok 449 - Stage 13 preflight blocks production-marked target
+  ---
+  duration_ms: 0.642273
+  type: 'test'
+  ...
+# Subtest: Stage 13 preflight blocks non-postgres URLs and missing acknowledgment
+ok 450 - Stage 13 preflight blocks non-postgres URLs and missing acknowledgment
+  ---
+  duration_ms: 0.371644
+  type: 'test'
+  ...
+# Subtest: Stage 13 preflight rejects non-disposable database names
+ok 451 - Stage 13 preflight rejects non-disposable database names
+  ---
+  duration_ms: 0.347543
+  type: 'test'
+  ...
+# Subtest: Stage 13 preflight requires separate acknowledgment for remote targets
+ok 452 - Stage 13 preflight requires separate acknowledgment for remote targets
+  ---
+  duration_ms: 0.243986
+  type: 'test'
+  ...
+# Subtest: Stage 13 preflight rejects missing isolated credentials
+ok 453 - Stage 13 preflight rejects missing isolated credentials
+  ---
+  duration_ms: 0.675016
+  type: 'test'
+  ...
+# Subtest: Stage 13 preflight rejects connection query overrides
+ok 454 - Stage 13 preflight rejects connection query overrides
+  ---
+  duration_ms: 0.394076
+  type: 'test'
+  ...
+# Subtest: Stage 13 preflight rejects URL fragments
+ok 455 - Stage 13 preflight rejects URL fragments
+  ---
+  duration_ms: 0.601737
+  type: 'test'
+  ...
+# Subtest: Stage 13 preflight rejects encoded database separators
+ok 456 - Stage 13 preflight rejects encoded database separators
+  ---
+  duration_ms: 0.637977
+  type: 'test'
+  ...
+# Subtest: Stage 13 preflight rejects encoded dot segments
+ok 457 - Stage 13 preflight rejects encoded dot segments
+  ---
+  duration_ms: 0.309694
+  type: 'test'
+  ...
+# Subtest: Stage 13 preflight rejects double-encoded control sequences
+ok 458 - Stage 13 preflight rejects double-encoded control sequences
+  ---
+  duration_ms: 0.190573
+  type: 'test'
+  ...
+# Subtest: Stage 13 preflight rejects nested database paths
+ok 459 - Stage 13 preflight rejects nested database paths
+  ---
+  duration_ms: 0.16762
+  type: 'test'
+  ...
+# Subtest: Stage 13 preflight rejects double-slash database paths
+ok 460 - Stage 13 preflight rejects double-slash database paths
+  ---
+  duration_ms: 0.20707
+  type: 'test'
+  ...
+# Subtest: Stage 13 preflight rejects blank credentials
+ok 461 - Stage 13 preflight rejects blank credentials
+  ---
+  duration_ms: 0.160078
+  type: 'test'
+  ...
+# Subtest: malformed percent encoded database name fails closed without throwing
+ok 462 - malformed percent encoded database name fails closed without throwing
+  ---
+  duration_ms: 1.546669
+  type: 'test'
+  ...
+# Subtest: valid disposable path remains accepted by read-only preflight
+ok 463 - valid disposable path remains accepted by read-only preflight
+  ---
+  duration_ms: 0.537568
+  type: 'test'
+  ...
+# Subtest: rejects URL credentials containing encoded control characters
+ok 464 - rejects URL credentials containing encoded control characters
+  ---
+  duration_ms: 0.250288
+  type: 'test'
+  ...
+# Subtest: parallel PostgreSQL test plan explicitly forbids production and requires disposable database
+ok 465 - parallel PostgreSQL test plan explicitly forbids production and requires disposable database
+  ---
+  duration_ms: 1.662093
+  type: 'test'
+  ...
+# Subtest: parallel plan covers competing commits and stale revision rejection
+ok 466 - parallel plan covers competing commits and stale revision rejection
+  ---
+  duration_ms: 0.302536
+  type: 'test'
+  ...
+# Subtest: parallel plan covers displaced session and rollback without relying on static tests
+ok 467 - parallel plan covers displaced session and rollback without relying on static tests
+  ---
+  duration_ms: 0.389667
+  type: 'test'
+  ...
+# Subtest: single-device beta binds to registered device even after logout
+ok 468 - single-device beta binds to registered device even after logout
+  ---
+  duration_ms: 3.569595
+  type: 'test'
+  ...
+# Subtest: device binding occurs under account lock before cloud state mutation
+ok 469 - device binding occurs under account lock before cloud state mutation
+  ---
+  duration_ms: 0.586346
+  type: 'test'
+  ...
+# Subtest: new beta guard is not deployable or active in browser
+ok 470 - new beta guard is not deployable or active in browser
+  ---
+  duration_ms: 3.734286
+  type: 'test'
+  ...
+# Subtest: historical device lock only considers devices that have held writer rights
+ok 471 - historical device lock only considers devices that have held writer rights
+  ---
+  duration_ms: 1.624395
+  type: 'test'
+  ...
+# Subtest: reader enrollment cannot promote itself into a permanent writer binding
+ok 472 - reader enrollment cannot promote itself into a permanent writer binding
+  ---
+  duration_ms: 0.412947
+  type: 'test'
+  ...
+# Subtest: Stage 13: draft SQL remains fail-closed before transaction
+ok 473 - Stage 13: draft SQL remains fail-closed before transaction
+  ---
+  duration_ms: 0.881513
+  type: 'test'
+  ...
+# Subtest: Stage 13: plan requires disposable database and Supabase Auth fixtures
+ok 474 - Stage 13: plan requires disposable database and Supabase Auth fixtures
+  ---
+  duration_ms: 0.372361
+  type: 'test'
+  ...
+# Subtest: Stage 13: all key RPC definitions remain present for future integration
+ok 475 - Stage 13: all key RPC definitions remain present for future integration
+  ---
+  duration_ms: 0.203569
+  type: 'test'
+  ...
+# Subtest: read-only preflight contains no SQL mutation or privilege-changing commands
+ok 476 - read-only preflight contains no SQL mutation or privilege-changing commands
+  ---
+  duration_ms: 1.398669
+  type: 'test'
+  ...
+# Subtest: read-only preflight enumerates required tables and all six RPC entrypoints
+ok 477 - read-only preflight enumerates required tables and all six RPC entrypoints
+  ---
+  duration_ms: 0.198458
+  type: 'test'
+  ...
+# Subtest: RPC draft remains explicitly blocked from accidental deployment
+ok 478 - RPC draft remains explicitly blocked from accidental deployment
+  ---
+  duration_ms: 0.176631
+  type: 'test'
+  ...
+# Subtest: read-only inventory lists exactly six sync RPC names
+ok 479 - read-only inventory lists exactly six sync RPC names
+  ---
+  duration_ms: 2.180559
+  type: 'test'
+  ...
+# Subtest: RPC inventory checks effective anon and authenticated EXECUTE rights
+ok 480 - RPC inventory checks effective anon and authenticated EXECUTE rights
+  ---
+  duration_ms: 0.360238
+  type: 'test'
+  ...
+# Subtest: RPC inventory records security definer status without writing
+ok 481 - RPC inventory records security definer status without writing
+  ---
+  duration_ms: 1.306827
+  type: 'test'
+  ...
+# Subtest: RPC inventory includes all six sync entry points
+ok 482 - RPC inventory includes all six sync entry points
+  ---
+  duration_ms: 1.774974
+  type: 'test'
+  ...
+# Subtest: RPC inventory reports anonymous and authenticated execute privileges
+ok 483 - RPC inventory reports anonymous and authenticated execute privileges
+  ---
+  duration_ms: 0.339772
+  type: 'test'
+  ...
+# Subtest: RPC inventory identifies SECURITY DEFINER status and exact signatures
+ok 484 - RPC inventory identifies SECURITY DEFINER status and exact signatures
+  ---
+  duration_ms: 0.83349
+  type: 'test'
+  ...
+# Subtest: writer commit binds token, generation, auth session and game writer lease
+ok 485 - writer commit binds token, generation, auth session and game writer lease
+  ---
+  duration_ms: 1.157786
+  type: 'test'
+  ...
+# Subtest: commit rejects displaced login even after newer auth session disappears
+ok 486 - commit rejects displaced login even after newer auth session disappears
+  ---
+  duration_ms: 0.248266
+  type: 'test'
+  ...
+# Subtest: lease status refuses revoked and displaced sessions
+ok 487 - lease status refuses revoked and displaced sessions
+  ---
+  duration_ms: 0.187262
+  type: 'test'
+  ...
+# Subtest: commit serializes owner before locking current game
+ok 488 - commit serializes owner before locking current game
+  ---
+  duration_ms: 1.449819
+  type: 'test'
+  ...
+# Subtest: commit validates writer lease and revision before changing game data
+ok 489 - commit validates writer lease and revision before changing game data
+  ---
+  duration_ms: 0.250515
+  type: 'test'
+  ...
+# Subtest: commit rejects stale revisions and records conflicts without overwriting score
+ok 490 - commit rejects stale revisions and records conflicts without overwriting score
+  ---
+  duration_ms: 0.180653
+  type: 'test'
+  ...
+# Subtest: admin unlock refuses target admin and self unlock
+ok 491 - admin unlock refuses target admin and self unlock
+  ---
+  duration_ms: 1.092598
+  type: 'test'
+  ...
+# Subtest: unlock serializes target writer binding before checking and revoking
+ok 492 - unlock serializes target writer binding before checking and revoking
+  ---
+  duration_ms: 0.285062
+  type: 'test'
+  ...
+# Subtest: unlock is fail-closed for ambiguous writer binding and does not delete game state
+ok 493 - unlock is fail-closed for ambiguous writer binding and does not delete game state
+  ---
+  duration_ms: 0.34727
+  type: 'test'
+  ...
+# Subtest: unlock SQL cannot run accidentally and lacks execute grants
+ok 494 - unlock SQL cannot run accidentally and lacks execute grants
+  ---
+  duration_ms: 0.164586
+  type: 'test'
+  ...
+# Subtest: unlock and writer-open serialize on the same account row
+ok 495 - unlock and writer-open serialize on the same account row
+  ---
+  duration_ms: 1.458825
+  type: 'test'
+  ...
+# Subtest: unlock preserves auth login high-water checked by open and commit
+ok 496 - unlock preserves auth login high-water checked by open and commit
+  ---
+  duration_ms: 0.339974
+  type: 'test'
+  ...
+# Subtest: revoked writer cannot commit without active writer, valid token, generation and auth session
+ok 497 - revoked writer cannot commit without active writer, valid token, generation and auth session
+  ---
+  duration_ms: 0.507861
+  type: 'test'
+  ...
+# Subtest: admin unlock has no production grant and cannot modify game data
+ok 498 - admin unlock has no production grant and cannot modify game data
+  ---
+  duration_ms: 1.032001
+  type: 'test'
+  ...
+# Subtest: admin unlock revokes writer credentials atomically
+ok 499 - admin unlock revokes writer credentials atomically
+  ---
+  duration_ms: 0.836052
+  type: 'test'
+  ...
+# Subtest: admin unlock preserves session history for stale-login rejection
+ok 500 - admin unlock preserves session history for stale-login rejection
+  ---
+  duration_ms: 0.523136
+  type: 'test'
+  ...
+# Subtest: runtime gate remains explicitly NOT EXECUTED
+ok 501 - runtime gate remains explicitly NOT EXECUTED
+  ---
+  duration_ms: 1.419004
+  type: 'test'
+  ...
+# Subtest: runtime gate requires disposable database and auth-session fixtures
+ok 502 - runtime gate requires disposable database and auth-session fixtures
+  ---
+  duration_ms: 0.366426
+  type: 'test'
+  ...
+# Subtest: unlock audit is append-only and preserves game state
+ok 503 - unlock audit is append-only and preserves game state
+  ---
+  duration_ms: 0.440011
+  type: 'test'
+  ...
+# Subtest: unlock and RPC drafts remain intentionally blocked
+ok 504 - unlock and RPC drafts remain intentionally blocked
+  ---
+  duration_ms: 0.197935
+  type: 'test'
+  ...
+# Subtest: install candidate remains fail-closed until live PostgreSQL verification
+ok 505 - install candidate remains fail-closed until live PostgreSQL verification
+  ---
+  duration_ms: 1.404185
+  type: 'test'
+  ...
+# Subtest: mahjong_sync_open: invoker cannot use anonymous role
+ok 506 - mahjong_sync_open: invoker cannot use anonymous role
+  ---
+  duration_ms: 0.277771
+  type: 'test'
+  ...
+# Subtest: mahjong_sync_open: security definer has empty search path
+ok 507 - mahjong_sync_open: security definer has empty search path
+  ---
+  duration_ms: 2.516085
+  type: 'test'
+  ...
+# Subtest: mahjong_sync_commit: invoker cannot use anonymous role
+ok 508 - mahjong_sync_commit: invoker cannot use anonymous role
+  ---
+  duration_ms: 0.205986
+  type: 'test'
+  ...
+# Subtest: mahjong_sync_commit: security definer has empty search path
+ok 509 - mahjong_sync_commit: security definer has empty search path
+  ---
+  duration_ms: 0.726081
+  type: 'test'
+  ...
+# Subtest: mahjong_sync_open_reader: invoker cannot use anonymous role
+ok 510 - mahjong_sync_open_reader: invoker cannot use anonymous role
+  ---
+  duration_ms: 0.214597
+  type: 'test'
+  ...
+# Subtest: mahjong_sync_open_reader: security definer has empty search path
+ok 511 - mahjong_sync_open_reader: security definer has empty search path
+  ---
+  duration_ms: 0.17051
+  type: 'test'
+  ...
+# Subtest: mahjong_sync_read: invoker cannot use anonymous role
+ok 512 - mahjong_sync_read: invoker cannot use anonymous role
+  ---
+  duration_ms: 0.084719
+  type: 'test'
+  ...
+# Subtest: mahjong_sync_read: security definer has empty search path
+ok 513 - mahjong_sync_read: security definer has empty search path
+  ---
+  duration_ms: 0.383512
+  type: 'test'
+  ...
+# Subtest: mahjong_sync_lease_status: invoker cannot use anonymous role
+ok 514 - mahjong_sync_lease_status: invoker cannot use anonymous role
+  ---
+  duration_ms: 0.673866
+  type: 'test'
+  ...
+# Subtest: mahjong_sync_lease_status: security definer has empty search path
+ok 515 - mahjong_sync_lease_status: security definer has empty search path
+  ---
+  duration_ms: 0.302928
+  type: 'test'
+  ...
+# Subtest: open mismatch does not return cloud snapshot
+ok 516 - open mismatch does not return cloud snapshot
+  ---
+  duration_ms: 0.496996
+  type: 'test'
+  ...
+# Subtest: open maps device and game to named RPC arguments
+ok 517 - open maps device and game to named RPC arguments
+  ---
+  duration_ms: 2.505126
+  type: 'test'
+  ...
+# Subtest: commit maps generation token revision and game exactly
+ok 518 - commit maps generation token revision and game exactly
+  ---
+  duration_ms: 0.608993
+  type: 'test'
+  ...
+# Subtest: permission error retains Supabase code
+ok 519 - permission error retains Supabase code
+  ---
+  duration_ms: 0.756988
+  type: 'test'
+  ...
+# Subtest: malformed server response is rejected
+ok 520 - malformed server response is rejected
+  ---
+  duration_ms: 1.468553
+  type: 'test'
+  ...
+# Subtest: no network request on missing commit credentials
+ok 521 - no network request on missing commit credentials
+  ---
+  duration_ms: 0.359517
+  type: 'test'
+  ...
+# Subtest: open snapshots game before asynchronous transport uses it
+ok 522 - open snapshots game before asynchronous transport uses it
+  ---
+  duration_ms: 0.211445
+  type: 'test'
+  ...
+# Subtest: commit snapshots game and refuses non-object payload before network call
+ok 523 - commit snapshots game and refuses non-object payload before network call
+  ---
+  duration_ms: 0.577354
+  type: 'test'
+  ...
+# Subtest: cloud adoption requires matching game identity and revision before RPC
+ok 524 - cloud adoption requires matching game identity and revision before RPC
+  ---
+  duration_ms: 0.220373
+  type: 'test'
+  ...
+# Subtest: cloud adoption forwards both expected game identity and revision
+ok 525 - cloud adoption forwards both expected game identity and revision
+  ---
+  duration_ms: 0.608338
+  type: 'test'
+  ...
+# Subtest: read-only session fetch maps device ID to mahjong_sync_read
+ok 526 - read-only session fetch maps device ID to mahjong_sync_read
+  ---
+  duration_ms: 0.764547
+  type: 'test'
+  ...
+# Subtest: read refuses absent device ID before network access
+ok 527 - read refuses absent device ID before network access
+  ---
+  duration_ms: 0.239015
+  type: 'test'
+  ...
+# Subtest: lease probe maps identity and generation without writer credentials
+ok 528 - lease probe maps identity and generation without writer credentials
+  ---
+  duration_ms: 0.198574
+  type: 'test'
+  ...
+# Subtest: lease probe rejects malformed generation before RPC
+ok 529 - lease probe rejects malformed generation before RPC
+  ---
+  duration_ms: 0.138491
+  type: 'test'
+  ...
+# Subtest: server checks cloud mismatch before revoking previous writer
+ok 530 - server checks cloud mismatch before revoking previous writer
+  ---
+  duration_ms: 1.558943
+  type: 'test'
+  ...
+# Subtest: unsafe draft remains blocked from production deployment
+ok 531 - unsafe draft remains blocked from production deployment
+  ---
+  duration_ms: 0.180555
+  type: 'test'
+  ...
+# Subtest: writer takeover invalidates displaced device credential hashes
+ok 532 - writer takeover invalidates displaced device credential hashes
+  ---
+  duration_ms: 3.244098
+  type: 'test'
+  ...
+# Subtest: read-only enrollment never receives a writer credential
+ok 533 - read-only enrollment never receives a writer credential
+  ---
+  duration_ms: 0.285826
+  type: 'test'
+  ...
+# Subtest: adapter and engine perform open, score commit, revision increment
+ok 534 - adapter and engine perform open, score commit, revision increment
+  ---
+  duration_ms: 6.454054
+  type: 'test'
+  ...
+# Subtest: device takeover revokes previous writer and preserves its uncommitted score
+ok 535 - device takeover revokes previous writer and preserves its uncommitted score
+  ---
+  duration_ms: 3.47643
+  type: 'test'
+  ...
+# Subtest: new device with different local game adopts authoritative cloud and retains backup
+ok 536 - new device with different local game adopts authoritative cloud and retains backup
+  ---
+  duration_ms: 0.834029
+  type: 'test'
+  ...
+# Subtest: sync open rejects unsafe integer in nested score without RPC
+ok 537 - sync open rejects unsafe integer in nested score without RPC
+  ---
+  duration_ms: 7.477994
+  type: 'test'
+  ...
+# Subtest: sync commit rejects unsafe negative integer in history without RPC
+ok 538 - sync commit rejects unsafe negative integer in history without RPC
+  ---
+  duration_ms: 0.530077
+  type: 'test'
+  ...
+# Subtest: sync open preserves safe integer boundary and fractional values
+ok 539 - sync open preserves safe integer boundary and fractional values
+  ---
+  duration_ms: 0.596728
+  type: 'test'
+  ...
+# Subtest: Undo restores scores, dealer, round, and winds and keeps older history
+ok 540 - Undo restores scores, dealer, round, and winds and keeps older history
+  ---
+  duration_ms: 2.491643
+  type: 'test'
+  ...
+# Subtest: Undo failed save restores entire state
+ok 541 - Undo failed save restores entire state
+  ---
+  duration_ms: 0.930788
+  type: 'test'
+  ...
+# Subtest: Undo missing before does not change state
+ok 542 - Undo missing before does not change state
+  ---
+  duration_ms: 0.753592
+  type: 'test'
+  ...
+# Subtest: Undo malformed before does not change state
+ok 543 - Undo malformed before does not change state
+  ---
+  duration_ms: 2.011301
+  type: 'test'
+  ...
+# Subtest: Undo missing dealer does not change state
+ok 544 - Undo missing dealer does not change state
+  ---
+  duration_ms: 0.805677
+  type: 'test'
+  ...
+# Subtest: Undo not ready does not change state
+ok 545 - Undo not ready does not change state
+  ---
+  duration_ms: 0.736363
+  type: 'test'
+  ...
+# Subtest: Undo empty history does not change state
+ok 546 - Undo empty history does not change state
+  ---
+  duration_ms: 0.616725
+  type: 'test'
+  ...
+# PASS: 29 baseline cases + confirmed fixtures
+# Subtest: tests/voice-parser.test.cjs
+ok 117 - tests/voice-parser.test.cjs
+  ---
+  duration_ms: 114.423494
+  type: 'test'
+  ...
+1..547
+# tests 547
+# suites 0
+# pass 547
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3282.512957
+

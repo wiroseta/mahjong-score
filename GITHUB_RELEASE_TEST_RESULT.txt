@@ -1,0 +1,333 @@
+e writer, valid token, generation and auth session
+  ---
+  duration_ms: 0.266564
+  type: 'test'
+  ...
+# Subtest: admin unlock has no production grant and cannot modify game data
+ok 571 - admin unlock has no production grant and cannot modify game data
+  ---
+  duration_ms: 0.300484
+  type: 'test'
+  ...
+# Subtest: admin unlock revokes writer credentials atomically
+ok 572 - admin unlock revokes writer credentials atomically
+  ---
+  duration_ms: 0.718882
+  type: 'test'
+  ...
+# Subtest: admin unlock preserves session history for stale-login rejection
+ok 573 - admin unlock preserves session history for stale-login rejection
+  ---
+  duration_ms: 0.254406
+  type: 'test'
+  ...
+# Subtest: runtime gate remains explicitly NOT EXECUTED
+ok 574 - runtime gate remains explicitly NOT EXECUTED
+  ---
+  duration_ms: 0.782967
+  type: 'test'
+  ...
+# Subtest: runtime gate requires disposable database and auth-session fixtures
+ok 575 - runtime gate requires disposable database and auth-session fixtures
+  ---
+  duration_ms: 0.116942
+  type: 'test'
+  ...
+# Subtest: unlock audit is append-only and preserves game state
+ok 576 - unlock audit is append-only and preserves game state
+  ---
+  duration_ms: 0.272422
+  type: 'test'
+  ...
+# Subtest: unlock and RPC drafts remain intentionally blocked
+ok 577 - unlock and RPC drafts remain intentionally blocked
+  ---
+  duration_ms: 0.118014
+  type: 'test'
+  ...
+# Subtest: install candidate remains fail-closed until live PostgreSQL verification
+ok 578 - install candidate remains fail-closed until live PostgreSQL verification
+  ---
+  duration_ms: 1.108407
+  type: 'test'
+  ...
+# Subtest: mahjong_sync_open: invoker cannot use anonymous role
+ok 579 - mahjong_sync_open: invoker cannot use anonymous role
+  ---
+  duration_ms: 0.202359
+  type: 'test'
+  ...
+# Subtest: mahjong_sync_open: security definer has empty search path
+ok 580 - mahjong_sync_open: security definer has empty search path
+  ---
+  duration_ms: 0.870345
+  type: 'test'
+  ...
+# Subtest: mahjong_sync_commit: invoker cannot use anonymous role
+ok 581 - mahjong_sync_commit: invoker cannot use anonymous role
+  ---
+  duration_ms: 0.088501
+  type: 'test'
+  ...
+# Subtest: mahjong_sync_commit: security definer has empty search path
+ok 582 - mahjong_sync_commit: security definer has empty search path
+  ---
+  duration_ms: 0.176981
+  type: 'test'
+  ...
+# Subtest: mahjong_sync_open_reader: invoker cannot use anonymous role
+ok 583 - mahjong_sync_open_reader: invoker cannot use anonymous role
+  ---
+  duration_ms: 0.071095
+  type: 'test'
+  ...
+# Subtest: mahjong_sync_open_reader: security definer has empty search path
+ok 584 - mahjong_sync_open_reader: security definer has empty search path
+  ---
+  duration_ms: 0.117504
+  type: 'test'
+  ...
+# Subtest: mahjong_sync_read: invoker cannot use anonymous role
+ok 585 - mahjong_sync_read: invoker cannot use anonymous role
+  ---
+  duration_ms: 0.064204
+  type: 'test'
+  ...
+# Subtest: mahjong_sync_read: security definer has empty search path
+ok 586 - mahjong_sync_read: security definer has empty search path
+  ---
+  duration_ms: 0.222108
+  type: 'test'
+  ...
+# Subtest: mahjong_sync_lease_status: invoker cannot use anonymous role
+ok 587 - mahjong_sync_lease_status: invoker cannot use anonymous role
+  ---
+  duration_ms: 0.292362
+  type: 'test'
+  ...
+# Subtest: mahjong_sync_lease_status: security definer has empty search path
+ok 588 - mahjong_sync_lease_status: security definer has empty search path
+  ---
+  duration_ms: 0.124765
+  type: 'test'
+  ...
+# Subtest: open mismatch does not return cloud snapshot
+ok 589 - open mismatch does not return cloud snapshot
+  ---
+  duration_ms: 0.187297
+  type: 'test'
+  ...
+# Subtest: open maps device and game to named RPC arguments
+ok 590 - open maps device and game to named RPC arguments
+  ---
+  duration_ms: 1.850233
+  type: 'test'
+  ...
+# Subtest: commit maps generation token revision and game exactly
+ok 591 - commit maps generation token revision and game exactly
+  ---
+  duration_ms: 0.740173
+  type: 'test'
+  ...
+# Subtest: permission error retains Supabase code
+ok 592 - permission error retains Supabase code
+  ---
+  duration_ms: 1.37453
+  type: 'test'
+  ...
+# Subtest: malformed server response is rejected
+ok 593 - malformed server response is rejected
+  ---
+  duration_ms: 0.30474
+  type: 'test'
+  ...
+# Subtest: no network request on missing commit credentials
+ok 594 - no network request on missing commit credentials
+  ---
+  duration_ms: 0.294925
+  type: 'test'
+  ...
+# Subtest: open snapshots game before asynchronous transport uses it
+ok 595 - open snapshots game before asynchronous transport uses it
+  ---
+  duration_ms: 0.195629
+  type: 'test'
+  ...
+# Subtest: commit snapshots game and refuses non-object payload before network call
+ok 596 - commit snapshots game and refuses non-object payload before network call
+  ---
+  duration_ms: 0.307875
+  type: 'test'
+  ...
+# Subtest: cloud adoption requires matching game identity and revision before RPC
+ok 597 - cloud adoption requires matching game identity and revision before RPC
+  ---
+  duration_ms: 0.226916
+  type: 'test'
+  ...
+# Subtest: cloud adoption forwards both expected game identity and revision
+ok 598 - cloud adoption forwards both expected game identity and revision
+  ---
+  duration_ms: 0.388674
+  type: 'test'
+  ...
+# Subtest: read-only session fetch maps device ID to mahjong_sync_read
+ok 599 - read-only session fetch maps device ID to mahjong_sync_read
+  ---
+  duration_ms: 0.469253
+  type: 'test'
+  ...
+# Subtest: read refuses absent device ID before network access
+ok 600 - read refuses absent device ID before network access
+  ---
+  duration_ms: 0.230511
+  type: 'test'
+  ...
+# Subtest: lease probe maps identity and generation without writer credentials
+ok 601 - lease probe maps identity and generation without writer credentials
+  ---
+  duration_ms: 0.179935
+  type: 'test'
+  ...
+# Subtest: lease probe rejects malformed generation before RPC
+ok 602 - lease probe rejects malformed generation before RPC
+  ---
+  duration_ms: 0.23037
+  type: 'test'
+  ...
+# Subtest: reject nested object toJSON before any cloud RPC
+ok 603 - reject nested object toJSON before any cloud RPC
+  ---
+  duration_ms: 0.191342
+  type: 'test'
+  ...
+# Subtest: reject nested array toJSON before any cloud RPC
+ok 604 - reject nested array toJSON before any cloud RPC
+  ---
+  duration_ms: 0.132285
+  type: 'test'
+  ...
+# Subtest: reject inherited nested serializer toJSON before any cloud RPC
+ok 605 - reject inherited nested serializer toJSON before any cloud RPC
+  ---
+  duration_ms: 0.209389
+  type: 'test'
+  ...
+# Subtest: server checks cloud mismatch before revoking previous writer
+ok 606 - server checks cloud mismatch before revoking previous writer
+  ---
+  duration_ms: 0.978705
+  type: 'test'
+  ...
+# Subtest: unsafe draft remains blocked from production deployment
+ok 607 - unsafe draft remains blocked from production deployment
+  ---
+  duration_ms: 0.181468
+  type: 'test'
+  ...
+# Subtest: writer takeover invalidates displaced device credential hashes
+ok 608 - writer takeover invalidates displaced device credential hashes
+  ---
+  duration_ms: 1.278609
+  type: 'test'
+  ...
+# Subtest: read-only enrollment never receives a writer credential
+ok 609 - read-only enrollment never receives a writer credential
+  ---
+  duration_ms: 0.161689
+  type: 'test'
+  ...
+# Subtest: adapter and engine perform open, score commit, revision increment
+ok 610 - adapter and engine perform open, score commit, revision increment
+  ---
+  duration_ms: 4.884313
+  type: 'test'
+  ...
+# Subtest: device takeover revokes previous writer and preserves its uncommitted score
+ok 611 - device takeover revokes previous writer and preserves its uncommitted score
+  ---
+  duration_ms: 2.85083
+  type: 'test'
+  ...
+# Subtest: new device with different local game adopts authoritative cloud and retains backup
+ok 612 - new device with different local game adopts authoritative cloud and retains backup
+  ---
+  duration_ms: 0.975181
+  type: 'test'
+  ...
+# Subtest: sync open rejects unsafe integer in nested score without RPC
+ok 613 - sync open rejects unsafe integer in nested score without RPC
+  ---
+  duration_ms: 1.709745
+  type: 'test'
+  ...
+# Subtest: sync commit rejects unsafe negative integer in history without RPC
+ok 614 - sync commit rejects unsafe negative integer in history without RPC
+  ---
+  duration_ms: 0.31135
+  type: 'test'
+  ...
+# Subtest: sync open preserves safe integer boundary and fractional values
+ok 615 - sync open preserves safe integer boundary and fractional values
+  ---
+  duration_ms: 0.384198
+  type: 'test'
+  ...
+# Subtest: Undo restores scores, dealer, round, and winds and keeps older history
+ok 616 - Undo restores scores, dealer, round, and winds and keeps older history
+  ---
+  duration_ms: 2.102646
+  type: 'test'
+  ...
+# Subtest: Undo failed save restores entire state
+ok 617 - Undo failed save restores entire state
+  ---
+  duration_ms: 0.708677
+  type: 'test'
+  ...
+# Subtest: Undo missing before does not change state
+ok 618 - Undo missing before does not change state
+  ---
+  duration_ms: 0.553187
+  type: 'test'
+  ...
+# Subtest: Undo malformed before does not change state
+ok 619 - Undo malformed before does not change state
+  ---
+  duration_ms: 2.185422
+  type: 'test'
+  ...
+# Subtest: Undo missing dealer does not change state
+ok 620 - Undo missing dealer does not change state
+  ---
+  duration_ms: 0.714986
+  type: 'test'
+  ...
+# Subtest: Undo not ready does not change state
+ok 621 - Undo not ready does not change state
+  ---
+  duration_ms: 0.591744
+  type: 'test'
+  ...
+# Subtest: Undo empty history does not change state
+ok 622 - Undo empty history does not change state
+  ---
+  duration_ms: 0.64291
+  type: 'test'
+  ...
+# PASS: 29 baseline cases + confirmed fixtures
+# Subtest: tests/voice-parser.test.cjs
+ok 129 - tests/voice-parser.test.cjs
+  ---
+  duration_ms: 86.479281
+  type: 'test'
+  ...
+1..623
+# tests 623
+# suites 0
+# pass 623
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2526.803228

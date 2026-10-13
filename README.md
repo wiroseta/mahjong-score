@@ -662,3 +662,90 @@ Satu tombol Voice untuk HU/Zi Mo, Quad, atau kombinasi dalam urutan apa saja. Ad
 3. Deploy Edge Function `mahjong-voice-review` and ensure `GEMINI_API_KEY` exists as a Supabase secret (same key used by other Gemini functions).
 4. Test with a scorekeeper account: perform Voice recognition, verify INSERT into `mahjong_voice_diagnostics`; SELECT from that account must return no rows; admin should see the event in Voice Diagnostic cloud reports.
 5. No direct Gemini-to-GitHub patch/PR automation is included yet. Gemini produces diagnostic recommendations only; do not merge code automatically without regression tests and review.
+
+### Checkpoint pengembangan v15.7.15 — Stage 13 (248 PASS)
+Lihat `CHECKPOINT_V15.7.15_PENGEMBANGAN.md` dan `STAGE13_INTEGRATION_BLOCKERS.md`. Preflight read-only: `node scripts/stage13-environment-preflight.cjs`; ini hanya memeriksa konfigurasi dan **tidak** menguji database. Jangan deploy checkpoint ini.
+
+### Pengembangan v15.7.15 — checkpoint 251 PASS
+Preflight Tahap 13 kini menolak nama database tanpa penanda disposable, kredensial kosong, dan target remote tanpa acknowledgment isolasi. Lihat `STAGE13_INTEGRATION_BLOCKERS.md` dan `CHECKPOINT_V15.7.15_PENGEMBANGAN.md`. Ini bukan verifikasi PostgreSQL nyata; jangan deploy.
+
+### Checkpoint pengembangan Stage 13 — 254 PASS (12 Oktober 2026)
+Pemeriksaan konfigurasi database disposable kini menolak parameter query, fragmen, separator database ter-encode, dan hostname ambigu. Total 254 tes lokal PASS; pengujian integrasi PostgreSQL/Supabase Auth belum dilakukan. Lihat `CHECKPOINT_V15.7.15_PENGEMBANGAN.md` dan `STAGE13_INTEGRATION_BLOCKERS.md`. **DO NOT DEPLOY**.
+
+### Catatan pengembangan lokal 12 Oktober 2026
+Checkpoint validasi Tahap 13 terbaru menolak dot/percent ter-encode pada path URL PostgreSQL untuk mencegah ambiguitas. Hasil aktual `node --test tests/*.test.cjs`: **256 PASS, 0 FAIL** (jumlah tes berbeda dari label ZIP masukan 258 PASS). Lihat `CHECKPOINT_V15.7.15_PENGEMBANGAN.md`. Belum siap deploy; database pengujian terisolasi diperlukan.
+
+### Checkpoint Tahap 13 — 12 Oktober 2026 (258 PASS)
+Perbaikan fail-closed untuk URL database dengan encoding rusak, ditambah dua tes regresi. Rincian dan keterbatasan terdapat di `CHECKPOINT_V15.7.15_PENGEMBANGAN.md`. ZIP ini hanya untuk pengembangan; **DO NOT DEPLOY**.
+
+### Development checkpoint 2026-10-12 — Stage 13 (261 PASS)
+Latest local preflight validation rejects nested/double-slash database paths and URL-encoded blank credentials. Full local suite: 261 PASS, 0 FAIL (`tests/stage13_preflight_261verified.log`). Details in `CHECKPOINT_V15.7.15_PENGEMBANGAN.md`. PostgreSQL/Supabase Auth+RLS integration remains blocked pending an isolated disposable test database. DO NOT DEPLOY; cloud sync OFF.
+
+### Checkpoint pengembangan v15.7.15 — 262 PASS
+Tahap 13: validasi kredensial URL PostgreSQL menolak karakter kontrol ter-encode. Satu tes regresi baru, 262 PASS/0 FAIL. Rincian dan batas integrasi: `CHECKPOINT_V15.7.15_PENGEMBANGAN.md`. **DO NOT DEPLOY**; sinkronisasi cloud OFF.
+
+### Stage 13 local PostgreSQL checkpoint
+Lihat `STAGE13_LOCAL_POSTGRES_NEXT.md` untuk status aktual, batas pengujian Homebrew PostgreSQL, dan perintah verifikasi read-only. SQL RPC draft tetap **DO NOT DEPLOY**.
+
+### Stage 13 checkpoint — 330 PASS (12 Oktober 2026)
+Guarded schema candidate now verifies current-game index namespace independently of table namespace. Three regression tests added; full local Node suite 330 PASS, 0 FAIL. See `STAGE13_NEXT_CHECKPOINT.md` and `tests/stage13_current_index_namespace_20261012.log`. No PostgreSQL/Supabase/device integration executed. Cloud Sync OFF; DO NOT DEPLOY.
+
+### Stage 13 checkpoint — 333 PASS (12 Oktober 2026)
+Guarded SQL index audits now verify btree access method, no expression keys, and no INCLUDE columns for both legacy and current-game indexes. Three new static regression tests; full Node suite 333 PASS / 0 FAIL. See `STAGE13_NEXT_CHECKPOINT.md` and `tests/stage13_index_method_shape_20261012.log`. No database integration or deployment; Cloud Sync OFF, DO NOT DEPLOY.
+
+### Stage 13 checkpoint — RPC authorization boundaries (2026-10-12)
+See `STAGE13_RPC_AUTHORIZATION_CHECKPOINT_20261012.md`. Three additional static regression tests for all six RPC entrypoints. Local Node suite: **336 PASS, 0 FAIL**. SQL draft remains intentionally blocked; Cloud Sync OFF; DO NOT DEPLOY.
+
+### Stage 13 checkpoint — read-only SQL contract (342 PASS, 2026-10-12)
+Three static regression checks added for preflight read-only SQL, required object inventory, and unconditional draft deployment blocker. 342 Node tests PASS, 0 FAIL. See `STAGE13_READONLY_CONTRACT_CHECKPOINT_20261012.md` and `tests/stage13_readonly_contract_20261012.log`. No live PostgreSQL verification; Cloud Sync OFF; DO NOT DEPLOY.
+
+## Checkpoint Stage 13 — RPC inventory (2026-10-12)
+Read-only SQL preflight now inventories all six RPC signatures and their installed/EXECUTE/security-definer metadata. Three static regression tests added. See `STAGE13_RPC_INVENTORY_CHECKPOINT_20261012.md`. No production changes; DO NOT DEPLOY.
+
+## Checkpoint Tahap 13 — 348 PASS (2026-10-12)
+Lihat `STAGE13_SESSION_INVENTORY_CHECKPOINT_20261012.md` untuk rincian pengujian, keterbatasan, dan langkah selanjutnya. Cloud Sync OFF; DO NOT DEPLOY.
+
+### Checkpoint Stage 13 — 351 PASS (2026-10-12)
+Lihat `STAGE13_TAKEOVER_GUARDS_CHECKPOINT_20261012.md` dan `tests/stage13_351_test_run.txt`. Audit guard takeover statis; PostgreSQL runtime belum diuji. Cloud Sync OFF; DO NOT DEPLOY.
+
+## Checkpoint Stage 13 — 354 PASS (2026-10-12)
+Added 3 static transaction-order regression checks (owner lock before game lock; writer lease and revision checks before mutation; revision conflicts returned without overwrite). `node --test tests/*.test.cjs`: 354 PASS, 0 FAIL. See `STAGE13_TRANSACTION_ORDER_CHECKPOINT_20261012.md` and `tests/stage13_transaction_order_20261012.log`. PostgreSQL concurrency not tested; Cloud Sync OFF; DO NOT DEPLOY.
+
+## Checkpoint terbaru: Stage 13 — 357 PASS
+Lihat `CHECKPOINT_STAGE13_357_CONCURRENT_COMMIT.md` untuk rincian pekerjaan, batasan verifikasi, log dan langkah berikutnya. Tidak untuk deployment.
+
+## Stage 13 — 363 PASS (12 Oktober 2026)
+Menambahkan rencana pengujian PostgreSQL paralel terisolasi (`STAGE13_PARALLEL_PG_TEST_PLAN.md`) dan tiga regresi pemeriksaan kelengkapan rencana (`tests/sync-stage13-parallel-test-plan.test.cjs`). Node suite aktual: **363 PASS / 0 FAIL**; log `tests/stage13_parallel_plan_20261012.log`. **Ini bukan pengujian konkurensi PostgreSQL nyata.** Tidak ada perubahan produksi. Cloud Sync OFF. DO NOT DEPLOY.
+
+## Fast-track checkpoint (2026-10-12)
+See `STAGE13_FAST_TRACK_GATE.md` and `CHECKPOINT_V15.7.15_PENGEMBANGAN.md` for release blockers, test evidence and next actions. This is NOT a deployable build.
+
+### Checkpoint Stage 13 — 365 PASS
+Single-device writer-lock beta ditambahkan **hanya pada SQL draft**, lihat `STAGE13_SINGLE_DEVICE_BETA_CHECKPOINT.md`. Cloud Sync OFF, tidak deploy. Pengujian PostgreSQL nyata belum dilakukan.
+
+### Checkpoint 368 — Persistent Device Binding
+Baca `STAGE13_PERSISTENT_DEVICE_BINDING_CHECKPOINT.md` untuk perubahan, risiko perangkat lama, dan langkah berikutnya. 368 Node tests PASS / 0 FAIL. SQL draft belum deployable; Cloud Sync OFF.
+
+### Fast-track checkpoint 369 PASS
+See `STAGE13_FAST_TRACK_COMMIT_BINDING.md` for detailed changes, testing and limitations. Cloud Sync remains OFF; DO NOT DEPLOY.
+
+## Checkpoint 370 — Same-device re-login
+Lihat `STAGE13_SAME_DEVICE_RELOGIN_CHECKPOINT.md` untuk rincian perbaikan, pengujian, batasan, dan alasan Cloud Sync tetap OFF.
+
+### Stage 13 checkpoint 372 (DO NOT DEPLOY)
+Perbaikan isolasi penguncian perangkat reader/writer; lihat `STAGE13_READER_BINDING_ISOLATION.md`. 372 tes Node PASS, 0 FAIL. SQL tetap draft non-deployable; Cloud Sync OFF.
+
+### Stage 13 checkpoint — 375 PASS
+Administrator device unlock SQL **draft only** in `supabase_sync_admin_unlock_draft.sql`; deliberately blocked from execution and ungranted. 3 new static tests; 375 Node tests PASS, 0 FAIL. See `CHECKPOINT_V15.7.15_PENGEMBANGAN.md`. **DO NOT DEPLOY**.
+
+### Latest local checkpoint (377 PASS)
+See `STAGE13_UNLOCK_REVOCATION_CHECKPOINT.md` and `CHECKPOINT_V15.7.15_PENGEMBANGAN.md`. Cloud Sync OFF; SQL draft is non-deployable; no PostgreSQL runtime verification.
+
+## Stage 13 checkpoint — 381 PASS (2026-10-12)
+Cross-RPC static unlock safety verification: see `STAGE13_CROSS_RPC_CHECKPOINT.md` and `tests/stage13_cross_rpc_run.log`. 381 Node tests PASS, 0 FAIL. PostgreSQL runtime unverified; SQL drafts remain guarded. DO NOT DEPLOY.
+
+
+Stage 17 Step 27: see IMPLEMENTATION_STATE.md. Cloud Sync OFF; DO NOT DEPLOY.
+
+
+Stage 17 Step 31: Historical stage notes consolidated into CHANGELOG.md. SQL archive is encoded as comments for safety and is NOT an executable migration. Test-referenced legacy SQL remains temporarily. See IMPLEMENTATION_STATE.md.

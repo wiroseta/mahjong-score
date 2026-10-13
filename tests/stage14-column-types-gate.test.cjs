@@ -1,0 +1,10 @@
+'use strict';
+const {test}=require('node:test');const assert=require('node:assert/strict');
+const {review,expected}=require('../tools/stage14-review-column-types.cjs');
+const rows=Object.entries(expected).map(([key,data_type])=>{const [table_name,column_name]=key.split('.');return {table_name,column_name,installed:true,data_type};});
+test('stage14 type gate accepts exact expected types',()=>assert.equal(review(rows).ok,true));
+test('stage14 type gate rejects missing evidence',()=>assert.equal(review(rows.slice(1)).ok,false));
+test('stage14 type gate rejects duplicate evidence',()=>assert.equal(review([...rows,rows[0]]).ok,false));
+test('stage14 type gate rejects missing installed flag',()=>assert.equal(review(rows.map((r,i)=>i? r:{...r,installed:false})).ok,false));
+test('stage14 type gate rejects incompatible uuid type',()=>assert.equal(review(rows.map((r,i)=>i?r:{...r,data_type:'text'})).ok,false));
+test('stage14 type gate rejects invalid input',()=>assert.equal(review({}).ok,false));

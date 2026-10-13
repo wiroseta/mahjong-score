@@ -1,0 +1,16 @@
+'use strict';
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+const root=path.join(__dirname,'..');
+const sql=fs.readFileSync(path.join(root,'supabase_sync_stage14_transfer_candidate_DO_NOT_DEPLOY.sql'),'utf8');
+const fn=(name,next)=>sql.split(`CREATE OR REPLACE FUNCTION public.${name}(`)[1].split(`CREATE OR REPLACE FUNCTION public.${next}(`)[0];
+const open=fn('mahjong_sync_open','mahjong_sync_commit');
+const commit=fn('mahjong_sync_commit','mahjong_sync_open_reader');
+const reader=fn('mahjong_sync_open_reader','mahjong_sync_peek');
+const read=fn('mahjong_sync_read','mahjong_sync_lease_status');
+test('Stage14 SQL candidate retains non-deployable first-statement gate',()=>assert.match(sql,/DO \$\$ BEGIN RAISE EXCEPTION 'UNSAFE DRAFT:[^']+'; END \$\$;\s*BEGIN;/));
+test('Stage14 writer takeover validates cloud preflight before revoking previous writer',()=>{const rev=open.indexOf('UPDATE public.mahjong_device_sessions SET is_writer=false');assert.ok(rev>0);for(const reason of ['cloud-revision-changed','local-cloud-mismatch','no-cloud-game'])assert.ok(open.indexOf(`'reason','${reason}'`)<rev);});
+test('Stage14 commit never stores rejected revoked-writer payload in conflict ledger',()=>{assert.match(commit,/IF v_reason='revision-conflict' THEN\s*INSERT INTO public\.mahjong_sync_conflicts/);assert.match(commit,/v_reason:='writer-revoked'/);});
+test('Stage14 read-only enrollment cannot downgrade active writer, and reader access rechecks permission',()=>{assert.match(reader,/device-already-writer/);assert.ok(reader.indexOf('device-already-writer')<reader.indexOf('INSERT INTO public.mahjong_device_sessions'));assert.match(read,/reader-permission-revoked/);});
