@@ -2172,7 +2172,7 @@ if ("serviceWorker" in navigator) {
 let mahjongSupabase=null,mahjongSession=null,mahjongIsAdmin=false,mahjongRole='scorekeeper';
 const AUTH_DOMAIN='@mahjong.local';
 // Cloud ON candidate: deployment requires acceptance of unverified real-device behavior.
-const MAHJONG_CLOUD_SYNC_ENABLED=false; // Requires five installed RPCs; deploy SQL before app.
+const MAHJONG_CLOUD_SYNC_ENABLED=true; // Requires five installed RPCs; deploy SQL before app.
 const mahjongCloudSyncBridge=window.MahjongCloudBridge.create({
  enabled:MAHJONG_CLOUD_SYNC_ENABLED,
  engineFactory:opts=>window.MahjongSyncEngine.create(opts),
