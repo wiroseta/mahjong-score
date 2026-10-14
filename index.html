@@ -2159,7 +2159,7 @@ function canvasesToPDF(canvases){
 </script>
 <script>
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js"));
+  // Stage 185 local-only test: service worker registration intentionally disabled.
 }
 </script>
 <!-- Cloud sync activation candidate: five RPCs reported installed; live Auth/two-device verification pending. -->
@@ -2172,7 +2172,7 @@ if ("serviceWorker" in navigator) {
 let mahjongSupabase=null,mahjongSession=null,mahjongIsAdmin=false,mahjongRole='scorekeeper';
 const AUTH_DOMAIN='@mahjong.local';
 // Cloud ON candidate: deployment requires acceptance of unverified real-device behavior.
-const MAHJONG_CLOUD_SYNC_ENABLED=false; // Safety gate: enable only after verified end-to-end transfer acceptance.
+const MAHJONG_CLOUD_SYNC_ENABLED=false; // Stage229 rollback: Cloud Sync disabled.
 const mahjongCloudSyncBridge=window.MahjongCloudBridge.create({
  enabled:MAHJONG_CLOUD_SYNC_ENABLED,
  engineFactory:opts=>window.MahjongSyncEngine.create(opts),
