@@ -2235,7 +2235,7 @@ const mahjongCloudSyncBridge=window.MahjongCloudBridge.create({
 let mahjongCloudTrialRevocationPending=false;
 function mahjongCloudTrialIsSupersededSession(error){
  const message=String(error?.message||error?.error||error||'');
- return /newer login session exists/i.test(message);
+ return /newer[ -]login(?: session exists)?/i.test(message);
 }
 async function mahjongCloudTrialRevokeLocalSession(){
  if(mahjongCloudTrialRevocationPending||!mahjongSession)return;
