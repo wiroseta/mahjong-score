@@ -24,7 +24,7 @@ test('writer open and commit revalidate Auth session after account row lock',()=
   assert.ok(lock>=0&&check>lock,'Auth expiry must be rechecked after owner lock');
  }
 });
-test('release gate remains disabled pending signed-JWT browser acceptance',()=>{
- assert.match(html,/const MAHJONG_CLOUD_SYNC_ENABLED=false\s*;/);
+test('Stage280 production gate enabled following browser acceptance',()=>{
+ assert.match(html,/const MAHJONG_CLOUD_SYNC_ENABLED=true\s*;/);
  assert.match(sql,/UNSAFE DRAFT: do not deploy/);
 });

@@ -1,0 +1,1 @@
+Stage 279B: documentation and legacy SQL drafts archived, active SQL remains supabase_latest.sql, history remains supabase_schema_history.sql. Main Cloud Sync OFF, Cloud Trial ON. Node test suite 624 PASS / 0 FAIL. Direct stale-token mahjong_sync_commit runtime rejection not yet proven. DO NOT DEPLOY.

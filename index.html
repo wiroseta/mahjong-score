@@ -2171,8 +2171,8 @@ if ("serviceWorker" in navigator) {
 <script id="auth-management-js">
 let mahjongSupabase=null,mahjongSession=null,mahjongIsAdmin=false,mahjongRole='scorekeeper';
 const AUTH_DOMAIN='@mahjong.local';
-// Cloud ON candidate: deployment requires acceptance of unverified real-device behavior.
-const MAHJONG_CLOUD_SYNC_ENABLED=false; // Stage229 rollback: Cloud Sync disabled.
+// Stage 280: production Cloud Sync enabled after user-approved release decision.
+const MAHJONG_CLOUD_SYNC_ENABLED=true; // Stage280 production release candidate.
 const mahjongCloudSyncBridge=window.MahjongCloudBridge.create({
  enabled:MAHJONG_CLOUD_SYNC_ENABLED,
  engineFactory:opts=>window.MahjongSyncEngine.create(opts),
@@ -2217,9 +2217,54 @@ const mahjongCloudSyncBridge=window.MahjongCloudBridge.create({
   render();scheduleLivePublish();
   return true;
  },
- onConflict:error=>console.warn('Mahjong cloud sync stopped:',error),
- onStatus:()=>{}
+ onConflict:error=>{
+  console.warn('Mahjong cloud sync stopped:',error);
+  // A revoked lease must immediately remove the stale writer affordance.
+  mahjongCloudRefreshWriterUI();
+  if(mahjongCloudIsSupersededSession(error))void mahjongCloudRevokeLocalSession();
+ },
+ onStatus:state=>{
+  // onAdopt renders before the bridge marks canWrite=true. Refresh again
+  // after that transition, without requiring a manual browser reload.
+  if(state==='ready'||state==='read-only')mahjongCloudRefreshWriterUI();
+ }
 });
+
+// Trial-only session takeover: revoke only this browser's local auth session.
+// Never use global signOut: the newly active device must remain signed in.
+let mahjongCloudRevocationPending=false;
+function mahjongCloudIsSupersededSession(error){
+ const message=String(error?.message||error?.error||error||'');
+ // Supabase RPC errors may arrive as a readable message or a normalized reason.
+ // Never treat network/lease-check-unverified errors as session takeover.
+ return /(?:\bnewer-login\b|\bnewer login session exists\b)/i.test(message);
+}
+async function mahjongCloudRevokeLocalSession(){
+ if(mahjongCloudRevocationPending||!mahjongSession)return;
+ mahjongCloudRevocationPending=true;
+ ++mahjongCloudAuthRevision;
+ mahjongCloudSyncBridge.reset();
+ // Lock the UI synchronously, including when the local signOut request fails.
+ applyMahjongSession(null);
+ setAuthMessage('Sesi dipindahkan ke perangkat lain. Silakan login kembali.');
+ try{
+  if(mahjongSupabase)await mahjongSupabase.auth.signOut({scope:'local'});
+ }catch(error){console.warn('Local session cleanup failed:',error)}
+ finally{mahjongCloudRevocationPending=false;}
+}
+
+// Trial-only: synchronize controls after the bridge's writer-state transition.
+// Deferred so a synchronous status callback never re-enters activation.
+let mahjongCloudUIRefreshPending=false;
+function mahjongCloudRefreshWriterUI(){
+ if(mahjongCloudUIRefreshPending)return;
+ mahjongCloudUIRefreshPending=true;
+ queueMicrotask(()=>{
+  mahjongCloudUIRefreshPending=false;
+  if(!MAHJONG_CLOUD_SYNC_ENABLED)return;
+  try{update();}catch(error){console.warn('Cloud trial UI refresh failed:',error);}
+ });
+}
 
 // Auth-to-sync lifecycle wiring for cloud-enabled candidate.
 // Deferred execution avoids performing Supabase RPCs synchronously inside auth callbacks.

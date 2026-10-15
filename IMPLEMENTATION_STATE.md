@@ -2839,3 +2839,10 @@ Test on iPhone Safari and Samsung A17 after deployment: (1) correct voice score 
 
 GitHub Desktop Summary: `Stage 254: recognize newer-login session takeover`
 GitHub Desktop Description: `Normalize Cloud Trial session takeover detection for both newer-login and Newer login session exists; keep local-only logout, preserve game data, do not log out on network errors. 103 tests PASS; live two-browser no-reload verification pending. Production Cloud Sync OFF.`
+
+
+## Stage 278C (2026-10-15) — pre-release integration, DO NOT DEPLOY
+- Integrated verified trial takeover handling into main index.html while keeping production Cloud Sync OFF.
+- Cloud Trial remains ON solely for verification.
+- Removed 220 byte-identical numbered duplicate files from candidate package.
+- This is NOT a production release; runtime regression and stale-token RPC rejection remain pending.

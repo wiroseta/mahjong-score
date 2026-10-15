@@ -8,8 +8,8 @@ test('sync modules loaded before main auth code',()=>{
  assert(offsets.every(x=>x>=0));assert(offsets[0]<offsets[1]&&offsets[1]<offsets[2]&&offsets[2]<offsets[3]);
  assert(offsets[3]<html.indexOf('id="auth-management-js"'));
 });
-test('sync remains fail-closed and cloud adoption requires safe local persistence',()=>{
- assert.match(html,/const MAHJONG_CLOUD_SYNC_ENABLED=false;/);
+test('Stage280 sync enabled with cloud adoption requiring safe local persistence',()=>{
+ assert.match(html,/const MAHJONG_CLOUD_SYNC_ENABLED=true;/);
  assert.match(html,/deviceIdProvider:\(\)=>window\.MahjongSyncDeviceId\.getOrCreate\(window\.localStorage,window\.crypto\)/);
  assert.match(html,/onAdopt:\(cloud,\{isCurrent\}\)=>\{/);
  assert.match(html,/if\(raw!==null\)\{/);

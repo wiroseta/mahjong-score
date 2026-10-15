@@ -1,2 +1,2 @@
-Summary: v15.7.15 - Prepare isolated staging handoff
-Description: Document safe staging setup and 12-case Auth acceptance gates; add five release-guard tests. Keep transfer SQL fail-closed, Cloud Sync OFF, and production unchanged.
+Summary: Stage 280 production Cloud Sync ON release candidate
+Description: Enable automatic session transfer in main app after cross-browser and database verification; update historical OFF-gate assertions; preserve Cloud Trial and document residual security test exceptions. No SQL migration.

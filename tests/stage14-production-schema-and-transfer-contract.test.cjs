@@ -6,9 +6,9 @@ const path = require('node:path');
 const root = path.join(__dirname, '..');
 const sql = fs.readFileSync(path.join(root, 'supabase_sync_rpc_draft.sql'), 'utf8');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
-test('Stage14 production boundary remains fail closed', () => {
+test('Stage280 production Cloud Sync ON while unsafe SQL draft remains blocked', () => {
   assert.match(sql, /RAISE EXCEPTION 'UNSAFE DRAFT/);
-  assert.match(html, /MAHJONG_CLOUD_SYNC_ENABLED\s*=\s*false/);
+  assert.match(html, /MAHJONG_CLOUD_SYNC_ENABLED\s*=\s*true/);
 });
 test('Stage14 draft requires schema columns absent from production metadata export', () => {
   assert.match(sql, /ADD COLUMN IF NOT EXISTS auth_session_created_at timestamptz/);

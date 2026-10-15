@@ -11,8 +11,8 @@ test('beta rejects another writer device under owner lock before lease revocatio
  assert.match(sql.slice(owner,lock),/prior\.is_active AND prior\.is_writer/);
  assert.match(sql.slice(owner,lock),/prior\.device_id IS DISTINCT FROM p_device_id/);
 });
-test('production deployment and browser cloud sync remain disabled',()=>{
+test('Stage280 browser cloud sync enabled by release approval',()=>{
  assert.match(sql,/DO \$\$ BEGIN RAISE EXCEPTION 'UNSAFE DRAFT/);
  const html=fs.readFileSync('index.html','utf8');
- assert.match(html,/const MAHJONG_CLOUD_SYNC_ENABLED=false;/);
+ assert.match(html,/const MAHJONG_CLOUD_SYNC_ENABLED=true;/);
 });

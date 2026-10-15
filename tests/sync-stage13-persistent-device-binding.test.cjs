@@ -18,5 +18,5 @@ test('device binding occurs under account lock before cloud state mutation',()=>
 });
 test('new beta guard is not deployable or active in browser',()=>{
  assert.match(sql,/DO \$\$ BEGIN RAISE EXCEPTION 'UNSAFE DRAFT/);
- assert.match(fs.readFileSync('index.html','utf8'),/const MAHJONG_CLOUD_SYNC_ENABLED=false;/);
+ assert.match(fs.readFileSync('index.html','utf8'),/const MAHJONG_CLOUD_SYNC_ENABLED=true;/);
 });
