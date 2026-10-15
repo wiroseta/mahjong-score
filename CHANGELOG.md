@@ -12592,3 +12592,8 @@ Revoked writer payloads are no longer persisted as conflict rows in the local SQ
 ## Stage14 consolidated checkpoint — 444 PASS (2026-10-12)
 Static cross-RPC release-gate regression tests added; see `STAGE14_CONSOLIDATED_SECURITY_HANDOFF.md`. These tests do not constitute real PostgreSQL/Supabase or two-device verification. Cloud sync stays disabled and SQL candidate stays blocked. DO NOT DEPLOY.
 
+
+### Stage 254 — 2026-10-15 (Cloud Trial candidate; DO NOT DEPLOY production)
+- Fixed existing Cloud Trial session takeover handler to recognize normalized `newer-login` errors in addition to `Newer login session exists`.
+- Network failures do not trigger logout. Added targeted regression tests; 103 PASS / 0 FAIL across targeted and bridge/engine suites.
+- Awaiting live Chrome/Firefox no-reload confirmation.

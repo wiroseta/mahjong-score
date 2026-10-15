@@ -2235,7 +2235,9 @@ const mahjongCloudSyncBridge=window.MahjongCloudBridge.create({
 let mahjongCloudTrialRevocationPending=false;
 function mahjongCloudTrialIsSupersededSession(error){
  const message=String(error?.message||error?.error||error||'');
- return /newer[ -]login(?: session exists)?/i.test(message);
+ // Supabase RPC errors may arrive as a readable message or a normalized reason.
+ // Never treat network/lease-check-unverified errors as session takeover.
+ return /(?:\bnewer-login\b|\bnewer login session exists\b)/i.test(message);
 }
 async function mahjongCloudTrialRevokeLocalSession(){
  if(mahjongCloudTrialRevocationPending||!mahjongSession)return;

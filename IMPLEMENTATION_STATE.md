@@ -2829,3 +2829,13 @@ Important limitations: This is an opt-in text correction, not an audio transcrip
 
 Test on iPhone Safari and Samsung A17 after deployment: (1) correct voice score should not prompt, (2) misrecognized voice followed by manual correction should prompt after recording, (3) Cancel should not send confirmed_correction, (4) OK should queue and upload a voice_debug record, (5) offline confirmation should queue until online, (6) scoring and dealer rotation must remain correct. These browser tests have NOT been performed in this environment.
 
+
+## Stage 254 — 2026-10-15 — Cloud Trial newer-login UI handoff
+- Firefox live test identified normalized `Error: newer-login` from lease monitoring; Stage 241 UI callback only recognized the long-form `Newer login session exists` message.
+- Updated existing `mahjongCloudTrialIsSupersededSession()` in `cloud-trial/index.html` to recognize both exact forms; unrelated network and lease-check errors remain non-logout.
+- Existing local-only signOut and UI gate preserved; no database or production changes.
+- Tests: 92 bridge/engine regression PASS, plus 11 targeted handler checks PASS. Live no-reload browser takeover remains PENDING.
+- Cloud Sync production OFF. DO NOT DEPLOY production.
+
+GitHub Desktop Summary: `Stage 254: recognize newer-login session takeover`
+GitHub Desktop Description: `Normalize Cloud Trial session takeover detection for both newer-login and Newer login session exists; keep local-only logout, preserve game data, do not log out on network errors. 103 tests PASS; live two-browser no-reload verification pending. Production Cloud Sync OFF.`

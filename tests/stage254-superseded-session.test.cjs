@@ -1,0 +1,16 @@
+'use strict';
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const vm = require('node:vm');
+const path = require('node:path');
+const html = fs.readFileSync(path.join(__dirname,'../cloud-trial/index.html'),'utf8');
+const match = html.match(/function mahjongCloudTrialIsSupersededSession\(error\)\{[\s\S]*?\n\}/);
+assert.ok(match,'superseded session handler must exist');
+const context = vm.createContext({});
+vm.runInContext(match[0], context);
+const detects = context.mahjongCloudTrialIsSupersededSession;
+for(const error of [new Error('newer-login'),new Error('Newer login session exists'),{reason:'newer-login',message:'newer-login'},'Error: newer-login']) assert.equal(detects(error),true,String(error));
+for(const error of [new Error('lease-check-unverified'),new Error('network-error'),new Error('writer-revoked'),new Error('lease-not-valid'),new Error('activation-failed')]) assert.equal(detects(error),false,String(error));
+assert.match(html,/auth\.signOut\(\{scope:'local'\}\)/);
+assert.doesNotMatch(match[0],/signOut/);
+console.log('Stage 254 targeted: 11 PASS / 0 FAIL');
