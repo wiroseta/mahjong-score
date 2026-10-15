@@ -1,7 +1,7 @@
 const test=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
-const sql=fs.readFileSync('supabase_sync_rpc_draft.sql','utf8');
+const sql=fs.readFileSync('tests/fixtures/legacy/supabase_sync_rpc_draft.sql','utf8');
 test('historical device lock only considers devices that have held writer rights',()=>{
  assert.match(sql,/ADD COLUMN IF NOT EXISTS ever_writer boolean NOT NULL DEFAULT false/);
  const open=sql.split('CREATE OR REPLACE FUNCTION public.mahjong_sync_open(')[1].split('CREATE OR REPLACE FUNCTION public.mahjong_sync_commit(')[0];

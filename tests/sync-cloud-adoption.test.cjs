@@ -3,7 +3,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const root=path.resolve(__dirname,'..');
-const sql=fs.readFileSync(path.join(root,'supabase_sync_rpc_draft.sql'),'utf8');
+const sql=fs.readFileSync(path.join(root,'tests/fixtures/legacy/supabase_sync_rpc_draft.sql'),'utf8');
 const {create}=require('../js/sync-supabase-adapter.js').MahjongSupabaseSyncAdapter;
 test('server permits NULL only for adopting existing cloud game',()=>{
  assert.match(sql,/p_local_game IS NOT NULL AND v_game\.game_data IS DISTINCT FROM p_local_game/);

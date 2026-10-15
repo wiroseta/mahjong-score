@@ -5,7 +5,7 @@ const {spawnSync}=require('node:child_process');
 const fs=require('node:fs');
 const path=require('node:path');
 const root=path.resolve(__dirname,'..');
-const sql=fs.readFileSync(path.join(root,'supabase_sync_rpc_draft.sql'),'utf8');
+const sql=fs.readFileSync(path.join(root,'tests/fixtures/legacy/supabase_sync_rpc_draft.sql'),'utf8');
 const binaries=['initdb','pg_ctl','psql'];
 const found=Object.fromEntries(binaries.map(name=>{
   const r=spawnSync('sh',['-c',`command -v ${name}`],{encoding:'utf8'});

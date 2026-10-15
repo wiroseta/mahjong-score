@@ -2,7 +2,7 @@ const test=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
-for (const filename of ['supabase_sync_rpc_draft.sql','supabase_sync_stage14_transfer_candidate_DO_NOT_DEPLOY.sql']) {
+for (const filename of ['tests/fixtures/legacy/supabase_sync_rpc_draft.sql','tests/fixtures/legacy/supabase_sync_stage14_transfer_candidate_DO_NOT_DEPLOY.sql']) {
  const sql=fs.readFileSync(path.join(__dirname,'..',filename),'utf8');
  test(`${filename}: reject ambiguous auth sessions with null creation timestamps`,()=>{
   const comparisons=[...sql.matchAll(/newer\.created_at,newer\.id\)\s*>\s*\(current_auth\.created_at,current_auth\.id\)/g)];

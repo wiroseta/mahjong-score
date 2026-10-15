@@ -1,7 +1,7 @@
 const test=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
-const sql=fs.readFileSync('supabase_sync_rpc_draft.sql','utf8');
+const sql=fs.readFileSync('tests/fixtures/legacy/supabase_sync_rpc_draft.sql','utf8');
 test('beta rejects another writer device under owner lock before lease revocation',()=>{
  const owner=sql.indexOf('FROM auth.users WHERE id=v_uid FOR UPDATE');
  const lock=sql.indexOf("'device-locked'");

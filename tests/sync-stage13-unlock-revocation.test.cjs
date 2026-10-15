@@ -1,7 +1,7 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
-const sql=fs.readFileSync('supabase_sync_admin_unlock_draft.sql','utf8');
+const sql=fs.readFileSync('tests/fixtures/legacy/supabase_sync_admin_unlock_draft.sql','utf8');
 test('admin unlock revokes writer credentials atomically',()=>{
   const update=sql.split('UPDATE public.mahjong_device_sessions')[1].split('INSERT INTO public.mahjong_device_unlock_audit')[0];
   for(const marker of ['is_active=false','is_writer=false','session_generation=session_generation+1','session_token_hash=NULL','revoked_at=now()']) assert.ok(update.includes(marker),marker);

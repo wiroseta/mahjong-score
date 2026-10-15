@@ -3,7 +3,7 @@ const test=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
-const sql=fs.readFileSync(path.join(__dirname,'..','supabase_sync_stage14_access_preflight_readonly.sql'),'utf8');
+const sql=fs.readFileSync(path.join(__dirname,'..','tests/fixtures/legacy/supabase_sync_stage14_access_preflight_readonly.sql'),'utf8');
 test('Stage14 preflight examines all four sync foundation tables',()=>{
  for(const name of ['mahjong_device_sessions','mahjong_game_states','mahjong_sync_conflicts','mahjong_session_audit']) assert.ok(sql.includes("'"+name+"'"));
 });

@@ -1,8 +1,8 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
-const unlock=fs.readFileSync('supabase_sync_admin_unlock_draft.sql','utf8');
-const rpc=fs.readFileSync('supabase_sync_rpc_draft.sql','utf8');
+const unlock=fs.readFileSync('tests/fixtures/legacy/supabase_sync_admin_unlock_draft.sql','utf8');
+const rpc=fs.readFileSync('tests/fixtures/legacy/supabase_sync_rpc_draft.sql','utf8');
 test('unlock and writer-open serialize on the same account row',()=>{
  assert.match(unlock,/FROM auth\.users WHERE id=p_scorekeeper_id FOR UPDATE/);
  assert.match(rpc,/FROM auth\.users WHERE id=v_uid FOR UPDATE/);

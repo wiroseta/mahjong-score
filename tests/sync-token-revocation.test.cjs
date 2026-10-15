@@ -3,7 +3,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const sql = fs.readFileSync(path.join(__dirname,'../supabase_sync_rpc_draft.sql'),'utf8');
+const sql = fs.readFileSync(path.join(__dirname,'../tests/fixtures/legacy/supabase_sync_rpc_draft.sql'),'utf8');
 test('writer takeover invalidates displaced device credential hashes', () => {
   const revoke = sql.match(/UPDATE public\.mahjong_device_sessions SET is_writer=false,([\s\S]*?)WHERE user_id=v_uid AND is_active/);
   assert.ok(revoke, 'writer lease revocation must exist');

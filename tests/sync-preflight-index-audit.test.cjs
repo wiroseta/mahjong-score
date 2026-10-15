@@ -3,7 +3,7 @@ const test=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
-const sql=fs.readFileSync(path.join(__dirname,'..','supabase_sync_preflight_readonly.sql'),'utf8');
+const sql=fs.readFileSync(path.join(__dirname,'..','tests/fixtures/legacy/supabase_sync_preflight_readonly.sql'),'utf8');
 test('read-only preflight checks blocking single-device index without modifying schema',()=>{
  assert.match(sql,/pg_indexes/i);
  assert.match(sql,/blocking_single_active_index_present/);

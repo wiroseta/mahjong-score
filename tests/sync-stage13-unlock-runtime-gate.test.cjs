@@ -1,9 +1,9 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
-const unlock=fs.readFileSync('supabase_sync_admin_unlock_draft.sql','utf8');
-const rpc=fs.readFileSync('supabase_sync_rpc_draft.sql','utf8');
-const plan=fs.readFileSync('POSTGRES_INTEGRATION_TEST_PLAN.md','utf8');
+const unlock=fs.readFileSync('tests/fixtures/legacy/supabase_sync_admin_unlock_draft.sql','utf8');
+const rpc=fs.readFileSync('tests/fixtures/legacy/supabase_sync_rpc_draft.sql','utf8');
+const plan=fs.readFileSync('tests/fixtures/legacy/POSTGRES_INTEGRATION_TEST_PLAN.md','utf8');
 test('runtime gate remains explicitly NOT EXECUTED',()=>assert.match(plan,/NOT EXECUTED/));
 test('runtime gate requires disposable database and auth-session fixtures',()=>{assert.match(plan,/Disposable PostgreSQL/);assert.match(plan,/auth\.sessions/);});
 test('unlock audit is append-only and preserves game state',()=>{assert.match(unlock,/INSERT INTO public\.mahjong_device_unlock_audit/);assert.doesNotMatch(unlock,/\bDELETE\s+FROM\s+public\.mahjong_device_unlock_audit/i);assert.doesNotMatch(unlock,/\bUPDATE\s+public\.mahjong_game_states/i);});

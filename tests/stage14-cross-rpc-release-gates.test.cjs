@@ -4,7 +4,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const root=path.join(__dirname,'..');
-const sql=fs.readFileSync(path.join(root,'supabase_sync_stage14_transfer_candidate_DO_NOT_DEPLOY.sql'),'utf8');
+const sql=fs.readFileSync(path.join(root,'tests/fixtures/legacy/supabase_sync_stage14_transfer_candidate_DO_NOT_DEPLOY.sql'),'utf8');
 const fn=(name,next)=>sql.split(`CREATE OR REPLACE FUNCTION public.${name}(`)[1].split(`CREATE OR REPLACE FUNCTION public.${next}(`)[0];
 const open=fn('mahjong_sync_open','mahjong_sync_commit');
 const commit=fn('mahjong_sync_commit','mahjong_sync_open_reader');

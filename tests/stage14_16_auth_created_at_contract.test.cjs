@@ -4,7 +4,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const root=path.join(__dirname,'..');
-for (const file of ['supabase_sync_stage14_transfer_candidate_DO_NOT_DEPLOY.sql','supabase_sync_rpc_draft.sql']) {
+for (const file of ['tests/fixtures/legacy/supabase_sync_stage14_transfer_candidate_DO_NOT_DEPLOY.sql','tests/fixtures/legacy/supabase_sync_rpc_draft.sql']) {
  test(`${file}: all six RPC auth checks fail closed for NULL created_at`,()=>{
   const sql=fs.readFileSync(path.join(root,file),'utf8');
   const functions=['mahjong_sync_open','mahjong_sync_commit','mahjong_sync_open_reader','mahjong_sync_peek','mahjong_sync_read','mahjong_sync_lease_status'];

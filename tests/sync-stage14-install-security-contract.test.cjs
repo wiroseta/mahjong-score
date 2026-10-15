@@ -2,7 +2,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const sql = fs.readFileSync(path.join(__dirname,'..','supabase_sync_stage14_transfer_candidate_DO_NOT_DEPLOY.sql'),'utf8');
+const sql = fs.readFileSync(path.join(__dirname,'..','tests/fixtures/legacy/supabase_sync_stage14_transfer_candidate_DO_NOT_DEPLOY.sql'),'utf8');
 const functions = [
  ['mahjong_sync_open','uuid,jsonb,bigint,uuid'],
  ['mahjong_sync_commit','uuid,uuid,bigint,text,bigint,jsonb'],

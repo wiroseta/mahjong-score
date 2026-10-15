@@ -5,8 +5,8 @@ const fs=require('node:fs');
 const path=require('node:path');
 const read=(name)=>fs.readFileSync(path.join(__dirname,'..',name),'utf8');
 const foundation=read('supabase_latest.sql');
-const draft=read('supabase_sync_rpc_draft.sql');
-const preflight=read('supabase_sync_preflight_readonly.sql');
+const draft=read('tests/fixtures/legacy/supabase_sync_rpc_draft.sql');
+const preflight=read('tests/fixtures/legacy/supabase_sync_preflight_readonly.sql');
 test('foundation has single-active-device index incompatible with multi-device reader leases',()=>{
  assert.match(foundation,/CREATE UNIQUE INDEX IF NOT EXISTS mahjong_one_active_device_per_user[\s\S]*?WHERE is_active\s*;/i);
  assert.match(draft,/mahjong_sync_open_reader\(p_device_id uuid\)/);

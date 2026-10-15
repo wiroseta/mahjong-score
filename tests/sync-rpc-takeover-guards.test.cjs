@@ -3,7 +3,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const sql = fs.readFileSync(path.join(__dirname, '..', 'supabase_sync_rpc_draft.sql'), 'utf8');
+const sql = fs.readFileSync(path.join(__dirname, '..', 'tests/fixtures/legacy/supabase_sync_rpc_draft.sql'), 'utf8');
 function body(name) {
   const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const re = new RegExp('CREATE OR REPLACE FUNCTION public\\.' + escaped + '\\([^]*?END; \\$\\$;', 'i');

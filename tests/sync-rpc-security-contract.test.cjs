@@ -3,7 +3,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const sql = fs.readFileSync(path.join(__dirname, '..', 'supabase_sync_rpc_draft.sql'), 'utf8');
+const sql = fs.readFileSync(path.join(__dirname, '..', 'tests/fixtures/legacy/supabase_sync_rpc_draft.sql'), 'utf8');
 
 test('draft RPC remains explicitly fail-closed for production', () => {
   assert.match(sql, /DO\s+\$\$\s*BEGIN\s+RAISE EXCEPTION 'UNSAFE DRAFT:/i);

@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const root = path.join(__dirname, '..');
-const sql = fs.readFileSync(path.join(root, 'supabase_sync_rpc_draft.sql'), 'utf8');
+const sql = fs.readFileSync(path.join(root, 'tests/fixtures/legacy/supabase_sync_rpc_draft.sql'), 'utf8');
 const adapter = fs.readFileSync(path.join(root, 'js', 'sync-supabase-adapter.js'), 'utf8');
 const rpc = [
  ['mahjong_sync_peek', [], []],

@@ -1,7 +1,7 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
-const sql=fs.readFileSync('supabase_sync_admin_unlock_draft.sql','utf8');
+const sql=fs.readFileSync('tests/fixtures/legacy/supabase_sync_admin_unlock_draft.sql','utf8');
 test('admin unlock draft cannot be deployed accidentally',()=>{
  assert.match(sql,/DO \$\$ BEGIN RAISE EXCEPTION 'UNSAFE DRAFT/);
  assert.match(sql,/REVOKE ALL ON FUNCTION public\.mahjong_sync_admin_unlock_device/);

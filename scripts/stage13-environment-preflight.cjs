@@ -27,7 +27,7 @@ function inspect(env = process.env) {
   if (env.MAHJONG_STAGE13_DISPOSABLE !== 'I_UNDERSTAND_THIS_DATABASE_WILL_BE_DESTROYED') errors.push('Disposable database acknowledgment missing');
   if (env.MAHJONG_STAGE13_PRODUCTION === 'true') errors.push('Production target explicitly forbidden');
   if (url && /(?:prod|production|primary|live)/i.test(`${url.hostname}${url.pathname}`)) errors.push('Potential production target forbidden');
-  const files = ['supabase_sync_rpc_draft.sql','POSTGRES_INTEGRATION_TEST_PLAN.md','STAGE13_INTEGRATION_BLOCKERS.md'];
+  const files = ['tests/fixtures/legacy/supabase_sync_rpc_draft.sql','tests/fixtures/legacy/POSTGRES_INTEGRATION_TEST_PLAN.md','tests/fixtures/legacy/STAGE13_INTEGRATION_BLOCKERS.md'];
   for (const f of files) if (!fs.existsSync(path.join(__dirname,'..',f))) errors.push(`Missing ${f}`);
   return {ready: errors.length === 0, errors, target: url ? `${url.protocol}//${url.hostname}/[REDACTED]` : '(not supplied)', mode: 'READ_ONLY_NO_CONNECTION'};
 }

@@ -1,7 +1,7 @@
 const test=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
-const sql=fs.readFileSync(__dirname+'/../supabase_sync_rpc_draft.sql','utf8');
+const sql=fs.readFileSync(__dirname+'/../tests/fixtures/legacy/supabase_sync_rpc_draft.sql','utf8');
 const signatures={mahjong_sync_open:'uuid,jsonb,bigint,uuid',mahjong_sync_commit:'uuid,uuid,bigint,text,bigint,jsonb',mahjong_sync_open_reader:'uuid',mahjong_sync_peek:'',mahjong_sync_read:'uuid',mahjong_sync_lease_status:'uuid,bigint'};
 function functionBody(name){const start=sql.indexOf(`CREATE OR REPLACE FUNCTION public.${name}(`);assert.ok(start>=0);const end=sql.indexOf('$$;',start);assert.ok(end>start);return sql.slice(start,end);}
 test('all six RPC entrypoints are explicitly authenticated-only, not anon or PUBLIC',()=>{

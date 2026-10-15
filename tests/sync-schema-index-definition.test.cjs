@@ -3,7 +3,7 @@ const test=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
-const sql=fs.readFileSync(path.join(__dirname,'..','supabase_sync_schema_alignment_candidate.sql'),'utf8');
+const sql=fs.readFileSync(path.join(__dirname,'..','tests/fixtures/legacy/supabase_sync_schema_alignment_candidate.sql'),'utf8');
 test('index name reuse cannot bypass unique index definition verification',()=>{
  assert.match(sql,/pg_catalog\.pg_index/i);
  assert.match(sql,/i\.indisunique AND i\.indisvalid AND i\.indisready/i);

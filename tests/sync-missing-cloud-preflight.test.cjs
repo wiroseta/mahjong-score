@@ -1,7 +1,7 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
-const sql=fs.readFileSync(require('node:path').join(__dirname,'../supabase_sync_rpc_draft.sql'),'utf8');
+const sql=fs.readFileSync(require('node:path').join(__dirname,'../tests/fixtures/legacy/supabase_sync_rpc_draft.sql'),'utf8');
 test('a vanished cloud game never silently bootstraps a new game after preflight',()=>{
  const start=sql.indexOf('CREATE OR REPLACE FUNCTION public.mahjong_sync_open(');
  const end=sql.indexOf('CREATE OR REPLACE FUNCTION public.mahjong_sync_commit(',start);

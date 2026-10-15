@@ -3,7 +3,7 @@ const test=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
-const sql=fs.readFileSync(path.join(__dirname,'..','supabase_sync_schema_alignment_candidate.sql'),'utf8');
+const sql=fs.readFileSync(path.join(__dirname,'..','tests/fixtures/legacy/supabase_sync_schema_alignment_candidate.sql'),'utf8');
 test('historical multi-game owners are not rejected merely for having archives',()=>{
  assert.doesNotMatch(sql,/FROM public\.mahjong_game_states\s+GROUP BY owner_id HAVING count\(\*\) > 1/i);
  assert.match(sql,/WHERE is_current=true\s+GROUP BY owner_id HAVING count\(\*\) > 1/i);

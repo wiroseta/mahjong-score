@@ -1,5 +1,5 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
-const sql=fs.readFileSync(path.join(__dirname,'../supabase_sync_rpc_draft.sql'),'utf8');
+const sql=fs.readFileSync(path.join(__dirname,'../tests/fixtures/legacy/supabase_sync_rpc_draft.sql'),'utf8');
 test('server RPC has explicit account lock and revision lock',()=>{
  assert.match(sql,/FROM auth\.users WHERE id=v_uid FOR UPDATE/);
  assert.match(sql,/WHERE id=p_game_id AND owner_id=v_uid AND is_current FOR UPDATE/);

@@ -1,7 +1,7 @@
 const test=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
-const sql=fs.readFileSync('supabase_sync_rpc_draft.sql','utf8');
+const sql=fs.readFileSync('tests/fixtures/legacy/supabase_sync_rpc_draft.sql','utf8');
 test('single-device beta binds to registered device even after logout',()=>{
  const block=sql.slice(sql.indexOf('-- BETA DEVICE BINDING:'),sql.indexOf('-- Safety preflight:'));
  assert.match(block,/v_role='scorekeeper' AND NOT v_multi/);

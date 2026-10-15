@@ -4,8 +4,8 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const root=path.join(__dirname,'..');
-const rpc=fs.readFileSync(path.join(root,'supabase_sync_rpc_draft.sql'),'utf8');
-const alignment=fs.readFileSync(path.join(root,'supabase_sync_schema_alignment_candidate.sql'),'utf8');
+const rpc=fs.readFileSync(path.join(root,'tests/fixtures/legacy/supabase_sync_rpc_draft.sql'),'utf8');
+const alignment=fs.readFileSync(path.join(root,'tests/fixtures/legacy/supabase_sync_schema_alignment_candidate.sql'),'utf8');
 test('RPC draft and schema alignment never auto-promote legacy games',()=>{
  for(const [name,sql] of [['RPC',rpc],['alignment',alignment]]){
   assert.match(sql,/ADD COLUMN IF NOT EXISTS is_current boolean NOT NULL DEFAULT false/i,name);

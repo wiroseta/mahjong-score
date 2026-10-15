@@ -4,8 +4,8 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const root=path.join(__dirname,'..');
-const draft=fs.readFileSync(path.join(root,'supabase_sync_rpc_draft.sql'),'utf8');
-const review=fs.readFileSync(path.join(root,'supabase_sync_rpc_review.sql'),'utf8');
+const draft=fs.readFileSync(path.join(root,'tests/fixtures/legacy/supabase_sync_rpc_draft.sql'),'utf8');
+const review=fs.readFileSync(path.join(root,'tests/fixtures/legacy/supabase_sync_rpc_review.sql'),'utf8');
 test('draft and obsolete review both refuse execution before transaction or DDL',()=>{
  for(const sql of [draft,review]){
   const guard=sql.indexOf('DO $$ BEGIN RAISE EXCEPTION');

@@ -3,7 +3,7 @@ const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
-const sql=fs.readFileSync(path.join(__dirname,'../supabase_sync_stage14_rpc_signature_readonly.sql'),'utf8');
+const sql=fs.readFileSync(path.join(__dirname,'../tests/fixtures/legacy/supabase_sync_stage14_rpc_signature_readonly.sql'),'utf8');
 test('RPC inventory query is SELECT-only',()=>{const clean=sql.replace(/--[^\n]*/g,'');assert.doesNotMatch(clean,/\b(?:INSERT|UPDATE|DELETE|ALTER|DROP|CREATE|GRANT|REVOKE|TRUNCATE|CALL|DO)\b/i)});
 test('RPC inventory includes all five target functions',()=>{for(const name of ['mahjong_sync_open','mahjong_sync_commit','mahjong_sync_open_reader','mahjong_sync_read','mahjong_sync_lease_status'])assert.match(sql,new RegExp("'"+name+"'"))});
 test('RPC inventory includes cross-schema shadow functions',()=>assert.match(sql,/JOIN target t ON t.name=p.proname/));

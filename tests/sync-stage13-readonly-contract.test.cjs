@@ -4,8 +4,8 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
-const sql = fs.readFileSync(path.join(root, 'supabase_sync_preflight_readonly.sql'), 'utf8');
-const draft = fs.readFileSync(path.join(root, 'supabase_sync_rpc_draft.sql'), 'utf8');
+const sql = fs.readFileSync(path.join(root, 'tests/fixtures/legacy/supabase_sync_preflight_readonly.sql'), 'utf8');
+const draft = fs.readFileSync(path.join(root, 'tests/fixtures/legacy/supabase_sync_rpc_draft.sql'), 'utf8');
 function uncommented(text) { return text.replace(/--[^\n]*/g, '').replace(/\/\*[\s\S]*?\*\//g, ''); }
 test('read-only preflight contains no SQL mutation or privilege-changing commands', () => {
  const body = uncommented(sql).replace(/'(?:''|[^'])*'/g, "''");

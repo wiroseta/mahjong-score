@@ -1,7 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
-const sql = fs.readFileSync(__dirname + '/../supabase_sync_rpc_review.sql', 'utf8');
+const sql = fs.readFileSync(__dirname + '/../tests/fixtures/legacy/supabase_sync_rpc_review.sql', 'utf8');
 test('review RPC open explicitly rejects NULL role', () => {
   assert.match(sql, /IF v_role IS NULL OR v_role NOT IN \('admin','scorekeeper'\)/);
 });

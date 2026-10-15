@@ -2,7 +2,7 @@
 const test=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
-const sql=fs.readFileSync(require('node:path').join(__dirname,'../supabase_sync_schema_alignment_candidate.sql'),'utf8');
+const sql=fs.readFileSync(require('node:path').join(__dirname,'../tests/fixtures/legacy/supabase_sync_schema_alignment_candidate.sql'),'utf8');
 test('legacy index drop is preceded by strict catalog shape verification',()=>{
  const check=sql.indexOf('Legacy active-device index definition mismatch');
  const drop=sql.indexOf('DROP INDEX IF EXISTS public.mahjong_one_active_device_per_user');

@@ -1,7 +1,7 @@
 const test=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
-const sql=fs.readFileSync(require('node:path').join(__dirname,'../supabase_sync_schema_alignment_candidate.sql'),'utf8');
+const sql=fs.readFileSync(require('node:path').join(__dirname,'../tests/fixtures/legacy/supabase_sync_schema_alignment_candidate.sql'),'utf8');
 test('candidate retains unconditional fail-closed guard before DDL',()=>{
  assert.match(sql,/DO \$\$ BEGIN RAISE EXCEPTION 'UNSAFE SCHEMA ALIGNMENT CANDIDATE/);
  assert.ok(sql.indexOf('UNSAFE SCHEMA ALIGNMENT CANDIDATE')<sql.indexOf('ALTER TABLE'));
