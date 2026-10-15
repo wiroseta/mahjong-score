@@ -1,3 +1,15 @@
+# Mahjong Score 4P PWA — v15.8
+
+**Versi aktif: v15.8** (15 Oktober 2026). Versi yang ditampilkan pada layar login, judul aplikasi, About, diagnostik, manifest, dan cache service worker telah diselaraskan ke **v15.8** untuk aplikasi utama dan Cloud Trial.
+
+**Status:** paket source/checkpoint, bukan perintah deployment. Tidak ada perubahan database Supabase atau migrasi SQL. Cloud Sync mengikuti konfigurasi yang sudah ada; jangan menjalankan SQL arsip sebagai migrasi. Sebelum rilis, tinjau hasil GitHub Actions dan uji browser pada perangkat yang digunakan.
+
+**Pembersihan repository:** Stage 282–284 — root berisi 13 file; 20 file historis SQL/dokumen dan satu script diagnostik berada di `tests/fixtures/legacy/`. `sw 2.js` duplikat dihapus, `sw.js` tetap digunakan. Seluruh pengujian lama dipertahankan.
+
+**Catatan riwayat:** nomor versi lama yang muncul pada bagian-bagian dokumentasi di bawah merupakan catatan historis, bukan versi aktif aplikasi.
+
+---
+
 ## Voice v15.6.81
 
 Administrator memilih Voice Engine: Safari 3 tahap atau Gemini fleksibel (1–3 ucapan tanpa pemilihan mode). Deploy ulang `mahjong-user-admin` dan `mahjong-voice-interpret` dari folder `supabase/functions`. Tidak ada SQL baru. Pengguna lama default Safari 3 tahap sampai Administrator menyimpan mode baru. Pengujian browser nyata tetap diperlukan.

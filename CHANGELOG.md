@@ -1,3 +1,10 @@
+## v15.8 — Stage 284 repository cleanup and unified version (2026-10-15)
+
+- Versi aktif aplikasi: **v15.8** (UI utama dan Cloud Trial, About, voice diagnostic, manifest, service-worker cache).
+- Stage 282–284: konsolidasi dokumentasi/SQL historis, relokasi fixture pengujian, penghapusan duplikat `sw 2.js`, dan pembaruan jalur referensi.
+- Tidak mengubah database Supabase atau menjalankan deployment.
+- Riwayat versi sebelumnya di bawah dipertahankan sebagai catatan historis.
+
 ## v15.7.15 — Stage 17 activation candidate (not yet deployed)
 - Cloud bridge activation flag enabled in candidate build; separate direct SQL installer prepared for operator review.
 - No claim of server installation or two-device verification.
