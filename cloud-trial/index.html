@@ -2221,6 +2221,7 @@ const mahjongCloudSyncBridge=window.MahjongCloudBridge.create({
   console.warn('Mahjong cloud sync stopped:',error);
   // A revoked lease must immediately remove the stale writer affordance.
   mahjongCloudTrialRefreshWriterUI();
+  if(mahjongCloudTrialIsSupersededSession(error))void mahjongCloudTrialRevokeLocalSession();
  },
  onStatus:state=>{
   // onAdopt renders before the bridge marks canWrite=true. Refresh again
@@ -2228,6 +2229,27 @@ const mahjongCloudSyncBridge=window.MahjongCloudBridge.create({
   if(state==='ready'||state==='read-only')mahjongCloudTrialRefreshWriterUI();
  }
 });
+
+// Trial-only session takeover: revoke only this browser's local auth session.
+// Never use global signOut: the newly active device must remain signed in.
+let mahjongCloudTrialRevocationPending=false;
+function mahjongCloudTrialIsSupersededSession(error){
+ const message=String(error?.message||error?.error||error||'');
+ return /newer login session exists/i.test(message);
+}
+async function mahjongCloudTrialRevokeLocalSession(){
+ if(mahjongCloudTrialRevocationPending||!mahjongSession)return;
+ mahjongCloudTrialRevocationPending=true;
+ ++mahjongCloudAuthRevision;
+ mahjongCloudSyncBridge.reset();
+ // Lock the UI synchronously, including when the local signOut request fails.
+ applyMahjongSession(null);
+ setAuthMessage('Sesi dipindahkan ke perangkat lain. Silakan login kembali.');
+ try{
+  if(mahjongSupabase)await mahjongSupabase.auth.signOut({scope:'local'});
+ }catch(error){console.warn('Local session cleanup failed:',error)}
+ finally{mahjongCloudTrialRevocationPending=false;}
+}
 
 // Trial-only: synchronize controls after the bridge's writer-state transition.
 // Deferred so a synchronous status callback never re-enters activation.
