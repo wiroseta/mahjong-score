@@ -2217,9 +2217,30 @@ const mahjongCloudSyncBridge=window.MahjongCloudBridge.create({
   render();scheduleLivePublish();
   return true;
  },
- onConflict:error=>console.warn('Mahjong cloud sync stopped:',error),
- onStatus:()=>{}
+ onConflict:error=>{
+  console.warn('Mahjong cloud sync stopped:',error);
+  // A revoked lease must immediately remove the stale writer affordance.
+  mahjongCloudTrialRefreshWriterUI();
+ },
+ onStatus:state=>{
+  // onAdopt renders before the bridge marks canWrite=true. Refresh again
+  // after that transition, without requiring a manual browser reload.
+  if(state==='ready'||state==='read-only')mahjongCloudTrialRefreshWriterUI();
+ }
 });
+
+// Trial-only: synchronize controls after the bridge's writer-state transition.
+// Deferred so a synchronous status callback never re-enters activation.
+let mahjongCloudTrialUIRefreshPending=false;
+function mahjongCloudTrialRefreshWriterUI(){
+ if(mahjongCloudTrialUIRefreshPending)return;
+ mahjongCloudTrialUIRefreshPending=true;
+ queueMicrotask(()=>{
+  mahjongCloudTrialUIRefreshPending=false;
+  if(!MAHJONG_CLOUD_SYNC_ENABLED)return;
+  try{update();}catch(error){console.warn('Cloud trial UI refresh failed:',error);}
+ });
+}
 
 // Auth-to-sync lifecycle wiring for cloud-enabled candidate.
 // Deferred execution avoids performing Supabase RPCs synchronously inside auth callbacks.
