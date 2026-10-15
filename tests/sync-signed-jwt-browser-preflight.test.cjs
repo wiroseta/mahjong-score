@@ -2,7 +2,7 @@ const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
-const code=fs.readFileSync(path.join(__dirname,'../STAGE14_16_SIGNED_JWT_BROWSER_PREFLIGHT_20261013.js'),'utf8');
+const code=fs.readFileSync(path.join(__dirname,'fixtures/legacy/STAGE14_16_SIGNED_JWT_BROWSER_PREFLIGHT_20261013.js'),'utf8');
 test('real JWT preflight uses getUser server validation and authenticated RPC',()=>{
  assert.match(code,/auth\.getSession\(\)/);assert.match(code,/auth\.getUser\(\)/);assert.match(code,/\.rpc\('mahjong_sync_peek'\)/);
 });
