@@ -1,2 +1,0 @@
-Summary: Stage 280 production Cloud Sync ON release candidate
-Description: Enable automatic session transfer in main app after cross-browser and database verification; update historical OFF-gate assertions; preserve Cloud Trial and document residual security test exceptions. No SQL migration.

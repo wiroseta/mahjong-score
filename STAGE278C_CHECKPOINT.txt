@@ -1,7 +1,0 @@
-Stage 278C PRE-RELEASE CANDIDATE — DO NOT DEPLOY
-Production Cloud Sync OFF; Cloud Trial ON.
-Integrated Cloud Trial session takeover handling into main index.html.
-Removed 220 byte-identical numbered duplicate files.
-Pending: full regression, stale-token RPC rejection, production activation approval.
-GitHub Desktop Summary: Stage 278C integrate verified session takeover handling (Cloud Sync OFF)
-GitHub Desktop Description: Integrate Cloud Trial newer-login local sign-out and writer UI refresh into main app without activating production Cloud Sync. Clean byte-identical duplicate files. DO NOT DEPLOY.
