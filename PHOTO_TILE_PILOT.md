@@ -16,10 +16,14 @@ Supported initial suggestions: matching seat-wind set, little/big dragons, littl
 
 ## Deployment and limits
 
-New Edge Function: `mahjong-photo-tiles`, JWT verification on and server-side `getUser()` administrator check. It uses the existing server-only `GEMINI_API_KEY` and optional `GEMINI_PHOTO_MODEL` (default `gemini-2.5-flash`). No schema, account permissions, subscription, payment, or existing voice function changes. Requests and responses are bounded. A best-effort per-isolate in-flight guard prevents overlapping requests; it is not a durable spending quota. General scorekeeper rollout requires real-photo accuracy evaluation and a durable usage/billing policy.
+New Edge Function: `mahjong-photo-tiles`, JWT verification on and server-side `getUser()` administrator check. It uses the existing server-only `GEMINI_API_KEY` and optional `GEMINI_PHOTO_MODEL` (default `gemini-3.1-flash-lite`). No schema, account permissions, subscription, payment, or existing voice function changes. Requests and responses are bounded. A best-effort per-isolate in-flight guard prevents overlapping requests; it is not a durable spending quota. General scorekeeper rollout requires real-photo accuracy evaluation and a durable usage/billing policy.
 
 ## Verification
 
-663 automated tests pass: existing 641 plus 15 photo-rule tests and 7 endpoint tests with mocked Auth/Gemini. Browser fixture verified photo selection/compression, nonwinner hidden-group exclusion, explicit review, and application of one Kong to only the selected player's draft while all four scores stayed zero. The modal fits a 375px viewport without horizontal overflow.
+666 automated tests pass: existing 641 plus 15 photo-rule tests and 10 endpoint tests with mocked Auth/Gemini. Browser fixture verified photo selection/compression, nonwinner hidden-group exclusion, explicit review, and application of one Kong to only the selected player's draft while all four scores stayed zero. The modal fits a 375px viewport without horizontal overflow.
 
 Not yet established by those tests: real-world recognition accuracy, physical iPhone camera behavior, full model availability for this account, or coverage of all Mahjong Nusantara combinations. Real tile photographs must be tested before broad rollout. The browser fixture uses simulated responses and is not deployed.
+
+## Live provider investigation
+
+The first live requests reached Google but returned 404 NOT_FOUND for gemini-2.5-flash. The photo-only default was changed to gemini-3.1-flash-lite. That model returned 503 UNAVAILABLE in live attempts, so image recognition has not yet been demonstrated successfully. Provider status/model/error-code logs contain no photos, tokens or raw provider payloads. Temporary 5xx responses retry once within a bounded time; model errors and quota errors have distinct messages. Existing voice model configuration is unchanged.
