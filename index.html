@@ -2500,6 +2500,7 @@ function startVoicePermissionSync(){
  window.addEventListener('focus',refreshAccountVoicePermission);
 }
 function applyMahjongSession(session){
+ if(window.mahjongPhotoSessionChanged)setTimeout(window.mahjongPhotoSessionChanged,0);
  // Signout must invalidate in-flight cloud activation before UI state changes.
  if(!session)mahjongCloudSyncBridge.reset();
  mahjongSession=session||null;scheduleMahjongCloudAuth(mahjongSession);syncAccountVoiceVisibility();mahjongRole=(session&&session.user&&session.user.app_metadata&&session.user.app_metadata.role)||'scorekeeper';if(!['admin','scorekeeper'].includes(mahjongRole))mahjongRole='scorekeeper';mahjongIsAdmin=mahjongRole==='admin';
@@ -2639,5 +2640,7 @@ async function initGuestLive(){const token=new URLSearchParams(location.search).
 initMahjongAuth();
 </script>
 <script src="./js/ai-diagnostic.js"></script>
+<script src="./js/photo-rules.js"></script>
+<script src="./js/photo-score.js"></script>
 
 </body></html>
