@@ -4,10 +4,15 @@ on:
   push:
     branches: [main]
     paths:
-      - 'js/voice-parser.js'
+      - 'index.html'
+      - 'cloud-trial/**'
+      - 'js/**'
+      - 'sw.js'
+      - 'manifest.webmanifest'
       - 'scripts/voice-autofix.mjs'
       - 'tests/**'
       - '.github/workflows/voice-parser-guard.yml'
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -15,7 +20,7 @@ permissions:
 
 jobs:
   regression:
-    name: Voice Parser Regression
+    name: Mahjong Full Regression
     runs-on: ubuntu-latest
 
     steps:
@@ -33,7 +38,7 @@ jobs:
       - name: Check Gemini Auto-Fix syntax
         run: node --check scripts/voice-autofix.mjs
 
-      - name: Run voice parser regression
+      - name: Run full regression and voice integration
         run: |
-          node tests/voice-parser.test.cjs
+          node --test tests/*.test.cjs
           node tests/voice-autofix.integration.cjs

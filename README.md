@@ -1,12 +1,18 @@
-# Mahjong Score 4P PWA — v15.8
+# Mahjong Score 4P PWA — v15.8.1
 
-**Versi aktif: v15.8** (15 Oktober 2026). Versi yang ditampilkan pada layar login, judul aplikasi, About, diagnostik, manifest, dan cache service worker telah diselaraskan ke **v15.8** untuk aplikasi utama dan Cloud Trial.
+**Versi rilis: v15.8.1** (18 Oktober 2026).
 
-**Status:** paket source/checkpoint, bukan perintah deployment. Tidak ada perubahan database Supabase atau migrasi SQL. Cloud Sync mengikuti konfigurasi yang sudah ada; jangan menjalankan SQL arsip sebagai migrasi. Sebelum rilis, tinjau hasil GitHub Actions dan uji browser pada perangkat yang digunakan.
+- Tambahan aturan Fan/Chicken Hand dan pencatatan denda False Hu (-3/+1/+1/+1), koreksi pelanggar, pembatalan dengan audit, serta penjagaan nomor tangan/dealer dan riwayat.
+- Perbaikan ekspor PDF: ID objek halaman unik dan referensi daftar 22 kombinasi yang benar.
+- Label login, judul, About, diagnostik, PDF, manifest, dan cache PWA diselaraskan. Rilis ini berlaku pada aplikasi utama; Cloud Trial dipertahankan pada baseline v15.8.
+- Cache service worker dibatasi pada aset aplikasi publik; permintaan Supabase, non-GET, dan URL bertoken tidak disimpan di cache aplikasi.
+- Tidak ada migrasi SQL atau redeploy Edge Function. Jangan menjalankan SQL arsip sebagai migrasi.
 
-**Pembersihan repository:** Stage 282–284 — root berisi 13 file; 20 file historis SQL/dokumen dan satu script diagnostik berada di `tests/fixtures/legacy/`. `sw 2.js` duplikat dihapus, `sw.js` tetap digunakan. Seluruh pengujian lama dipertahankan.
+**Validasi:** 641 pengujian Node PASS / 0 FAIL; pencatatan, koreksi, pembatalan False Hu dan persistensi reload dibuktikan pada Supabase live menggunakan permainan yang dinyatakan pengguna sebagai percobaan. Skor awal dipulihkan setelah uji; audit pembatalan tetap disimpan. Sesi writer lama ditolak tanpa perubahan revisi. Hasil pemeriksaan perangkat dan deployment dicatat terpisah, tanpa menganggap mock/static test sebagai bukti perangkat nyata.
 
-**Catatan riwayat:** nomor versi lama yang muncul pada bagian-bagian dokumentasi di bawah merupakan catatan historis, bukan versi aktif aplikasi.
+**Rollback source:** commit baseline `13c13613c0176ad982df0c346a593a390b6bad69` (v15.8). Rollback source tidak menghapus transaksi/audit permainan di Supabase.
+
+**Catatan riwayat:** nomor versi lama di bawah merupakan catatan historis.
 
 ---
 
