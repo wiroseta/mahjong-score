@@ -1,0 +1,256 @@
+/* Mahjong Score v15.6.80 — Voice parser module. Depends on live game state s and scoring patterns pats; does not mutate scores. */
+function voiceNormalize(t){return String(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9\s]/g," ").replace(/\s+/g," ").trim()}
+function voicePlayerAliases(i){
+ const a=[`pemain ${i+1}`,`player ${i+1}`],name=voiceNormalize(s.names[i]);if(name)a.push(name);
+ const wind=Array.isArray(s.seatWinds)?s.seatWinds[i]:((s.dealer-i+4)%4);
+ const aliases=[['timur','east','dong','tung'],['selatan','south','nan'],['barat','west','xi','si'],['utara','north','bei','pei']][wind]||[];
+ return [...a,...aliases].map(voiceNormalize).filter(Boolean).sort((x,y)=>y.length-x.length)
+}
+function voiceEditDistance(a,b){
+ a=String(a||'');b=String(b||'');const m=a.length,n=b.length,dp=Array(n+1).fill(0).map((_,j)=>j);
+ for(let i=1;i<=m;i++){let prev=dp[0];dp[0]=i;for(let j=1;j<=n;j++){const old=dp[j];dp[j]=Math.min(dp[j]+1,dp[j-1]+1,prev+(a[i-1]===b[j-1]?0:1));prev=old}}return dp[n]
+}
+function voicePlayerHits(text,exclude=null){
+ text=voiceNormalize(text);const hits=[];
+ // Exact aliases remain authoritative: player number, current name and actual seat wind.
+ for(let i=0;i<4;i++){if(i===exclude)continue;for(const a of voicePlayerAliases(i)){const esc=a.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),m=text.match(new RegExp(`(^|\\s)${esc}(?=\\s|$)`));if(m){hits.push({i,pos:m.index+(m[1]?m[1].length:0),len:a.length,alias:a,score:100});break}}}
+ // v15.6.54: fuzzy-match only the four real player names, so Safari spelling drift can be recovered without guessing arbitrary words.
+ const words=text.split(' ').filter(Boolean);let offset=0,positions=[];for(const w of words){const pos=text.indexOf(w,offset);positions.push(pos);offset=pos+w.length}
+ for(let i=0;i<4;i++){if(i===exclude||hits.some(h=>h.i===i))continue;const name=voiceNormalize(s.names[i]);if(name.length<3)continue;const parts=name.split(' '),span=parts.length;
+   for(let k=0;k<words.length;k++){for(let d=-1;d<=1;d++){const count=span+d;if(count<1||k+count>words.length)continue;const cand=words.slice(k,k+count).join(' ');if(cand.length<3)continue;const dist=voiceEditDistance(name,cand),limit=name.length<=4?1:name.length<=7?2:Math.max(2,Math.floor(name.length*.28));if(dist<=limit){const score=80-dist*8-Math.abs(name.length-cand.length);hits.push({i,pos:positions[k],len:cand.length,alias:cand,score});k=words.length;break}}}
+ }
+ hits.sort((a,b)=>a.pos-b.pos||b.score-a.score||b.len-a.len);return hits
+}
+function voiceFindPlayer(text,exclude=null){const hits=voicePlayerHits(text,exclude);return hits.length?hits[0].i:null}
+function voiceNumber(t){const map={nol:0,zero:0,satu:1,one:1,dua:2,two:2,tiga:3,three:3,empat:4,four:4,ling:0,yi:1,er:2,liang:2,san:3,si:4};if(/^\d+$/.test(t))return Math.max(0,Math.min(4,+t));return map[t]??null}
+// v15.6.54 — Diagnostic-trained aliases from iPhone Safari (id-ID). These aliases are consumed only while parsing a Mahjong score command.
+// v15.6.54 — One authoritative list of Indonesian-accent Zi Mo recognition aliases.
+// Ambiguous phonetic aliases are only considered when a method is expected, never as player names.
+const VOICE_ZIMO_ALIASES=[
+ 'zi mo','zhi mo','zimo','zhimo','zi moh','zhi moh','zi mau','zhi mau',
+ 'ci mo','cimo','ci moh','ci mau','ji mo','jimo','ji moh','ji mau',
+ 'chi mo','chimo','shi mo','shimo','tsi mo','tsimo','si mo','simo',
+ 'ce mo','cemo','ze mo','zemo','zee mo','zee moh','jee mo','chee mo',
+ 'cemok','cemuk','jemuk','cukem','cemuh','cemoko','gemuk','zi zi mo','zhi zhi mo',
+ 'ji ji mo','ci ci mo','self draw','selfdraw','self drawn','selfdrawn',
+ 'ambil sendiri','ambil sendiri kartunya','menang sendiri','mengambil sendiri','dapat sendiri','tarik sendiri','tarik dari tembok','ambil dari tembok','dapat dari tembok','kartu sendiri','menang dengan kartu sendiri'
+];
+const VOICE_HU_ALIASES=['hu','hoo','who','hue','huu','ambil buangan','mengambil buangan','menang dari buangan','dapat buangan','ambil dari pemain','menang dari pemain','menang dari kartu buangan','menang dari buangan pemain','kartu buangan','menang dengan kartu buangan'];
+function voiceAliasRegex(aliases){return new RegExp('(?:^|\\s)('+[...new Set(aliases)].sort((a,b)=>b.length-a.length).map(a=>a.replace(/[.*+?^${}()|[\]\\]/g,'\\$&').replace(/\\ /g,'\\s+')).join('|')+')(?![a-z0-9])')}
+const VOICE_ZIMO_RE=voiceAliasRegex(VOICE_ZIMO_ALIASES);
+const VOICE_HU_RE=voiceAliasRegex(VOICE_HU_ALIASES);
+const VOICE_METHOD_RE=voiceAliasRegex([...VOICE_ZIMO_ALIASES,...VOICE_HU_ALIASES]);
+function voiceMethodHit(text){const z=VOICE_ZIMO_RE.exec(text),h=VOICE_HU_RE.exec(text);if(!z)return h?{method:'hu',index:h.index+(h[0].length-h[1].length),length:h[1].length}:null;if(!h)return {method:'zimo',index:z.index+(z[0].length-z[1].length),length:z[1].length};const zi=z.index+(z[0].length-z[1].length),hi=h.index+(h[0].length-h[1].length);return zi<=hi?{method:'zimo',index:zi,length:z[1].length}:{method:'hu',index:hi,length:h[1].length}}
+// v15.6.54 — Voice combination parser uses the existing `pats` list as the single source of truth.
+function voicePatternAliases(i){
+ const full=voiceNormalize(pats[i]?.[0]||'');if(!full)return [];
+ const base=voiceNormalize(String(pats[i][0]).replace(/\([^)]*\)/g,' '));
+ const a=[full,base];
+ if(/pinhu/i.test(pats[i][0]))a.push('pinhu','pin hu');
+ if(/^13\s/i.test(pats[i][0]))a.push('tiga belas rakyat','thirteen rakyat');
+ if(/^7\s/i.test(pats[i][0]))a.push('tujuh tangga surga');
+ if(/3 Naga Besar/i.test(pats[i][0]))a.push('tiga naga besar');
+ if(/4 Angin/i.test(pats[i][0]))a.push('empat angin besar','empat angin kecil','empat angin besar kecil');
+ if(/4 Quad/i.test(pats[i][0]))a.push('quad murni','empat quad','empat gang','empat kong');
+ return [...new Set(a.map(voiceNormalize).filter(Boolean))].sort((x,y)=>y.length-x.length)
+}
+function voicePatternHits(text){
+ text=voiceNormalize(text);const hits=[];
+ for(let i=0;i<pats.length;i++)for(const a of voicePatternAliases(i)){const esc=a.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),m=text.match(new RegExp(`(^|\\s)${esc}(?=\\s|$)`));if(m){hits.push({i,pos:m.index+(m[1]?m[1].length:0),len:a.length,alias:a});break}}
+ return hits.sort((a,b)=>a.pos-b.pos||b.len-a.len)
+}
+function voicePlayerMentions(text){
+ text=voiceNormalize(text);const out=[];
+ for(let i=0;i<4;i++)for(const a of voicePlayerAliases(i)){
+   const esc=a.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),re=new RegExp(`(^|\\s)${esc}(?=\\s|$)`,'g');let m;
+   while((m=re.exec(text))){out.push({i,pos:m.index+(m[1]?m[1].length:0),len:a.length,alias:a});if(re.lastIndex===m.index)re.lastIndex++}
+ }
+ // Prefer the longest alias when two aliases identify the same mention.
+ return out.sort((a,b)=>a.pos-b.pos||b.len-a.len).filter((h,k,a)=>!a.slice(0,k).some(x=>x.i===h.i&&x.pos===h.pos))
+}
+function voicePatternsByPlayer(text){
+ const out=[null,null,null,null],players=voicePlayerMentions(text),patterns=voicePatternHits(text);
+ for(const ph of patterns){
+   // Each pattern belongs to the nearest player mention immediately before it, including repeated player names later in the sentence.
+   const owner=[...players].filter(h=>h.pos<ph.pos).sort((a,b)=>b.pos-a.pos)[0];
+   if(owner)out[owner.i]=ph.i;
+ }
+ return out
+}
+// v15.6.72: normalize *only* known speech drift in the context of active names/actions.
+function voiceRepairTranscript(raw){
+ let text=voiceNormalize(raw);
+ // Safari id-ID: "Yenny" may be transcribed as "Yeni".
+ // Repair only before a complete Quad command and only when unambiguous.
+ if(s.names.some(n=>voiceNormalize(n)==='yenny')&&!s.names.some(n=>voiceNormalize(n)==='yeni')){
+  text=text.replace(/\byeni(?=\s+(?:quad|kuad|quat|quot|kwad|kwat|guad|kuat|gang|kang|kongs|singkong|kong|gong|cong|com|kan)\s+(?:nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])\b)/g,'yenny');
+ }
+ // Safari id-ID may transcribe Yenny as Yeni before an explicit Zi Mo cue.
+ // Restrict this correction to an unambiguous active Yenny and a recognized cue;
+ // never rewrite arbitrary player names or infer a win from a bare name.
+ if(s.names.some(n=>voiceNormalize(n)==='yenny')&&!s.names.some(n=>voiceNormalize(n)==='yeni')){
+  text=text.replace(/\byeni(?=\s+(?:cemok|cemuk|jemuk|gemuk|zi\s+mo|zhi\s+mo|zimo|ambil\s+sendiri)\b)/g,'yenny');
+ }
+ // v15.6.89: Safari id-ID often adds an initial H to the active name Ari.
+ // Only repair when Ari is an actual player, Hari is not, and a COMPLETE Quad
+ // keyword + number follows. Never infer a Quad from "Hari satu" alone.
+ if(s.names.some(n=>voiceNormalize(n)==='ari')&&!s.names.some(n=>voiceNormalize(n)==='hari')){
+  text=text.replace(/\bhari(?=\s+(?:quad|kuad|quat|quot|kwad|kwat|guad|kuat|gang|kang|kongs|singkong|kong|gong|cong|com|kan)\s+(?:nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])\b)/g,'ari');
+ }
+ // Resolve one-character player-name drift only when directly followed by a
+ // complete Quad action. Do not fuzzy-match arbitrary words or transfer ownership.
+ text=text.replace(/\b([a-z]{3,12})(?=\s+(?:quad|kuad|quat|quot|kwad|kwat|guad|kuat|gang|kang|kongs|singkong|kong|gong|cong|com|kan)\s+(?:nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])\b)/g,(word)=>{
+  const matches=s.names.map(voiceNormalize).filter(n=>n.length>=4&&voiceEditDistance(n,word)<=1);
+  return matches.length===1?matches[0]:word;
+ });
+ // Recover a near-name only before a bare number, never inside arbitrary text.
+ text=text.replace(/\b([a-z]{3,12})(?=\s+(?:nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])\b)/g,(word)=>{
+  if(s.names.some(n=>voiceNormalize(n)===word))return word;
+  const matches=s.names.map(voiceNormalize).filter(n=>n.length>=3&&voiceEditDistance(n,word)<=1);
+  return matches.length===1?matches[0]:word;
+ });
+ // Repair a uniquely identifiable winner spelling only before an explicit HU/discard cue.
+ text=text.replace(/\b([a-z]{3,12})(?=\s+(?:(?:hu|hoo|ku|ibu)\s+)?(?:dari|from)\b)/g,(word)=>{
+  const matches=s.names.map(voiceNormalize).filter(n=>n.length>=4&&voiceEditDistance(n,word)<=1);
+  return matches.length===1?matches[0]:word;
+ });
+ text=text.replace(/\b(gang|kang|kong|quad|kuad|kuat|quot)(satu|dua|tiga|empat|nol|[0-4])\b/g,'$1 $2')
+          .replace(/\bsat mulia\b/g,'set mulia');
+ // Safari may join 'HU dari' as 'Huda'. Repair only between an exact active winner and a uniquely identifiable active discarder.
+ for(const n of s.names){const a=voiceNormalize(n);if(!a)continue;const esc=a.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  text=text.replace(new RegExp('(^|\\s)('+esc+')\\s+huda\\s+([a-z]{3,12})(?=\\s|$)','g'),(all,prefix,w,other)=>{const d=voiceResolveActiveName(other==='yeni'&&s.names.some(n=>voiceNormalize(n)==='yenny')?'yenny':other);return d!==null&&voiceNormalize(s.names[d])!==a?prefix+w+' hu dari '+voiceNormalize(s.names[d]):all});
+ }
+ for(let i=0;i<4;i++){
+  const name=voiceNormalize(s.names[i]);if(!name||name.length<3)continue;
+  const esc=name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  // Name+HU can be joined by Safari: 'andikku' means Andi HU only before 'dari'.
+  text=text.replace(new RegExp('\\b'+esc+'(?:hu|hoo|ku|kku)(?=\\s+dari\\b)','g'),name+' hu');
+  text=text.replace(new RegExp('\\b(?:hudari|hu\\s*dari)'+esc+'\\b','g'),'hu dari '+name);
+ }
+  if(s.names.some(n=>voiceNormalize(n)==='yenny')){
+   text=text.replace(/\b(?:hudari|hu dari)\s*yeni\b/g,'hu dari yenny');
+   text=text.replace(/\b(?:hudari|hu dari)\s*heni\b/g,'hu dari yenny');
+   text=text.replace(/\bheni\s+dari\s+alan\b/g,'yenny hu dari alan');
+   text=text.replace(/\b(dari)\s+yeni\b/g,'$1 yenny');
+   for(const n of s.names){const a=voiceNormalize(n);if(a&&text.includes(a+' ibu dari yenny'))text=text.replaceAll(a+' ibu dari yenny',a+' hu dari yenny')}
+  }
+ return text;
+}
+function voiceCommandSegments(raw){
+ const text=voiceRepairTranscript(raw),names=s.names.map(voiceNormalize);
+ const candidates=[];
+ // Split ONLY on exact current names or numbered player aliases; do not use fuzzy hits to establish ownership.
+ for(let i=0;i<4;i++){
+  const aliases=[names[i],`pemain ${i+1}`].filter(Boolean);
+  for(const alias of aliases){const esc=alias.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+   const re=new RegExp('(^|\\s)('+esc+')(?=\\s|$)','g');let m;
+   while((m=re.exec(text))){const pos=m.index+m[1].length;
+    if(/(?:^|\s)(?:dari|from|oleh)\s*$/.test(text.slice(Math.max(0,pos-16),pos)))continue;
+    candidates.push({i,pos,len:alias.length});
+   }
+  }
+ }
+ const starts=candidates.sort((a,b)=>a.pos-b.pos||b.len-a.len).filter((h,i,a)=>!a.slice(0,i).some(x=>x.pos===h.pos));
+ if(!starts.length)return [text];
+ const result=[];if(text.slice(0,starts[0].pos).trim())result.push(text.slice(0,starts[0].pos).trim());
+ for(let i=0;i<starts.length;i++)result.push(text.slice(starts[i].pos,starts[i+1]?.pos??text.length).trim());
+ return result.filter(Boolean);
+}
+// Interpret only commands explicitly anchored to a current player, never fuzzy player hits.
+function voiceAnchoredSegment(segment){
+ const text=voiceRepairTranscript(segment),owner=s.names.findIndex(n=>text.startsWith(voiceNormalize(n)+' '));
+ if(owner<0)return null;
+ const name=voiceNormalize(s.names[owner]),rest=text.slice(name.length).trim();
+ const result={owner,method:null,discarder:null,quad:null,pattern:null};
+ const quad=rest.match(/^(?:si)?(?:quad|kuad|quat|quot|kwad|kwat|guad|kuat|gang|kang|kongs|singkong|kong|gong|cong|com|kan)\s+(nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])\b/);
+ if(quad)result.quad=voiceNumber(quad[1]);
+ const pat=voicePatternHits(rest).find(h=>h.pos===0);if(pat)result.pattern=pat.i;
+ // A bare number is only a candidate; it is never an authoritative Quad action.
+ const bare=rest.match(/^(nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])$/);
+ if(bare)result.bareQuadCandidate=voiceNumber(bare[1]);
+ const method=voiceMethodHit(rest);
+ if(method?.method==='zimo'){result.method='zimo'}
+ if(method?.method==='hu')result.method='hu';
+ // Contextual HU is accepted only for a complete 'winner [hu drift] dari discarder'
+ // with two unique active players. Do not globally equate 'dari' or 'ibu' with HU.
+ const hu=rest.match(/^(?:(?:hu|hoo|hue|huu|ku|ibu)\s+)?(?:dari|from)\s+(.+)$/);
+ if(hu){const d=voiceResolveActiveName(hu[1]);if(d!==null&&d!==owner){result.method='hu';result.discarder=d}}
+ if(result.method==='hu'&&result.discarder===null){const d=rest.match(/\b(?:dari|from)\s+(.+)$/);if(d){const i=voiceResolveActiveName(d[1]);if(i!==owner)result.discarder=i}}
+ return result;
+}
+function voiceResolveActiveName(value){
+ const input=voiceNormalize(value).split(' ')[0];if(!input)return null;
+ const exact=s.names.map(voiceNormalize).map((n,i)=>n===input?i:-1).filter(i=>i>=0);
+ if(exact.length===1)return exact[0];
+ // One-character drift is allowed only if exactly one active name matches.
+ const close=s.names.map(voiceNormalize).map((n,i)=>n.length>=4&&input.length>=3&&voiceEditDistance(n,input)<=1?i:-1).filter(i=>i>=0);
+ return close.length===1?close[0]:null;
+}
+function voiceParseMulti(raw){
+ const segments=voiceCommandSegments(raw),result={raw,method:null,winner:null,discarder:null,quads:[null,null,null,null],patterns:[null,null,null,null]},uncertain=[];
+ // Two distinct player-number segments in the same utterance are candidates for dropped Quad keywords.
+ // Preserve them as uncertain; do not silently apply scores without a clear Quad cue.
+ const bareCandidates=segments.map(seg=>({seg,part:voiceAnchoredSegment(seg)})).filter(x=>x.part&&x.part.bareQuadCandidate!==undefined&&x.part.bareQuadCandidate!==null);
+ const distinctBare=new Set(bareCandidates.map(x=>x.part.owner));
+ for(const segment of segments){
+  const part=voiceAnchoredSegment(segment);
+  if(!part){uncertain.push(segment);continue}
+  const i=part.owner;let applied=false;
+  if(part.method){
+   if(part.method==='hu'&&part.discarder===null)uncertain.push(segment);
+   else if(result.method&&(result.method!==part.method||result.winner!==i||result.discarder!==part.discarder))uncertain.push(segment);
+   else{result.method=part.method;result.winner=i;result.discarder=part.discarder;applied=true}
+  }
+  if(part.quad!==null){result.quads[i]=part.quad;applied=true}
+  else if(part.bareQuadCandidate!==undefined&&part.bareQuadCandidate!==null&&bareCandidates.length>=2&&distinctBare.size===bareCandidates.length){
+   // Show candidate Quads in preview, but keep an uncertainty warning until the scorekeeper confirms.
+   result.quads[i]=part.bareQuadCandidate;uncertain.push('Quad perlu konfirmasi: '+segment);applied=true;
+  }
+  if(part.pattern!==null){result.patterns[i]=part.pattern;applied=true}
+  if(!applied&&!uncertain.includes(segment))uncertain.push(segment);
+ }
+ return {parsed:result,segments,uncertain};
+}
+
+function parseVoiceScore(raw){
+ const text=voiceNormalize(raw),methodHit=voiceMethodHit(text);let mth=methodHit?.method||null;
+ // Contextual Safari correction: short "ku" is HU only in a complete player + ku + dari + other-player phrase.
+ // Never add "ku" to global HU aliases; ordinary words must not trigger a win.
+ if(!mth){
+  const cue=text.match(/\b(?:ku|hoo|huu|hudari|kudari)\s*(?:dari\s+)?/);
+  if(cue){const before=text.slice(0,cue.index),after=text.slice(cue.index+cue[0].length);
+   const a=voicePlayerHits(before),b=voicePlayerHits(after);
+   if(a.length===1&&b.length===1&&a[0].i!==b[0].i&&(/dari/.test(cue[0])||/^(?:dari|from)\b/.test(after))){mth='hu';}
+  }
+ }
+ const patternByPlayer=voicePatternsByPlayer(text);
+ // A complete player + combination is an independent command, never an inferred HU.
+ const hasPattern=patternByPlayer.some(x=>x!==null);
+ const patternSpans=voicePatternHits(text);
+ const allHits=voicePlayerHits(text).filter(h=>!patternSpans.some(p=>h.pos>=p.pos&&h.pos<p.pos+p.len)),uniqueHits=[];for(const h of allHits)if(!uniqueHits.some(x=>x.i===h.i))uniqueHits.push(h);
+ // Prefer the player spoken before HU/ZI MO as winner. If Safari drops the Mahjong keyword, first spoken player remains winner.
+ let win=null;if(methodHit){const before=voicePlayerHits(text.slice(0,methodHit.index));if(before.length)win=before[0].i}
+ if(win===null&&uniqueHits.length)win=uniqueHits[0].i;
+ // Quad-only phrases must never be misread as a change of winner.
+ // Do not infer HU from two player names: an utterance may contain multiple commands.
+ let disc=null;if(mth==='hu'){
+   const cue=text.match(/\b(?:dari|from|buangan|buang|yang\s+buang|yang\s+membuang|pembuang|pemberi|dibuang\s+oleh|discard(?:ed)?\s+by|gave|given\s+by)\b([\s\S]*)/);
+   if(cue)disc=voiceFindPlayer(cue[1],win);
+   if(disc===null&&methodHit)disc=voiceFindPlayer(text.slice(methodHit.index+methodHit.length),win);
+   if(disc===null){const other=uniqueHits.find(h=>h.i!==win);if(other)disc=other.i}
+ }
+ // v15.6.78: Quad ownership comes exclusively from exact, player-anchored
+ // command segments. Fuzzy name hits must never assign a Quad to a different seat.
+ const qs=[null,null,null,null];
+ const anchored=voiceParseMulti(raw);
+ for(let i=0;i<4;i++)if(anchored.parsed.quads[i]!==null)qs[i]=anchored.parsed.quads[i];
+ // Preserve legacy winner-only shorthand only when the utterance contains a
+ // single player and a standalone Quad phrase (never cross-player transfer).
+ if(!qs.some(n=>n!==null)&&win!==null&&voicePlayerMentions(text).length===1){
+  const quadWord='(?:quad|kuad|quat|quot|kwad|kwat|guad|kuat|gang|kang|kongs|singkong|kong|gong|cong|com|kan)';
+  const quadNum='(?:nol|zero|satu|one|dua|two|tiga|three|empat|four|[0-4])';
+  const q=text.match(new RegExp(`\\b${quadWord}\\s+(${quadNum})\\b`));
+  if(q)qs[win]=voiceNumber(q[1]);
+ }
+ return {raw,text,winner:win,method:mth,discarder:disc,quads:qs,patterns:patternByPlayer}
+}
