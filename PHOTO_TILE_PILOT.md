@@ -31,3 +31,7 @@ The first live requests reached Google but returned 404 NOT_FOUND for gemini-2.5
 ## Model selection correction
 
 The user explicitly requires Gemini 3.8. Photo recognition now uses exactly `gemini-3.8-flash`, with `thinkingLevel: low`, and does not fall back to 2.5 or 3.1. Live photo recognition still requires successful verification; the earlier 3.1 service failure is not evidence of 3.8 availability.
+
+## Gemini 3.8 live verification
+
+After the model was changed to gemini-3.8-flash, the authenticated production browser flow returned observations successfully: 14 tile faces in six groups for the selected table photograph. This confirms end-to-end provider connectivity, not the accuracy of every face, inferred group or score. The picture includes multiple table areas and is not a controlled single-player accuracy fixture. No result was applied and no score was recorded. Evidence: output/photo-gemini38-live-success.png in the task workspace. Physical iPhone camera tests and systematic real-photo accuracy evaluation remain pending.
