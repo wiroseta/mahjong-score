@@ -2,7 +2,7 @@ const test=require('node:test'),assert=require('node:assert/strict'),fs=require(
 const code=fs.readFileSync(require('node:path').join(__dirname,'../sw.js'),'utf8');
 function setup(){
  const handlers={},puts=[],deleted=[],added=[],cache={addAll:async a=>added.push(...a),put:async(...a)=>puts.push(a)};
- const api={open:async()=>cache,keys:async()=>['mahjong-score-v15-8','mahjong-score-v15-8-1','mahjong-score-v15-8-1-r2','mahjong-score-v15-8-1-r3','mahjong-score-v15-8-1-r4','mahjong-score-v15-8-1-r5','mahjong-score-v15-8-1-r6','mahjong-score-v15-8-1-r7','other-app'],delete:async k=>deleted.push(k),match:async()=>undefined};
+ const api={open:async()=>cache,keys:async()=>['mahjong-score-v15-8','mahjong-score-v15-8-1','mahjong-score-v15-8-1-r2','mahjong-score-v15-8-1-r3','mahjong-score-v15-8-1-r4','mahjong-score-v15-8-1-r5','mahjong-score-v15-8-1-r6','mahjong-score-v15-8-1-r7','mahjong-score-v15-8-1-r8','other-app'],delete:async k=>deleted.push(k),match:async()=>undefined};
  const scope={URL,Set,self:{location:new URL('https://example.test/mahjong-score/sw.js'),clients:{claim:async()=>{}},addEventListener:(n,f)=>handlers[n]=f},caches:api,fetch:async()=>({ok:true,clone:()=>({copy:true})})};
  vm.createContext(scope);vm.runInContext(code,scope);return {handlers,puts,deleted,added,scope};
 }
@@ -12,7 +12,7 @@ test('service worker bypasses Supabase, non-GET and live/transfer query requests
  }
 });
 test('new cache precaches all application assets and removes only older Mahjong caches',async()=>{
- const {handlers,deleted,added}=setup();let p;handlers.install({waitUntil:x=>p=x});await p;assert.ok(added.includes('./index.html'));handlers.activate({waitUntil:x=>p=x});await p;assert.deepEqual(deleted,['mahjong-score-v15-8','mahjong-score-v15-8-1','mahjong-score-v15-8-1-r2','mahjong-score-v15-8-1-r3','mahjong-score-v15-8-1-r4','mahjong-score-v15-8-1-r5','mahjong-score-v15-8-1-r6','mahjong-score-v15-8-1-r7']);
+ const {handlers,deleted,added}=setup();let p;handlers.install({waitUntil:x=>p=x});await p;assert.ok(added.includes('./index.html'));handlers.activate({waitUntil:x=>p=x});await p;assert.deepEqual(deleted,['mahjong-score-v15-8','mahjong-score-v15-8-1','mahjong-score-v15-8-1-r2','mahjong-score-v15-8-1-r3','mahjong-score-v15-8-1-r4','mahjong-score-v15-8-1-r5','mahjong-score-v15-8-1-r6','mahjong-score-v15-8-1-r7','mahjong-score-v15-8-1-r8']);
 });
 test('successful static response caches; failed HTTP response does not replace offline copy',async()=>{
  const {handlers,puts,scope}=setup();const request={url:'https://example.test/mahjong-score/index.html',method:'GET'};let p;const waits=[];

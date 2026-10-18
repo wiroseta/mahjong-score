@@ -6,14 +6,14 @@ let epoch=0,draft=null,aborter=null,photoURL='';
 const el=id=>document.getElementById(id);
 const node=(tag,text)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;return n;};
 function status(text){el('photoStatus').textContent=text;}
-function allowed(){return !!mahjongSession?.user&&mahjongIsAdmin&&canKeepScore();}
+function allowed(){return !!mahjongSession?.user&&mahjongIsAdmin;}
 function context(){return JSON.stringify({account:mahjongSession?.user?.id,game:s,winner,method,discarder,quads:getQuads(),patterns:getPlayerPatterns(),extra:el('extra').value});}
 function selectedPlayer(){return el('photoPlayer').value===''?null:Number(el('photoPlayer').value);}
 function current(){return draft&&allowed()&&draft.context===context()&&draft.player===selectedPlayer();}
 function invalidate(){epoch++;aborter?.abort();aborter=null;draft=null;if(photoURL)URL.revokeObjectURL(photoURL);photoURL='';const p=el('photoPreview');if(p){p.removeAttribute('src');p.hidden=true;}const groups=el('photoGroups');if(groups)groups.replaceChildren();if(el('photoApply'))el('photoApply').disabled=true;if(el('photoAnalyze')){el('photoAnalyze').disabled=true;el('photoAnalyze').hidden=true;}if(el('photoSuggestions'))el('photoSuggestions').replaceChildren();if(el('photoReviewed'))el('photoReviewed').checked=false;if(el('photoResult'))el('photoResult').hidden=true;}
 function close(){invalidate();el('photoScoreModal')?.classList.remove('show');}
 function open(){
- if(!allowed())return alert('Foto Tile masih dalam uji administrator. Pastikan perangkat ini memegang kendali pencatatan.');
+ if(!allowed())return alert('Foto Tile masih dalam uji administrator.');
  invalidate();const placeholder=node('option','Pilih pemain untuk memakai hasil');placeholder.value='';el('photoPlayer').replaceChildren(placeholder,...s.names.map((name,i)=>{const o=node('option',name+(i===winner?' — pemenang':''));o.value=i;return o;}));el('photoPlayer').value='';
  el('photoConsent').checked=false;el('photoScoreModal').classList.add('show');status('Ambil foto satu pemain. Hasil pembacaan langsung ditampilkan.');help();
 }
@@ -80,6 +80,7 @@ function refreshSuggestions(){
  }catch(e){draft.suggestion=null;host.append(node('p',e.message));}
 }
 function apply(){
+ if(!canKeepScore())return status('Pembacaan foto boleh dilakukan. Untuk mengisi formulir, aktifkan kendali pencatatan pada perangkat ini terlebih dahulu.');
  if(!current()||!draft?.groups||!el('photoReviewed').checked||draft.player===null||winner===null)return status('Periksa semua kelompok. Jika permainan berubah, foto ulang.');
  try{
  const result=R.suggest({groups:draft.groups},{isWinner:draft.player===winner,seat:s.seatWinds[draft.player]});
