@@ -4,11 +4,11 @@ One photo belongs to one selected player after the hand ends. The application ne
 
 ## Use
 
-Choose the winning player in the normal form. An administrator can then open **Foto Tile (Uji)**, choose the player whose tiles will be photographed, confirm the hand has ended, and take or select a photo. Consent is required before the compressed JPEG is sent to Google Gemini through the authenticated Supabase function. Photos remain in browser memory; neither the application database nor the score history stores them. Provider processing is subject to the configured Google account's data policy.
+An administrator can open **Foto Tile (Uji)** and take or select a photo without choosing any player first. After consent, the photo is read automatically and results appear immediately; no separate read action is required. Choose the target player only after results are shown, if you want to apply them to the score form. The winner must be set in the main form before applying results. Consent is required before the compressed JPEG is sent to Google Gemini through the authenticated Supabase function. Photos remain in browser memory; neither the application database nor the score history stores them. Provider processing is subject to the configured Google account's data policy.
 
 Review and correct each group, its tile faces, and its original exposure status. Face-up tiles in an end-of-hand photo do not prove they were exposed during play. Unknown faces must be corrected. Face-down Kong tiles cannot be inferred by the model: reveal them after the hand or correct all four faces manually.
 
-For a nonwinner only exposed groups and previously declared concealed Kongs count. All other concealed tiles are excluded, including concealed pairs and dragon groups. For a winner all photographed groups may be reviewed. Each group must be confirmed before applying results to the current form. Applying replaces that player's Kong count and optionally their single combination selection; it leaves other players, winner, Hu/Zi Mo, discarder, extra points, dealer, round, scores, and history untouched. The existing **Catat Hasil Tangan** confirmation flow remains required.
+For a nonwinner only exposed groups and previously declared concealed Kongs count. All other concealed tiles are excluded, including concealed pairs and dragon groups. For a winner all photographed groups may be reviewed. A single review confirmation is required before applying results; group details can be expanded for corrections. Applying replaces that player's Kong count and optionally their single combination selection; it leaves other players, winner, Hu/Zi Mo, discarder, extra points, dealer, round, scores, and history untouched. The existing **Catat Hasil Tangan** confirmation flow remains required.
 
 ## Conservative suggestions
 
@@ -20,6 +20,6 @@ New Edge Function: `mahjong-photo-tiles`, JWT verification on and server-side `g
 
 ## Verification
 
-662 automated tests pass: existing 641 plus 15 photo-rule tests and 6 endpoint tests with mocked Auth/Gemini. Browser fixture verified photo selection/compression, nonwinner hidden-group exclusion, explicit review, and application of one Kong to only the selected player's draft while all four scores stayed zero. The modal fits a 375px viewport without horizontal overflow.
+663 automated tests pass: existing 641 plus 15 photo-rule tests and 7 endpoint tests with mocked Auth/Gemini. Browser fixture verified photo selection/compression, nonwinner hidden-group exclusion, explicit review, and application of one Kong to only the selected player's draft while all four scores stayed zero. The modal fits a 375px viewport without horizontal overflow.
 
 Not yet established by those tests: real-world recognition accuracy, physical iPhone camera behavior, full model availability for this account, or coverage of all Mahjong Nusantara combinations. Real tile photographs must be tested before broad rollout. The browser fixture uses simulated responses and is not deployed.

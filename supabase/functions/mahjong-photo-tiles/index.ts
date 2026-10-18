@@ -19,7 +19,7 @@ Deno.serve(async(req:Request)=>{
   if(error||!user||user.app_metadata?.role!=='admin')return reply({error:'Foto Tile masih dalam uji administrator.'},403);
   if(busy.has(user.id))return reply({error:'Tunggu pembacaan foto sebelumnya selesai.'},429);
   const body=await boundedJSON(req);
-  if(body.mimeType!=='image/jpeg'||typeof body.image!=='string'||body.image.length<100||body.image.length>2_800_000||body.image.length%4!==0||!/^[A-Za-z0-9+/]+={0,2}$/.test(body.image)||!['winner','nonwinner'].includes(body.playerType))return reply({error:'Format foto tidak valid. Gunakan foto JPEG satu pemain.'},400);
+  if(body.mimeType!=='image/jpeg'||typeof body.image!=='string'||body.image.length<100||body.image.length>2_800_000||body.image.length%4!==0||!/^[A-Za-z0-9+/]+={0,2}$/.test(body.image)||!['winner','nonwinner','unassigned'].includes(body.playerType))return reply({error:'Format foto tidak valid. Gunakan foto JPEG satu pemain.'},400);
   const bytes=atob(body.image);if(!bytes.startsWith('\xff\xd8\xff'))return reply({error:'Isi foto bukan JPEG.'},400);
   const key=Deno.env.get('GEMINI_API_KEY');if(!key)return reply({error:'Layanan pembacaan foto belum dikonfigurasi.'},503);
   account=user.id;busy.add(account);
