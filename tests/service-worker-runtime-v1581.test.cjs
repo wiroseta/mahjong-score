@@ -12,7 +12,7 @@ test('service worker bypasses Supabase, non-GET and live/transfer query requests
  }
 });
 test('new cache precaches all application assets and removes only older Mahjong caches',async()=>{
- const {handlers,deleted,added}=setup();let p;handlers.install({waitUntil:x=>p=x});await p;assert.ok(added.includes('./index.html'));handlers.activate({waitUntil:x=>p=x});await p;assert.deepEqual(deleted,['mahjong-score-v15-8','mahjong-score-v15-8-1']);
+ const {handlers,deleted,added}=setup();let p;handlers.install({waitUntil:x=>p=x});await p;assert.ok(added.includes('./index.html'));handlers.activate({waitUntil:x=>p=x});await p;assert.deepEqual(deleted,['mahjong-score-v15-8','mahjong-score-v15-8-1','mahjong-score-v15-8-1-r2']);
 });
 test('successful static response caches; failed HTTP response does not replace offline copy',async()=>{
  const {handlers,puts,scope}=setup();const request={url:'https://example.test/mahjong-score/index.html',method:'GET'};let p;const waits=[];
