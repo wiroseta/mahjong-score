@@ -16,7 +16,7 @@ Supported initial suggestions: matching seat-wind set, little/big dragons, littl
 
 ## Deployment and limits
 
-New Edge Function: `mahjong-photo-tiles`, JWT verification on and server-side `getUser()` administrator check. It uses the existing server-only `GEMINI_API_KEY` and optional `GEMINI_PHOTO_MODEL` (default `gemini-3.1-flash-lite`). No schema, account permissions, subscription, payment, or existing voice function changes. Requests and responses are bounded. A best-effort per-isolate in-flight guard prevents overlapping requests; it is not a durable spending quota. General scorekeeper rollout requires real-photo accuracy evaluation and a durable usage/billing policy.
+New Edge Function: `mahjong-photo-tiles`, JWT verification on and server-side `getUser()` administrator check. It uses the existing server-only `GEMINI_API_KEY` with the fixed photo model `gemini-3.8-flash` and low thinking, as explicitly requested by the user. No schema, account permissions, subscription, payment, or existing voice function changes. Requests and responses are bounded. A best-effort per-isolate in-flight guard prevents overlapping requests; it is not a durable spending quota. General scorekeeper rollout requires real-photo accuracy evaluation and a durable usage/billing policy.
 
 ## Verification
 
@@ -27,3 +27,7 @@ Not yet established by those tests: real-world recognition accuracy, physical iP
 ## Live provider investigation
 
 The first live requests reached Google but returned 404 NOT_FOUND for gemini-2.5-flash. The photo-only default was changed to gemini-3.1-flash-lite. That model returned 503 UNAVAILABLE in live attempts, so image recognition has not yet been demonstrated successfully. Provider status/model/error-code logs contain no photos, tokens or raw provider payloads. Temporary 5xx responses retry once within a bounded time; model errors and quota errors have distinct messages. Existing voice model configuration is unchanged.
+
+## Model selection correction
+
+The user explicitly requires Gemini 3.8. Photo recognition now uses exactly `gemini-3.8-flash`, with `thinkingLevel: low`, and does not fall back to 2.5 or 3.1. Live photo recognition still requires successful verification; the earlier 3.1 service failure is not evidence of 3.8 availability.
