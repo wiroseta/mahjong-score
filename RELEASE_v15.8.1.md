@@ -37,3 +37,7 @@ Revert the release source changes and use a fresh cache revision when rolling ba
 ## Cloud Trial exclusion
 
 Automatic approval review rejected the proposed Cloud Trial blob because its existing source is explicitly marked LOCAL TEST ONLY: DO NOT DEPLOY. The safer release excludes all Cloud Trial changes, retains its baseline files, and deploys only the main application tested live.
+
+## User clarification and iPhone UI follow-up
+
+Chicken Hand explicitly permits Pong and Chi (Chow); removed the misleading definition equating Chicken Hand with insufficient Fan. The 2-Fan Hu requirement remains a separate rule. Updated both the visible guide and its PDF. Physical iPhone PWA was observed on v15.8.1 with matching cloud scores; added standalone safe-area padding after observing status-bar overlap. Cache revision r2 distributes this correction.
