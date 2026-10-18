@@ -59,7 +59,9 @@ function drawGroups(){
  draft.groups.forEach((g,i)=>{
   const box=node('div');box.className='photo-observed-group';box.append(node('strong','Kelompok '+(i+1)+' · '+(kinds.find(x=>x[0]===g.kind)?.[1]||g.kind)+(g.uncertain?' — periksa kembali':'')));
   const row=node('div');row.className='photo-tiles';for(const t of g.tiles){const tile=node('div');if(typeof TILE_IMAGES!=='undefined'&&TILE_IMAGES[t]){const image=node('img');image.src=TILE_IMAGES[t];image.alt=tileName(t);tile.append(image);}tile.append(node('small',tileName(t)));row.append(tile);}box.append(row);host.append(box);
- });refreshSuggestions();
+ });
+ if(draft.notes?.length){const notes=node('div');notes.append(node('strong','Catatan pembacaan'));for(const note of draft.notes)notes.append(node('p',note));host.append(notes);}
+ refreshSuggestions();
 }
 function refreshSuggestions(){
  const host=el('photoSuggestions');host.replaceChildren();el('photoApply').disabled=true;

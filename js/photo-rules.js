@@ -34,8 +34,10 @@ function eligible(g,isWinner){return isWinner||g.exposure==='open'||(g.kind==='k
 function suggest(input,{isWinner,seat}){
  const data=validate(input),used=data.groups.filter(g=>eligible(g,isWinner));
  if(!used.length)throw Error('Tidak ada kelompok yang boleh dihitung untuk pemain ini.');
- if(used.some(g=>!validGroup(g)))throw Error('Perbaiki tile yang belum terbaca atau kelompok yang tidak sesuai.');
+ if(used.some(g=>g.uncertain||g.kind==='loose'||g.tiles.includes('unknown')))throw Error('Pembacaan belum pasti atau ada tile yang belum dikelompokkan. Ambil foto lebih jelas atau gunakan pencatatan manual.');
+ if(used.some(g=>!validGroup(g)))throw Error('Susunan kelompok belum sesuai. Ambil foto ulang atau gunakan pencatatan manual.');
  const scoring=used.filter(g=>g.kind!=='flower'),sets=scoring.filter(g=>['chow','pong','kong'].includes(g.kind)),pairs=scoring.filter(g=>g.kind==='pair');
+ if(sets.length>4||scoring.reduce((n,g)=>n+g.tiles.length,0)>18)throw Error('Foto memuat terlalu banyak kelompok atau tile. Foto susunan satu pemain saja.');
  const kongCount=sets.filter(g=>g.kind==='kong').length,candidates=[];
  const hasSet=t=>sets.some(g=>['pong','kong'].includes(g.kind)&&g.tiles[0]===t);
  if(hasSet(['east','south','west','north'][seat]))candidates.push('Set Mulia');

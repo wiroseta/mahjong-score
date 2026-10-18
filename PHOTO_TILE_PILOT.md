@@ -20,7 +20,7 @@ New Edge Function: `mahjong-photo-tiles`, JWT verification on and server-side `g
 
 ## Verification
 
-666 automated tests pass: existing 641 plus 15 photo-rule tests and 10 endpoint tests with mocked Auth/Gemini. Browser fixture verified photo selection/compression, nonwinner hidden-group exclusion, explicit review, and application of one Kong to only the selected player's draft while all four scores stayed zero. The modal fits a 375px viewport without horizontal overflow.
+670 automated tests pass: existing 641 plus 19 photo-rule tests and 10 endpoint tests with mocked Auth/Gemini. Browser fixture verified photo selection/compression, nonwinner hidden-group exclusion, explicit review, and application of one Kong to only the selected player's draft while all four scores stayed zero. The modal fits a 375px viewport without horizontal overflow.
 
 Not yet established by those tests: real-world recognition accuracy, physical iPhone camera behavior, full model availability for this account, or coverage of all Mahjong Nusantara combinations. Real tile photographs must be tested before broad rollout. The browser fixture uses simulated responses and is not deployed.
 
@@ -35,3 +35,7 @@ The user explicitly requires Gemini 3.8. Photo recognition now uses exactly `gem
 ## Gemini 3.8 live verification
 
 After the model was changed to gemini-3.8-flash, the authenticated production browser flow returned observations successfully: 14 tile faces in six groups for the selected table photograph. This confirms end-to-end provider connectivity, not the accuracy of every face, inferred group or score. The picture includes multiple table areas and is not a controlled single-player accuracy fixture. No result was applied and no score was recorded. Evidence: output/photo-gemini38-live-success.png in the task workspace. Physical iPhone camera tests and systematic real-photo accuracy evaluation remain pending.
+
+## Uncertain readings
+
+Eligible groups marked uncertain, containing unknown faces, or left ungrouped cannot be applied, even after the confirmation checkbox is checked. More than four eligible sets or more than eighteen non-flower scoring tiles is rejected as an invalid single-player observation. Concealed nonwinner groups remain ignored and do not block valid exposed/declared-Kong observations. Provider notes are displayed as plain text; no group-type choices were introduced.
