@@ -783,3 +783,11 @@ Stage 17 Step 27: see IMPLEMENTATION_STATE.md. Cloud Sync OFF; DO NOT DEPLOY.
 Stage 17 Step 31: Historical stage notes consolidated into CHANGELOG.md. SQL archive is encoded as comments for safety and is NOT an executable migration. Test-referenced legacy SQL remains temporarily. See IMPLEMENTATION_STATE.md.
 
 Pembaca foto lokal menerima susunan pemenang 4 atau 5 kelompok dan satu pasangan (termasuk susunan 17 tile tanpa Kong). Jumlah tile saja tidak menentukan jumlah Kong; pengelompokan harus valid dan jumlah Kong tidak ambigu. Koreksi administrator langsung memperbarui label tampilan dan usulan skor; tombol penggunaan dinonaktifkan bila hasil belum valid.
+
+## Perbaikan lima catatan pengguna (r23)
+- Uji Foto Tile berada di Setting dan tetap khusus administrator.
+- PIN login memakai empat kotak dengan pindah fokus, Backspace, panah, dan tempel empat digit. PIN tidak disimpan oleh komponen ini.
+- Passkey memakai Supabase SDK 2.105.0 dengan experimental passkey opt-in. Login PIN tetap tersedia. Setelah login dengan PIN, buka Setting → Aktifkan Face ID / Sidik Jari untuk mendaftarkan perangkat; kemudian gunakan tombol biometrik pada login. Verifikasi biometrik dilakukan perangkat, bukan aplikasi. RP produksi: wiroseta.github.io; origin: https://wiroseta.github.io. Pengguna menyetujui konfigurasi ini sebelum disimpan.
+- Penerimaan QR/file menunggu login dan hak tulis cloud, menyimpan data tertunda dalam sessionStorage, meminta konfirmasi, membuat cadangan, dan membatalkan perubahan jika save gagal. Fungsi riwayat skor diganti namanya agar tidak menimpa window.history.
+- QR dipindai lokal dengan jsQR 1.4.0; gambar, kamera langsung, dan input capture environment didukung. Pako 2.1.0 menangani gzip tanpa bergantung pada CompressionStream browser. Stream kamera dihentikan saat pemindai ditutup, halaman disembunyikan, atau hasil ditemukan. Tidak ada gambar QR yang diunggah.
+- Batas: satu QR memiliki kapasitas terbatas; permainan dengan riwayat sangat panjang dapat dipindah melalui file. Pengujian mencakup 751 kasus, kamera simulasi, serta UI penerimaan QR/file di jendela lokal terisolasi. Face ID/sidik jari fisik perlu didaftarkan dan digunakan sendiri oleh pemilik perangkat.
