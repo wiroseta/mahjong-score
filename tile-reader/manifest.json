@@ -1,0 +1,28 @@
+{
+  "source": "https://github.com/nikmomo/Mahjong-YOLO",
+  "sourceCommit": "28ffceed232ad95fd019c47a6c51ae7c78791a0e",
+  "sourcePath": "models/nano/mahjong-yolon-best.onnx",
+  "modelSHA256": "3c7732c022d41c1a3f48cea931ce626416d92486ab5b86692312941d0cc22226",
+  "modelLicenseFromEmbeddedMetadata": "AGPL-3.0",
+  "repositoryLicense": "MIT; does not replace embedded model license",
+  "runtime": "onnxruntime-web 1.22.0",
+  "runtimeTarballSHA256": "e293551f9d36d003e293d0f2937fee7b3dfdcef76d71d1449b55e2d4157c7aea",
+  "input": [
+    1,
+    3,
+    640,
+    640
+  ],
+  "output": [
+    1,
+    41,
+    8400
+  ],
+  "status": "Published browser reader; manual review required; no score persistence",
+  "assets": {
+    "model.onnx": "3c7732c022d41c1a3f48cea931ce626416d92486ab5b86692312941d0cc22226",
+    "vendor/ort-wasm-simd-threaded.mjs": "30dd851d9c00622940500f71ddd2ff8820c5cb65270816080175b958705385a8",
+    "vendor/ort-wasm-simd-threaded.wasm": "71aef04959c5c1b6de461b6538e2058e306610034a85aad2742d0c7fd4533fe4",
+    "vendor/ort.wasm.min.js": "65e09376df69107e881b5c34d2d37aed333a366b6d941073ec518168e269b87d"
+  }
+}

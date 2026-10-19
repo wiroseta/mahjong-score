@@ -1,3 +1,7 @@
+## Pembaca foto lokal — v15.8.1 r13 (19 Oktober 2026)
+
+Tombol **Baca Foto Lokal** membuka pembaca foto di perangkat dengan potongan gambar per tile, koreksi jenis, pemeriksaan bingkai/kelengkapan, dan ekspor label. Foto tidak diunggah. Model/runtime awal sekitar 21 MB. Hasil tetap perlu diperiksa; skor dicatat melalui formulir utama. Lihat [petunjuk](tile-reader/README.md) dan [sumber/lisensi](tile-reader/NOTICE.md). Foto dan label pengguna tidak disertakan dalam rilis publik. Tidak ada migrasi database atau perubahan layanan AI.
+
 # Mahjong Score 4P PWA — v15.8.1
 
 **Versi rilis: v15.8.1** (18 Oktober 2026).
