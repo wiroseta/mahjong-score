@@ -6,4 +6,4 @@ The unmodified model.onnx originates from https://github.com/nikmomo/Mahjong-YOL
 
 ONNX Runtime Web 1.22.0 is distributed under MIT. Copyright Microsoft Corporation. See vendor/LICENSE-ONNX-Runtime.txt and vendor/ThirdPartyNotices.txt. Corresponding runtime sources: https://github.com/microsoft/onnxruntime/tree/v1.22.0/js/web.
 
-Only this independent reader and its model are covered by these notices. The scoring application is opened through a normal hyperlink and does not import this model or its code.
+Only this independent reader and its model are covered by these notices. The scoring application hosts this reader in a same-origin frame and exchanges recognized tile keys through a scoped postMessage protocol. The ONNX model runs inside the reader.

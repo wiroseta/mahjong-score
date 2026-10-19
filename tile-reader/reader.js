@@ -1,9 +1,16 @@
-/* Standalone experiment: no game state, remote recognition or score persistence. */
+/* Local inference. Embedded mode returns tile labels to the game; never records scores. */
 (function(){
 'use strict';
 const el=id=>document.getElementById(id),status=el('status'),canvas=el('preview'),ctx=canvas.getContext('2d'),D=LocalTileDetector,L=TileReferenceLearning,C=TileReferenceCloud;
 let sessionPromise=null,generation=0,image=null,region=null,drag=null,busy=false,reference=null,annotations=[],sourceFile=null,anchor=null;
 let isAdmin=false,adminOpen=false,referenceBank=[],cloudBusy=false;
+const embedded=window.parent!==window&&new URLSearchParams(location.search).get('embedded')==='1';let embedSession=null,embedReadId=null,embedPlayerIndex=null,embedEnabled=!embedded;
+function notify(type,extra={}){if(embedded&&embedSession)window.parent.postMessage({type,sessionId:embedSession,...extra},location.origin);}
+function startReading(){embedReadId=crypto.randomUUID();notify('mahjong-photo-start',{readId:embedReadId});}
+function sendResult(){if(annotations.length)notify('mahjong-photo-result',{readId:embedReadId,tiles:annotations.filter(a=>a.tile!=='not-tile').map(a=>a.tile)});}
+function resetEmbedded(){generation++;embedReadId=null;embedPlayerIndex=null;drag=null;anchor=null;image=null;sourceFile=null;region=null;reference=null;clearResults();canvas.hidden=true;canvas.classList.remove('adjusting');controls();}
+if(embedded){document.documentElement.classList.add('embedded');window.addEventListener('message',e=>{if(e.source!==window.parent||e.origin!==location.origin||!e.data||typeof e.data!=='object')return;const data=e.data;if(data.type==='mahjong-photo-context'&&typeof data.sessionId==='string'){if(embedSession!==data.sessionId||embedPlayerIndex!==data.playerIndex)resetEmbedded();embedSession=data.sessionId;embedPlayerIndex=data.playerIndex;embedEnabled=data.enabled===true;el('embeddedPlayer').textContent=typeof data.playerName==='string'?data.playerName:'';status.textContent=embedEnabled?'Ambil foto pemain yang dipilih.':'Pilih pemain pada jendela permainan terlebih dahulu.';controls();}else if(data.type==='mahjong-photo-reset'){resetEmbedded();embedEnabled=false;embedSession=null;controls();}});window.parent.postMessage({type:'mahjong-photo-ready'},location.origin);}
+
 const bankReady=C.load().then(data=>{referenceBank=L.prepare(data);}).catch(()=>{});
 function cropCanvas(item,width=100,height=110){const c=document.createElement('canvas');c.width=width;c.height=height;const [x1,y1,x2,y2]=item.box;c.getContext('2d').drawImage(image,x1,y1,x2-x1,y2-y1,0,0,width,height);return c;}
 function featuresFor(item){const c=document.createElement('canvas');c.width=c.height=L.size;const [x1,y1,x2,y2]=item.box,w=x2-x1,h=y2-y1;c.getContext('2d').drawImage(image,x1+w*.12,y1+h*.12,w*.76,h*.76,0,0,L.size,L.size);const p=c.getContext('2d').getImageData(0,0,L.size,L.size).data;return Array.from({length:L.length},(_,i)=>Math.round(p[i*4]*.299+p[i*4+1]*.587+p[i*4+2]*.114));}
@@ -15,7 +22,7 @@ function session(){
 }
 const names={east:'Timur',south:'Selatan',west:'Barat',north:'Utara',white:'Naga putih',green:'Naga hijau',red:'Naga merah'};
 function tileName(t){return names[t]||t.replace(/^char/,'Karakter ').replace(/^dot/,'Bulat ').replace(/^bam/,'Bambu ');}
-function controls(){el('saveExamples').disabled=busy||cloudBusy||!isAdmin||!annotations.length;document.querySelectorAll('#rows select,#rows input').forEach(control=>control.disabled=busy||cloudBusy||!isAdmin);for(const id of ['boxesReviewed','coverageReviewed'])el(id).disabled=busy||cloudBusy||!isAdmin||!annotations.length;el('exportLabels').disabled=busy||cloudBusy||!isAdmin||!annotations.length;el('file').disabled=busy||cloudBusy;el('camera').disabled=busy||cloudBusy;el('full').disabled=busy||cloudBusy||!image;el('recheck').disabled=busy||cloudBusy||!image;el('adjust').disabled=busy||cloudBusy||!image;}
+function controls(){el('saveExamples').disabled=busy||cloudBusy||!isAdmin||!annotations.length;document.querySelectorAll('#rows select,#rows input').forEach(control=>control.disabled=busy||cloudBusy||!isAdmin);for(const id of ['boxesReviewed','coverageReviewed'])el(id).disabled=busy||cloudBusy||!isAdmin||!annotations.length;el('exportLabels').disabled=busy||cloudBusy||!isAdmin||!annotations.length;el('file').disabled=busy||cloudBusy||!embedEnabled;el('camera').disabled=busy||cloudBusy||!embedEnabled;el('full').disabled=busy||cloudBusy||!image;el('recheck').disabled=busy||cloudBusy||!image;el('adjust').disabled=busy||cloudBusy||!image;}
 function clearResults(){el('boxesReviewed').checked=false;el('coverageReviewed').checked=false;annotations=[];el('exportLabels').disabled=true;el('results').hidden=true;el('summary').textContent='';el('userResults').replaceChildren();el('rows').replaceChildren();}
 async function infer(model,img,box){
  const [left,top,right,bottom]=box,w=right-left,h=bottom-top,size=640,scale=Math.min(size/w,size/h),rw=Math.round(w*scale),rh=Math.round(h*scale),dx=Math.floor((size-rw)/2),dy=Math.floor((size-rh)/2);
@@ -38,14 +45,14 @@ function show(items,elapsed,note){
  const keys=[...Array.from({length:9},(_,i)=>'char'+(i+1)),...Array.from({length:9},(_,i)=>'dot'+(i+1)),...Array.from({length:9},(_,i)=>'bam'+(i+1)),...Object.keys(names),'unknown','not-tile'];
  for(const key of keys){const option=document.createElement('option');option.value=key;option.textContent=key==='unknown'?'Tidak dikenal / bunga':key==='not-tile'?'Bukan tile':tileName(key);select.append(option);}select.value=annotation.tile;
  const label=document.createElement('label'),check=document.createElement('input');check.type='checkbox';check.setAttribute('aria-label','Sudah diperiksa tile '+(index+1));label.append(check,' Sudah diperiksa');
- select.onchange=()=>{annotation.tile=select.value;annotation.reviewed=false;check.checked=false;};check.onchange=()=>{annotation.reviewed=check.checked;};cell.append(select,label);row.append(cell);rows.append(row);}
+ select.onchange=()=>{annotation.tile=select.value;annotation.reviewed=false;check.checked=false;sendResult();};check.onchange=()=>{annotation.reviewed=check.checked;sendResult();};cell.append(select,label);row.append(cell);rows.append(row);}
  el('exportLabels').disabled=!items.length;
  el('results').hidden=!items.length;el('summary').textContent=items.length+' tile terdeteksi. '+(note.includes('mirip')?'Foto memuat beberapa area. Gunakan Ubah area foto bila tile pemain lain ikut terbaca.':'Periksa apakah seluruh susunan pemain sudah terlihat.');
  if(reference){const report=D.evaluate(items,reference.tiles);el('summary').textContent+=' Uji acuan: '+report.correct+'/'+report.expected+' jenis benar, '+report.wrong+' salah jenis, '+report.missed+' terlewat, '+report.extra+' deteksi tambahan. Label acuan hanya untuk pengujian, tidak mengubah hasil model.';}
- status.textContent='Pembacaan lokal selesai dalam '+(elapsed/1000).toFixed(2)+' detik (di luar pemuatan model).';
+ sendResult();status.textContent='Pembacaan lokal selesai dalam '+(elapsed/1000).toFixed(2)+' detik (di luar pemuatan model).';
 }
 async function analyze(automatic=false){
- if(!image||busy||cloudBusy)return;const version=generation,img=image;busy=true;controls();clearResults();status.textContent=sessionPromise?'Menyiapkan pembacaan lokal…':'Memuat pembaca lokal pertama kali…';
+ if(!image||busy||cloudBusy||!embedEnabled)return;startReading();const version=generation,img=image;busy=true;controls();clearResults();status.textContent=sessionPromise?'Menyiapkan pembacaan lokal…':'Memuat pembaca lokal pertama kali…';
  try{
   const model=await session();await bankReady;if(version!==generation)return;
   status.textContent='Membaca dan memperbesar area tile…';await new Promise(resolve=>requestAnimationFrame(resolve));const start=performance.now();
@@ -58,16 +65,16 @@ async function analyze(automatic=false){
    else{items=initial;note=focus?.ambiguous?'Ada beberapa baris yang mirip. Gunakan Ubah area untuk memilih tile pemain.':'Belum dapat memilih area pemain secara pasti.';}
   }else{items=await infer(model,img,region||full);note=region?'Membaca area di dalam bingkai.':'Membaca seluruh foto; tile pemain lain dapat ikut terbaca.';}
   if(version===generation)show(items,performance.now()-start,note);
- }catch(e){if(version===generation)status.textContent=e.message||'Pembaca lokal belum dapat dijalankan.';}
+ }catch(e){if(version===generation){status.textContent=e.message||'Pembaca lokal belum dapat dijalankan.';notify('mahjong-photo-error',{message:status.textContent});}}
  finally{busy=false;controls();}
 }
 async function read(file,ref=null){
- if(busy||cloudBusy)return;const version=++generation;image=null;sourceFile=file;reference=ref;region=ref?.region||null;drag=null;anchor=null;canvas.classList.remove('adjusting');el('adjust').textContent='Ubah area foto';controls();clearResults();canvas.hidden=true;status.textContent='Menyiapkan foto…';let url;
+ if(busy||cloudBusy||!embedEnabled)return;startReading();const version=++generation;image=null;sourceFile=file;reference=ref;region=ref?.region||null;drag=null;anchor=null;canvas.classList.remove('adjusting');el('adjust').textContent='Ubah area foto';controls();clearResults();canvas.hidden=true;status.textContent='Menyiapkan foto…';let url;
  try{
   if(file.size>20*1024*1024||!/^image\/(jpeg|png|webp)$/.test(file.type))throw Error('Gunakan foto JPEG, PNG, atau WebP maksimal 20 MB.');
   url=URL.createObjectURL(file);const img=await new Promise((resolve,reject)=>{const i=new Image();i.onload=()=>resolve(i);i.onerror=()=>reject(Error('Foto tidak bisa dibuka. Jika menggunakan HEIC, simpan sebagai JPEG terlebih dahulu.'));i.src=url;});if(version!==generation)return;
   if(img.naturalWidth*img.naturalHeight>40_000_000)throw Error('Ukuran gambar terlalu besar.');image=img;draw();controls();await analyze(!ref);
- }catch(e){if(version===generation)status.textContent=e.message;}
+ }catch(e){if(version===generation){status.textContent=e.message;notify('mahjong-photo-error',{message:e.message});}}
  finally{if(url)URL.revokeObjectURL(url);}
 }
 function point(e){const r=canvas.getBoundingClientRect();return [Math.max(0,Math.min(image.naturalWidth,(e.clientX-r.left)*image.naturalWidth/r.width)),Math.max(0,Math.min(image.naturalHeight,(e.clientY-r.top)*image.naturalHeight/r.height))];}

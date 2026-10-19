@@ -1,3 +1,11 @@
+## Embedded game workflow — r17
+
+The game camera icon opens a modal with the active player names, not a new tab. Choose the player, take a photo, review the inferred Kong count and supported combinations, then use the result to populate only that player's draft. Score preview updates through the existing calculation engine. Recording still requires Catat Hasil Tangan. Winner, Hu/Zi Mo, discarder, other players and saved history are not changed by a photo.
+
+The parent binds results to the selected player, account, full game snapshot and current form. Frame origin, sender window, session and read ID must all match. Changing player (including identical display names), game state, or account invalidates a pending reading. Unrecognized faces and invalid/ambiguous Kong counts cannot apply. Only combination suggestions shared by every valid tile grouping are applied; manual combinations are retained if none can be established. Nonwinner photographs must contain only exposed groups and declared concealed Kongs, confirmed by the user. Petapa/exposure history and unsupported or ambiguous Joker-dependent combinations remain manual.
+
+Standalone reader use remains available for recognition and administrator correction examples. It cannot address a game form without the embedded game context. The existing administrator Gemini pilot remains under Setting in the hamburger menu.
+
 # Pembaca Foto Mahjong — r14
 
 Ordinary readers take/select a photo and receive tile cards automatically. Correction selectors, review checkboxes and JSON export are inside the administrator panel only. Existing Mahjong Score login is reused; the current administrator role is checked through Auth getUser and database writes are protected by RLS using the existing current-user admin helper. No credentials are added to the reader.

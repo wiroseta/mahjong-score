@@ -1,3 +1,7 @@
+## Foto pemain terhubung ke formulir permainan — r17
+
+Ikon kamera membuka jendela di dalam aplikasi dengan pilihan nama pemain aktif. Hasil foto mengusulkan jumlah Kong dan kombinasi yang dapat dipastikan. **Gunakan hasil foto** mengisi Kong dan kombinasi pemain terpilih serta memperbarui pratinjau. Skor/riwayat tetap dicatat hanya melalui **Catat Hasil Tangan**. Pergantian pemain, akun, atau keadaan permainan membatalkan pembacaan lama. Tile tidak dikenal dan susunan yang belum valid tidak dapat diterapkan. Kombinasi yang memerlukan riwayat keterbukaan atau interpretasi Joker yang ambigu tetap memakai input manual.
+
 ## Alur foto dan panel administrator — r14 (19 Oktober 2026)
 
 Pengguna biasa mengambil atau memilih foto dan langsung menerima kartu hasil tile. Koreksi label, pemeriksaan contoh, dan ekspor hanya berada di panel Administrator. Dari ponsel, administrator dapat menyimpan draf contoh visual, mengaktifkan, atau menonaktifkannya. Contoh aktif dibagikan hanya kepada akun yang sudah login; penyimpanan dan perubahan dilindungi pemeriksaan administrator pada database. Foto asli tidak diunggah. Bantuan contoh visual tidak melatih ulang bobot model atau menghitung skor otomatis. Lihat [petunjuk pembaca foto](tile-reader/README.md).
