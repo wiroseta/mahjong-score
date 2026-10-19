@@ -888,6 +888,13 @@ body.guest-live-mode .guest-live-actions .guest-fullscreen-button[style*="displa
   :is(#settings,#userManagement,#userDetail,#aiDiagnostic,#voiceDiagnostic,#rolePicker) > .modal > .data-modal-head {padding-top:13px!important;padding-bottom:12px!important}
 }
 </style>
+<style id="player-photo-shortcut">
+#localTileReaderLink{display:none!important}
+.player .player-photo{position:absolute;right:3px;bottom:3px;width:36px;height:36px;min-width:36px;min-height:36px;padding:0;margin:0;border:0!important;border-radius:0;background:none!important;color:#163d30;display:flex;align-items:center;justify-content:center;font-size:20px;line-height:1;touch-action:manipulation;box-shadow:none!important;z-index:2}
+.player .player-photo:focus-visible{outline:3px solid #c28d15;outline-offset:2px}
+.player .handwins{padding-right:34px;text-align:left;min-height:20px;display:flex;align-items:center;justify-content:flex-start}
+@media(max-width:600px){.player .player-photo{width:32px;height:32px;min-width:32px;min-height:32px;right:2px;bottom:2px;font-size:18px;border-radius:9px}.player .handwins{padding-right:30px;font-size:8px;min-height:18px}}
+</style>
 </head>
 <script src="./js/qrcode-local.js"></script>
 <body class="auth-pending"><div id="authGate" class="auth-gate"><form class="auth-card" onsubmit="loginMahjong(event)"><h2>🀄 Mahjong Score <span class="app-version">v15.8.1</span></h2><div class="muted">Masuk untuk menggunakan aplikasi.</div><label class="label" for="loginUsername">Username</label><input id="loginUsername" autocomplete="username" autocapitalize="none" required><label class="label" for="loginPassword">PIN 4 digit</label><input id="loginPassword" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="current-password" placeholder="••••" required><button class="btn gold" type="submit" style="width:100%">Login</button><p class="muted" style="font-size:11px;line-height:1.4">Penggunaan Voice mengirim transkripsi teks dan hasil diagnostik secara otomatis ke Supabase untuk peningkatan akurasi. Hanya Administrator dapat membaca laporan; audio mentah tidak dikirim.</p><div id="authMessage" class="auth-msg" aria-live="polite"></div></form></div><div class="app">
@@ -1169,6 +1176,7 @@ function render(){
   el.classList.toggle("selected",winner===i);el.classList.toggle("dealer",s.dealer===i);
   const sc=Number(s.scores[i])||0,wins=s.history.filter(h=>h.method!=="quad"&&h.method!=="false_hu"&&h.winner===i).length;
   el.innerHTML=`<div class="wind">${windChar(i)}</div><div class="name">${s.names[i]}</div><div class="muted">${windName(i)}</div><div class="score ${sc>0?'pos':sc<0?'neg':''}">${sc>0?"+":""}${fmt(sc)}</div><div class="handwins">🏆 ${wins} tangan</div>`;
+  const photo=document.createElement('button');photo.type='button';photo.className='player-photo';photo.textContent='📷';photo.setAttribute('aria-label','Baca foto '+s.names[i]);photo.title='Baca foto '+s.names[i];photo.onclick=event=>{event.stopPropagation();window.mahjongOpenPlayerPhoto?.(i);};el.append(photo);
  }
  $("roundWind").textContent=s.round||1;
  $("hands").textContent=s.history.filter(h=>h.method!=="quad"&&h.method!=="false_hu"&&(h.round||1)===(s.round||1)).length+1;
@@ -2643,6 +2651,6 @@ initMahjongAuth();
 <script src="./js/photo-rules.js?v=r18"></script>
 <script src="./js/photo-score.js?v=r16"></script>
 <script src="./js/photo-local-rules.js?v=r18"></script>
-<script src="./js/photo-local-score.js?v=r21"></script>
+<script src="./js/photo-local-score.js?v=r22"></script>
 
 </body></html>

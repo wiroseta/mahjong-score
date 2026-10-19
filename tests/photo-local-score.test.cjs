@@ -21,3 +21,5 @@ test('corrected 17-tile hand enables application, fills Topan and closes the mod
 
 test('manual entry requests review and closes without changing scores',()=>{const f=fixture();f.send(hand);f.nodes.get('localPhotoManual').onclick();assert.equal(f.messages.at(-2).type,'mahjong-photo-review');assert.equal(f.messages.at(-2).reason,'manual');assert.equal(f.messages.at(-1).type,'mahjong-photo-reset');assert.equal(f.updates(),0);assert.equal(f.env.s.history.length,0);});
 test('invalid results request automatic administrator review and cannot be applied',()=>{const f=fixture();f.send(['unknown']);assert.equal(f.messages.at(-1).type,'mahjong-photo-review');assert.equal(f.messages.at(-1).reason,'invalid');assert.equal(f.nodes.get('localPhotoApply').disabled,true);});
+
+test('player card camera preselects that player without changing the winner or form',()=>{const f=fixture();f.q[0].value=2;f.env.window.mahjongOpenPlayerPhoto(2);assert.equal(f.nodes.get('localPhotoPlayer').value,'2');assert.equal(f.env.winner,0);assert.equal(+f.q[0].value,2);assert.equal(f.updates(),0);assert.equal(f.messages.at(-1).playerIndex,2);});
