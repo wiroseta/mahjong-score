@@ -8,3 +8,4 @@
 - Header Setting penuh, dengan area scroll terpisah dan tombol simetris.
 - Pembaruan aplikasi mengaktifkan service worker baru setelah aset siap.
 - Penamaan False Chicken Hand untuk deklarasi HU atau Zi Mo dengan Chicken Hand yang belum memenuhi syarat. Denda tetap −3/+1/+1/+1.
+- Administrator dapat menampilkan atau menyembunyikan ikon kamera untuk setiap akun melalui User Management. Perubahan tersimpan pada pengaturan akun dan diperiksa ulang saat pengguna aktif.

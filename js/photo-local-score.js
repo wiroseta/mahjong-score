@@ -3,7 +3,7 @@
 'use strict';
 const el=id=>document.getElementById(id),make=(tag,text)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;return n;},R=window.MahjongLocalPhotoRules;
 let opened=false,sessionId=null,readId=null,stamp=null,result=null,chosenPattern='',timer=null;
-const signedIn=()=>!!mahjongSession?.user;
+const signedIn=()=>!!mahjongSession?.user&&mahjongSession.user.app_metadata?.camera_enabled!==false;
 const player=()=>el('localPhotoPlayer').value===''?null:Number(el('localPhotoPlayer').value);
 const context=()=>JSON.stringify({account:mahjongSession?.user?.id,game:s,winner,method,discarder,quads:getQuads(),patterns:getPlayerPatterns(),extra:el('extra').value});
 const say=text=>el('localPhotoStatus').textContent=text;

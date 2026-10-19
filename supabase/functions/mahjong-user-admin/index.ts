@@ -33,7 +33,7 @@ Deno.serve(async (req) => {
       return json({users:data.users.map(u=>({
         id:u.id,email:u.email,username:u.user_metadata?.username || u.email?.split('@')[0] || '',
         role:validRole(u.app_metadata?.role)?u.app_metadata.role:'scorekeeper',
-        geminiVoice:u.app_metadata?.gemini_voice_enabled===true,voiceMode:['gemini','gemini_staged','gemini_all'].includes(u.app_metadata?.voice_mode)?'gemini':'safari_staged',voiceEnabled:u.app_metadata?.voice_enabled!==false,voiceFeedback:u.app_metadata?.voice_feedback_enabled!==false,cloudDiagnostic:u.app_metadata?.cloud_diagnostic_enabled===true,multiDevice:u.app_metadata?.role==='admin'||u.app_metadata?.mahjong_multi_device===true,
+        cameraEnabled:u.app_metadata?.camera_enabled!==false,geminiVoice:u.app_metadata?.gemini_voice_enabled===true,voiceMode:['gemini','gemini_staged','gemini_all'].includes(u.app_metadata?.voice_mode)?'gemini':'safari_staged',voiceEnabled:u.app_metadata?.voice_enabled!==false,voiceFeedback:u.app_metadata?.voice_feedback_enabled!==false,cloudDiagnostic:u.app_metadata?.cloud_diagnostic_enabled===true,multiDevice:u.app_metadata?.role==='admin'||u.app_metadata?.mahjong_multi_device===true,
         banned:!!u.banned_until && new Date(u.banned_until).getTime()>Date.now()
       }))})
     }
@@ -74,6 +74,12 @@ Deno.serve(async (req) => {
     const {data:{user:target},error:targetError}=await admin.auth.admin.getUserById(userId)
     if(targetError||!target) return json({error:'User tidak ditemukan.'},404)
 
+    if(action==='set-camera-access'){
+      if(typeof body.enabled!=='boolean')return json({error:'Pengaturan kamera harus boolean.'},400)
+      const {error}=await admin.auth.admin.updateUserById(userId,{app_metadata:{...(target.app_metadata||{}),camera_enabled:body.enabled}})
+      if(error)throw error
+      return json({ok:true,cameraEnabled:body.enabled})
+    }
     if(action==='set-multi-device'){
       if(typeof body.enabled!=='boolean')return json({error:'Pengaturan multi-device harus boolean.'},400)
       if(target.app_metadata?.role==='admin')return json({error:'Administrator selalu mendukung multi-device.'},400)
