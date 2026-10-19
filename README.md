@@ -1,3 +1,9 @@
+## Alur foto dan panel administrator — r14 (19 Oktober 2026)
+
+Pengguna biasa mengambil atau memilih foto dan langsung menerima kartu hasil tile. Koreksi label, pemeriksaan contoh, dan ekspor hanya berada di panel Administrator. Dari ponsel, administrator dapat menyimpan draf contoh visual, mengaktifkan, atau menonaktifkannya. Contoh aktif dibagikan hanya kepada akun yang sudah login; penyimpanan dan perubahan dilindungi pemeriksaan administrator pada database. Foto asli tidak diunggah. Bantuan contoh visual tidak melatih ulang bobot model atau menghitung skor otomatis. Lihat [petunjuk pembaca foto](tile-reader/README.md).
+
+Validasi: 699 tes Node lulus; uji hak akses database nyata lulus dan seluruh data uji di-rollback. Alur panel administrator juga diuji pada simulasi browser selebar ponsel. Skema tambahan: supabase/photo_reader_examples.sql.
+
 ## Pembaca foto lokal — v15.8.1 r13 (19 Oktober 2026)
 
 Tombol **Baca Foto Lokal** membuka pembaca foto di perangkat dengan potongan gambar per tile, koreksi jenis, pemeriksaan bingkai/kelengkapan, dan ekspor label. Foto tidak diunggah. Model/runtime awal sekitar 21 MB. Hasil tetap perlu diperiksa; skor dicatat melalui formulir utama. Lihat [petunjuk](tile-reader/README.md) dan [sumber/lisensi](tile-reader/NOTICE.md). Foto dan label pengguna tidak disertakan dalam rilis publik. Tidak ada migrasi database atau perubahan layanan AI.
