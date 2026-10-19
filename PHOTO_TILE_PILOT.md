@@ -39,3 +39,9 @@ After the model was changed to gemini-3.8-flash, the authenticated production br
 ## Uncertain readings
 
 Eligible groups marked uncertain, containing unknown faces, or left ungrouped cannot be applied, even after the confirmation checkbox is checked. More than four eligible sets or more than eighteen non-flower scoring tiles is rejected as an invalid single-player observation. Concealed nonwinner groups remain ignored and do not block valid exposed/declared-Kong observations. Provider notes are displayed as plain text; no group-type choices were introduced.
+
+
+## Perbaikan batas waktu 19 Oktober 2026
+Log kegagalan menunjukkan durasi sekitar 20,2 detik, sesuai batas server lama. Batas pembacaan Gemini 3.8 menjadi 60 detik untuk seluruh percobaan termasuk pengulangan 5xx; browser menunggu 75 detik. Timeout AI kini HTTP 504, sambungan provider 502, hasil tidak valid 422. Log diagnostik hanya tahap, nama error dan durasi. Pengujian otomatis mencakup timeout, pelepasan kunci, respons lambat simulasi 25 detik, dan JSON rusak. Keberhasilan foto pengguna setelah perubahan masih perlu diverifikasi.
+
+Sesuai permintaan pengguna, kotak persetujuan pengiriman dihapus; pemilihan foto langsung memicu AI. Keterangan layanan tetap ada. Konfirmasi hasil sebelum menerapkan skor tetap diwajibkan.

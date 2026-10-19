@@ -1,4 +1,4 @@
-/* Administrator pilot. Photos stay in memory and are sent only after explicit review consent. */
+/* Administrator pilot. Photos stay in memory and are analyzed automatically after selection. */
 (function(){
 'use strict';
 const R=window.MahjongPhotoRules;
@@ -15,13 +15,12 @@ function close(){invalidate();el('photoScoreModal')?.classList.remove('show');}
 function open(){
  if(!allowed())return alert('Foto Tile masih dalam uji administrator.');
  invalidate();const placeholder=node('option','Pilih pemain untuk memakai hasil');placeholder.value='';el('photoPlayer').replaceChildren(placeholder,...s.names.map((name,i)=>{const o=node('option',name+(i===winner?' — pemenang':''));o.value=i;return o;}));el('photoPlayer').value=winner===null?'':String(winner);
- el('photoConsent').checked=false;el('photoScoreModal').classList.add('show');status('Pilih pemain, lalu ambil foto. Analisis berjalan otomatis.');help();
+ el('photoScoreModal').classList.add('show');status('Pilih pemain, lalu ambil foto. Analisis berjalan otomatis.');help();
 }
 function help(){el('photoHelp').textContent='Foto setelah tangan selesai. Pemenang: seluruh susunan tile. Pemain lain: hanya kelompok terbuka dan Kong tertutup yang sudah dideklarasikan; tile tertutup lainnya tidak dibuka.';}
 function pick(camera){
  if(!allowed())return close();
  if(selectedPlayer()===null)return status('Pilih pemain yang akan difoto terlebih dahulu.');
- if(!el('photoConsent').checked)return status('Setujui pembacaan foto oleh AI terlebih dahulu.');
  const input=el(camera?'photoCamera':'photoGallery');input.value='';input.click();
 }
 async function compress(file){
@@ -40,8 +39,7 @@ async function selected(file){
 }
 async function analyze(){
  if(!current()||!draft.image)return status('Permainan berubah. Pilih foto ulang.');
- if(!el('photoConsent').checked)return status('Setujui pengiriman foto untuk pembacaan AI.');
- const version=epoch,target=draft;el('photoAnalyze').disabled=true;el('photoAnalyze').hidden=true;status('Membaca tile…');aborter=new AbortController();const timeout=setTimeout(()=>aborter?.abort(),55000);
+ const version=epoch,target=draft;el('photoAnalyze').disabled=true;el('photoAnalyze').hidden=true;status('Membaca tile… proses dapat memerlukan hingga 60 detik.');aborter=new AbortController();const timeout=setTimeout(()=>aborter?.abort(),75000);
  try{
   const response=await fetch(window.MAHJONG_SUPABASE_URL+'/functions/v1/mahjong-photo-tiles',{method:'POST',headers:{'Content-Type':'application/json',apikey:window.MAHJONG_SUPABASE_ANON_KEY,Authorization:'Bearer '+mahjongSession.access_token},body:JSON.stringify({mimeType:'image/jpeg',image:target.image.split(',')[1],playerType:winner===null?'unassigned':target.player===winner?'winner':'nonwinner'}),signal:aborter.signal});
   const result=await response.json();if(version!==epoch||!current()||draft!==target)return;
@@ -94,7 +92,7 @@ function sync(){const button=el('photoScoreButton');if(button)button.hidden=!mah
 function init(){
  const style=node('style');style.textContent='#photoScoreButton[hidden]{display:none!important}#photoScoreModal .modal{max-width:700px;max-height:90dvh;overflow:auto}#photoScoreModal img{object-fit:contain}#photoPreview{max-width:100%;max-height:240px}#photoScoreModal .photo-observed-group{border:1px solid #c8c5b8;border-radius:10px;margin:12px 0;padding:10px}#photoScoreModal select{margin:4px 0;min-height:44px}#photoScoreModal label{display:block;margin:12px 0;line-height:1.5}#photoScoreModal input[type=checkbox]{width:20px;height:20px;vertical-align:middle}.photo-tiles{display:flex;flex-wrap:wrap;gap:6px}.photo-tiles>div{width:70px;max-width:100%;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}.photo-tiles img{height:60px;max-width:50px}.photo-tiles select{font-size:12px;padding:4px}#photoStatus{white-space:pre-wrap;overflow-wrap:anywhere}';document.head.append(style);
  const button=node('button','📷 Foto Tile (Uji)');button.id='photoScoreButton';button.type='button';button.className='btn light';button.hidden=true;button.onclick=open;el('winnerStatus').parentElement.append(button);
- const overlay=node('div');overlay.className='overlay';overlay.id='photoScoreModal';overlay.innerHTML='<div class="modal" role="dialog" aria-modal="true" aria-labelledby="photoTitle"><div class="transfer-modal-head"><h3 id="photoTitle">Foto Tile — Uji Administrator</h3><button type="button" class="modal-x" id="photoClose" aria-label="Tutup Foto Tile">✕</button></div><label>Pemain yang difoto<select id="photoPlayer"></select></label><p id="photoHelp"></p><input id="photoCamera" type="file" accept="image/*" capture="environment" hidden><input id="photoGallery" type="file" accept="image/*" hidden><p><img id="photoPreview" alt="Foto tile yang akan dibaca" hidden></p><label><input type="checkbox" id="photoConsent"> Saya setuju foto ini dikirim ke layanan AI Google untuk dibaca. Hindari wajah dan informasi pribadi. Aplikasi tidak menyimpan foto ke riwayat.</label><button type="button" class="btn gold" id="photoTake">Ambil Foto</button> <button type="button" class="btn light" id="photoChoose">Pilih dari Galeri</button><button type="button" class="btn light" id="photoAnalyze" disabled hidden>Baca Ulang</button><p id="photoStatus" role="status" aria-live="polite"></p><div id="photoResult" hidden><div id="photoGroups"></div><div id="photoSuggestions"></div><label><input type="checkbox" id="photoReviewed"> Tangan sudah selesai dan hasil sudah saya periksa. Kong tertutup yang dihitung sudah dideklarasikan saat bermain.</label><button type="button" class="btn gold" id="photoApply" disabled>Gunakan Hasil Foto</button></div></div>';
+ const overlay=node('div');overlay.className='overlay';overlay.id='photoScoreModal';overlay.innerHTML='<div class="modal" role="dialog" aria-modal="true" aria-labelledby="photoTitle"><div class="transfer-modal-head"><h3 id="photoTitle">Foto Tile — Uji Administrator</h3><button type="button" class="modal-x" id="photoClose" aria-label="Tutup Foto Tile">✕</button></div><label>Pemain yang difoto<select id="photoPlayer"></select></label><p id="photoHelp"></p><input id="photoCamera" type="file" accept="image/*" capture="environment" hidden><input id="photoGallery" type="file" accept="image/*" hidden><p><img id="photoPreview" alt="Foto tile yang akan dibaca" hidden></p><p>Foto otomatis dibaca oleh AI Google dan tidak disimpan ke riwayat aplikasi.</p><button type="button" class="btn gold" id="photoTake">Ambil Foto</button> <button type="button" class="btn light" id="photoChoose">Pilih dari Galeri</button><button type="button" class="btn light" id="photoAnalyze" disabled hidden>Baca Ulang</button><p id="photoStatus" role="status" aria-live="polite"></p><div id="photoResult" hidden><div id="photoGroups"></div><div id="photoSuggestions"></div><label><input type="checkbox" id="photoReviewed"> Tangan sudah selesai dan hasil sudah saya periksa. Kong tertutup yang dihitung sudah dideklarasikan saat bermain.</label><button type="button" class="btn gold" id="photoApply" disabled>Gunakan Hasil Foto</button></div></div>';
  document.body.append(overlay);el('photoClose').onclick=close;el('photoTake').onclick=()=>pick(true);el('photoChoose').onclick=()=>pick(false);el('photoCamera').onchange=e=>selected(e.target.files[0]);el('photoGallery').onchange=e=>selected(e.target.files[0]);el('photoAnalyze').onclick=analyze;el('photoApply').onclick=apply;el('photoReviewed').onchange=refreshSuggestions;el('photoPlayer').onchange=()=>{invalidate();help();status('Pemain dipilih. Ambil foto untuk dianalisis otomatis.');};overlay.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
  window.mahjongPhotoSessionChanged=()=>{close();sync();};sync();setInterval(sync,1000);
 }
