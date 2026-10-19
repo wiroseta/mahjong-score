@@ -8,21 +8,21 @@ Pengguna biasa mengambil atau memilih foto dan langsung menerima kartu hasil til
 
 Validasi: 699 tes Node lulus; uji hak akses database nyata lulus dan seluruh data uji di-rollback. Alur panel administrator juga diuji pada simulasi browser selebar ponsel. Skema tambahan: supabase/photo_reader_examples.sql.
 
-## Pembaca foto lokal — v15.8.1 r13 (19 Oktober 2026)
+## Pembaca foto lokal — v15.9 r13 (19 Oktober 2026)
 
 Tombol **Baca Foto Lokal** membuka pembaca foto di perangkat dengan potongan gambar per tile, koreksi jenis, pemeriksaan bingkai/kelengkapan, dan ekspor label. Foto tidak diunggah. Model/runtime awal sekitar 21 MB. Hasil tetap perlu diperiksa; skor dicatat melalui formulir utama. Lihat [petunjuk](tile-reader/README.md) dan [sumber/lisensi](tile-reader/NOTICE.md). Foto dan label pengguna tidak disertakan dalam rilis publik. Tidak ada migrasi database atau perubahan layanan AI.
 
-# Mahjong Score 4P PWA — v15.8.1
+# Mahjong Score 4P PWA — v15.9
 
-**Versi rilis: v15.8.1** (18 Oktober 2026).
+**Versi rilis: v15.9** (18 Oktober 2026).
 
-- Tambahan aturan Fan/Chicken Hand dan pencatatan denda False Hu (-3/+1/+1/+1), koreksi pelanggar, pembatalan dengan audit, serta penjagaan nomor tangan/dealer dan riwayat.
+- Tambahan aturan Fan/Chicken Hand dan pencatatan denda False Chicken Hand (-3/+1/+1/+1), koreksi pelanggar, pembatalan dengan audit, serta penjagaan nomor tangan/dealer dan riwayat.
 - Perbaikan ekspor PDF: ID objek halaman unik dan referensi daftar 22 kombinasi yang benar.
 - Label login, judul, About, diagnostik, PDF, manifest, dan cache PWA diselaraskan. Rilis ini berlaku pada aplikasi utama; Cloud Trial dipertahankan pada baseline v15.8.
 - Cache service worker dibatasi pada aset aplikasi publik; permintaan Supabase, non-GET, dan URL bertoken tidak disimpan di cache aplikasi.
 - Tidak ada migrasi SQL atau redeploy Edge Function. Jangan menjalankan SQL arsip sebagai migrasi.
 
-**Validasi:** 641 pengujian Node PASS / 0 FAIL; pencatatan, koreksi, pembatalan False Hu dan persistensi reload dibuktikan pada Supabase live menggunakan permainan yang dinyatakan pengguna sebagai percobaan. Skor awal dipulihkan setelah uji; audit pembatalan tetap disimpan. Sesi writer lama ditolak tanpa perubahan revisi. Hasil pemeriksaan perangkat dan deployment dicatat terpisah, tanpa menganggap mock/static test sebagai bukti perangkat nyata.
+**Validasi historis rilis sebelumnya:** 641 pengujian Node PASS / 0 FAIL; pencatatan, koreksi, pembatalan False Chicken Hand dan persistensi reload dibuktikan pada Supabase live menggunakan permainan yang dinyatakan pengguna sebagai percobaan. Skor awal dipulihkan setelah uji; audit pembatalan tetap disimpan. Sesi writer lama ditolak tanpa perubahan revisi. Hasil pemeriksaan perangkat dan deployment dicatat terpisah, tanpa menganggap mock/static test sebagai bukti perangkat nyata.
 
 **Rollback source:** commit baseline `13c13613c0176ad982df0c346a593a390b6bad69` (v15.8). Rollback source tidak menghapus transaksi/audit permainan di Supabase.
 
@@ -791,3 +791,7 @@ Pembaca foto lokal menerima susunan pemenang 4 atau 5 kelompok dan satu pasangan
 - Penerimaan QR/file menunggu login dan hak tulis cloud, menyimpan data tertunda dalam sessionStorage, meminta konfirmasi, membuat cadangan, dan membatalkan perubahan jika save gagal. Fungsi riwayat skor diganti namanya agar tidak menimpa window.history.
 - QR dipindai lokal dengan jsQR 1.4.0; gambar, kamera langsung, dan input capture environment didukung. Pako 2.1.0 menangani gzip tanpa bergantung pada CompressionStream browser. Stream kamera dihentikan saat pemindai ditutup, halaman disembunyikan, atau hasil ditemukan. Tidak ada gambar QR yang diunggah.
 - Batas: satu QR memiliki kapasitas terbatas; permainan dengan riwayat sangat panjang dapat dipindah melalui file. Pengujian mencakup 751 kasus, kamera simulasi, serta UI penerimaan QR/file di jendela lokal terisolasi. Face ID/sidik jari fisik perlu didaftarkan dan digunakan sendiri oleh pemilik perangkat.
+
+## Rilis saat ini: 15.9
+
+Lihat [catatan rilis 15.9](RELEASE_v15.9.md). Pilihan tema tersimpan di perangkat; istilah penalti pada tampilan menjadi False Chicken Hand.

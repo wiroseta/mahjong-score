@@ -1,3 +1,9 @@
+# 15.9
+
+Istilah False Chicken Hand mencakup deklarasi HU maupun Zi Mo yang belum memenuhi syarat fan.
+
+Lihat [catatan rilis 15.9](RELEASE_v15.9.md) untuk tema, perbaikan menu, pembaca foto, dan akses False Chicken Hand.
+
 ## v15.8 — Stage 284 repository cleanup and unified version (2026-10-15)
 
 - Versi aktif aplikasi: **v15.8** (UI utama dan Cloud Trial, About, voice diagnostic, manifest, service-worker cache).

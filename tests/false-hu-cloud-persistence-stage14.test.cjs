@@ -4,7 +4,7 @@ const fs=require('node:fs');
 const path=require('node:path');
 const html=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');
 function section(from,to){const a=html.indexOf('function '+from+'(');const b=html.indexOf('function '+to+'(',a+1);assert.ok(a>=0&&b>a);return html.slice(a,b)}
-test('False Hu correction persists through common save and rolls back state on save refusal',()=>{
+test('False Chicken Hand correction persists through common save and rolls back state on save refusal',()=>{
  const code=section('applyFalseHuCorrection','saveFalseHuCorrection');
  assert.match(code,/if\(!save\(\)\)\{s=JSON\.parse\(snapshot\)/);
  assert.match(code,/if\(!save\(\)\)[\s\S]*return false/);

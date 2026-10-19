@@ -6,8 +6,8 @@ The user authorized deployment to the existing GitHub Pages application and iden
 
 ## Changes
 
-- Fan/Chicken Hand rules and False Hu penalty recording, correction and cancellation audit.
-- Preserve hand counts, dealer/round and unrelated transactions when correcting False Hu.
+- Fan/Chicken Hand rules and False Chicken Hand penalty recording, correction and cancellation audit.
+- Preserve hand counts, dealer/round and unrelated transactions when correcting False Chicken Hand.
 - Fix PDF page-object allocation and the undefined combination-list reference; PDF uses all 22 combinations.
 - Align main application version labels, diagnostics, manifest and PWA cache to v15.8.1. Cloud Trial remains at the prior baseline and is not part of this deployment.
 - Cache only allowlisted same-origin public assets; bypass Supabase, non-GET, unknown paths and query-string requests. A failed HTTP response cannot overwrite a valid offline asset.
@@ -19,7 +19,7 @@ The user authorized deployment to the existing GitHub Pages application and iden
 - Main application inline JavaScript and service-worker syntax parsed successfully.
 - Rules PDF: 2 A4 pages; combinations PDF: 5 A4 pages. Browser-generated files parsed strictly and all pages rendered/visually inspected in the preceding checkpoint.
 - Authenticated local candidate adopted the existing test game from live Supabase.
-- False Hu recording persisted at cloud revision 13 and survived a reload.
+- False Chicken Hand recording persisted at cloud revision 13 and survived a reload.
 - Changing the offender persisted at revision 14, including the correction audit, and survived a reload.
 - Cancelling the test penalty persisted at revision 15. The original scores and two original hand entries were restored; the cancellation audit was retained. Dealer and round remained unchanged.
 - A write attempted from the displaced older admin browser session was rejected. Cloud revision remained 15 and no hand was added.
