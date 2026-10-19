@@ -1,5 +1,5 @@
-const CACHE="mahjong-score-v15-8-1-r19";
-const ASSETS=["./","./index.html","./js/auth-config.js","./js/sync-device-id.js","./js/sync-app-bridge.js","./js/sync-supabase-adapter.js","./js/sync-engine.js","./js/qrcode-local.js","./js/ai-diagnostic.js","./js/photo-rules.js?v=r18","./js/photo-score.js?v=r16","./js/photo-local-rules.js?v=r18","./js/photo-local-score.js?v=r18","./js/voice-parser.js","./manifest.webmanifest","./icon-192.png","./icon-512.png"];
+const CACHE="mahjong-score-v15-8-1-r21";
+const ASSETS=["./","./index.html","./js/auth-config.js","./js/sync-device-id.js","./js/sync-app-bridge.js","./js/sync-supabase-adapter.js","./js/sync-engine.js","./js/qrcode-local.js","./js/ai-diagnostic.js","./js/photo-rules.js?v=r18","./js/photo-score.js?v=r16","./js/photo-local-rules.js?v=r18","./js/photo-local-score.js?v=r21","./js/voice-parser.js","./manifest.webmanifest","./icon-192.png","./icon-512.png"];
 const ASSET_PATHS=new Set(ASSETS.map(path=>new URL(path,self.location.href).pathname));
 self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));
 self.addEventListener("activate",e=>e.waitUntil(Promise.all([caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('mahjong-score-v')&&k!==CACHE).map(k=>caches.delete(k)))),self.clients.claim()])));
