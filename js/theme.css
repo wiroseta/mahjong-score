@@ -34,3 +34,6 @@ html[data-theme] #scorePanel #winnerStatus :is(.winner-next,#winnerText){color:v
 html[data-theme] #scorePanel .muted{color:var(--ui-muted)!important;opacity:1!important}
 html[data-theme] #scorePanel .quad-limit-note{color:var(--ui-hint)!important}
 html[data-theme] .menu-hongzhong{color:var(--ui-text)!important}
+/* Player cards keep their ivory faces in both themes. */
+html[data-theme] .table .player{color:#202a24!important}
+html[data-theme] body{color:var(--ui-text)}
