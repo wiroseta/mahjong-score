@@ -1,3 +1,7 @@
+## Current location — 19 October 2026
+
+The legacy **Foto Tile (Uji)** Gemini pilot is retained for administrator use and is located in the hamburger menu directly below **Setting**. It is hidden for ordinary accounts and its existing administrator checks remain in place. The camera-only shortcut in the main form opens the local reader; the legacy pilot no longer appears beside that shortcut.
+
 # Foto Tile — administrator pilot
 
 One photo belongs to one selected player after the hand ends. The application never determines a winner from the photo and never saves a score automatically.
