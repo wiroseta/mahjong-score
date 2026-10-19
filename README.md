@@ -781,3 +781,5 @@ Stage 17 Step 27: see IMPLEMENTATION_STATE.md. Cloud Sync OFF; DO NOT DEPLOY.
 
 
 Stage 17 Step 31: Historical stage notes consolidated into CHANGELOG.md. SQL archive is encoded as comments for safety and is NOT an executable migration. Test-referenced legacy SQL remains temporarily. See IMPLEMENTATION_STATE.md.
+
+Pembaca foto lokal menerima susunan pemenang 4 atau 5 kelompok dan satu pasangan (termasuk susunan 17 tile tanpa Kong). Jumlah tile saja tidak menentukan jumlah Kong; pengelompokan harus valid dan jumlah Kong tidak ambigu. Koreksi administrator langsung memperbarui label tampilan dan usulan skor; tombol penggunaan dinonaktifkan bila hasil belum valid.

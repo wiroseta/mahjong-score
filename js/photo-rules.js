@@ -31,13 +31,14 @@ function validGroup(g){
  return t.length===(g.kind==='kong'?4:3)&&t.every(x=>x===t[0]);
 }
 function eligible(g,isWinner){return isWinner||g.exposure==='open'||(g.kind==='kong'&&g.exposure==='declared_concealed_kong');}
-function suggest(input,{isWinner,seat}){
+function suggest(input,{isWinner,seat,setCount=4}){
+ if(![4,5].includes(setCount))throw Error("Jumlah kelompok tidak didukung.");
  const data=validate(input),used=data.groups.filter(g=>eligible(g,isWinner));
  if(!used.length)throw Error('Tidak ada kelompok yang boleh dihitung untuk pemain ini.');
  if(used.some(g=>g.uncertain||g.kind==='loose'||g.tiles.includes('unknown')))throw Error('Pembacaan belum pasti atau ada tile yang belum dikelompokkan. Ambil foto lebih jelas atau gunakan pencatatan manual.');
  if(used.some(g=>!validGroup(g)))throw Error('Susunan kelompok belum sesuai. Ambil foto ulang atau gunakan pencatatan manual.');
  const scoring=used.filter(g=>g.kind!=='flower'),sets=scoring.filter(g=>['chow','pong','kong'].includes(g.kind)),pairs=scoring.filter(g=>g.kind==='pair');
- if(sets.length>4||scoring.reduce((n,g)=>n+g.tiles.length,0)>18)throw Error('Foto memuat terlalu banyak kelompok atau tile. Foto susunan satu pemain saja.');
+ if(sets.length>setCount||scoring.reduce((n,g)=>n+g.tiles.length,0)>setCount*4+2)throw Error('Foto memuat terlalu banyak kelompok atau tile. Foto susunan satu pemain saja.');
  const kongCount=sets.filter(g=>g.kind==='kong').length,candidates=[];
  const hasSet=t=>sets.some(g=>['pong','kong'].includes(g.kind)&&g.tiles[0]===t);
  if(hasSet(['east','south','west','north'][seat]))candidates.push('Set Mulia');
@@ -48,7 +49,7 @@ function suggest(input,{isWinner,seat}){
  if(windSets.length===4||(windSets.length===3&&pairs.some(g=>['east','south','west','north'].includes(g.tiles[0])&&!windSets.includes(g.tiles[0])&&g.tiles.every(x=>x===g.tiles[0]))))candidates.push('Topan (4 Angin Besar/Kecil)');
  if(kongCount===4)candidates.push('Quad Murni (4 Quad)');
  // Whole-hand patterns are only suggested for the declared winner and a full grouped hand.
- const full=isWinner&&sets.length===4&&pairs.length===1&&scoring.length===5;
+ const full=isWinner&&sets.length===setCount&&pairs.length===1&&scoring.length===setCount+1;
  const flat=scoring.flatMap(g=>g.tiles),numbered=t=>/^(char|dot|bam)[1-9]$/.test(t);
  if(full&&!flat.includes('red')){
   const suits=new Set(flat.filter(numbered).map(t=>t.slice(0,-1))),honors=flat.some(t=>!numbered(t));

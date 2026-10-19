@@ -7,17 +7,17 @@ function suggest(tiles,{isWinner,seat}){
  if(!Array.isArray(tiles)||!tiles.length||tiles.length>26||tiles.some(t=>!R.tiles.includes(t)||t==='unknown'))throw Error('Ada tile belum terbaca atau jumlahnya tidak sesuai. Periksa area dan ambil foto ulang.');
  const counts=new Map(),flowers=tiles.filter(t=>t==='flower');for(const t of tiles.filter(t=>t!=='flower')){counts.set(t,(counts.get(t)||0)+1);if(counts.get(t)>4)throw Error('Lebih dari empat tile sejenis. Foto hanya susunan satu pemain.');}
  const size=[...counts.values()].reduce((a,b)=>a+b,0),keys=[...counts.keys()].sort(),results=[],seen=new Set();let work=0;
- const add=groups=>{const key=groups.map(g=>g.kind+':'+g.tiles.slice().sort().join(',')).sort().join('|');if(seen.has(key))return;seen.add(key);if(flowers.length)groups=groups.concat({kind:'flower',tiles:flowers,exposure:'open'});results.push(R.suggest({groups},{isWinner,seat}));};
+ const add=groups=>{const key=groups.map(g=>g.kind+':'+g.tiles.slice().sort().join(',')).sort().join('|');if(seen.has(key))return;seen.add(key);if(flowers.length)groups=groups.concat({kind:'flower',tiles:flowers,exposure:'open'});results.push(R.suggest({groups},{isWinner,seat,setCount:Math.max(4,groups.filter(g=>['chow','pong','kong'].includes(g.kind)).length)}));};
  function walk(groups,pair){
   if(++work>15000)throw Error('Susunan terlalu ambigu. Gunakan pencatatan manual untuk kombinasi ini.');
-  const sets=groups.filter(g=>g.kind!=='pair').length;if(sets>4)return;
-  const t=keys.find(k=>counts.get(k)>0);if(!t){if(isWinner?(sets===4&&pair):(sets>=1&&!pair))add(groups);return;}
+  const sets=groups.filter(g=>g.kind!=='pair').length;if(sets>5)return;
+  const t=keys.find(k=>counts.get(k)>0);if(!t){if(isWinner?([4,5].includes(sets)&&pair):(sets>=1&&!pair))add(groups);return;}
   if(isWinner&&size<14)return;
   const exposure=isWinner?'concealed':'open';
   const take=(kind,items)=>{const needed=new Map();items.forEach(x=>needed.set(x,(needed.get(x)||0)+1));if([...needed].some(([x,n])=>(counts.get(x)||0)<n))return;for(const [x,n] of needed)counts.set(x,counts.get(x)-n);walk(groups.concat({kind,tiles:items,exposure}),pair||kind==='pair');for(const [x,n] of needed)counts.set(x,counts.get(x)+n);};
   if(isWinner&&!pair&&counts.get(t)>=2)take('pair',[t,t]);
   if(isWinner&&!pair&&t!=='red'&&counts.get('red')>0)take('pair',[t,'red']);if(isWinner&&!pair&&t==='red')for(const k of keys)if(k!=='red'&&counts.get(k)>0)take('pair',['red',k]);
-  if(sets<4){if(counts.get(t)>=3)take('pong',[t,t,t]);if(counts.get(t)>=4)take('kong',[t,t,t,t]);
+  if(sets<5){if(counts.get(t)>=3)take('pong',[t,t,t]);if(counts.get(t)>=4)take('kong',[t,t,t,t]);
    if(numbered(t)){const suit=t.slice(0,-1),n=+t.slice(-1);for(let start=Math.max(1,n-2);start<=Math.min(n,7);start++){
     const sequence=[start,start+1,start+2].map(v=>suit+v);let missing=0;const items=sequence.map(x=>counts.get(x)>0?x:(missing++,'red'));
     if(sequence.filter(x=>x===t).length&&(!missing||(isWinner&&missing<=counts.get('red'))))take('chow',items);
@@ -31,8 +31,8 @@ function suggest(tiles,{isWinner,seat}){
   if(terminals.every(t=>counts.has(t))&&keys.every(t=>terminals.includes(t)))return {kongCount:0,candidates:['13 Rakyat'],complete:true,alternatives:1,groups:[]};
  }
  walk([],false);
- if(!results.length)throw Error(isWinner?'Susunan belum membentuk empat kelompok dan satu pasangan. Foto seluruh susunan pemenang dengan jelas.':'Foto pemain bukan pemenang hanya kelompok terbuka dan Kong tertutup yang sudah dideklarasikan. Susunan ini belum dapat dihitung.');
- const q=new Set(results.map(r=>r.kongCount));if(q.size!==1)throw Error('Jumlah Kong masih ambigu. Periksa susunan atau isi Kong secara manual.');
+ if(!results.length)throw Error(isWinner?'Susunan belum membentuk 4 atau 5 kelompok dan satu pasangan. Periksa koreksi jenis tile dan kelengkapan seluruh foto pemenang.':'Foto pemain bukan pemenang hanya kelompok terbuka dan Kong tertutup yang sudah dideklarasikan. Susunan ini belum dapat dihitung.');
+ const q=new Set(results.map(r=>r.kongCount));if(q.size!==1||[...q][0]>4)throw Error('Jumlah Kong masih ambigu. Periksa susunan atau isi Kong secara manual.');
  // Only combinations supported by every legal decomposition may fill the form.
  for(const r of results){if(!isWinner||!r.complete||tiles.includes('red'))continue;const sets=r.groups.filter(g=>['chow','pong','kong'].includes(g.kind)),pairs=r.groups.filter(g=>g.kind==='pair'),flat=r.groups.flatMap(g=>g.tiles).filter(t=>t!=='flower'),chows=sets.filter(g=>g.kind==='chow').map(g=>g.tiles.slice().sort());
   if(sets.every(g=>g.kind==='chow')&&flat.every(numbered))r.candidates.push('Urutan Murni (Pinhu)');
