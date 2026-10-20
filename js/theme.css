@@ -37,3 +37,36 @@ html[data-theme] .menu-hongzhong{color:var(--ui-text)!important}
 /* Player cards keep their ivory faces in both themes. */
 html[data-theme] .table .player{color:#202a24!important}
 html[data-theme] body{color:var(--ui-text)}
+
+/* v15.9 r6 — approved Quad and player-card layouts. */
+html[data-theme="dark"] .quad-control>.quad-step,
+html[data-theme="dark"] .quad-control>input.quad-value{
+ background:transparent!important;color:#f5f7f3!important;-webkit-text-fill-color:#f5f7f3!important;
+ border:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important
+}
+@media(max-width:600px){html[data-theme="dark"] .quad-wheel-guide{border-top:1px solid rgba(255,255,255,.8)!important;border-bottom:1px solid rgba(255,255,255,.8)!important}}
+.player:has(.player-photo[hidden]) .handwins{padding-left:0!important;padding-right:0!important;text-align:center!important;justify-content:center!important;width:100%;box-sizing:border-box}
+.about-licenses{font-size:11px;line-height:1.5;margin-top:22px;padding-top:12px;border-top:1px solid var(--ui-line)}
+.about-licenses p{margin:4px 0}
+/* Every dialog separates the full-width fixed header from its scrolling body. */
+html[data-theme] :is(#settings,#userManagement,#userDetail,#aboutProgram,#aiDiagnostic,#voiceDiagnostic,#rolePicker,#historyModal,#recapModal,.overlay)>.modal.unified-modal{
+ display:flex!important;flex-direction:column!important;padding:0!important;overflow:hidden!important;
+ max-height:calc(92dvh - 16px)!important;scrollbar-gutter:auto!important;box-sizing:border-box!important;
+ background:var(--ui-bg)!important;color:var(--ui-text)!important
+}
+html[data-theme] :is(#settings,#userManagement,#userDetail,#aboutProgram,#aiDiagnostic,#voiceDiagnostic,#rolePicker,#historyModal,#recapModal,.overlay)>.modal.unified-modal>.unified-modal-head{
+ position:relative!important;top:auto!important;flex:0 0 auto!important;align-self:stretch!important;
+ display:flex!important;align-items:center!important;justify-content:space-between!important;
+ width:100%!important;box-sizing:border-box!important;margin:0!important;padding:16px 18px!important;
+ gap:12px!important;border-radius:0!important;background:var(--ui-head)!important;color:#fff!important;
+ border-bottom:1px solid var(--ui-line)!important;box-shadow:none!important
+}
+html[data-theme] :is(#settings,#userManagement,#userDetail,#aboutProgram,#aiDiagnostic,#voiceDiagnostic,#rolePicker,#historyModal,#recapModal,.overlay)>.modal.unified-modal>.unified-modal-head :is(h2,h3){margin:0!important;color:#fff!important;font-size:clamp(19px,3.5vw,27px)!important;line-height:1.2!important;min-width:0;overflow-wrap:anywhere}
+html[data-theme] :is(#settings,#userManagement,#userDetail,#aboutProgram,#aiDiagnostic,#voiceDiagnostic,#rolePicker,#historyModal,#recapModal,.overlay)>.modal.unified-modal>.unified-modal-head>:is(.modal-x,.rules-x,.guide-x){flex:0 0 38px!important;min-width:38px!important;height:38px!important;margin:0!important;color:#fff!important}
+html[data-theme] :is(#settings,#userManagement,#userDetail,#aboutProgram,#aiDiagnostic,#voiceDiagnostic,#rolePicker,#historyModal,#recapModal,.overlay)>.modal.unified-modal>.modal-scroll-body{
+ min-height:0!important;flex:0 1 auto!important;overflow:auto!important;overscroll-behavior:contain;
+ -webkit-overflow-scrolling:touch;padding:14px 18px 18px!important;box-sizing:border-box!important;
+ width:100%!important;margin:0!important;scrollbar-gutter:stable both-edges
+}
+html[data-theme] #aboutProgram .unified-modal .about-scroll-body{overflow:visible!important;max-height:none!important;padding:0!important}
+@media(max-width:600px){html[data-theme] :is(#settings,#userManagement,#userDetail,#aboutProgram,#aiDiagnostic,#voiceDiagnostic,#rolePicker,#historyModal,#recapModal,.overlay)>.modal.unified-modal>.unified-modal-head{padding:13px 12px!important}html[data-theme] :is(#settings,#userManagement,#userDetail,#aboutProgram,#aiDiagnostic,#voiceDiagnostic,#rolePicker,#historyModal,#recapModal,.overlay)>.modal.unified-modal>.modal-scroll-body{padding:12px!important}}

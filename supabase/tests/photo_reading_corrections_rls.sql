@@ -1,0 +1,33 @@
+begin;
+do $$begin
+ perform set_config('photo_test.hash',md5(gen_random_uuid()::text)||md5(gen_random_uuid()::text),true);
+ perform set_config('photo_test.batch',gen_random_uuid()::text,true);
+ perform set_config('photo_test.admin',(select id::text from auth.users where raw_app_meta_data->>'role'='admin' and deleted_at is null limit 1),true);
+ if public.mahjong_valid_photo_correction('[{"tile":"east"}]',100,100) then raise exception 'missing box accepted';end if;
+ if public.mahjong_valid_photo_correction('[{"tile":"east","box":[0,0,"bad",20]}]',100,100) then raise exception 'bad box accepted';end if;
+ if public.mahjong_valid_photo_correction('[{"tile":"east","box":[0,0,101,20]}]',100,100) then raise exception 'out of bounds accepted';end if;
+end$$;
+insert into public.mahjong_photo_corrections(image_sha256,pipeline,batch_id,width,height,annotations) values(current_setting('photo_test.hash'),'mahjong-local-v2',current_setting('photo_test.batch')::uuid,100,100,'[{"tile":"east","box":[0,0,20,30]}]');
+set local role anon;
+do $$begin begin perform 1 from public.mahjong_photo_corrections;raise exception 'anon read allowed';exception when insufficient_privilege then null;end;end$$;
+reset role;
+do $$begin perform set_config('request.jwt.claims','{"sub":"00000000-0000-0000-0000-000000000001","role":"authenticated","app_metadata":{"role":"admin"}}',true);end$$;
+set local role authenticated;
+do $$declare n integer;begin
+ select count(*) into n from public.mahjong_photo_corrections where image_sha256=current_setting('photo_test.hash');if n<>0 then raise exception 'member read draft';end if;
+ begin perform public.mahjong_set_photo_batch_active(current_setting('photo_test.batch')::uuid,true);raise exception 'spoofed admin accepted';exception when insufficient_privilege then null;end;
+ update public.mahjong_photo_corrections set active=true where image_sha256=current_setting('photo_test.hash');get diagnostics n=row_count;if n<>0 then raise exception 'member update allowed';end if;
+ begin insert into public.mahjong_photo_corrections(image_sha256,pipeline,batch_id,width,height,annotations) values(repeat('f',64),'mahjong-local-v2',gen_random_uuid(),100,100,'[{"tile":"east","box":[0,0,20,30]}]');raise exception 'member insert allowed';exception when insufficient_privilege then null;end;
+end$$;
+reset role;
+do $$begin perform set_config('request.jwt.claims',json_build_object('sub',current_setting('photo_test.admin'),'role','authenticated')::text,true);end$$;
+set local role authenticated;
+select public.mahjong_set_photo_batch_active(current_setting('photo_test.batch')::uuid,true);
+do $$declare n integer;begin select count(*) into n from public.mahjong_photo_corrections where image_sha256=current_setting('photo_test.hash') and active;if n<>1 then raise exception 'admin activation failed';end if;end$$;
+reset role;
+do $$begin perform set_config('request.jwt.claims','{"sub":"00000000-0000-0000-0000-000000000001","role":"authenticated"}',true);end$$;
+set local role authenticated;
+do $$declare n integer;begin select count(*) into n from public.mahjong_photo_corrections where image_sha256=current_setting('photo_test.hash');if n<>1 then raise exception 'member active read failed';end if;end$$;
+reset role;
+rollback;
+select 'complete photo correction RLS tests passed; fixtures rolled back' as result;

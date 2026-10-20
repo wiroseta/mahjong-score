@@ -37,6 +37,13 @@ function foreground(items,width,height){
  if((box[2]-box[0])*(box[3]-box[1])>width*height*.85)return null;
  return {box,ambiguous:candidates.length>1&&candidates[1].score>candidates[0].score*.75,seedCount:row.length};
 }
+// A single player's photograph can contain several rows. Never drop a detected row.
+function coverage(items,width,height){
+ const valid=items.filter(i=>Array.isArray(i.box)&&i.box.length===4&&i.box.every(Number.isFinite)&&i.box[2]>i.box[0]&&i.box[3]>i.box[1]);if(!valid.length)return null;
+ const pad=median(valid.map(i=>i.box[3]-i.box[1]))*.3;
+ const box=[Math.max(0,Math.floor(Math.min(...valid.map(i=>i.box[0]))-pad)),Math.max(0,Math.floor(Math.min(...valid.map(i=>i.box[1]))-pad)),Math.min(width,Math.ceil(Math.max(...valid.map(i=>i.box[2]))+pad)),Math.min(height,Math.ceil(Math.max(...valid.map(i=>i.box[3]))+pad))];
+ return (box[2]-box[0])*(box[3]-box[1])<width*height*.9?box:null;
+}
 function readingOrder(items){
  const rows=[];
  // Group by vertical centers before sorting horizontally; do not interleave rows by x.
@@ -55,5 +62,5 @@ function evaluate(items,reference,minIOU=.25){
  for(const edge of edges.sort((a,b)=>b.iou-a.iou)){if(seenItems.has(edge.i)||seenReference.has(edge.j))continue;seenItems.add(edge.i);seenReference.add(edge.j);matches.push({...edge,correct:items[edge.i].tile===reference[edge.j].tile});}
  return {expected:reference.length,detected:items.length,correct:matches.filter(m=>m.correct).length,wrong:matches.filter(m=>!m.correct).length,missed:reference.length-seenReference.size,extra:items.length-seenItems.size,matches};
 }
-const api={classes,tileKey,overlap,decode,foreground,readingOrder,evaluate};if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.LocalTileDetector=api;
+const api={classes,tileKey,overlap,decode,foreground,coverage,readingOrder,evaluate};if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.LocalTileDetector=api;
 })(globalThis);

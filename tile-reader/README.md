@@ -8,7 +8,7 @@ Standalone reader use remains available for recognition and administrator correc
 
 # Pembaca Foto Mahjong — r14
 
-Ordinary readers take/select a photo and receive tile cards automatically. Correction selectors, review checkboxes and JSON export are inside the administrator panel only. Existing Mahjong Score login is reused; the current administrator role is checked through Auth getUser and database writes are protected by RLS using the existing current-user admin helper. No credentials are added to the reader.
+Ordinary readers take/select a photo and receive a score suggestion in the game modal. Tile cards and detection details are shown only to administrators. Correction selectors, review checkboxes and JSON export are inside the administrator panel only. Existing Mahjong Score login is reused; the current administrator role is checked through Auth getUser and database writes are protected by RLS using the existing current-user admin helper. No credentials are added to the reader.
 
 Administrator workflow on a phone: open Perbaikan pembacaan, correct tile labels and review boxes/coverage, then Simpan contoh perbaikan. Saved descriptors are drafts until Aktifkan is pressed. Nonaktifkan reverses their use. Only signed-in users can read active references; unauthenticated readers retain the base local model. Original photos, names, account IDs and original-image hashes are not stored in the examples table. Tile descriptors and labels are shared with signed-in readers on activation.
 
@@ -19,3 +19,12 @@ The new schema is in supabase/photo_reader_examples.sql; access checks are in su
 Local preview fixtures in tmp/photo-reader-preview are deliberately excluded from release. Base runtime assets and model are unchanged. Sources and licenses remain in NOTICE.md. The base model and runtime assets are unchanged from r13.
 
 Administrator dapat menekan **Tambah kotak tile** setelah membaca foto, lalu menarik kotak atau mengetuk dua sudut tile yang terlewat. Pilih label pada bagian Perbaikan pembacaan. Kotak manual tidak menebak jenis tile; hasil belum dapat digunakan sampai label valid dipilih. Label lain yang telah dikoreksi dipertahankan. Pemeriksaan bingkai dan kelengkapan harus diulang. Membaca ulang foto mengganti hasil manual dengan deteksi baru.
+
+
+## Konsistensi pembacaan — v15.9 r6
+
+Setiap pembacaan memperbarui referensi aktif (semua halaman, bukan hanya 600 contoh). Kegagalan jaringan dilaporkan ke ringkasan poin, tidak ditelan diam-diam. Foto yang sama mengikuti strategi area otomatis yang sama ketika dibaca ulang. Dua crop dibandingkan; hasil berbeda/kurang jelas diberi status perlu konfirmasi. Kamera langsung dapat mengambil tiga gambar lokal dan memerlukan dua susunan yang sama. Tidak ada pelatihan ulang ONNX atau jaminan akurasi 100%.
+
+Simpan contoh perbaikan juga menyimpan SHA-256 berkas dan koreksi lengkap label/kotak/area. Tidak menyimpan foto, nama berkas, nama pemain, atau ID pemilik. Draf/aktivasi memakai hak administrator di server; anggota hanya dapat membaca koreksi aktif. Aktivasi contoh dan koreksi satu batch transaksional. Foto yang sama memakai koreksi aktif tersebut sebelum inferensi. Foto baru tetap memerlukan model dan validasi aturan. Perubahan konteks pemain/pemenang/angin tetap dihitung ulang oleh aplikasi induk; hasil poin tidak di-cache.
+
+Schema tambahan: supabase/photo_reading_corrections.sql. RLS diverifikasi dengan fixture yang di-rollback. Antrean unggah foto otomatis tidak diaktifkan dalam r6. Lihat NOTICE.md untuk status izin model yang belum terselesaikan.
