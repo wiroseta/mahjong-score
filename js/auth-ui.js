@@ -4,8 +4,8 @@
 const digits=value=>String(value||'').replace(/[^0-9]/g,'').slice(0,4);
 function distribute(values,start,text){const next=values.slice(),input=digits(text);for(let i=0;i<input.length&&start+i<4;i++)next[start+i]=input[i];return next;}
 const api={digits,distribute};if(typeof module!=='undefined'&&module.exports){module.exports=api;return;}
-const boxes=[0,1,2,3].map(i=>document.getElementById('loginPin'+i)),hidden=document.getElementById('loginPassword');
-let pinAttempt=0,pinAttempted=-1,pinPending=false;
+const pin=document.getElementById('loginPin0'),cells=[0,1,2,3].map(i=>document.getElementById('loginPinCell'+i)),hidden=document.getElementById('loginPassword');
+let pinAttempt=0,pinAttempted=-1,pinPending=false,composing=false;
 const username=document.getElementById('loginUsername');
 async function autoLogin(){
  if(pinPending||mahjongSession?.user||!username?.value.trim()||!/^\d{4}$/.test(hidden.value)||pinAttempted===pinAttempt)return;
@@ -14,9 +14,15 @@ async function autoLogin(){
 }
 function edited(){pinAttempt++;autoLogin();}
 username?.addEventListener('input',edited);
-function sync(){hidden.value=boxes.map(x=>x.value).join('');}
-function fill(index,text){const values=distribute(boxes.map(x=>x.value),index,text);boxes.forEach((x,i)=>x.value=values[i]);sync();const next=Math.min(3,index+digits(text).length);boxes[next].focus();boxes[next].select();edited();}
-boxes.forEach((box,i)=>{box.addEventListener('focus',()=>box.select());box.addEventListener('input',()=>{const value=box.value;box.value='';if(digits(value))fill(i,value);else {sync();edited();}});box.addEventListener('paste',e=>{e.preventDefault();fill(i,e.clipboardData.getData('text'));});box.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!box.value&&i>0){e.preventDefault();boxes[i-1].value='';boxes[i-1].focus();sync();edited();}if(e.key==='ArrowLeft'&&i>0){e.preventDefault();boxes[i-1].focus();}if(e.key==='ArrowRight'&&i<3){e.preventDefault();boxes[i+1].focus();}});});
+function sync(){const value=digits(pin.value);hidden.value=value;cells.forEach((cell,i)=>{cell.textContent=i<value.length?'●':'';cell.classList.toggle('pin-active',document.activeElement===pin&&i===Math.min(value.length,3));});}
+function commit(){const value=digits(pin.value),changed=hidden.value!==value;if(pin.value!==value)pin.value=value;sync();if(changed)edited();}
+// One native input keeps the same Android IME connection for all four visual cells.
+pin.addEventListener('input',e=>{if(!composing&&!e?.isComposing)commit();});
+pin.addEventListener('compositionstart',()=>{composing=true;});
+pin.addEventListener('compositionend',()=>{composing=false;commit();});
+pin.addEventListener('focus',()=>{sync();});pin.addEventListener('blur',sync);
+pin.addEventListener('paste',e=>{e.preventDefault();pin.value=digits(e.clipboardData.getData('text'));commit();});
+pin.addEventListener('pointerup',()=>{const end=pin.value.length;pin.setSelectionRange?.(end,end);});
 const login=document.getElementById('passkeyLogin'),register=document.getElementById('passkeyRegister'),status=document.getElementById('passkeyStatus');let busy=false,available=false,passkeys=[],loadedUser=null,loadSequence=0;
 const setting=document.getElementById('passkeySetting');
 const supported=()=>!!(root.isSecureContext&&root.PublicKeyCredential&&navigator.credentials);
@@ -70,7 +76,7 @@ register.onchange=async()=>{
 root.mahjongRefreshPasskeys=loadPasskeys;
 function refresh(){
  const user=mahjongSession?.user?.id;
- if(user){boxes.forEach(x=>x.value='');sync();}
+ if(user&&pin.value){pin.value='';sync();}
  const auth=typeof mahjongSupabase!=='undefined'&&mahjongSupabase?.auth;
  login.hidden=!available||typeof auth?.signInWithPasskey!=='function';
  if(setting)setting.hidden=!user;
