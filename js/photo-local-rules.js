@@ -46,5 +46,15 @@ function suggest(tiles,{isWinner,seat}){
  const candidates=[...new Set(results[0].candidates)].filter(c=>results.every(r=>r.candidates.includes(c)));
  return {kongCount:[...q][0],candidates,complete:isWinner&&results.every(r=>r.complete),alternatives:results.length,groups:results[0].groups};
 }
-const api={suggest};if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.MahjongLocalPhotoRules=api;
+// Validate alternatives against the actual game context before choosing a score suggestion.
+function resolveReadings(views,context){
+ if(!Array.isArray(views)||!views.length||views.length>3)throw Error('Hasil pembacaan tidak valid.');
+ const valid=[];for(let index=0;index<views.length;index++){const view=views[index];if(!view||!Array.isArray(view.tiles)||view.tiles.length>26)continue;try{const result=suggest(view.tiles,context),confidence=Number.isFinite(view.confidence)?Math.max(0,Math.min(1,view.confidence)):null;valid.push({result,index,confidence,source:view.source});}catch{}}
+ if(!valid.length)throw Error('Susunan foto belum memenuhi aturan. Ambil foto ulang atau isi manual.');
+ valid.sort((a,b)=>(b.confidence??.75)-(a.confidence??.75)||a.index-b.index);const chosen=valid[0];
+ const signature=r=>JSON.stringify([r.kongCount,r.candidates.slice().sort()]);
+ const conflict=valid.some(v=>signature(v.result)!==signature(chosen.result));
+ return {...chosen,needsReview:conflict||(chosen.confidence!==null&&chosen.confidence<.65),reason:conflict?'score-conflict':chosen.confidence!==null&&chosen.confidence<.65?'low-confidence':'valid-score'};
+}
+const api={suggest,resolveReadings};if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.MahjongLocalPhotoRules=api;
 })(globalThis);

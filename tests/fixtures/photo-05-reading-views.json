@@ -1,0 +1,354 @@
+{
+  "description": "Actual local ONNX CPU outputs for a user-supplied 17-tile character example. Pixels are not included. Resampling in browser can differ.",
+  "expected": [
+    "char1",
+    "char2",
+    "char3",
+    "char2",
+    "char3",
+    "char4",
+    "char4",
+    "char5",
+    "char6",
+    "char6",
+    "char7",
+    "char8",
+    "char7",
+    "char8",
+    "char9",
+    "char5",
+    "char5"
+  ],
+  "views": [
+    {
+      "source": "full",
+      "tiles": [
+        "char1",
+        "char2",
+        "char3",
+        "char2",
+        "char3",
+        "char4",
+        "char4",
+        "char5",
+        "char6",
+        "char6",
+        "char7",
+        "char8",
+        "char7",
+        "char8",
+        "char9",
+        "char5",
+        "char5"
+      ],
+      "confidence": 0.7822352941176471,
+      "items": [
+        {
+          "tile": "char1",
+          "confidence": 0.885,
+          "uncertain": false
+        },
+        {
+          "tile": "char2",
+          "confidence": 0.8524,
+          "uncertain": false
+        },
+        {
+          "tile": "char3",
+          "confidence": 0.9087,
+          "uncertain": false
+        },
+        {
+          "tile": "char2",
+          "confidence": 0.8727,
+          "uncertain": false
+        },
+        {
+          "tile": "char3",
+          "confidence": 0.9132,
+          "uncertain": false
+        },
+        {
+          "tile": "char4",
+          "confidence": 0.8085,
+          "uncertain": false
+        },
+        {
+          "tile": "char4",
+          "confidence": 0.7149,
+          "uncertain": false
+        },
+        {
+          "tile": "char5",
+          "confidence": 0.6919,
+          "uncertain": true
+        },
+        {
+          "tile": "char6",
+          "confidence": 0.8218,
+          "uncertain": false
+        },
+        {
+          "tile": "char6",
+          "confidence": 0.6878,
+          "uncertain": true
+        },
+        {
+          "tile": "char7",
+          "confidence": 0.5759,
+          "uncertain": true
+        },
+        {
+          "tile": "char8",
+          "confidence": 0.8157,
+          "uncertain": false
+        },
+        {
+          "tile": "char7",
+          "confidence": 0.7253,
+          "uncertain": false
+        },
+        {
+          "tile": "char8",
+          "confidence": 0.7942,
+          "uncertain": false
+        },
+        {
+          "tile": "char9",
+          "confidence": 0.5137,
+          "uncertain": true
+        },
+        {
+          "tile": "char5",
+          "confidence": 0.8461,
+          "uncertain": false
+        },
+        {
+          "tile": "char5",
+          "confidence": 0.8702,
+          "uncertain": false
+        }
+      ]
+    },
+    {
+      "source": "focus",
+      "tiles": [
+        "char2",
+        "char3",
+        "char2",
+        "char3",
+        "char4",
+        "char5",
+        "char6",
+        "char1",
+        "char4",
+        "char6",
+        "char6",
+        "char8",
+        "char6",
+        "char8",
+        "char9",
+        "char5",
+        "char5"
+      ],
+      "confidence": 0.7653529411764707,
+      "items": [
+        {
+          "tile": "char2",
+          "confidence": 0.931,
+          "uncertain": false
+        },
+        {
+          "tile": "char3",
+          "confidence": 0.8258,
+          "uncertain": false
+        },
+        {
+          "tile": "char2",
+          "confidence": 0.9258,
+          "uncertain": false
+        },
+        {
+          "tile": "char3",
+          "confidence": 0.7632,
+          "uncertain": false
+        },
+        {
+          "tile": "char4",
+          "confidence": 0.8218,
+          "uncertain": false
+        },
+        {
+          "tile": "char5",
+          "confidence": 0.9056,
+          "uncertain": false
+        },
+        {
+          "tile": "char6",
+          "confidence": 0.9008,
+          "uncertain": false
+        },
+        {
+          "tile": "char1",
+          "confidence": 0.7732,
+          "uncertain": false
+        },
+        {
+          "tile": "char4",
+          "confidence": 0.8089,
+          "uncertain": false
+        },
+        {
+          "tile": "char6",
+          "confidence": 0.7932,
+          "uncertain": false
+        },
+        {
+          "tile": "char6",
+          "confidence": 0.5371,
+          "uncertain": true
+        },
+        {
+          "tile": "char8",
+          "confidence": 0.4589,
+          "uncertain": true
+        },
+        {
+          "tile": "char6",
+          "confidence": 0.6326,
+          "uncertain": true
+        },
+        {
+          "tile": "char8",
+          "confidence": 0.5465,
+          "uncertain": true
+        },
+        {
+          "tile": "char9",
+          "confidence": 0.6634,
+          "uncertain": true
+        },
+        {
+          "tile": "char5",
+          "confidence": 0.7988,
+          "uncertain": false
+        },
+        {
+          "tile": "char5",
+          "confidence": 0.9244,
+          "uncertain": false
+        }
+      ]
+    },
+    {
+      "source": "expanded",
+      "tiles": [
+        "char1",
+        "char2",
+        "char3",
+        "char2",
+        "char3",
+        "char4",
+        "char4",
+        "char5",
+        "char6",
+        "char6",
+        "char9",
+        "char2",
+        "char6",
+        "char4",
+        "char6",
+        "char5",
+        "char5"
+      ],
+      "confidence": 0.7090117647058822,
+      "items": [
+        {
+          "tile": "char1",
+          "confidence": 0.6692,
+          "uncertain": true
+        },
+        {
+          "tile": "char2",
+          "confidence": 0.8641,
+          "uncertain": false
+        },
+        {
+          "tile": "char3",
+          "confidence": 0.8974,
+          "uncertain": false
+        },
+        {
+          "tile": "char2",
+          "confidence": 0.839,
+          "uncertain": false
+        },
+        {
+          "tile": "char3",
+          "confidence": 0.8816,
+          "uncertain": false
+        },
+        {
+          "tile": "char4",
+          "confidence": 0.8511,
+          "uncertain": false
+        },
+        {
+          "tile": "char4",
+          "confidence": 0.8253,
+          "uncertain": false
+        },
+        {
+          "tile": "char5",
+          "confidence": 0.9294,
+          "uncertain": false
+        },
+        {
+          "tile": "char6",
+          "confidence": 0.8903,
+          "uncertain": false
+        },
+        {
+          "tile": "char6",
+          "confidence": 0.7833,
+          "uncertain": false
+        },
+        {
+          "tile": "char9",
+          "confidence": 0.4414,
+          "uncertain": true
+        },
+        {
+          "tile": "char2",
+          "confidence": 0.3968,
+          "uncertain": true
+        },
+        {
+          "tile": "char6",
+          "confidence": 0.4734,
+          "uncertain": true
+        },
+        {
+          "tile": "char4",
+          "confidence": 0.5153,
+          "uncertain": true
+        },
+        {
+          "tile": "char6",
+          "confidence": 0.6062,
+          "uncertain": true
+        },
+        {
+          "tile": "char5",
+          "confidence": 0.683,
+          "uncertain": true
+        },
+        {
+          "tile": "char5",
+          "confidence": 0.5064,
+          "uncertain": true
+        }
+      ]
+    }
+  ]
+}
