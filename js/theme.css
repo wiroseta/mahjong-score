@@ -70,3 +70,8 @@ html[data-theme] :is(#settings,#userManagement,#userDetail,#aboutProgram,#aiDiag
 }
 html[data-theme] #aboutProgram .unified-modal .about-scroll-body{overflow:visible!important;max-height:none!important;padding:0!important}
 @media(max-width:600px){html[data-theme] :is(#settings,#userManagement,#userDetail,#aboutProgram,#aiDiagnostic,#voiceDiagnostic,#rolePicker,#historyModal,#recapModal,.overlay)>.modal.unified-modal>.unified-modal-head{padding:13px 12px!important}html[data-theme] :is(#settings,#userManagement,#userDetail,#aboutProgram,#aiDiagnostic,#voiceDiagnostic,#rolePicker,#historyModal,#recapModal,.overlay)>.modal.unified-modal>.modal-scroll-body{padding:12px!important}}
+
+/* Secondary instruction shares the Quad hint size in every responsive layout. */
+html[data-theme] #scorePanel .pattern-toggle-hint{color:var(--ui-hint)!important;font-size:11px;font-weight:800;white-space:nowrap}
+@media(max-width:600px){html[data-theme] #scorePanel .pattern-toggle-hint{font-size:7px!important;line-height:1!important}}
+@media(max-width:420px){html[data-theme] #scorePanel .pattern-toggle-hint{font-size:7px!important;line-height:1!important}}

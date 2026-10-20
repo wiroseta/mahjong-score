@@ -1,3 +1,7 @@
+# Rilis aktif: 15.9.1 — 20 Oktober 2026
+
+Lihat [catatan rilis 15.9.1](RELEASE_v15.9.1.md). Tahap ini mengumpulkan foto untuk perbaikan dan menyediakan alat pelatihan manual. Model pengenal belum dilatih ulang; jangan menafsirkan jumlah tes kode sebagai akurasi pembacaan foto. Riwayat versi sebelumnya dipertahankan di bawah.
+
 ## Foto pemain terhubung ke formulir permainan — r17
 
 Ikon kamera membuka jendela di dalam aplikasi dengan pilihan nama pemain aktif. Hasil foto mengusulkan jumlah Kong dan kombinasi yang dapat dipastikan. **Gunakan hasil foto** mengisi Kong dan kombinasi pemain terpilih serta memperbarui pratinjau. Skor/riwayat tetap dicatat hanya melalui **Catat Hasil Tangan**. Pergantian pemain, akun, atau keadaan permainan membatalkan pembacaan lama. Tile tidak dikenal dan susunan yang belum valid tidak dapat diterapkan. Kombinasi yang memerlukan riwayat keterbukaan atau interpretasi Joker yang ambigu tetap memakai input manual.
@@ -14,7 +18,7 @@ Tombol **Baca Foto Lokal** membuka pembaca foto di perangkat dengan potongan gam
 
 # Mahjong Score 4P PWA — v15.9
 
-**Versi rilis: v15.9** (18 Oktober 2026).
+**Versi terdahulu: v15.9** (18 Oktober 2026).
 
 - Tambahan aturan Fan/Chicken Hand dan pencatatan denda False Chicken Hand (-3/+1/+1/+1), koreksi pelanggar, pembatalan dengan audit, serta penjagaan nomor tangan/dealer dan riwayat.
 - Perbaikan ekspor PDF: ID objek halaman unik dan referensi daftar 22 kombinasi yang benar.
@@ -792,6 +796,6 @@ Pembaca foto lokal menerima susunan pemenang 4 atau 5 kelompok dan satu pasangan
 - QR dipindai lokal dengan jsQR 1.4.0; gambar, kamera langsung, dan input capture environment didukung. Pako 2.1.0 menangani gzip tanpa bergantung pada CompressionStream browser. Stream kamera dihentikan saat pemindai ditutup, halaman disembunyikan, atau hasil ditemukan. Tidak ada gambar QR yang diunggah.
 - Batas: satu QR memiliki kapasitas terbatas; permainan dengan riwayat sangat panjang dapat dipindah melalui file. Pengujian mencakup 751 kasus, kamera simulasi, serta UI penerimaan QR/file di jendela lokal terisolasi. Face ID/sidik jari fisik perlu didaftarkan dan digunakan sendiri oleh pemilik perangkat.
 
-## Rilis saat ini: 15.9
+## Riwayat rilis: 15.9
 
 Lihat [catatan rilis 15.9](RELEASE_v15.9.md). Pilihan tema tersimpan di perangkat; istilah penalti pada tampilan menjadi False Chicken Hand.
