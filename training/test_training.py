@@ -22,7 +22,7 @@ class TrainingTests(unittest.TestCase):
             result = candidate(splits, sources, train(splits, epochs=2))
             self.assertEqual(result['status'], 'candidate')
             self.assertFalse(result['releaseApproved'])
-            self.assertEqual(result['metrics']['test']['tiles'], 34)
+            self.assertEqual(result['metrics']['test']['tiles'], len(LABELS))
             rows[-1]['source'] = rows[0]['source']
             path.write_text(json.dumps({'samples':rows}))
             with self.assertRaisesRegex(ValueError, 'Source leakage'):

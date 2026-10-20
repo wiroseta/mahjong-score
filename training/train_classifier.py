@@ -6,7 +6,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
-LABELS = [s + str(i) for s in ('char', 'dot', 'bam') for i in range(1, 10)] + ['east', 'south', 'west', 'north', 'red', 'green', 'white']
+LABELS = [s + str(i) for s in ('char', 'dot', 'bam') for i in range(1, 10)] + ['east', 'south', 'west', 'north', 'red', 'green', 'white'] + [s + str(i) for s in ('flower', 'season') for i in range(1, 5)]
 SIZE = 24
 
 def load_dataset(path):
@@ -36,7 +36,7 @@ def load_dataset(path):
     if any(not rows for rows in splits.values()):
         raise ValueError('All three splits are required')
     if {y for _, y in splits['train']} != set(range(len(LABELS))):
-        raise ValueError('Training must cover all 34 tile classes')
+        raise ValueError('Training must cover all 42 tile classes')
     return {k: (np.stack([x for x, _ in v]), np.array([y for _, y in v])) for k, v in splits.items()}, sources
 
 def probabilities(x, weights):

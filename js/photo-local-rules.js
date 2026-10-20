@@ -3,7 +3,7 @@
 'use strict';
 const R=typeof module!=='undefined'&&module.exports?require('./photo-rules.js'):root.MahjongPhotoRules;
 const numbered=t=>/^(char|dot|bam)[1-9]$/.test(t),honor=t=>['east','south','west','north','red','green','white'].includes(t);
-function suggest(tiles,{isWinner,seat}){
+function groupTiles(tiles,{isWinner,seat}){
  if(!Array.isArray(tiles)||!tiles.length||tiles.length>26||tiles.some(t=>!R.tiles.includes(t)||t==='unknown'))throw Error('Ada tile belum terbaca atau jumlahnya tidak sesuai. Periksa area dan ambil foto ulang.');
  const counts=new Map(),flowers=tiles.filter(t=>t==='flower');for(const t of tiles.filter(t=>t!=='flower')){counts.set(t,(counts.get(t)||0)+1);if(counts.get(t)>4)throw Error('Lebih dari empat tile sejenis. Foto hanya susunan satu pemain.');}
  const size=[...counts.values()].reduce((a,b)=>a+b,0),keys=[...counts.keys()].sort(),results=[],seen=new Set();let work=0;
@@ -30,7 +30,7 @@ function suggest(tiles,{isWinner,seat}){
   if(seven){const suits=new Set(keys.filter(numbered).map(t=>t.slice(0,-1))),ns=keys.map(t=>+t.slice(-1)).sort((a,b)=>a-b);const stair=suits.size===1&&keys.every(numbered)&&ns.every((n,i)=>i===0||n===ns[i-1]+1);const candidates=stair?['Tujuh Keajaiban','7 Tangga Surga']:['Tujuh Keajaiban'];if(suits.size===1&&keys.every(numbered))candidates.push('Serupa Murni (Satu Warna)');if(keys.every(honor))candidates.push('Royal Murni');return {kongCount:0,candidates,complete:true,alternatives:1,groups:keys.map(t=>({kind:'pair',tiles:[t,t],exposure:'concealed'}))};}
   if(terminals.every(t=>counts.has(t))&&keys.every(t=>terminals.includes(t)))return {kongCount:0,candidates:['13 Rakyat'],complete:true,alternatives:1,groups:[]};
  }
- walk([],false);
+ if(!isWinner&&size===0&&flowers.length)add([]);else walk([],false);
  if(!results.length)throw Error(isWinner?'Susunan belum membentuk 4 atau 5 kelompok dan satu pasangan. Periksa koreksi jenis tile dan kelengkapan seluruh foto pemenang.':'Foto pemain bukan pemenang hanya kelompok terbuka dan Kong tertutup yang sudah dideklarasikan. Susunan ini belum dapat dihitung.');
  const q=new Set(results.map(r=>r.kongCount));if(q.size!==1||[...q][0]>4)throw Error('Jumlah Kong masih ambigu. Periksa susunan atau isi Kong secara manual.');
  // Only combinations supported by every legal decomposition may fill the form.
@@ -46,13 +46,19 @@ function suggest(tiles,{isWinner,seat}){
  const candidates=[...new Set(results[0].candidates)].filter(c=>results.every(r=>r.candidates.includes(c)));
  return {kongCount:[...q][0],candidates,complete:isWinner&&results.every(r=>r.complete),alternatives:results.length,groups:results[0].groups};
 }
+function suggest(tiles,context){
+ const bonus=Array.isArray(tiles)?tiles.filter(t=>/^(flower|season)[1-4]$/.test(t)):[];
+ if(new Set(bonus).size!==bonus.length)throw Error('Bunga atau Musim yang sama terpilih dua kali.');
+ const result=groupTiles(Array.isArray(tiles)?tiles.map(t=>bonus.includes(t)?'flower':t):tiles,context);
+ return {...result,bonusTiles:bonus};
+}
 // Validate alternatives against the actual game context before choosing a score suggestion.
 function resolveReadings(views,context){
  if(!Array.isArray(views)||!views.length||views.length>3)throw Error('Hasil pembacaan tidak valid.');
  const valid=[];for(let index=0;index<views.length;index++){const view=views[index];if(!view||!Array.isArray(view.tiles)||view.tiles.length>26)continue;try{const result=suggest(view.tiles,context),confidence=Number.isFinite(view.confidence)?Math.max(0,Math.min(1,view.confidence)):null;valid.push({result,index,confidence,source:view.source});}catch{}}
  if(!valid.length)throw Error('Susunan foto belum memenuhi aturan. Ambil foto ulang atau isi manual.');
  valid.sort((a,b)=>(b.confidence??.75)-(a.confidence??.75)||a.index-b.index);const chosen=valid[0];
- const signature=r=>JSON.stringify([r.kongCount,r.candidates.slice().sort()]);
+ const signature=r=>JSON.stringify([r.kongCount,r.candidates.slice().sort(),r.bonusTiles.slice().sort()]);
  const conflict=valid.some(v=>signature(v.result)!==signature(chosen.result));
  return {...chosen,needsReview:conflict||(chosen.confidence!==null&&chosen.confidence<.65),reason:conflict?'score-conflict':chosen.confidence!==null&&chosen.confidence<.65?'low-confidence':'valid-score'};
 }
