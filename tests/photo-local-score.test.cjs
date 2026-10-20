@@ -29,3 +29,32 @@ test('valid full-photo score is usable even when cropped alternatives fail',()=>
 test('unused photo close requests queueing; applied result marks photo used',()=>{const f=fixture();f.send(hand);f.nodes.get('localPhotoClose').onclick();assert.equal(f.messages.findLast(m=>m.type==='mahjong-photo-disposition').used,false);const g=fixture();g.send(hand);g.apply();assert.equal(g.messages.findLast(m=>m.type==='mahjong-photo-disposition').used,true);});
 
 test('close button never attempts to send its DOM click event to the iframe',()=>{const f=fixture();f.send(hand);f.nodes.get('localPhotoClose').onclick({type:'click'});assert.equal(f.messages.findLast(m=>m.type==='mahjong-photo-disposition').used,false);});
+
+test('photos before winner selection save separately and apply later to each selected player',()=>{
+ const f=fixture();f.env.winner=null;
+ f.env.window.mahjongOpenPlayerPhoto(1);f.send(rep('east',4));
+ assert.equal(f.nodes.get('localPhotoApply').textContent,'Simpan hasil foto');
+ assert.equal(f.nodes.get('localPhotoApply').disabled,false);f.apply();
+ assert.equal(f.updates(),0);assert.equal(+f.q[1].value,0);
+ f.env.window.mahjongOpenPlayerPhoto(2);f.send(rep('red',4));f.apply();
+ f.env.winner=0;
+ for(const i of [2,1]){f.env.window.mahjongOpenPlayerPhoto(i);assert.equal(f.nodes.get('localPhotoApply').disabled,false);f.apply();assert.equal(+f.q[i].value,1);}
+ assert.equal(f.updates(),2);assert.equal(+f.q[0].value,0);assert.equal(f.env.winner,0);
+});
+test('a saved full hand is recalculated as winner after selecting its player as winner',()=>{
+ const f=fixture();f.env.winner=null;f.env.window.mahjongOpenPlayerPhoto(2);f.send(hand);f.apply();
+ f.env.winner=2;f.env.window.mahjongOpenPlayerPhoto(2);f.apply();
+ assert.equal(+f.q[2].value,1);assert.equal(f.p[2].value,'1');assert.equal(f.updates(),1);
+});
+test('a changed round cannot restore an earlier saved photo',()=>{
+ const f=fixture();f.env.winner=null;f.env.window.mahjongOpenPlayerPhoto(1);f.send(rep('east',4));f.apply();
+ f.env.s.round++;f.env.winner=0;f.env.window.mahjongOpenPlayerPhoto(1);f.apply();assert.equal(f.updates(),0);
+});
+test('selecting winner while a draft is open recalculates without another photo',()=>{
+ const f=fixture();f.env.winner=null;f.env.window.mahjongOpenPlayerPhoto(1);f.send(rep('east',4));
+ f.env.winner=0;f.tick();assert.equal(f.nodes.get('localPhotoApply').textContent,'Gunakan hasil foto');f.apply();assert.equal(+f.q[1].value,1);
+});
+test('account session change removes saved photos',()=>{
+ const f=fixture();f.env.winner=null;f.env.window.mahjongOpenPlayerPhoto(1);f.send(rep('east',4));f.apply();
+ f.env.window.mahjongPhotoSessionChanged();f.env.winner=0;f.env.window.mahjongOpenPlayerPhoto(1);f.apply();assert.equal(f.updates(),0);
+});
