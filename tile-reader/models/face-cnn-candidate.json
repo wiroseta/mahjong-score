@@ -1,0 +1,83 @@
+{
+  "schema": "mahjong-face-cnn-candidate-v1",
+  "model": "face-cnn-candidate.onnx",
+  "sha256": "df8833e539c86c4023e8eb2c9871b37e6f6de95e998e73fc82df8a20f0f3d5ec",
+  "input_name": "images",
+  "input_shape": [
+    "batch",
+    3,
+    24,
+    24
+  ],
+  "preprocess": "crop tile face; RGB bilinear resize 24x24; float32 RGB NCHW /127.5 - 1",
+  "output_name": "logits",
+  "output_shape": [
+    "batch",
+    42
+  ],
+  "postprocess": "softmax over 42 logits; label mapping in labels",
+  "labels": [
+    "char1",
+    "char2",
+    "char3",
+    "char4",
+    "char5",
+    "char6",
+    "char7",
+    "char8",
+    "char9",
+    "dot1",
+    "dot2",
+    "dot3",
+    "dot4",
+    "dot5",
+    "dot6",
+    "dot7",
+    "dot8",
+    "dot9",
+    "bam1",
+    "bam2",
+    "bam3",
+    "bam4",
+    "bam5",
+    "bam6",
+    "bam7",
+    "bam8",
+    "bam9",
+    "east",
+    "south",
+    "west",
+    "north",
+    "red",
+    "green",
+    "white",
+    "flower1",
+    "flower2",
+    "flower3",
+    "flower4",
+    "season1",
+    "season2",
+    "season3",
+    "season4"
+  ],
+  "releaseApproved": false,
+  "active_model_changed": false,
+  "browser_check": {
+    "runtime": "onnxruntime-web bundled in application",
+    "validation_cases": 8,
+    "prediction_agreement": 8
+  },
+  "role": "Experimental tile-face classifier, integrated as a separate second-stage adapter in candidate.html. Not a location detector and not used for game scores.",
+  "test": {
+    "photos": 57,
+    "tiles": 634,
+    "not_used_in_training_or_checkpoint_selection": true,
+    "classes": 42
+  },
+  "integration": {
+    "page": "tile-reader/candidate.html",
+    "adminOnly": true,
+    "changesScores": false,
+    "comparison": "same boxes from a single whole-image pass of the existing detector"
+  }
+}
