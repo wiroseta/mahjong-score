@@ -310,9 +310,19 @@ button{min-height:44px;-webkit-tap-highlight-color:transparent}
 /* Guide annotations use original tile images; only group borders and labels are added. */
 .guide-example .guide-note{flex:0 0 100%;font-size:11px;line-height:1.35;color:#354c40;letter-spacing:0;margin:0 0 3px}
 .guide-example .guide-set{display:inline-flex;flex:0 0 auto;gap:3px;position:relative;padding-top:7px;align-items:center;max-width:100%}
-.guide-example .guide-set:before{content:"";position:absolute;left:2px;right:2px;top:1px;height:4px;border:1px solid #476457;border-bottom:0;pointer-events:none}
+.guide-example .guide-set-marked:before{content:"";position:absolute;left:2px;right:2px;top:1px;height:4px;border:1px solid #476457;border-bottom:0;pointer-events:none}
 .guide-example .guide-set-focus .mjtile{outline:1px solid #476457;outline-offset:0;border-radius:3px}
 @media(max-width:650px){.guide-example .guide-set{gap:2px}.guide-example .guide-note{font-size:10px}}
+
+/* Each complete meld or pair stays on one line. The linked sequences stay together. */
+.guide-example .guide-set{white-space:nowrap;flex-wrap:nowrap}
+.guide-example .guide-chain:before{left:calc(100% * 2.5 / 6);right:calc(100% * 2.5 / 6)}
+.guide-example .guide-chain .mjtile:nth-child(3),.guide-example .guide-chain .mjtile:nth-child(4){outline:1px solid #476457;border-radius:3px}
+
+.guide-example{column-gap:8px!important;row-gap:4px!important}
+.guide-example .guide-set{gap:3px}
+@media(max-width:650px){.guide-example{column-gap:7px!important}.guide-example .guide-set{gap:2px}}
+.guide-example .guide-chain .mjtile:nth-child(3){margin-right:5px}
 </style><link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-192.png">
 <meta name="mobile-web-app-capable" content="yes">
@@ -2052,15 +2062,16 @@ function renderMahjongTiles(str){
  }
  return out;
 }
-const guideAnnotations={"Set Mulia":{"note":"Angin sesuai tempat duduk","groups":[[3,true],[3,false],[3,false],[3,false],[2,false]]},"Petapa":{"note":"Contoh: seluruh set tertutup","groups":[]},"Tengah Murni":{"note":"Hanya angka 2–8, tanpa royal","groups":[]},"Urutan Murni (Pinhu)":{"note":"4 urutan + 1 pasangan","groups":[[3,true],[3,true],[3,true],[3,true],[2,true]]},"Urutan Berantai":{"note":"Angka sama: 3","groups":[[2,false],[2,true],[2,false],[3,false],[3,false],[2,false]]},"Ujung Separuh":{"note":"Tiap set dan pasangan memuat 1, 9, atau royal","groups":[]},"Triplet Murni":{"note":"4 triplet + 1 pasangan","groups":[[3,true],[3,true],[3,true],[3,true],[2,true]]},"Lima Serangkai":{"note":"Bambu · Karakter · Bulat · Naga · Angin","groups":[[3,true],[3,true],[3,true],[3,true],[2,true]]},"Serupa Separuh":{"note":"Satu jenis + Angin/Naga","groups":[]},"Urutan Mirip":{"note":"123 pada tiga jenis berbeda","groups":[[3,true],[3,true],[3,true],[3,false],[2,false]]},"Urutan Lengkap Murni":{"note":"123 · 456 · 789 pada satu jenis","groups":[[3,true],[3,true],[3,true],[3,false],[2,false]]},"Komodo (Naga Kecil)":{"note":"2 triplet naga + 1 pasangan naga","groups":[[3,true],[3,true],[2,true],[3,false],[3,false]]},"Ujung Murni":{"note":"Set memuat terminal (1 atau 9)","groups":[]},"Tujuh Keajaiban":{"note":"7 pasangan berbeda","groups":[[2,true],[2,true],[2,true],[2,true],[2,true],[2,true],[2,true]]},"Serupa Murni (Satu Warna)":{"note":"Semua tile satu jenis","groups":[]},"Nantaboga (3 Naga Besar)":{"note":"3 triplet naga","groups":[[3,true],[3,true],[3,true],[3,false],[2,false]]},"Topan (4 Angin Besar/Kecil)":{"note":"Contoh Angin Besar: 4 triplet angin","groups":[[3,true],[3,true],[3,true],[3,true],[2,false]]},"Royal Murni":{"note":"Hanya Angin dan Naga","groups":[]},"Terminal Murni":{"note":"Hanya angka 1 dan 9","groups":[]},"Quad Murni (4 Quad)":{"note":"4 Kong + 1 pasangan · 18 tile fisik","groups":[[4,true],[4,true],[4,true],[4,true],[2,true]]},"13 Rakyat":{"note":"13 tile unik + 1 tile pembentuk pasangan","groups":[[12,false],[2,true]]},"7 Tangga Surga":{"note":"7 pasangan berurutan, satu jenis","groups":[[2,true],[2,true],[2,true],[2,true],[2,true],[2,true],[2,true]]}};
+const guideAnnotations={"Set Mulia":{"note":"Angin sesuai tempat duduk","groups":[[3,true],[3,false],[3,false],[3,false],[2,false]]},"Petapa":{"note":"Contoh: seluruh set tertutup","groups":[[3,false],[3,false],[3,false],[3,false],[2,false]]},"Tengah Murni":{"note":"Hanya angka 2–8, tanpa royal","groups":[[3,false],[3,false],[3,false],[3,false],[2,false]]},"Urutan Murni (Pinhu)":{"note":"4 urutan + 1 pasangan","groups":[[3,true],[3,true],[3,true],[3,true],[2,true]]},"Urutan Berantai":{"note":"Angka sama: 3","groups":[[6,true],[3,false],[3,false],[2,false]]},"Ujung Separuh":{"note":"Tiap set dan pasangan memuat 1, 9, atau royal","groups":[[3,false],[3,false],[3,false],[3,false],[2,false]]},"Triplet Murni":{"note":"4 triplet + 1 pasangan","groups":[[3,true],[3,true],[3,true],[3,true],[2,true]]},"Lima Serangkai":{"note":"Bambu · Karakter · Bulat · Naga · Angin","groups":[[3,true],[3,true],[3,true],[3,true],[2,true]]},"Serupa Separuh":{"note":"Satu jenis + Angin/Naga","groups":[[3,false],[3,false],[3,false],[3,false],[2,false]]},"Urutan Mirip":{"note":"123 pada tiga jenis berbeda","groups":[[3,true],[3,true],[3,true],[3,false],[2,false]]},"Urutan Lengkap Murni":{"note":"123 · 456 · 789 pada satu jenis","groups":[[3,true],[3,true],[3,true],[3,false],[2,false]]},"Komodo (Naga Kecil)":{"note":"2 triplet naga + 1 pasangan naga","groups":[[3,true],[3,true],[2,true],[3,false],[3,false]]},"Ujung Murni":{"note":"Set memuat terminal (1 atau 9)","groups":[[3,false],[3,false],[3,false],[3,false],[2,false]]},"Tujuh Keajaiban":{"note":"7 pasangan berbeda","groups":[[2,true],[2,true],[2,true],[2,true],[2,true],[2,true],[2,true]]},"Serupa Murni (Satu Warna)":{"note":"Semua tile satu jenis","groups":[[3,false],[3,false],[3,false],[3,false],[2,false]]},"Nantaboga (3 Naga Besar)":{"note":"3 triplet naga","groups":[[3,true],[3,true],[3,true],[3,false],[2,false]]},"Topan (4 Angin Besar/Kecil)":{"note":"Contoh Angin Besar: 4 triplet angin","groups":[[3,true],[3,true],[3,true],[3,true],[2,false]]},"Royal Murni":{"note":"Hanya Angin dan Naga","groups":[[3,false],[3,false],[3,false],[3,false],[2,false]]},"Terminal Murni":{"note":"Hanya angka 1 dan 9","groups":[[3,false],[3,false],[3,false],[3,false],[2,false]]},"Quad Murni (4 Quad)":{"note":"4 Kong + 1 pasangan · 18 tile fisik","groups":[[4,true],[4,true],[4,true],[4,true],[2,true]]},"13 Rakyat":{"note":"13 tile unik + 1 tile pembentuk pasangan","groups":[[1,false],[1,false],[1,false],[1,false],[1,false],[1,false],[1,false],[1,false],[1,false],[1,false],[1,false],[1,false],[2,true]]},"7 Tangga Surga":{"note":"7 pasangan berurutan, satu jenis","groups":[[2,true],[2,true],[2,true],[2,true],[2,true],[2,true],[2,true]]}};
 function renderGuideExample(name,tiles){
  const annotation=guideAnnotations[name];
  if(!annotation)return renderMahjongTiles(tiles);
  const keys=String(tiles).trim().split(/\s+/);let offset=0;
  let content=annotation.groups.map(([count,marked])=>{
   const group=keys.slice(offset,offset+count);offset+=count;
-  if(!marked)return renderMahjongTiles(group.join(' '));
-  return `<span class="guide-set${name==='Urutan Berantai'||name==='13 Rakyat'?' guide-set-focus':''}">${renderMahjongTiles(group.join(' '))}</span>`;
+  const chain=name==='Urutan Berantai'&&offset===6;
+  const focus=name==='13 Rakyat'&&marked;
+  return `<span class="guide-set${marked?' guide-set-marked':''}${chain?' guide-chain':''}${focus?' guide-set-focus':''}">${renderMahjongTiles(group.join(' '))}</span>`;
  }).join('');
  content+=renderMahjongTiles(keys.slice(offset).join(' '));
  return `<span class="guide-note">${annotation.note}</span>${content}`;
@@ -2275,7 +2286,8 @@ async function buildPatternGuidePDF(){
    ctx.fillStyle='#333';ctx.font='20px system-ui';let ty=pdfWrap(ctx,d[0],margin+22,y+78,W-margin*2-44,28,3)+8;
    const annotation=guideAnnotations[p[0]];
    if(annotation){ctx.fillStyle='#354c40';ctx.font='17px system-ui';ctx.fillText(annotation.note,margin+22,ty+4);ty+=24;}
-   const tilePositions=[];let x=margin+22,rowY=ty;const tw=48,th=68,gap=5;for(const key of keys){if(x+tw>W-margin-22){x=margin+22;rowY+=th+7}tilePositions.push([x,rowY]);try{ctx.drawImage(await tileImg(key),x,rowY,tw,th)}catch(e){}x+=tw+gap}
+   const groupEnds=new Set();if(annotation){let end=0;for(const [count] of annotation.groups){end+=count;groupEnds.add(end);}}
+   const tilePositions=[];let x=margin+22,rowY=ty;const tw=48,th=68,gap=5;for(const key of keys){if(x+tw>W-margin-22){x=margin+22;rowY+=th+7}tilePositions.push([x,rowY]);try{ctx.drawImage(await tileImg(key),x,rowY,tw,th)}catch(e){}x+=tw+gap;if(groupEnds.has(tilePositions.length))x+=6;}
    if(annotation){let offset=0;ctx.strokeStyle="#476457";ctx.lineWidth=1.5;for(const [count,marked] of annotation.groups){if(marked){const a=tilePositions[offset],b=tilePositions[offset+count-1];if(a&&b&&a[1]===b[1]){ctx.beginPath();ctx.moveTo(a[0]+2,a[1]-2);ctx.lineTo(a[0]+2,a[1]-7);ctx.lineTo(b[0]+tw-2,b[1]-7);ctx.lineTo(b[0]+tw-2,b[1]-2);ctx.stroke();}}offset+=count;}}
    y+=cardH+18;
  }
@@ -2692,4 +2704,5 @@ initMahjongAuth();
 <script src="./js/photo-local-score.js?v=15.9.1-r6"></script>
 
 <script src="./js/vendor/jsQR-1.4.0.js"></script><script src="./js/vendor/pako-2.1.0.min.js"></script><script src="./js/auth-ui.js?v=15.9-r8"></script><script src="./js/game-transfer.js?v=15.9-r5"></script><script src="./js/camera-access.js?v=15.9-r6"></script><script src="./js/modal-layout.js?v=15.9-r6b"></script></body></html>
+
 
