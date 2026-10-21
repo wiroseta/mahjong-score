@@ -49,9 +49,9 @@ async function analyze(){
  finally{clearTimeout(timeout);if(version===epoch){aborter=null;el('photoAnalyze').disabled=false;}}
 }
 const kinds=[['chow','Chi / urutan'],['pong','Pong'],['kong','Kong'],['pair','Pasangan'],['loose','Tile belum dikelompokkan'],['flower','Bunga']];
-const exposures=[['open','Sudah terbuka saat bermain'],['concealed','Sebelumnya tertutup'],['declared_concealed_kong','Kong tertutup sudah dideklarasikan']];
+const exposures=[['open','Terbuka — dihitung'],['concealed','Tertutup — tidak dihitung'],['declared_concealed_kong','Kong tertutup — tidak dihitung']];
 function tileName(k){const suits={char:'Karakter',dot:'Bulat',bam:'Bambu'};if(/^(char|dot|bam)[1-9]$/.test(k))return k.slice(-1)+' '+suits[k.slice(0,-1)];return {east:'Timur',south:'Selatan',west:'Barat',north:'Utara',red:'Naga Merah / Joker',green:'Naga Hijau',white:'Naga Putih',flower:'Bunga',unknown:'Belum terbaca'}[k]||k;}
-function reviewedGroups(){return draft.groups.map(g=>draft.player!==winner&&winner!==null&&g.kind==='kong'&&g.exposure==='concealed'?{...g,exposure:'declared_concealed_kong'}:g);}
+function reviewedGroups(){return draft.groups.map(g=>({...g}));}
 function drawGroups(){
  const host=el('photoGroups');host.replaceChildren();if(!draft?.groups)return;
  draft.groups.forEach((g,i)=>{

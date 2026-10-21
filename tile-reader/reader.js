@@ -11,7 +11,7 @@ function sendResult(){if(captureReading)return;if(annotations.length)notify('mah
 let queuedPhotoHash=null,photoOwner=null;
 async function queuePhoto(reason){
  const Q=window.TileTrainingQueue,img=image,sha=imageHash,owner=photoOwner;if(!Q||!img||!sha||queuedPhotoHash===sha||!owner||Q.account()!==owner||!embedded||!embedEnabled||typeof embedWinner!=='boolean'||!Number.isInteger(embedSeat))return;
- const isWinner=embedWinner,seat=embedSeat,observed=annotations.filter(a=>a.tile!=='not-tile').map(a=>({tile:a.tile,box:a.prediction.box.slice()}));
+ const isWinner=embedWinner,seat=embedSeat,observed=annotations.filter(a=>a.tile!=='not-tile').slice(0,26).map(a=>({tile:a.tile,box:a.prediction.box.slice()}));
  const c=document.createElement('canvas'),scale=Math.min(1,1600/Math.max(img.naturalWidth,img.naturalHeight));c.width=Math.round(img.naturalWidth*scale);c.height=Math.round(img.naturalHeight*scale);c.getContext('2d').drawImage(img,0,0,c.width,c.height);let photo=c.toDataURL('image/jpeg',.85);if(photo.length>800000)photo=c.toDataURL('image/jpeg',.6);if(photo.length>800000){notify('mahjong-photo-review-status',{sent:false,message:'Foto melebihi batas antrean.'});return;}
  queuedPhotoHash=sha;try{const result=await Q.submit({sha,photo,width:c.width,height:c.height,reason,observations:observed.map(a=>({tile:a.tile,box:a.box.map(n=>n*scale)})),winner:isWinner,seat},owner);notify('mahjong-photo-review-status',result);}catch{queuedPhotoHash=null;notify('mahjong-photo-review-status',{sent:false});}
 }
@@ -30,7 +30,7 @@ function session(){
 const TileOptions=window.MahjongTileOptions;
 const names={east:'Timur',south:'Selatan',west:'Barat',north:'Utara',white:'Naga putih',green:'Naga hijau',red:'Naga merah'};
 function tileName(t){if(TileOptions)return TileOptions.name(t);if(t==='unknown')return 'Pilih jenis tile';if(t==='not-tile')return 'Bukan tile';return names[t]||t.replace(/^char/,'Karakter ').replace(/^dot/,'Bulat ').replace(/^bam/,'Bambu ');}
-function controls(){const tools=el('photoTools');if(tools)tools.hidden=!image;const step=el('readerStep');if(step)step.textContent=image?'3. Periksa tile':'2. Ambil foto';el('addTile').hidden=false;el('addTile').disabled=busy||cloudBusy||!image||!embedEnabled;el('addTile').textContent=addTileMode?'Batal tambah kotak':'Tambah kotak tile';el('saveExamples').disabled=busy||cloudBusy||!isAdmin||!annotations.length;document.querySelectorAll('#userResults select') .forEach(control=>control.disabled=busy||cloudBusy||!embedEnabled);document.querySelectorAll('#rows select,#rows input').forEach(control=>control.disabled=busy||cloudBusy||!isAdmin);for(const id of ['boxesReviewed','coverageReviewed'])el(id).disabled=busy||cloudBusy||!isAdmin||!annotations.length;el('exportLabels').disabled=busy||cloudBusy||!isAdmin||!annotations.length;el('file').disabled=busy||cloudBusy||!embedEnabled;el('camera').disabled=busy||cloudBusy||!embedEnabled;el('full').disabled=busy||cloudBusy||!image;el('recheck').disabled=busy||cloudBusy||!image;el('adjust').disabled=busy||cloudBusy||!image;}
+function controls(){const tools=el('photoTools');if(tools)tools.hidden=!image;const step=el('readerStep');if(step)step.textContent=image?'Hasil pembacaan':'Ambil atau unggah foto';el('addTile').hidden=false;el('addTile').disabled=busy||cloudBusy||!image||!embedEnabled;el('addTile').textContent=addTileMode?'Batal tambah kotak':'Tambah kotak tile';el('saveExamples').disabled=busy||cloudBusy||!isAdmin||!annotations.length;document.querySelectorAll('#userResults select') .forEach(control=>control.disabled=busy||cloudBusy||!embedEnabled);document.querySelectorAll('#rows select,#rows input').forEach(control=>control.disabled=busy||cloudBusy||!isAdmin);for(const id of ['boxesReviewed','coverageReviewed'])el(id).disabled=busy||cloudBusy||!isAdmin||!annotations.length;el('exportLabels').disabled=busy||cloudBusy||!isAdmin||!annotations.length;el('file').disabled=busy||cloudBusy||!embedEnabled;el('camera').disabled=busy||cloudBusy||!embedEnabled;el('full').disabled=busy||cloudBusy||!image;el('recheck').disabled=busy||cloudBusy||!image;el('adjust').disabled=busy||cloudBusy||!image;}
 function clearResults(){readingViews=[];el('boxesReviewed').checked=false;el('coverageReviewed').checked=false;annotations=[];el('exportLabels').disabled=true;el('results').hidden=true;el('summary').textContent='';el('userResults').replaceChildren();el('rows').replaceChildren();}
 async function infer(model,img,box){return PrimaryTileReader.infer(model,img,box);}
 function draw(items=[],box=region){
@@ -51,7 +51,7 @@ function show(items,elapsed,note,preserve=false){
  el('exportLabels').disabled=!items.length;
  el('results').hidden=!items.length;el('summary').textContent=items.length+' tile terdeteksi. '+(note.includes('mirip')?'Foto memuat beberapa area. Gunakan Ubah area foto bila tile pemain lain ikut terbaca.':'Periksa apakah seluruh susunan pemain sudah terlihat.');
  if(reference&&!preserve){const report=D.evaluate(items,reference.tiles);el('summary').textContent+=' Uji acuan: '+report.correct+'/'+report.expected+' jenis benar, '+report.wrong+' salah jenis, '+report.missed+' terlewat, '+report.extra+' deteksi tambahan. Label acuan hanya untuk pengujian, tidak mengubah hasil model.';}
- sendResult();if(!items.length)notify('mahjong-photo-error',{message:'Tidak ada tile terbaca. Ambil foto lebih dekat.'});if(preserve){status.textContent='Periksa tile, lalu gunakan hasil.';controls();return;}status.textContent=items.length?'Pembacaan selesai: '+items.filter(i=>i.tile!=='not-tile').length+' tile. '+(embedded?'Periksa tile, lalu gunakan hasil.':'Gunakan kamera dari halaman permainan untuk menghitung Kong dan poin.'):'Tidak ada tile terbaca. Ambil foto lebih dekat.';
+ sendResult();if(!items.length){void queuePhoto('invalid');notify('mahjong-photo-error',{message:'Tidak ada tile terbaca.'});}if(preserve){status.textContent='Hasil pembacaan diperbarui.';controls();return;}status.textContent=items.length?'Pembacaan selesai: '+items.filter(i=>i.tile!=='not-tile').length+' tile. '+(embedded?(readingVerified?'Ringkasan kombinasi dan poin tersedia.':'Sebagian tile belum terbaca pasti.'):'Gunakan kamera dari halaman permainan untuk menghitung Kong dan poin.'):'Tidak ada tile terbaca. Ambil foto lebih dekat.';
 }
 async function analyze(automatic=regionMode==='auto'){
  if(!image||busy||cloudBusy||!embedEnabled)return;addTileMode=false;canvas.classList.remove('adjusting');startReading();const version=generation,img=image;busy=true;controls();clearResults();status.textContent=sessionPromise?'Menyiapkan pembacaan lokal…':'Memuat pembaca lokal pertama kali…';
@@ -68,14 +68,13 @@ async function analyze(automatic=regionMode==='auto'){
    else{items=initial;note='Seluruh foto dibaca agar tidak ada baris terpotong.';}
   }else{items=await infer(model,img,region||full);note=region?'Membaca area di dalam bingkai.':'Membaca seluruh foto; tile pemain lain dapat ikut terbaca.';}
   if(version!==generation)return;
-  // A second crop is an independent view of the same tile arrangement.
+  // Compare different crops of the same photograph; these are correlated observations.
   const chosen=region||full,pad=Math.max(4,(chosen[3]-chosen[1])*.06),checkBox=[Math.max(0,chosen[0]-pad),Math.max(0,chosen[1]-pad),Math.min(img.naturalWidth,chosen[2]+pad),Math.min(img.naturalHeight,chosen[3]+pad)];
   const second=await infer(model,img,checkBox);if(version!==generation)return;
   const corrected=xs=>xs.map(item=>({...item,modelTile:item.tile,referenceMatch:null}));
-  const views=[corrected(initialView||items),corrected(items),corrected(second)],selection=K.select(views);
-  if(embedded&&Number.isInteger(embedSeat)&&window.MahjongLocalPhotoRules){try{const scored=window.MahjongLocalPhotoRules.resolveReadings(views.map((v,index)=>({tiles:v.map(i=>i.tile),confidence:K.confidence(v),source:['full','focus','expanded'][index]})),{isWinner:embedWinner,seat:embedSeat});selection.index=scored.index;selection.verified=!scored.needsReview&&K.select([views[scored.index]]).verified;}catch{}}
+  const views=[corrected(initialView||items),corrected(items),corrected(second)],selection=K.resolve(views,[full,chosen,checkBox]);
   items=views[selection.index];if(selection.index===0&&initialView)region=null;
-  readingViews=views.map((v,index)=>({tiles:v.map(i=>i.tile),confidence:K.confidence(v),source:index===0?'full':index===1?'focus':'expanded'}));
+  readingViews=views.map((v,index)=>({tiles:v.map(i=>i.tile),confidence:K.confidence(v),source:index===0?'full':index===1?'focus':'expanded'})).filter((_,index)=>!selection.verified||selection.accepted.includes(index));
   readingVerified=selection.verified;
   if(!readingVerified)note+=' Beberapa muka tile kurang jelas; cocokkan ringkasan poin.';
   show(items,performance.now()-start,note);

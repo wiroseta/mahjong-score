@@ -1,0 +1,105 @@
+{
+  "schema": "human-reference-only; never imported by inference",
+  "ownerClarifications": "logo=dot1; all concealed tiles are undeclared and excluded",
+  "photos": [
+    {
+      "name": "IMG_5460.jpeg",
+      "tiles": [
+        "bam2",
+        "bam2",
+        "red",
+        "bam4",
+        "bam5",
+        "bam6",
+        "bam7",
+        "bam8",
+        "dot7",
+        "dot8",
+        "dot9",
+        "char4",
+        "char5",
+        "char6"
+      ],
+      "hiddenUndeclared": 0,
+      "isWinner": true
+    },
+    {
+      "name": "IMG_5461.jpeg",
+      "tiles": [
+        "char6",
+        "char7",
+        "char8",
+        "season3",
+        "dot3",
+        "dot3",
+        "dot3",
+        "flower1",
+        "season1",
+        "dot4",
+        "dot5",
+        "dot6"
+      ],
+      "hiddenUndeclared": 4,
+      "isWinner": false
+    },
+    {
+      "name": "IMG_5462.jpeg",
+      "tiles": [
+        "green",
+        "green",
+        "green",
+        "bam1",
+        "bam1",
+        "bam1",
+        "bam1"
+      ],
+      "hiddenUndeclared": 7,
+      "isWinner": false
+    },
+    {
+      "name": "IMG_5463.jpeg",
+      "tiles": [
+        "bam9",
+        "bam8",
+        "bam7",
+        "dot3",
+        "dot2",
+        "dot1",
+        "char9",
+        "char9",
+        "flower1",
+        "dot8",
+        "dot7",
+        "dot6",
+        "bam8",
+        "bam7",
+        "bam6"
+      ],
+      "hiddenUndeclared": 0,
+      "isWinner": true
+    },
+    {
+      "name": "IMG_5464.jpeg",
+      "tiles": [
+        "char3",
+        "char3",
+        "char3",
+        "flower4",
+        "dot3",
+        "dot4",
+        "dot5",
+        "bam8",
+        "bam8",
+        "season2",
+        "char5",
+        "char6",
+        "char7",
+        "bam1",
+        "bam1",
+        "bam1"
+      ],
+      "hiddenUndeclared": 0,
+      "isWinner": true
+    }
+  ]
+}

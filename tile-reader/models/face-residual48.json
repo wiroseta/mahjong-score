@@ -1,0 +1,97 @@
+{
+  "schema": "mahjong-face-classifier-v2",
+  "model": "face-residual48.onnx",
+  "sha256": "c6dbfbba208fadb015cfae8127f4ca798a2adf94a4854eed4b48b20ec9adc0de",
+  "input_name": "images",
+  "input_shape": [
+    "batch",
+    3,
+    48,
+    48
+  ],
+  "output_name": "logits",
+  "output_shape": [
+    "batch",
+    42
+  ],
+  "labels": [
+    "char1",
+    "char2",
+    "char3",
+    "char4",
+    "char5",
+    "char6",
+    "char7",
+    "char8",
+    "char9",
+    "dot1",
+    "dot2",
+    "dot3",
+    "dot4",
+    "dot5",
+    "dot6",
+    "dot7",
+    "dot8",
+    "dot9",
+    "bam1",
+    "bam2",
+    "bam3",
+    "bam4",
+    "bam5",
+    "bam6",
+    "bam7",
+    "bam8",
+    "bam9",
+    "east",
+    "south",
+    "west",
+    "north",
+    "red",
+    "green",
+    "white",
+    "flower1",
+    "flower2",
+    "flower3",
+    "flower4",
+    "season1",
+    "season2",
+    "season3",
+    "season4"
+  ],
+  "preprocess": "native face crop; antialiased RGB bilinear 48x48; float32 NCHW /127.5-1",
+  "architecture": "225562 parameters; convolutional classifier with residual refinement; warm-started from previous model",
+  "deployment": {
+    "primaryReader": true,
+    "status": "user-authorized-incremental-release",
+    "targetAccuracy": 0.999,
+    "targetAccuracyMet": false,
+    "automaticPromotion": false,
+    "userAuthorized": true,
+    "authorizationDate": "2026-10-21"
+  },
+  "evaluation": {
+    "publicRegression": {
+      "previousCorrect": 555,
+      "candidateCorrect": 582,
+      "tiles": 634,
+      "role": "previously observed regression; human oracle boxes; classifier only"
+    },
+    "browserRegression": {
+      "previousCorrect": 63,
+      "candidateCorrect": 63,
+      "tiles": 64,
+      "photos": 5,
+      "role": "partially overlaps prior training; regression only"
+    }
+  },
+  "training": {
+    "epochs": 50,
+    "newPhotosLabeled": 56,
+    "annotations": 658,
+    "approvedNewCrops": 578,
+    "oldTrainEntries": 4150,
+    "totalTrainEntries": 6462,
+    "validationEntries": 696,
+    "note": "All new photos from one physical set/session. 5470 not fitted; 5515 and two partial faces excluded. 578 crops each raw+rectified, repeated twice."
+  }
+}

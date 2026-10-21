@@ -1,3 +1,7 @@
+# Pengenal tile RGB48 — 21 Oktober 2026
+
+Model utama diperbarui; uji regresi classifier meningkat menjadi **91,80% (582/634 potongan)**. Lihat [catatan pembaruan](RELEASE_RGB48_2026-10-21.md) untuk metode, batasan, dan perubahan pendukung.
+
 # Rilis aktif: 15.9.1 — 20 Oktober 2026
 
 Lihat [catatan rilis 15.9.1](RELEASE_v15.9.1.md). Tahap ini mengumpulkan foto untuk perbaikan dan menyediakan alat pelatihan manual. Model pengenal belum dilatih ulang; jangan menafsirkan jumlah tes kode sebagai akurasi pembacaan foto. Riwayat versi sebelumnya dipertahankan di bawah.

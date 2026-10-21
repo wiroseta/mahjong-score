@@ -13,7 +13,8 @@ function groupTiles(tiles,{isWinner,seat}){
   const sets=groups.filter(g=>g.kind!=='pair').length;if(sets>5)return;
   const t=keys.find(k=>counts.get(k)>0);if(!t){if(isWinner?([4,5].includes(sets)&&pair):(sets>=1&&!pair))add(groups);return;}
   if(isWinner&&size<14)return;
-  const exposure=isWinner?'concealed':'open';
+  // All input labels are visible faces; never infer concealed tile identities.
+  const exposure='open';
   const take=(kind,items)=>{const needed=new Map();items.forEach(x=>needed.set(x,(needed.get(x)||0)+1));if([...needed].some(([x,n])=>(counts.get(x)||0)<n))return;for(const [x,n] of needed)counts.set(x,counts.get(x)-n);walk(groups.concat({kind,tiles:items,exposure}),pair||kind==='pair');for(const [x,n] of needed)counts.set(x,counts.get(x)+n);};
   if(isWinner&&!pair&&counts.get(t)>=2)take('pair',[t,t]);
   if(isWinner&&!pair&&t!=='red'&&counts.get('red')>0)take('pair',[t,'red']);if(isWinner&&!pair&&t==='red')for(const k of keys)if(k!=='red'&&counts.get(k)>0)take('pair',['red',k]);
@@ -27,11 +28,11 @@ function groupTiles(tiles,{isWinner,seat}){
  if(isWinner&&size===14){
   const seven=counts.size===7&&[...counts.values()].every(n=>n===2);
   const terminals=['char1','char9','dot1','dot9','bam1','bam9','east','south','west','north','red','green','white'];
-  if(seven){const suits=new Set(keys.filter(numbered).map(t=>t.slice(0,-1))),ns=keys.map(t=>+t.slice(-1)).sort((a,b)=>a-b);const stair=suits.size===1&&keys.every(numbered)&&ns.every((n,i)=>i===0||n===ns[i-1]+1);const candidates=stair?['Tujuh Keajaiban','7 Tangga Surga']:['Tujuh Keajaiban'];if(suits.size===1&&keys.every(numbered))candidates.push('Serupa Murni (Satu Warna)');if(keys.every(honor))candidates.push('Royal Murni');return {kongCount:0,candidates,complete:true,alternatives:1,groups:keys.map(t=>({kind:'pair',tiles:[t,t],exposure:'concealed'}))};}
+  if(seven){const suits=new Set(keys.filter(numbered).map(t=>t.slice(0,-1))),ns=keys.map(t=>+t.slice(-1)).sort((a,b)=>a-b);const stair=suits.size===1&&keys.every(numbered)&&ns.every((n,i)=>i===0||n===ns[i-1]+1);const candidates=stair?['Tujuh Keajaiban','7 Tangga Surga']:['Tujuh Keajaiban'];if(suits.size===1&&keys.every(numbered))candidates.push('Serupa Murni (Satu Warna)');if(keys.every(honor))candidates.push('Royal Murni');return {kongCount:0,candidates,complete:true,alternatives:1,groups:keys.map(t=>({kind:'pair',tiles:[t,t],exposure:'open'}))};}
   if(terminals.every(t=>counts.has(t))&&keys.every(t=>terminals.includes(t)))return {kongCount:0,candidates:['13 Rakyat'],complete:true,alternatives:1,groups:[]};
  }
  if(!isWinner&&size===0&&flowers.length)add([]);else walk([],false);
- if(!results.length)throw Error(isWinner?'Susunan belum membentuk 4 atau 5 kelompok dan satu pasangan. Periksa koreksi jenis tile dan kelengkapan seluruh foto pemenang.':'Foto pemain bukan pemenang hanya kelompok terbuka dan Kong tertutup yang sudah dideklarasikan. Susunan ini belum dapat dihitung.');
+ if(!results.length)throw Error(isWinner?'Susunan belum membentuk 4 atau 5 kelompok dan satu pasangan. Periksa koreksi jenis tile dan kelengkapan seluruh foto pemenang.':'Foto pemain bukan pemenang hanya kelompok yang terbuka. Susunan ini belum dapat dihitung.');
  const q=new Set(results.map(r=>r.kongCount));if(q.size!==1||[...q][0]>4)throw Error('Jumlah Kong masih ambigu. Periksa susunan atau isi Kong secara manual.');
  // Only combinations supported by every legal decomposition may fill the form.
  for(const r of results){if(!isWinner||!r.complete||tiles.includes('red'))continue;const sets=r.groups.filter(g=>['chow','pong','kong'].includes(g.kind)),pairs=r.groups.filter(g=>g.kind==='pair'),flat=r.groups.flatMap(g=>g.tiles).filter(t=>t!=='flower'),chows=sets.filter(g=>g.kind==='chow').map(g=>g.tiles.slice().sort());

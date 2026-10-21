@@ -13,10 +13,19 @@ function annotations(value,width,height){
 function assess(first,second,{width,height,coverageChecked=false,rulesValid=false}={}){
  try{const a=annotations(first,width,height),b=annotations(second,width,height);if(a.length!==b.length)return {state:'needs_admin',reason:'count-conflict'};const used=new Set();for(const tile of a){let found=-1;for(let i=0;i<b.length;i++){if(used.has(i)||tile.tile!==b[i].tile)continue;const x=tile.box,y=b[i].box,intersection=Math.max(0,Math.min(x[2],y[2])-Math.max(x[0],y[0]))*Math.max(0,Math.min(x[3],y[3])-Math.max(x[1],y[1]));const union=(x[2]-x[0])*(x[3]-x[1])+(y[2]-y[0])*(y[3]-y[1])-intersection;if(intersection/union>=.7){found=i;break;}}if(found<0)return {state:'needs_admin',reason:'tile-conflict'};used.add(found);}if(!coverageChecked||!rulesValid)return {state:'needs_admin',reason:'coverage-or-rules'};return {state:'candidate',reason:'consistent-proposal',annotations:a};}catch{return {state:'needs_admin',reason:'invalid-proposal'};}
 }
+// Conservative release proof: zero observed errors on independent, scored photos.
+// With zero errors, the one-sided 95% exact lower bound is 0.05^(1/n).
+const accuracyTarget=.999;
+function reliabilityLowerBound(perfect,total){return Number.isInteger(perfect)&&Number.isInteger(total)&&total>0&&perfect===total?Math.exp(Math.log(.05)/total):0;}
 function canPromote(report){
- if(!report||!Number.isInteger(report.testImages)||!Number.isInteger(report.classCoverage)||report.splitLeakage!==false||report.realPhotoTest!==true||report.testImages<20||report.classCoverage!==labels.length||report.testWholeHandAccuracy<.95||report.testWrongPointRate>0||report.testWholeHandAccuracy<=report.baselineWholeHandAccuracy||report.regressionFailures!==0)return false;
- return ['testWholeHandAccuracy','testWrongPointRate','baselineWholeHandAccuracy'].every(k=>Number.isFinite(report[k])&&report[k]>=0&&report[k]<=1);
+ if(!report||report.splitLeakage!==false||report.realPhotoTest!==true||report.expectedScoresAudited!==true||report.classCoverage!==labels.length||report.regressionFailures!==0)return false;
+ const n=report.testImages;
+ if(!Number.isInteger(n)||n<=0||report.independentSourceGroups!==n||report.testWholeHandCorrect!==n||report.testScoredPhotos!==n||report.testScoreCorrect!==n)return false;
+ if(!Number.isInteger(report.testTileCount)||report.testTileCount<n||report.testTileCorrect!==report.testTileCount)return false;
+ if(report.testWholeHandAccuracy!==1||report.testWrongPointRate!==0||!Number.isFinite(report.baselineWholeHandAccuracy)||report.baselineWholeHandAccuracy<0||report.baselineWholeHandAccuracy>=1)return false;
+ return reliabilityLowerBound(n,n)>=accuracyTarget&&reliabilityLowerBound(report.testTileCorrect,report.testTileCount)>=accuracyTarget;
 }
+
 function mayDeletePixels(record){return !!record&&record.keepForEvaluation!==true&&record.trainingConsumed===true&&record.evaluationComplete===true&&record.modelAccepted===true&&record.noOtherDatasetReferences===true;}
-const api={labels,annotations,assess,canPromote,mayDeletePixels};if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.TileLearningPolicy=api;
+const api={labels,annotations,assess,canPromote,reliabilityLowerBound,accuracyTarget,mayDeletePixels};if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.TileLearningPolicy=api;
 })(globalThis);
