@@ -61,13 +61,13 @@
     "season4"
   ],
   "releaseApproved": false,
-  "active_model_changed": false,
+  "active_model_changed": true,
   "browser_check": {
     "runtime": "onnxruntime-web bundled in application",
     "validation_cases": 8,
     "prediction_agreement": 8
   },
-  "role": "Experimental tile-face classifier, integrated as a separate second-stage adapter in candidate.html. Not a location detector and not used for game scores.",
+  "role": "42-class tile-face classifier, used by the primary reader since explicit user deployment request on 2026-10-21, and by administrator comparison. Not a location detector.",
   "test": {
     "photos": 57,
     "tiles": 634,
@@ -79,5 +79,10 @@
     "adminOnly": true,
     "changesScores": false,
     "comparison": "same boxes from a single whole-image pass of the existing detector"
+  },
+  "primaryDeployment": {
+    "authorizedByUser": true,
+    "date": "2026-10-21",
+    "policyGatePassed": false
   }
 }

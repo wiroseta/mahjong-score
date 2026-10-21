@@ -1,7 +1,7 @@
 /* AGPL-3.0. Deterministic complete-photo corrections and cross-view agreement. */
 (function(root){
 'use strict';
-const revision='mahjong-local-v2',validTile=t=>/^(char[1-9]|dot[1-9]|bam[1-9]|east|south|west|north|red|green|white|flower)$/.test(t);
+const revision='mahjong-local-v2',validTile=t=>/^(char[1-9]|dot[1-9]|bam[1-9]|east|south|west|north|red|green|white|flower|flower[1-4]|season[1-4])$/.test(t);
 function validate(row){
  if(!row||!/^[a-f0-9]{64}$/.test(row.image_sha256)||row.pipeline!==revision||!Number.isInteger(row.width)||!Number.isInteger(row.height)||row.width<1||row.height<1||row.width*row.height>40000000||!Array.isArray(row.annotations)||row.annotations.length<1||row.annotations.length>26)throw Error('Koreksi foto tidak valid.');
  const box=b=>Array.isArray(b)&&b.length===4&&b.every(Number.isFinite)&&b[0]>=0&&b[1]>=0&&b[2]>b[0]&&b[3]>b[1]&&b[2]<=row.width&&b[3]<=row.height;

@@ -1,0 +1,70 @@
+{
+  "schema": "mahjong-box-detector-candidate-v1",
+  "model": "tile-box-v3.onnx",
+  "sha256": "f8f22164d05a76415b4be406abda122675eb395c2516e0441bac0be5681e3ca3",
+  "bytes": 10564850,
+  "input": {
+    "name": "images",
+    "shape": [
+      1,
+      3,
+      640,
+      640
+    ],
+    "preprocess": "RGB letterbox 640x640, fill114, NCHW float32 /255"
+  },
+  "output": {
+    "name": "output0",
+    "shape": [
+      1,
+      5,
+      8400
+    ],
+    "fields": [
+      "cx",
+      "cy",
+      "width",
+      "height",
+      "tile-confidence"
+    ],
+    "units": "letterboxed input pixels"
+  },
+  "postprocess": {
+    "confidenceThreshold": 0.6,
+    "classAgnosticNmsIou": 0.45,
+    "undoLetterbox": true
+  },
+  "labels": [
+    "tile"
+  ],
+  "role": "Locates tile boxes; primary-reader.js applies the 42-class face CNN separately. User authorized primary deployment despite remaining benchmark errors.",
+  "trainingPhotos": 236,
+  "validationPhotos": 60,
+  "benchmarkPhotos": 57,
+  "trainingEpochs": 20,
+  "releaseApproved": false,
+  "activeModelChanged": false,
+  "license": "AGPL-3.0",
+  "benchmark": {
+    "photos": 57,
+    "groundTruthTiles": 634,
+    "detections": 592,
+    "geometryMatches": 480,
+    "correctTypeAndLocation": 377,
+    "wholePhotoBoxesCorrect": 9,
+    "wholePhotoTypeAndBoxesCorrect": 5,
+    "boxRecall": 0.7570977917981072,
+    "boxPrecision": 0.8108108108108109,
+    "typedRecall": 0.5946372239747634,
+    "typedPrecision": 0.6368243243243243,
+    "provider": "CPUExecutionProvider"
+  },
+  "deployment": {
+    "primaryReader": true,
+    "authorizedByUser": true,
+    "date": "2026-10-21",
+    "requiresHumanReview": true,
+    "policyGatePassed": false,
+    "explicitUserOverride": true
+  }
+}
