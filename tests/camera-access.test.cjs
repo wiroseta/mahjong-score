@@ -10,3 +10,4 @@ test('camera OFF refresh preserves administrator workspace and only invalidates 
  const f=fixture();let workspaceClosed=0,captureClosed=0;f.env.mahjongPhotoSessionChanged=()=>workspaceClosed++;f.env.mahjongLocalPhotoAccessChanged=()=>captureClosed++;f.env.mahjongSession.user.app_metadata.camera_enabled=false;
  f.env.mahjongCameraPermissionChanged();f.env.mahjongCameraPermissionChanged();assert.equal(workspaceClosed,0);assert.equal(captureClosed,2);assert.ok(f.buttons.every(b=>b.hidden));
 });
+test('page and service worker reference the same updated camera script',()=>{const html=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8'),sw=fs.readFileSync(path.join(__dirname,'../sw.js'),'utf8');assert.ok(html.includes('camera-access.js?v=15.9.1-r7-queue'));assert.ok(sw.includes('camera-access.js?v=15.9.1-r7-queue'));assert.ok(!html.includes('camera-access.js?v=15.9-r6'));});
