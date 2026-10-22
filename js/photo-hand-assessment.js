@@ -28,5 +28,25 @@ function assess(tiles,{seat,isWinner=null,method=null}={}){
 
  return {status,inferredWinner,handTileCount,fan,fanExact:exact,chi,pong,pair,mixed,blocked,structureComplete:!!structure?.complete,historyVerified:false,fanBreakdown:parts,message:(exact?'':'Minimal ')+fan+' Fan · '+verdict};
 }
-const api={assess};if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.MahjongPhotoHandAssessment=api;
+// A final photo cannot prove when an exposed set was claimed. Never turn a
+// low-Fan mixture into a penalty. Only a declared, fully read invalid hand can
+// establish a false win; search limits and recognition errors are not proof.
+function falseHuEvidence(data,{seat,isWinner,method}={}){
+ if(isWinner!==true||!['hu','zimo'].includes(method)||data?.verified!==true||data.rereadComplete!==true)return null;
+ const tiles=data.tiles;
+ if(!Array.isArray(tiles)||tiles.length>26||tiles.some(t=>! /^(char[1-9]|dot[1-9]|bam[1-9]|east|south|west|north|red|green|white|flower[1-4]|season[1-4])$/.test(t))||!Number.isInteger(seat)||seat<0||seat>3)return null;
+ const bonuses=tiles.filter(t=>/^(flower|season)/.test(t)),ordinary=tiles.filter(t=>! /^(flower|season)/.test(t)),counts=new Map();
+ if(new Set(bonuses).size!==bonuses.length)return null;
+ for(const tile of ordinary){counts.set(tile,(counts.get(tile)||0)+1);if(counts.get(tile)>4)return null;}
+ const quads=[...counts.values()].filter(n=>n===4).length;
+ // Incomplete open sets, missing tiles and implausible counts are not a fine.
+ if(![4,5].some(sets=>ordinary.length>=sets*3+2&&ordinary.length<=sets*3+2+Math.min(sets,quads)))return null;
+ const signature=xs=>xs.slice().sort().join(','),key=signature(tiles);
+ if(!Array.isArray(data.views)||data.views.length<2||data.views.length>3||data.views.some(v=>!Array.isArray(v?.tiles)||signature(v.tiles)!==key||!Number.isFinite(v.confidence)||v.confidence<0||v.confidence>1||(v.confidence<.85&&data.confirmed!==true)))return null;
+ try{R.suggest(tiles,{seat,isWinner:true});return null;}catch(error){
+  if(error.message!=='Susunan belum membentuk 4 atau 5 kelompok dan satu pasangan. Periksa koreksi jenis tile dan kelengkapan seluruh foto pemenang.')return null;
+ }
+ return {version:1,reason:'invalid-winning-structure',tiles:tiles.slice(),method};
+}
+const api={assess,falseHuEvidence};if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.MahjongPhotoHandAssessment=api;
 })(globalThis);

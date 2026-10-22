@@ -2,7 +2,7 @@
 (function(){
 'use strict';
 const el=id=>document.getElementById(id),make=(tag,text)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;return n;},R=window.MahjongLocalPhotoRules;
-let opened=false,sessionId=null,readId=null,stamp=null,result=null,chosenPattern='',timer=null,rawDraft=null,autoReadDone=null;
+let opened=false,sessionId=null,readId=null,stamp=null,result=null,chosenPattern='',timer=null,rawDraft=null,autoReadDone=null,penaltyRead=null;
 const savedPhotos=new Map(),autoFilled=new Map();
 const gameContext=()=>JSON.stringify({account:mahjongSession?.user?.id,game:s});
 const signedIn=()=>!!mahjongSession?.user&&mahjongSession.user.app_metadata?.camera_enabled!==false;
@@ -11,9 +11,9 @@ const context=()=>JSON.stringify({account:mahjongSession?.user?.id,game:s,winner
 const say=text=>el('localPhotoStatus').textContent=text;
 const valid=()=>opened&&signedIn()&&(result||(winner===null&&rawDraft))&&stamp===context()&&player()!==null;
 function send(type,extra={}){el('localPhotoFrame').contentWindow?.postMessage({type,sessionId,...extra},location.origin);}
-function clear(){autoReadDone=null;el('localPhotoModal').classList.remove('has-result','manual-fallback','auto-result','auto-applied');el('localPhotoManual').hidden=true;result=null;rawDraft=null;readId=null;stamp=null;chosenPattern='';el('localPhotoReviewed').checked=false;el('localPhotoApply').disabled=true;el('localPhotoSuggestion').textContent='';el('localPhotoAssessment').textContent='';}
+function clear(){autoReadDone=null;penaltyRead=null;el('localPhotoModal').classList.remove('has-result','manual-fallback','auto-result','auto-applied');el('localPhotoManual').hidden=true;result=null;rawDraft=null;readId=null;stamp=null;chosenPattern='';el('localPhotoReviewed').checked=false;el('localPhotoApply').disabled=true;el('localPhotoSuggestion').textContent='';el('localPhotoAssessment').textContent='';}
 function setup(){if(opened&&readId)send('mahjong-photo-disposition',{readId,used:false});clear();if(!opened)return;const i=player();send('mahjong-photo-context',{enabled:i!==null,playerIndex:i,playerName:i===null?'':s.names[i],isWinner:i===winner,seat:i===null?null:s.seatWinds[i],method,roundWind:s.roundWind});const scope=el('localPhotoScope');if(scope)scope.textContent=i===null?'':'Foto tile yang terbuka saja. Tile tertutup tidak dihitung.';say(i===null?'Pilih pemain.':'');const saved=savedPhotos.get(i);if(saved&&saved.game===gameContext()){rawDraft=saved;stamp=context();renderDraft();}else savedPhotos.delete(i);}
-function close(used=false){if(opened&&readId)send('mahjong-photo-disposition',{readId,used:used===true});opened=false;clear();send('mahjong-photo-reset');el('localPhotoModal').classList.remove('show');clearInterval(timer);timer=null;}
+function close(used=false){if(opened&&readId)send('mahjong-photo-disposition',{readId,used:used===true||penaltyRead===readId});opened=false;clear();send('mahjong-photo-reset');el('localPhotoModal').classList.remove('show');clearInterval(timer);timer=null;}
 function open(selectedPlayer){if(opened)close();if(!signedIn())return alert('Login diperlukan untuk membaca foto permainan.');closeMenus();clear();sessionId=crypto.randomUUID();opened=true;el('localPhotoPlayer').replaceChildren();const placeholder=make('option','Pilih pemain');placeholder.value='';el('localPhotoPlayer').append(placeholder);s.names.forEach((name,i)=>{const o=make('option',name+(i===winner?' — pemenang':''));o.value=String(i);el('localPhotoPlayer').append(o);});el('localPhotoPlayer').value=Number.isInteger(selectedPlayer)&&selectedPlayer>=0&&selectedPlayer<4?String(selectedPlayer):winner===null?'':String(winner);el('localPhotoModal').classList.add('show');if(typeof mahjongIsAdmin!=='undefined'&&mahjongIsAdmin)el('localPhotoModal').classList.add('reader-admin');else el('localPhotoModal').classList.remove('reader-admin');const frame=el('localPhotoFrame');if(!frame.getAttribute('src'))frame.src='./tile-reader/?embedded=1&v=15.9.1';else setup();timer=setInterval(()=>{if(!signedIn())return close();if(stamp&&stamp!==context()){if(rawDraft&&rawDraft.game===gameContext()){stamp=context();renderDraft();return;}clear();send('mahjong-photo-reset');say('Permainan atau isian skor berubah. Pilih pemain dan ambil foto ulang.');}},500);setup();}
 function receive(e){const frame=el('localPhotoFrame'),data=e.data;if(!opened||e.origin!==location.origin||e.source!==frame.contentWindow||!data||typeof data!=='object')return;if(data.type==='mahjong-photo-ready'){setup();return;}if(data.sessionId!==sessionId)return;
  if(data.type==='mahjong-photo-height'){if(Number.isFinite(data.height))frame.style.height=Math.min(20000,Math.max(180,data.height))+'px';return;}
@@ -27,7 +27,7 @@ function receive(e){const frame=el('localPhotoFrame'),data=e.data;if(!opened||e.
  if(data.type!=='mahjong-photo-result'||data.readId!==readId||!readId||stamp!==context()||player()===null)return;
  el('localPhotoReviewed').checked=false;el('localPhotoApply').disabled=true;result=null;chosenPattern='';el('localPhotoModal').classList.add('has-result');
  if(!Array.isArray(data.tiles)||data.tiles.length>26){manualFallback();return;}
- const assessment=window.MahjongPhotoHandAssessment?.assess(data.tiles,{seat:s.seatWinds[player()],isWinner:winner===null?null:player()===winner,method});el('localPhotoAssessment').textContent=assessment?.message||'';if(assessment?.blocked){showUnverified(data);say('Susunan belum sesuai. Poin belum diterapkan.');return;}
+ const assessment=window.MahjongPhotoHandAssessment?.assess(data.tiles,{seat:s.seatWinds[player()],isWinner:winner===null?null:player()===winner,method});el('localPhotoAssessment').textContent=assessment?.message||'';if(assessment?.blocked){blockedResult(data,assessment);return;}
  if(data.verified!==true){autoReadDone=null;revokeAutomatic(true);showUnverified(data);return;}
  rawDraft={game:gameContext(),tiles:data.tiles,views:data.views,confirmed:data.confirmed===true,autoReady:data.rereadComplete===true,referenceWarning:data.referenceWarning};el('localPhotoManual').hidden=true;el('localPhotoModal').classList.remove('manual-fallback');renderDraft();
 }
@@ -35,6 +35,24 @@ function revokeAutomatic(currentReadOnly=false){
  const saved=autoFilled.get(player());if(!saved||saved.game!==gameContext()||(currentReadOnly&&saved.readId!==readId))return;
  const q=document.querySelector('input[data-q="'+player()+'"]'),p=document.querySelector('[data-pp="'+player()+'"]');
  if(q&&p&&Number(q.value)===saved.quad&&String(p.value)===saved.pattern){q.value=saved.beforeQuad;p.value=saved.beforePattern;syncQuadControl(q);update();stamp=context();}autoFilled.delete(player());
+}
+function blockedResult(data,assessment){
+ if(penaltyRead===readId)return;
+ revokeAutomatic();result=null;rawDraft=null;chosenPattern='';el('localPhotoApply').disabled=true;
+ const proof=window.MahjongPhotoHandAssessment?.falseHuEvidence(data,{seat:s.seatWinds[player()],isWinner:winner===player(),method});
+ if(proof){
+  const outcome=window.MahjongPhotoFalseHu?.record(data,player());
+  if(outcome?.status==='recorded'||outcome?.status==='already-recorded'){
+   penaltyRead=readId;stamp=context();savedPhotos.delete(player());autoFilled.delete(player());el('localPhotoModal').classList.add('manual-fallback');el('localPhotoManual').hidden=true;
+   el('localPhotoSuggestion').textContent=outcome.status==='recorded'?'False Chicken Hand: −3 poin. Masing-masing lawan +1.':'Denda sudah tercatat. Tidak dipotong lagi.';
+   say('Susunan menang tidak sah.');send('mahjong-photo-disposition',{readId,used:true});return;
+  }
+  if(outcome?.status==='readonly'||outcome?.status==='save-failed'){
+   el('localPhotoModal').classList.add('manual-fallback');el('localPhotoSuggestion').textContent='False Chicken Hand terdeteksi. Denda belum dicatat.';el('localPhotoManual').hidden=true;
+   say(outcome.status==='readonly'?'Aktifkan kendali pencatatan untuk mencatat denda.':'Penyimpanan gagal. Skor tidak berubah.');return;
+  }
+ }
+ showUnverified(data);say('Susunan belum sesuai. Poin dan denda belum diterapkan.');
 }
 function finishReread(data,assessment){
  el('localPhotoModal').classList.add('auto-result');el('localPhotoApply').disabled=true;
@@ -83,7 +101,7 @@ function manualFallback(){
  if(readId)send('mahjong-photo-review',{readId,reason:'invalid'});
 }
 function renderDraft(){
- const data=rawDraft;result=null;chosenPattern='';el('localPhotoModal').classList.add('has-result');const assessment=window.MahjongPhotoHandAssessment?.assess(data.tiles,{seat:s.seatWinds[player()],isWinner:winner===null?null:player()===winner,method});el('localPhotoAssessment').textContent=assessment?.message||'';if(assessment?.blocked){showUnverified(data);say('Susunan belum sesuai. Poin belum diterapkan.');return;}
+ const data=rawDraft;result=null;chosenPattern='';el('localPhotoModal').classList.add('has-result');const assessment=window.MahjongPhotoHandAssessment?.assess(data.tiles,{seat:s.seatWinds[player()],isWinner:winner===null?null:player()===winner,method});el('localPhotoAssessment').textContent=assessment?.message||'';if(assessment?.blocked){blockedResult(data,assessment);return;}
  if(assessment?.inferredWinner&&winner!==null&&player()!==winner){result=null;el('localPhotoApply').disabled=true;el('localPhotoSuggestion').textContent='Foto menunjukkan tangan menang untuk '+s.names[player()]+'.';say('Pemenang permainan yang dipilih berbeda dari hasil foto.');return;}
  if(data.autoReady){finishReread(data,assessment);return;}
  if(winner===null){if(!data.tiles.length||data.tiles.includes('unknown')){manualFallback();return;}el('localPhotoApply').textContent='Simpan hasil foto';el('localPhotoApply').disabled=!valid();el('localPhotoSuggestion').textContent='Pemain: '+s.names[player()]+'. '+previewBeforeWinner(data);say('Hasil foto siap disimpan.');return;}
