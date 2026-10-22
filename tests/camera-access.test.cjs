@@ -6,3 +6,7 @@ test('admin OFF persists per account and hides all four camera buttons',async()=
 test('non-administrator cannot change camera settings',async()=>{const f=fixture();f.env.mahjongIsAdmin=false;await assert.rejects(f.env.mahjongSaveCameraAccess('u',false),/administrator/);assert.equal(f.calls.length,0);});
 test('failed save restores switch without changing account visibility',async()=>{const f=fixture();f.env.adminApi=async()=>{throw Error('offline');};f.nodes.userDetailCamera.checked=false;await f.nodes.userDetailCamera.change();assert.equal(f.nodes.userDetailCamera.checked,true);assert.ok(f.buttons.every(b=>!b.hidden));});
 test('changing another account does not hide current account cameras',async()=>{const f=fixture();f.env.mahjongAdminUsers.push({id:'other',cameraEnabled:true});await f.env.mahjongSaveCameraAccess('other',false);assert.ok(f.buttons.every(b=>!b.hidden));assert.equal(f.env.mahjongAdminUsers[1].cameraEnabled,false);});
+test('camera OFF refresh preserves administrator workspace and only invalidates local capture',()=>{
+ const f=fixture();let workspaceClosed=0,captureClosed=0;f.env.mahjongPhotoSessionChanged=()=>workspaceClosed++;f.env.mahjongLocalPhotoAccessChanged=()=>captureClosed++;f.env.mahjongSession.user.app_metadata.camera_enabled=false;
+ f.env.mahjongCameraPermissionChanged();f.env.mahjongCameraPermissionChanged();assert.equal(workspaceClosed,0);assert.equal(captureClosed,2);assert.ok(f.buttons.every(b=>b.hidden));
+});
