@@ -10,6 +10,7 @@ test('Pattern PDF exports every application combination without undefined global
  vm.createContext(sandbox);
  const source=html.slice(html.indexOf('const pats='),html.indexOf('const $='))+
  html.slice(html.indexOf('const TILE_IMAGES='),html.indexOf('function renderMahjongTiles'))+
+ html.slice(html.indexOf('const guideAnnotations='),html.indexOf('function renderGuideExample'))+
  html.slice(html.indexOf('function pdfWrap('),html.indexOf('async function shareRulesGuidePDF'));
  vm.runInContext(source,sandbox);
  sandbox.canvasesToPDF=x=>{pages.push(...x);return 'exported'};

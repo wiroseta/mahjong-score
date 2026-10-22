@@ -45,6 +45,11 @@ function resolve(views,regions){
  const verified=selected.verified&&keys.size>=2&&!conflict&&!overflow;
  return {...selected,verified,accepted,reason:overflow?'too-many-tiles':conflict?'view-conflict':keys.size<2?'insufficient-views':selected.reason};
 }
+function needsReview(annotation){const score=annotation.prediction?.confidence;return !Number.isFinite(score)||score<.85;}
+function confirmed(annotations,evidence){
+ if(evidence?.reason!=='low-confidence'||!annotations.length||!annotations.some(needsReview))return false;
+ return annotations.every(a=>validTile(a.tile)&&a.tile===a.prediction?.tile&&!a.excluded&&Number.isFinite(a.prediction.confidence)&&a.prediction.confidence>=0&&a.prediction.confidence<=1&&(!needsReview(a)||a.reviewed===true));
+}
 async function digest(file){const bytes=await file.arrayBuffer(),hash=await root.crypto.subtle.digest('SHA-256',bytes);return Array.from(new Uint8Array(hash),b=>b.toString(16).padStart(2,'0')).join('');}
-const api={revision,validate,signature,agree,confidence,select,resolve,digest};if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.TileReadingConsistency=api;
+const api={revision,validate,signature,agree,confidence,select,resolve,needsReview,confirmed,digest};if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.TileReadingConsistency=api;
 })(globalThis);
