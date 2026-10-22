@@ -3,7 +3,7 @@
 'use strict';
 const allowed=user=>!!user&&user.app_metadata?.camera_enabled!==false;
 if(typeof module!=='undefined'&&module.exports){module.exports={allowed};return;}
-function sync(){const show=allowed(mahjongSession?.user);for(const b of document.querySelectorAll('.player-photo'))b.hidden=!show;if(!show&&root.mahjongPhotoSessionChanged)root.mahjongPhotoSessionChanged();}
+function sync(){const show=allowed(mahjongSession?.user);for(const b of document.querySelectorAll('.player-photo'))b.hidden=!show;if(!show&&root.mahjongLocalPhotoAccessChanged)root.mahjongLocalPhotoAccessChanged();}
 root.mahjongCameraPermissionChanged=sync;
 root.mahjongSaveCameraAccess=async(id,enabled)=>{
  if(!mahjongIsAdmin)throw Error('Hanya administrator yang dapat mengatur kamera.');
