@@ -1061,7 +1061,7 @@ body.guest-live-mode .guest-live-actions .guest-fullscreen-button[style*="displa
    <h4>False Chicken Hand pada HU maupun Zi Mo</h4>
    <p>False Chicken Hand berlaku pada deklarasi menang <strong>HU maupun Zi Mo</strong>, termasuk ketika pemain memakai Chicken Hand (campuran pengambilan Pong/Kong dan Chi) tetapi fan belum mencukupi. Kesalahan yang dikoreksi sebelum deklarasi menang tidak dikenai denda.</p>
    <p>Denda: <strong>−3 poin untuk pelanggar</strong> dan <strong>+1 poin untuk masing-masing tiga lawan</strong>, baik tile sudah dibuka maupun belum. Catat melalui <strong>ikon segitiga peringatan di kiri bawah meja</strong>, pada iPhone maupun desktop. Denda tidak mengubah tangan, ronde, atau Dealer.</p>
-   <p>Pemain memeriksa susunan tile, Fan, dan klaim bersama. Aplikasi mencatat hasil yang disepakati dan tidak memverifikasi tile secara otomatis.</p>
+   <p>Pemain memeriksa susunan tile, Fan, dan klaim bersama. Foto terverifikasi dapat mendeteksi susunan menang yang tidak sah dan mencatat denda otomatis. Campuran Chi/Pong di bawah 2 Fan tidak langsung didenda bila riwayat pengambilannya belum diketahui.</p>
   </section>
   <section class="rules-section" id="replacementTileRules"><h3>Bunga dan Tile Tambahan Kong</h3>
    <p><strong>Bunga:</strong> buka tile Bunga dan letakkan di meja, lalu ambil <strong>1 tile pengganti dari bagian belakang tumpukan</strong>. Bunga tetap dihitung untuk Fan sesuai ketentuan di atas.</p>
@@ -1896,7 +1896,7 @@ function applyFalseHuCorrection(remove){
  s.scores=scores;
  if(remove){
   s.falseHuCorrectionAudit=Array.isArray(s.falseHuCorrectionAudit)?s.falseHuCorrectionAudit:[];
-  s.falseHuCorrectionAudit.push({action:"cancel",originalOffender:h.winner,originalDelta:[...h.delta],round:h.round,hand:h.hand??null,time:new Date().toISOString()});
+  s.falseHuCorrectionAudit.push({action:"cancel",originalOffender:h.winner,originalDelta:[...h.delta],...(h.photoPenalty?{photoPenalty:h.photoPenalty}:{}),round:h.round,hand:h.hand??null,time:new Date().toISOString()});
   s.history.splice(idx,1);
  }else{
   h.winner=offender;h.delta=next;h.edited=true;
@@ -2701,8 +2701,9 @@ initMahjongAuth();
 <script src="./js/photo-rules.js?v=r19"></script>
 <script src="./js/photo-score.js?v=r29"></script>
 <script src="./js/photo-local-rules.js?v=r9"></script>
-<script src="./js/photo-hand-assessment.js?v=4"></script>
-<script src="./js/photo-local-score.js?v=15.9.1-r13"></script>
+<script src="./js/photo-hand-assessment.js?v=5"></script>
+<script src="./js/photo-false-hu.js?v=1"></script>
+<script src="./js/photo-local-score.js?v=15.9.1-r14"></script>
 
 <script src="./js/vendor/jsQR-1.4.0.js"></script><script src="./js/vendor/pako-2.1.0.min.js"></script><script src="./js/auth-ui.js?v=15.9-r8"></script><script src="./js/game-transfer.js?v=15.9-r5"></script><script src="./js/camera-access.js?v=15.9-r6"></script><script src="./js/modal-layout.js?v=15.9-r6b"></script></body></html>
 
