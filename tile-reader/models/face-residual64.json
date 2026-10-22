@@ -1,0 +1,94 @@
+{
+  "schema": "mahjong-face-classifier-v2",
+  "model": "face-residual64.onnx",
+  "sha256": "b6bf46c57be45020e702f349ce6cc4dab654309cb489a4a46052b06ffdc4cbcd",
+  "input_name": "images",
+  "input_shape": [
+    "batch",
+    3,
+    64,
+    64
+  ],
+  "output_name": "logits",
+  "output_shape": [
+    "batch",
+    42
+  ],
+  "labels": [
+    "char1",
+    "char2",
+    "char3",
+    "char4",
+    "char5",
+    "char6",
+    "char7",
+    "char8",
+    "char9",
+    "dot1",
+    "dot2",
+    "dot3",
+    "dot4",
+    "dot5",
+    "dot6",
+    "dot7",
+    "dot8",
+    "dot9",
+    "bam1",
+    "bam2",
+    "bam3",
+    "bam4",
+    "bam5",
+    "bam6",
+    "bam7",
+    "bam8",
+    "bam9",
+    "east",
+    "south",
+    "west",
+    "north",
+    "red",
+    "green",
+    "white",
+    "flower1",
+    "flower2",
+    "flower3",
+    "flower4",
+    "season1",
+    "season2",
+    "season3",
+    "season4"
+  ],
+  "preprocess": "native face crop; antialiased RGB bilinear 64x64; float32 NCHW /127.5-1",
+  "architecture": "225562 parameters; convolutional classifier with residual refinement; warm-started from previous model",
+  "deployment": {
+    "primaryReader": true,
+    "experimental": false,
+    "targetAccuracyMet": false
+  },
+  "evaluation": {
+    "publicRegression": {
+      "previousCorrect": 582,
+      "candidateCorrect": 586,
+      "tiles": 634,
+      "role": "previously observed regression; human oracle boxes; classifier only"
+    },
+    "browserRegression": {
+      "previousCorrect": 63,
+      "candidateCorrect": 64,
+      "tiles": 64,
+      "photos": 5,
+      "role": "partially overlaps prior training; regression only"
+    }
+  },
+  "training": {
+    "epochs": 12,
+    "newPhotosLabeled": 56,
+    "annotations": 658,
+    "approvedNewCrops": 578,
+    "oldTrainEntries": 4150,
+    "totalTrainEntries": 6462,
+    "validationEntries": 696,
+    "note": "All new photos from one physical set/session. 5470 not fitted; 5515 and two partial faces excluded. 578 crops each raw+rectified, repeated twice. Additional 12-epoch fine-tuning at RGB64; the regression sets were previously observed.",
+    "warmStart": "face-residual48.onnx"
+  }
+}
