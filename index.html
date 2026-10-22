@@ -2557,7 +2557,8 @@ function startVoicePermissionSync(){
  window.addEventListener('focus',refreshAccountVoicePermission);
 }
 function applyMahjongSession(session){
- if(window.mahjongPhotoSessionChanged)setTimeout(window.mahjongPhotoSessionChanged,0);
+ const photoAccessChanged=(mahjongSession?.user?.id||null)!==(session?.user?.id||null)||mahjongIsAdmin!==(session?.user?.app_metadata?.role==='admin');
+ if(photoAccessChanged&&window.mahjongPhotoSessionChanged)setTimeout(window.mahjongPhotoSessionChanged,0);
  // Signout must invalidate in-flight cloud activation before UI state changes.
  if(!session)mahjongCloudSyncBridge.reset();
  mahjongSession=session||null;window.mahjongCameraPermissionChanged?.();scheduleMahjongCloudAuth(mahjongSession);syncAccountVoiceVisibility();mahjongRole=(session&&session.user&&session.user.app_metadata&&session.user.app_metadata.role)||'scorekeeper';if(!['admin','scorekeeper'].includes(mahjongRole))mahjongRole='scorekeeper';mahjongIsAdmin=mahjongRole==='admin';
