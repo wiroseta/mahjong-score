@@ -28,3 +28,18 @@ html.queue-mode #trainingAdmin{border:0;padding:0;margin:0;background:transparen
 #trainingAdmin .queue-advanced p{font-size:13px;line-height:1.6}
 #trainingAdmin .queue-advanced button{margin:6px 8px 0 0}
 @media(max-width:600px){html.queue-mode main{padding:20px 16px!important}#trainingAdmin .queue-training{padding:18px}#trainingAdmin .queue-chat{display:flex}#trainingAdmin .queue-row{align-items:flex-start;padding:14px}#trainingAdmin .queue-row>button{width:100%}#trainingAdmin .queue-intro h2{font-size:21px}}
+
+#trainingAdmin .queue-review-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+#trainingAdmin .queue-review-header h3{margin:0;font-size:21px}
+#trainingAdmin .queue-review h4{font-size:14px;color:#cfdfd3;margin:24px 0 12px}
+#trainingAdmin .queue-session{display:flex;flex-direction:column;gap:5px;font-size:14px;padding:12px 14px;border-radius:8px;background:#10291f;color:#d5e1d8}
+#trainingAdmin .queue-session small{font-size:12px;color:#acc2b1;line-height:1.6}
+#trainingAdmin .queue-review-tools{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+#trainingAdmin .queue-review-tools button,#trainingAdmin .queue-close{background:transparent;border:1px solid #668471;color:#e3ece5;border-radius:8px;font-size:13px;padding:8px 12px;min-height:38px;margin:0}
+#trainingAdmin .queue-review-actions{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:18px;margin-top:12px;border-top:1px solid #456654}
+#trainingAdmin .queue-review-actions button{margin:0;font-size:14px;padding:11px 18px;min-height:44px}
+#trainingAdmin .queue-approve{background:#e7c66f;color:#182a20;font-weight:650}
+#trainingAdmin .queue-reject{background:transparent;color:#f1bdb5;border:1px solid #96645b}
+#trainingAdmin .queue-review-feedback{font-size:14px;line-height:1.65;color:#f3dc9d}
+#trainingAdmin .queue-review-feedback:empty{display:none}
+@media(max-width:600px){#trainingAdmin .queue-review{padding:14px}#trainingAdmin .queue-review-actions{flex-direction:column-reverse;align-items:stretch}#trainingAdmin .queue-review-tools button{flex:1}#trainingAdmin .queue-review-header h3{font-size:19px}}
