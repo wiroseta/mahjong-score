@@ -59,3 +59,15 @@ html.queue-mode .queue-close-page:focus-visible{outline:3px solid #e7c66f;outlin
 #trainingAdmin .queue-delete-confirm button{font-size:14px;min-height:44px;padding:10px 16px}
 #trainingAdmin .queue-delete-final{background:#b14b3e;color:white}
 @media(max-width:600px){#trainingAdmin .queue-secondary-actions>*{flex:1}}
+
+#trainingAdmin .queue-row{display:grid;grid-template-columns:38px 132px minmax(0,1fr) auto;gap:16px}
+#trainingAdmin .queue-number{font-size:14px;color:#e7c66f;font-variant-numeric:tabular-nums}
+#trainingAdmin .queue-thumbnail{width:132px;min-height:84px;padding:0;margin:0;background:#0d241b;border:1px solid #4a6656;border-radius:9px;overflow:hidden;line-height:1}
+#trainingAdmin .queue-thumbnail canvas{display:block;width:132px;height:84px;border-radius:0;background:transparent}
+#trainingAdmin .queue-thumbnail small{display:block;font-size:10px;line-height:1.4;padding:4px;color:#bacdbf}
+#trainingAdmin .queue-thumbnail small:empty{display:none}
+#trainingAdmin .queue-row-details time{font-size:13px;color:#aec4b4}
+#trainingAdmin .queue-row-details p{margin:5px 0 0;font-size:14px}
+@media(max-width:700px){#trainingAdmin .queue-row{grid-template-columns:28px 96px minmax(0,1fr);gap:10px}#trainingAdmin .queue-thumbnail{width:96px}#trainingAdmin .queue-thumbnail canvas{width:96px;height:auto}#trainingAdmin .queue-row>button:last-child{grid-column:2/-1;width:100%}#trainingAdmin .queue-row>.queue-thumbnail{grid-column:2;width:96px}}
+#trainingAdmin .queue-row>button.queue-thumbnail{padding:0;margin:0;background:#0d241b;border:1px solid #4a6656;border-radius:9px;min-height:84px}
+#trainingAdmin .queue-thumbnail canvas{width:100%;height:auto}
