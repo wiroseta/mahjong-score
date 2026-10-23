@@ -43,3 +43,11 @@ html.queue-mode #trainingAdmin{border:0;padding:0;margin:0;background:transparen
 #trainingAdmin .queue-review-feedback{font-size:14px;line-height:1.65;color:#f3dc9d}
 #trainingAdmin .queue-review-feedback:empty{display:none}
 @media(max-width:600px){#trainingAdmin .queue-review{padding:14px}#trainingAdmin .queue-review-actions{flex-direction:column-reverse;align-items:stretch}#trainingAdmin .queue-review-tools button{flex:1}#trainingAdmin .queue-review-header h3{font-size:19px}}
+
+html.queue-mode main{position:relative}
+html.queue-mode main>p.standalone:has(.queue-close-page){margin:0}
+html.queue-mode h1{padding-right:60px}
+html.queue-mode .queue-close-page{position:absolute;top:24px;right:24px;display:flex;align-items:center;justify-content:center;width:44px;height:44px;box-sizing:border-box;border:1px solid #547060;border-radius:10px;color:#e5eee7;background:#18382d;text-decoration:none;font:30px/1 system-ui}
+html.queue-mode .queue-close-page:hover{background:#284b3b}
+html.queue-mode .queue-close-page:focus-visible{outline:3px solid #e7c66f;outline-offset:3px}
+@media(max-width:600px){html.queue-mode .queue-close-page{top:20px;right:16px}}
