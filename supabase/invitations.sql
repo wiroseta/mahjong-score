@@ -4,7 +4,7 @@ create table public.mahjong_invitations (
  code_hash text not null unique,
  created_by uuid not null,
  created_at timestamptz not null default now(),
- expires_at timestamptz not null default now() + interval '7 days',
+ expires_at timestamptz not null default now() + interval '15 minutes',
  status text not null default 'available' check (status in ('available','pending','used','revoked')),
  used_by uuid,
  used_at timestamptz
