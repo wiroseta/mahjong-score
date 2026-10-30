@@ -28,13 +28,23 @@ async function createInvitation(){
  const button=document.getElementById('createInvitation'),msg=document.getElementById('invitationMessage');button.disabled=true;msg.textContent='Membuat kode…';
  try{const data=await invitationApi('create');document.getElementById('invitationCode').value=data.code;document.getElementById('invitationResult').hidden=false;msg.textContent='Berlaku sampai '+new Date(data.expires_at).toLocaleString('id-ID')+'. Simpan dan kirim kode ini kepada calon pengguna; kode hanya ditampilkan sekali.';await loadInvitations();}catch(e){msg.textContent=e.message;}finally{button.disabled=false;}
 }
+function invitationShareText(){
+ const code=document.getElementById('invitationCode').value;
+ return code?'Daftar Mahjong di '+location.origin+location.pathname+' dengan kode undangan: '+code+' (sekali pakai, berlaku 7 hari).':'';
+}
 async function copyInvitation(){
- const field=document.getElementById('invitationCode');
- try{await navigator.clipboard.writeText('Daftar Mahjong di '+location.origin+location.pathname+' dengan kode undangan: '+field.value+' (sekali pakai, berlaku 7 hari).');document.getElementById('invitationMessage').textContent='Undangan disalin. Kirim kepada calon pengguna.';}catch(e){field.focus();field.select();document.getElementById('invitationMessage').textContent='Pilih dan salin kode di atas untuk dikirim.';}
+ const field=document.getElementById('invitationCode'),text=invitationShareText();
+ if(!text)return;
+ try{await navigator.clipboard.writeText(text);document.getElementById('invitationMessage').textContent='Undangan disalin. Kirim kepada calon pengguna.';}catch(e){field.focus();field.select();document.getElementById('invitationMessage').textContent='Pilih dan salin kode di atas untuk dikirim.';}
+}
+async function shareInvitation(){
+ const text=invitationShareText();if(!text)return;
+ if(typeof navigator.share!=='function'){await copyInvitation();return;}
+ try{await navigator.share({title:'Undangan Mahjong',text});document.getElementById('invitationMessage').textContent='Undangan dibagikan.';}catch(e){if(e.name!=='AbortError')await copyInvitation();}
 }
 async function loadInvitations(){
  const host=document.getElementById('invitationList');host.textContent='Memuat…';
  try{const data=await invitationApi('list');host.replaceChildren();for(const item of data.invitations){const row=document.createElement('div');row.className='user-row';const text=document.createElement('span');const expired=new Date(item.expires_at)<=new Date();text.textContent=new Date(item.created_at).toLocaleString('id-ID')+' · '+({available:expired?'Kedaluwarsa':'Aktif',pending:'Sedang / selesai diproses',used:'Sudah digunakan',revoked:'Dibatalkan'}[item.status]||item.status);row.append(text);if(item.status==='available'&&!expired){const button=document.createElement('button');button.type='button';button.className='btn light';button.textContent='Batalkan';button.onclick=async()=>{button.disabled=true;try{await invitationApi('revoke',{id:item.id});await loadInvitations();}catch(e){document.getElementById('invitationMessage').textContent=e.message;button.disabled=false;}};row.append(button);}host.append(row);}if(!data.invitations.length)host.textContent='Belum ada undangan.';}catch(e){host.textContent=e.message;}
 }
 
-function openInvitationManagement(){if(!mahjongIsAdmin)return;openUserManagement();requestAnimationFrame(()=>{document.getElementById("invitationManagementPanel").scrollIntoView({block:"start",behavior:"smooth"});document.getElementById("createInvitation").focus({preventScroll:true});});}
+function openInvitationManagement(){if(!mahjongIsAdmin)return;openUserManagement();requestAnimationFrame(()=>{document.getElementById("invitationManagementPanel").open=true;document.getElementById("invitationManagementPanel").scrollIntoView({block:"start",behavior:"smooth"});document.getElementById("createInvitation").focus({preventScroll:true});});}
