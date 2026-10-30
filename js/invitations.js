@@ -21,7 +21,7 @@ async function signupWithInvitation(event){
  try{
   const username=document.getElementById('signupUsername').value.trim();
   await invitationApi('signup',{username,pin,code:document.getElementById('signupCode').value});
-  form.reset();showInvitationSignup(false);document.getElementById('loginUsername').value=username;setAuthMessage('Pendaftaran berhasil. Masuk dengan username dan PIN Anda.');document.getElementById('loginPin0').focus();
+  form.reset();showInvitationSignup(false);document.getElementById('loginUsername').value=username;setAuthMessage('Pendaftaran berhasil. Masuk dengan email dan PIN Anda.');document.getElementById('loginPin0').focus();
  }catch(e){msg.textContent=e.message;}finally{button.disabled=false;}
 }
 async function createInvitation(){
