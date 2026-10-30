@@ -30,7 +30,7 @@ async function createInvitation(){
 }
 function invitationShareText(){
  const code=document.getElementById('invitationCode').value;
- return code?'Daftar Mahjong di '+location.origin+location.pathname+' dengan kode undangan: '+code+' (sekali pakai, berlaku 7 hari).':'';
+ return code?'Daftar Mahjong di '+location.origin+location.pathname+' dengan kode undangan: '+code+' (sekali pakai, berlaku 15 menit).':'';
 }
 async function copyInvitation(){
  const field=document.getElementById('invitationCode'),text=invitationShareText();
