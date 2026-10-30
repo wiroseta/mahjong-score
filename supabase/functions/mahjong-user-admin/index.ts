@@ -42,7 +42,7 @@ Deno.serve(async (req) => {
       const username=String(body.username||'').trim(); const pin=String(body.pin||''); const role=body.role
       if (!username || !/^\d{4}$/.test(pin) || !validRole(role)) return json({error:'Username, PIN 4 digit, dan role valid diperlukan.'},400)
       const email=usernameEmail(username); if(email==='@mahjong.local') return json({error:'Username tidak valid.'},400)
-      const {data,error}=await admin.auth.admin.createUser({email,password:'mj'+pin,email_confirm:true,user_metadata:{username},app_metadata:{role}})
+      const {data,error}=await admin.auth.admin.createUser({email,password:'mj'+pin,email_confirm:true,user_metadata:{username},app_metadata:{role,camera_enabled:false,voice_enabled:false,voice_feedback_enabled:false,gemini_voice_enabled:false,cloud_diagnostic_enabled:false,mahjong_multi_device:false,voice_mode:'safari_staged'}})
       if(error) throw error
       return json({user:{id:data.user.id}})
     }

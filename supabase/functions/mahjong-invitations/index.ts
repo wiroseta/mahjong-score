@@ -19,7 +19,7 @@ Deno.serve(async req => {
    const {data:invite,error}=await admin.from('mahjong_invitations').update({status:'pending'}).eq('code_hash',await hash(code)).eq('status','available').gt('expires_at',new Date().toISOString()).select('id').maybeSingle()
    if(error)throw error
    if(!invite)return json({error:'Kode undangan tidak valid, kedaluwarsa, atau sudah digunakan.'},400)
-   const {data,error:createError}=await admin.auth.admin.createUser({email:username.toLowerCase()+'@mahjong.local',password:'mj'+pin,email_confirm:true,user_metadata:{username},app_metadata:{role:'scorekeeper'}})
+   const {data,error:createError}=await admin.auth.admin.createUser({email:username.toLowerCase()+'@mahjong.local',password:'mj'+pin,email_confirm:true,user_metadata:{username},app_metadata:{role:'scorekeeper',camera_enabled:false,voice_enabled:false,voice_feedback_enabled:false,gemini_voice_enabled:false,cloud_diagnostic_enabled:false,mahjong_multi_device:false,voice_mode:'safari_staged'}})
    if(createError){
     // Release only a definite Auth rejection. A transport failure leaves it pending to prevent reuse.
     if(createError.status>=400&&createError.status<500)await admin.from('mahjong_invitations').update({status:'available'}).eq('id',invite.id).eq('status','pending')
