@@ -7,7 +7,7 @@ const cors = {
 }
 const json = (body: unknown, status=200) => new Response(JSON.stringify(body), {status, headers:{...cors,'Content-Type':'application/json'}})
 const validRole = (v: unknown): v is 'admin'|'scorekeeper' => v === 'admin' || v === 'scorekeeper'
-const usernameEmail = (u:string) => u.trim().toLowerCase().replace(/[^a-z0-9._-]/g,'') + '@mahjong.local'
+const usernameEmail = (u:string) => u.includes('@') ? u.trim().toLowerCase() : u.trim().toLowerCase().replace(/[^a-z0-9._-]/g,'') + '@mahjong.local'
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', {headers:cors})
@@ -40,8 +40,8 @@ Deno.serve(async (req) => {
 
     if (action === 'create') {
       const username=String(body.username||'').trim(); const pin=String(body.pin||''); const role=body.role
-      if (!username || !/^\d{4}$/.test(pin) || !validRole(role)) return json({error:'Username, PIN 4 digit, dan role valid diperlukan.'},400)
-      const email=usernameEmail(username); if(email==='@mahjong.local') return json({error:'Username tidak valid.'},400)
+      if (username.length>254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(username) || !/^\d{4}$/.test(pin) || !validRole(role)) return json({error:'Email, PIN 4 digit, dan role valid diperlukan.'},400)
+      const email=username.toLowerCase(); if(!email) return json({error:'Username tidak valid.'},400)
       const {data,error}=await admin.auth.admin.createUser({email,password:'mj'+pin,email_confirm:true,user_metadata:{username},app_metadata:{role,camera_enabled:false,voice_enabled:false,voice_feedback_enabled:false,gemini_voice_enabled:false,cloud_diagnostic_enabled:false,mahjong_multi_device:false,voice_mode:'safari_staged'}})
       if(error) throw error
       return json({user:{id:data.user.id}})
@@ -98,7 +98,7 @@ Deno.serve(async (req) => {
     }
     if(action==='set-username'){
       const username=String(body.username||'').trim()
-      if(!username || !/^[A-Za-z0-9._-]+$/.test(username)) return json({error:'Username hanya boleh berisi huruf, angka, titik, garis bawah, atau tanda minus.'},400)
+      if(!username || !/^[A-Za-z0-9._-]+$/.test(username)) return json({error:'Gunakan alamat email yang valid. Akun lama dapat memakai username lama.'},400)
       const email=usernameEmail(username)
       if(email==='@mahjong.local') return json({error:'Username tidak valid.'},400)
       const {data:listData,error:listError}=await admin.auth.admin.listUsers({page:1,perPage:1000})

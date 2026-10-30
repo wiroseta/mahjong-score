@@ -12,18 +12,18 @@ Deno.serve(async req => {
   const url=Deno.env.get('SUPABASE_URL'),service=Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')
   const admin=createClient(url,service,{auth:{persistSession:false,autoRefreshToken:false}})
   if(body.action==='signup'){
-   const username=String(body.username||'').trim(),pin=String(body.pin||''),code=String(body.code||'').trim().toUpperCase().replace(/-/g,'')
-   if(!/^[A-Za-z0-9._-]{3,32}$/.test(username)||!/^\d{4}$/.test(pin))return json({error:'Isi username 3–32 karakter dan PIN 4 digit.'},400)
+   const username=String(body.username||'').trim().toLowerCase(),pin=String(body.pin||''),code=String(body.code||'').trim().toUpperCase().replace(/-/g,'')
+   if((username.length>254||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(username))||!/^\d{4}$/.test(pin))return json({error:'Isi alamat email yang valid dan PIN 4 digit.'},400)
    if(!/^[0-9A-F]{32}$/.test(code))return json({error:'Kode undangan tidak valid, kedaluwarsa, atau sudah digunakan.'},400)
    // One conditional UPDATE locks the invitation: concurrent requests cannot both claim it.
    const {data:invite,error}=await admin.from('mahjong_invitations').update({status:'pending'}).eq('code_hash',await hash(code)).eq('status','available').gt('expires_at',new Date().toISOString()).select('id').maybeSingle()
    if(error)throw error
    if(!invite)return json({error:'Kode undangan tidak valid, kedaluwarsa, atau sudah digunakan.'},400)
-   const {data,error:createError}=await admin.auth.admin.createUser({email:username.toLowerCase()+'@mahjong.local',password:'mj'+pin,email_confirm:true,user_metadata:{username},app_metadata:{role:'scorekeeper',camera_enabled:false,voice_enabled:false,voice_feedback_enabled:false,gemini_voice_enabled:false,cloud_diagnostic_enabled:false,mahjong_multi_device:false,voice_mode:'safari_staged'}})
+   const {data,error:createError}=await admin.auth.admin.createUser({email:username,password:'mj'+pin,email_confirm:true,user_metadata:{username},app_metadata:{role:'scorekeeper',camera_enabled:false,voice_enabled:false,voice_feedback_enabled:false,gemini_voice_enabled:false,cloud_diagnostic_enabled:false,mahjong_multi_device:false,voice_mode:'safari_staged'}})
    if(createError){
     // Release only a definite Auth rejection. A transport failure leaves it pending to prevent reuse.
     if(createError.status>=400&&createError.status<500)await admin.from('mahjong_invitations').update({status:'available'}).eq('id',invite.id).eq('status','pending')
-    return json({error:'Akun belum dapat dibuat. Username mungkin sudah digunakan. Coba username lain atau hubungi administrator.'},400)
+    return json({error:'Akun belum dapat dibuat. Email mungkin sudah digunakan. Coba email lain atau hubungi administrator.'},400)
    }
    const {error:finishError}=await admin.from('mahjong_invitations').update({status:'used',used_by:data.user.id,used_at:new Date().toISOString()}).eq('id',invite.id).eq('status','pending')
    // A pending code is also permanently unavailable if final bookkeeping fails.
